@@ -13,23 +13,30 @@ export default class PresetsApi implements ApiHandler {
     }
     
     private initRoutes() {
+        const self = this;
+
         this.router.get("/", this.allPresets);
-        this.router.get("/:presetIndex", this.getPreset);
+        this.router.get("/:presetIndex", async (request: express.Request, response: express.Response) => {
+            const preset = await self.provider.getPreset(request.params.presetIndex);
+            response.json(preset);
+        });
         this.router.post("/", this.newPreset);
     }
 
-    private async allPresets(request: express.Request, response: express.Response) {
+    private allPresets(request: express.Request, response: express.Response) {
         response.json({ message: "all presets"});
     }
 
-    private async getPreset(request: express.Request, response: express.Response) {
-        // param: presetIndex
-        const preset = await this.provider.getPreset(request.params.presetIndex);
-        response.json(preset);
-        // response.json({ message: "get preset: " + request.params.presetIndex});
-    }
+    // private getPreset(request: express.Request, response: express.Response) {
+    //     // param: presetIndex
+    //     this.provider.getPreset(request.params.presetIndex)
+    //         .then((preset) => {
+    //             response.json(preset);
+    //             // response.json({ message: "get preset: " + request.params.presetIndex});
+    //         });
+    // }
 
-    private async newPreset(request: express.Request, response: express.Response) {
+    private newPreset(request: express.Request, response: express.Response) {
         response.json({ message: "new preset"});
     }
 }

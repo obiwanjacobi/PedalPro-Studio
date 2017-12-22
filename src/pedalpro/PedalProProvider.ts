@@ -17,8 +17,16 @@ export default class PedalProProvider implements PresetProvider {
     }
 
     public async getPreset(presetIndex: number): Promise<Preset> {
+        this.ensureConnected();
+        
         const cmd = new PedalProReadPreset(this.device);
         const buffer = await cmd.read(presetIndex);
         return PedalProPresetSerializer.deserialize(buffer);
+    }
+
+    private ensureConnected() {
+        if (!this.device.isConnected) {
+            this.device.connect();
+        }
     }
 }
