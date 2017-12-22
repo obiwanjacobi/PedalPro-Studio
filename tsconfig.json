@@ -15,14 +15,16 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "suppressImplicitAnyIndexErrors": false,
     "noUnusedLocals": true,
     "alwaysStrict": true,
-    "declaration": true
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules",
     "app",
-    "src/_tests"
+    "src/**/_tests/*"
   ]
 }

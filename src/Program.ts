@@ -3,17 +3,18 @@ import * as Path from "path";
 import * as Url from "url";
 
 export default class Program {
+    private static electronApp: Electron.App;
     private static mainWindow: Electron.BrowserWindow | null;
-    private static electronApp: Electron.App;   // not our Application!
     private static wndOptions: Electron.BrowserWindowConstructorOptions;
 
     public static run(mainWindowOptions: Electron.BrowserWindowConstructorOptions) {
+        Program.electronApp = Electron.app;
         Program.mainWindow = null;
         Program.wndOptions = mainWindowOptions;
-        Program.electronApp = Electron.app;
+        
         Program.electronApp.on("window-all-closed", Program.quit);
         Program.electronApp.on("ready", Program.createWindow);
-        //Program.electronApp.on("activate", Program.createWindow);
+        Program.electronApp.on("activate", Program.createWindow);
     }
 
     // TODO: wrap application window in class
@@ -24,7 +25,7 @@ export default class Program {
 
             // https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
 
-            var path: string = Path.resolve(__dirname, "..", "src", "index.html");
+            const path: string = Path.resolve(__dirname, "..", "src", "index.html");
             Program.mainWindow.loadURL(Url.format({
                 pathname: path,
                 protocol: "file:",

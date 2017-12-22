@@ -54,6 +54,7 @@
         "no-trailing-whitespace": false,
         "no-unused-expression": true,
         "no-use-before-declare": true,
+        "no-floating-promises": true,
         "one-line": [
             true,
             "check-catch",
@@ -84,7 +85,13 @@
                 "variable-declaration": "nospace"
             }
         ],
-        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
+        "variable-name": [
+            true, 
+            "ban-keywords", 
+            "check-format", 
+            "allow-leading-underscore", 
+            "allow-pascal-case"
+        ],
         "whitespace": [
             true,
             "check-branch",
