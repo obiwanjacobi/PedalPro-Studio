@@ -23,7 +23,7 @@ describe("PedalProDevice.ts - Device is Connected!", () => {
                 expect(result.length).toBeGreaterThan(0);
             })
             .catch((reason) => {
-                console.error(reason.message);
+                throw reason;
             });
     });
 });

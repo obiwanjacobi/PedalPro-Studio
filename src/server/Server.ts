@@ -2,6 +2,7 @@ import * as express from "express";
 import PresetsApi from "./PresetsApi";
 import PedalProProvider from "../pedalpro/PedalProProvider";
 import { PedalProDevice } from "../pedalpro/PedalProDevice";
+import * as morgan from "morgan";
 
 const device = PedalProDevice;
 const pedalProProvider = new PedalProProvider(device);
@@ -11,13 +12,15 @@ const pedalProPresetsApi = new PresetsApi(pedalProProvider);
 export default class Server {
     static readonly expressApp: express.Application = express();
 
-    private port: number;
+    private readonly port: number;
 
     public constructor(port: number) {
             this.port = port;
     }
 
     public run(): void {
+        Server.expressApp.use(morgan("dev"));
+
         Server.expressApp.get("/", function(request: express.Request, response: express.Response) {
             response.json({ message: "TODO: Sources" });
         });

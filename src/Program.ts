@@ -15,6 +15,13 @@ export default class Program {
         Program.electronApp.on("window-all-closed", Program.quit);
         Program.electronApp.on("ready", Program.createWindow);
         Program.electronApp.on("activate", Program.createWindow);
+
+        // Linux 3d acceleration causes black screen for Electron-based apps, so turn it off
+        // see https://github.com/electron/electron/issues/4380 and
+        // https://github.com/electron/electron/issues/5297
+        if (process.platform === "linux") {
+            Program.electronApp.disableHardwareAcceleration();
+        }
     }
 
     // TODO: wrap application window in class

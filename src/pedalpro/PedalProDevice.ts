@@ -1,6 +1,8 @@
 import { HID } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
 
+export const PresetCount: number = 400;
+
 export class PedalProDeviceUsb {
     private hidDevice: HID | null = null;
 
