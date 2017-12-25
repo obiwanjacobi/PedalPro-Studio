@@ -5,7 +5,12 @@ import Client from "./client/Client";
 import Preset from "./model/Preset";
 import { PresetList } from "./ui/PresetList";
 
-const appTheme = createMuiTheme();
+// TODO: load ApplicationTheme.json
+const appTheme = createMuiTheme({
+    palette: {
+      type: "dark",
+    }
+  });
 
 export interface ApplicationProps { }
 
@@ -27,8 +32,9 @@ export class Application extends React.Component<ApplicationProps, ApplicationSt
         if (!this.state) { return <div/>; }
 
         return (
-            <MuiThemeProvider theme={appTheme}>
-                <PresetList presets={this.state.presets}/>
+            <MuiThemeProvider theme={appTheme} >
+                {/*<PresetList presets={this.state.presets}/>*/}
+                <div>HELLO WORLD</div>
             </MuiThemeProvider>
         );
     }
