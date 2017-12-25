@@ -1,8 +1,8 @@
 import * as express from "express";
+import * as morgan from "morgan";
 import PresetsApi from "./PresetsApi";
 import PedalProProvider from "../pedalpro/PedalProProvider";
 import { PedalProDevice } from "../pedalpro/PedalProDevice";
-import * as morgan from "morgan";
 
 const device = PedalProDevice;
 const pedalProProvider = new PedalProProvider(device);

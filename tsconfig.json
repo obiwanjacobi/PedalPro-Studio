@@ -10,6 +10,13 @@
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
+    "baseUrl": "src",
+    "paths": {
+      "Model/*" : ["./model/*"],
+      "Server/*" : ["./server/*"],
+      "PedalPro/*" : ["./pedalpro/*"],
+      "UI/*" : ["./ui/*"]
+    },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -26,5 +33,5 @@
     "node_modules",
     "app",
     "src/**/_tests/*"
-  ]
+  ],
 }

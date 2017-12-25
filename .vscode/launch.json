@@ -10,7 +10,11 @@
             "cwd": "${workspaceFolder}",
             "stopOnEntry": false,
             "preLaunchTask": null,
-            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd",
+            "outputCapture": "std",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
             "runtimeArgs": [
                 "--enable-logging"
             ]
@@ -24,7 +28,10 @@
             //"stopOnEntry": false,
             "cwd": "${workspaceFolder}",
             "preLaunchTask": null,
-            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
             "runtimeArgs": [
                 "${workspaceFolder}",
                 "--enable-logging",
@@ -48,9 +55,12 @@
             //"console": "externalTerminal",
             "outFiles": [ "${workspaceFolder}/app/*.js" ],
             "preLaunchTask": null,
-            //"program": "${workspaceFolder}/node_modules/.bin/jest.cmd",
+            //"program": "${workspaceFolder}/node_modules/.bin/jest",
             //"args": [ "--runInBand", "--no-cache" ],
-            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest.cmd",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/jest.cmd"
+            },
             "runtimeArgs": [
                 "--runInBand", 
                 "--no-cache"
