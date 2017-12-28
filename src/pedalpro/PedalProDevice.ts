@@ -13,7 +13,7 @@ export class PedalProDeviceUsb {
     }
 
     public static isValidPresetIndex(presetIndex: number): boolean {
-        return presetIndex >= 0 && presetIndex < 400;
+        return presetIndex >= 0 && presetIndex < PresetCount;
     }
 
     public get isConnected(): boolean {

@@ -1,49 +1,53 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { MuiThemeProvider, createMuiTheme } from "material-ui/styles";
-import Client from "./client/Client";
-import Preset from "./model/Preset";
-import { PresetList } from "./ui/PresetList";
+import { Grid, AppBar, Toolbar, Button } from "material-ui";
 
-// TODO: load ApplicationTheme.json
+import ApplicationStore from "./client/ApplicationStore";
+import PresetScreen from "./ui/PresetScreen";
+
+// TODO: load Application.theme.json
 const appTheme = createMuiTheme({
     palette: {
-      type: "dark",
+      type: "dark", // does not work??
     }
   });
 
 export interface ApplicationProps { }
-
-export interface ApplicationState {
-    presets: Preset[];
-}
+export interface ApplicationState { }
 
 export class Application extends React.Component<ApplicationProps, ApplicationState> {
+    private appStore: ApplicationStore = new ApplicationStore();
+
     public static run(appElementId: string) {
         ReactDOM.render(<Application />, document.getElementById(appElementId));
     }
 
-    public componentWillMount() {
-        this.getPresets()
-            .then((result) => { this.setState({ presets: result }); });
-    }
-
     public render() {
-        if (!this.state) { return <div/>; }
-
         return (
-            <MuiThemeProvider theme={appTheme} >
-                {/*<PresetList presets={this.state.presets}/>*/}
-                <div>HELLO WORLD</div>
+            <MuiThemeProvider theme={appTheme}>
+                <Provider store={this.appStore.store}>
+                    <Grid container={true} spacing={16}>
+                        <Grid item={true} xs={12}>
+                            <AppBar position="static">
+                                <Toolbar>
+                                    <Button>Press Me!</Button>
+                                </Toolbar>
+                            </AppBar>
+                        </Grid>
+                        <Grid item={true} xs={12}>
+                            <PresetScreen />
+                        </Grid>
+                        <Grid item={true} xs={12}>
+                            Line 2
+                        </Grid>
+                        <Grid item={true} xs={12}>
+                            Line 3
+                        </Grid>
+                    </Grid>
+                </Provider>
             </MuiThemeProvider>
         );
-    }
-
-    private async getPresets(): Promise<Preset[]> {
-        const client = new Client();
-        return [await client.getPreset(0), 
-            await client.getPreset(1), 
-            await client.getPreset(2), 
-            await client.getPreset(3)];
     }
 }
