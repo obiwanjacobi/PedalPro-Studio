@@ -15,8 +15,8 @@ export interface LoadPresetsAction {
 }
 
 export const createLoadPresetsAction = 
-    (dispatch: Dispatch<ApplicationDocument>, source: string, 
-     filter: EntityFilter | null = null): Promise<void> => {
+    (dispatch: Dispatch<ApplicationDocument>, 
+     source: string, filter: EntityFilter | null = null): Promise<void> => {
         return getPresets().then((result) => {
             dispatch(<LoadPresetsAction> 
                 { type: LoadPresetsActionKey, source: source, presets: result, error: null });

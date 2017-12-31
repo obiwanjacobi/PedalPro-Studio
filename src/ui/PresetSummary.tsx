@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Paper, Typography } from "material-ui";
+// import { Theme, withStyles } from "material-ui/styles";
 
 export interface PresetSummaryProps {
     index: number;
@@ -13,10 +15,24 @@ export class PresetSummary extends React.Component<PresetSummaryProps, PresetSum
 
     public render(): React.ReactNode {
         return (
-            <div className="presetSummary">
-                <div>{this.props.index}</div>
-                <div>{this.props.name}</div>
-            </div>
+            <Paper elevation={4}>
+                <Typography component="h3">
+                    {this.props.name}
+                </Typography>
+                <Typography component="p">
+                    {this.props.index}
+                </Typography>
+            </Paper>
         );
     }
 }
+
+// const styles = (theme: Theme) => ({
+//     root: theme.mixins.gutters({
+//       paddingTop: 16,
+//       paddingBottom: 16,
+//       marginTop: theme.spacing.unit * 3,
+//     }),
+//   });
+
+// export default withStyles(styles)(PresetSummary);

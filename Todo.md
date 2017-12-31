@@ -8,11 +8,26 @@
 
 ## Libraries
 
+import Document, { Head, Main, NextScript } from 'next/document';
+
 // react
 http://wix.github.io/react-templates/
 
 // material-ui
 http://google.github.io/material-design-icons/#icon-font-for-the-web
+https://www.npmjs.com/package/material-ui-bottom-sheet
+
+// layout
+abandoned proptypes-from-react-depricated: https://www.npmjs.com/package/react-flex-layout
+https://github.com/byronmwong/react-flexbox-layout
+https://github.com/rofrischmann/react-layout-components
+https://reactjsexample.com/tag/layout/
+https://github.com/monvillalon/react-page-layout
+https://github.com/tstringer/electron-basic-ui-layout
+https://github.com/tstringer/electron-flexbox-ui-layout
+Does not work: https://github.com/tomkp/react-split-pane
+https://github.com/zesik/react-splitter-layout
+https://github.com/musyoka-morris/react-pure-grid
 
 // redux middleware
 https://github.com/redux-saga/redux-saga
@@ -29,11 +44,18 @@ TypeScript and redux (tutorial)
 https://github.com/ServiceStackApps/typescript-redux
 http://www.mattgreer.org/articles/typescript-react-and-redux/
 https://github.com/piotrwitek/react-redux-typescript-guide
+https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions
 
 Routing react/redux
 https://github.com/ReactTraining/react-router
 https://github.com/acdlite/redux-router
 https://github.com/reactjs/react-router-redux
+
+React/Redux selectors
+https://github.com/reactjs/reselect
+
+Electron
+https://github.com/MarshallOfSound/electron-devtools-installer
 
 ## Code
 

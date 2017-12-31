@@ -1,6 +1,7 @@
 import * as Electron from "electron";
 import * as Path from "path";
 import * as Url from "url";
+import Environment from "./Environment";
 
 export default class Program {
     private static electronApp: Electron.App;
@@ -19,7 +20,7 @@ export default class Program {
         // Linux 3d acceleration causes black screen for Electron-based apps, so turn it off
         // see https://github.com/electron/electron/issues/4380 and
         // https://github.com/electron/electron/issues/5297
-        if (process.platform === "linux") {
+        if (Environment.isLinux) {
             Program.electronApp.disableHardwareAcceleration();
         }
     }
@@ -38,11 +39,16 @@ export default class Program {
                 protocol: "file:",
                 slashes: true
             }));
+
+            if (Environment.isProduction) {
+                // remove menu completely
+                Program.mainWindow.setMenu(null);
+            }
         }
     }
 
     private static quit() {
-        if (process.platform !== "darwin") {    // darwin=>mac
+        if (!Environment.isMac) {
             Program.electronApp.quit();
         }
     }
