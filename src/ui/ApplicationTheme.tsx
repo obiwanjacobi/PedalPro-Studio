@@ -1,18 +1,17 @@
 import * as React from "react";
-import { MuiThemeProvider, createMuiTheme, withStyles } from "material-ui/styles";
-import { green, red } from "material-ui/colors";
+import { Theme, MuiThemeProvider, createMuiTheme, withStyles } from "material-ui/styles";
+import { indigo, amber } from "material-ui/colors";
 
 // TODO: load Application.theme.json
 const appTheme = createMuiTheme({
     palette: {
       type: "dark",
-      primary: green,
-      secondary: red
+      primary: indigo,
+      secondary: amber
     }
 });
 
-// https://github.com/mui-org/material-ui/blob/8ccef39aca3c518b8f55be34b082d79823a976be/examples/nextjs/components/withRoot.js#L6-L17
-const styles = theme => ({
+const globalStyles = (theme: Theme) => ({
     "@global": {
         html: {
             background: theme.palette.background.default,
@@ -20,8 +19,10 @@ const styles = theme => ({
     },
 });
 
+// @ts-ignore
 let ThemeWrapper = props => props.children;
-ThemeWrapper = withStyles(styles)(ThemeWrapper);
+// @ts-ignore
+ThemeWrapper = withStyles(globalStyles)(ThemeWrapper);
 
 export default class ApplicationTheme extends React.Component {
     render() {
