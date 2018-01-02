@@ -16,7 +16,10 @@ export class LocalPresetToolbar extends React.Component<LocalPresetToolbarAllPro
                 <Toolbar disableGutters={true}>
                     <Grid container={true} direction="row" justify="flex-end">
                         <Grid item={true} xs={2} >
-                            <IconButton color="contrast" disabled={!this.props.enableCopy}>
+                            <IconButton 
+                                style={{ position: "absolute", top: 10, right: 20}} 
+                                disabled={!this.props.enableCopy}
+                            >
                                 <ChevronRight />
                             </IconButton>
                         </Grid>

@@ -1,13 +1,21 @@
 import * as React from "react";
 import { Theme, MuiThemeProvider, createMuiTheme, withStyles } from "material-ui/styles";
-import { indigo, amber } from "material-ui/colors";
+import { indigo, amber, orange } from "material-ui/colors";
 
 // TODO: load Application.theme.json
 const appTheme = createMuiTheme({
     palette: {
       type: "dark",
       primary: indigo,
-      secondary: amber
+      secondary: amber,
+      error: orange,
+    },
+    overrides: {
+        MuiCheckbox: {
+            checked: {
+                color: "#FFC107"
+            }
+        }
     }
 });
 

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Grid, AppBar, Tabs, Tab } from "material-ui";
 
 import Preset from "../model/Preset";
 

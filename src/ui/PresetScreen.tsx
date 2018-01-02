@@ -16,14 +16,15 @@ import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
 
 export interface PresetScreenProps { }
-export interface PresetScreenStateProps { 
-    presets: Preset[];
+export interface PresetScreenStateProps {
+    local: Preset[];
+    device: Preset[];
 }
 export interface PresetScreenEvents { }
-export interface PresetScreenActions { 
+export interface PresetScreenActions {
     loadPresets(source: string, filter: EntityFilter | null): Promise<void>;
 }
-export interface PresetScreenState { 
+export interface PresetScreenState {
     selectedTab: number;
 }
 
@@ -37,17 +38,18 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
         return this.state.selectedTab;
     }
     
-    public render(): React.ReactNode {
-        if (!this.props.presets) { return <div>Loading...</div>; }
-        const self = this;
+    private get actions(): PresetScreenActions {
+        return this.props;
+    }
 
+    public render(): React.ReactNode {
         return (
             <Grid container={true} direction="column">
                 <Grid item={true} xs={12}>
-                    <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={200}>
-                        <LocalPresetTab presets={this.props.presets} />
+                    <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
+                        <LocalPresetTab presets={this.props.local} />
                         <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
-                            <DevicePresetTab />
+                            <DevicePresetTab presets={this.props.device} loadPresets={this.actions.loadPresets} />
                             <StoragePresetTab />
                             <FactoryPresetTab />
                         </SwipableView>
@@ -56,7 +58,7 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
                 <Grid item={true} xs={12}>
                     {/* need to specify position to not output unwanted styles */}
                     <AppBar position="static" style={{ position: "absolute", bottom: 0 }} >
-                        <Tabs fullWidth={true} value={this.selectedTab} onChange={(e, v) => { self.activatePage(v); }}>
+                        <Tabs fullWidth={true} value={this.selectedTab} onChange={(e, v) => { this.activatePage(v); }}>
                             <Tab label="Device" />
                             <Tab label="Storage" />
                             <Tab label="Factory" />
@@ -66,14 +68,6 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
             </Grid>
         );
     }
-    
-    private get actions(): PresetScreenActions {
-        return this.props;
-    }
-
-    componentWillMount() {
-        this.actions.loadPresets("device", null);
-    }
 
     private activatePage(index: number) {
         this.setState({ selectedTab: index });
@@ -82,10 +76,10 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
 
 const extractComponentPropsFromState: MapStateToProps<PresetScreenStateProps, PresetScreenProps, ApplicationDocument> = 
     (state: ApplicationDocument, props: PresetScreenProps): PresetScreenStateProps => {
-        return  { presets: state.device, ...props };    
+        return  { device: state.device, local: state.local, ...props };
 };
 
-const mapDispatchToProps: MapDispatchToPropsFunction<PresetScreenActions, PresetScreenProps> =
+const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, PresetScreenProps> =
     (dispatch: Dispatch<ApplicationDocument>, props: PresetScreenProps): PresetScreenActions => {
         return {
             loadPresets: (source: string, filter: EntityFilter)  => {
@@ -94,4 +88,4 @@ const mapDispatchToProps: MapDispatchToPropsFunction<PresetScreenActions, Preset
         };
 };
 
-export default connect(extractComponentPropsFromState, mapDispatchToProps)(PresetScreen);
+export default connect(extractComponentPropsFromState, createActionObject)(PresetScreen);

@@ -1,21 +1,34 @@
-import { Component } from "react";
+import * as React from "react";
 import ApplicationDocument from "../client/ApplicationDocument";
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 
-// selector function that selects props from store state.
+// selector function that selects component props from store state.
 export interface StateSelector<StoreStateT, StatePropsT> {
     (state: StoreStateT): StatePropsT;
 }
 
+// @ts-ignore
+let StateWrapper = props => props.children;
+// @ts-ignore
+StateWrapper = connect(mapStateToProps, mapDispatchToProps)(StateWrapper);
+
 export default abstract class ConnectedComponent<
                         StatePropsT, 
                         ActionsT, 
+                        EventsT = {},
                         ComponentPropsT = {}, 
                         ComponentStateT = {}> 
-               extends Component<StatePropsT & ActionsT & ComponentPropsT, ComponentStateT> {
-
-    // type ConnectedComponentProps = StatePropsT & ActionsT & ComponentPropsT;
+               extends React.Component<StatePropsT & ActionsT & EventsT & ComponentPropsT, ComponentStateT> {
 
     private selector: StateSelector<ApplicationDocument, StatePropsT>;
+
+    public render() {
+        return (
+            <StateWrapper>
+                {this.props.children}
+            </StateWrapper>
+        );
+    }
 
     protected get componentProps(): Readonly<ComponentPropsT> {
         return this.props;
@@ -26,6 +39,10 @@ export default abstract class ConnectedComponent<
     }
 
     protected get actions(): Readonly<ActionsT> {
+        return this.props;
+    }
+
+    protected get events(): Readonly<EventsT> {
         return this.props;
     }
 
@@ -51,6 +68,6 @@ export default abstract class ConnectedComponent<
                 // @ts-ignore
                 result[member] = stateProps[member];
             }
-            return <StatePropsT & ComponentPropsT> result;
+            return /*<StatePropsT & ComponentPropsT>*/ result;
     }
 }
