@@ -3,7 +3,7 @@ import { TextField } from "material-ui";
 
 import Preset from "../client/Preset";
 import * as PresetActions from "./CommonPresetActions";
-import { PresetList, PresetListEvents } from "./PresetList";
+import { PresetList } from "./PresetList";
 
 export interface PresetViewStateProps { 
     presets: Preset[];
@@ -13,7 +13,7 @@ export interface PresetViewState {
     searchKey: string;
 }
 
-export type PresetViewAllProps = PresetViewStateProps & PresetListEvents & PresetActions.Selected;
+export type PresetViewAllProps = PresetViewStateProps & PresetActions.PresetSelected;
 
 export class PresetView extends React.Component<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
@@ -31,13 +31,26 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
                     fullWidth={true}
                     value={this.state.searchKey}
                     disabled={this.props.presets.length === 0}
+                    onChange={(e) => this.search(e)}
                 />
                 <PresetList
-                    presets={this.props.presets}
-                    onSelectionChanged={this.props.onSelectionChanged}
+                    presets={this.filteredPresets}
                     presetSelected={this.props.presetSelected}
                 />
             </div>
         );
+    }
+
+    private get filteredPresets(): Preset[] {
+        if (this.state.searchKey.length === 0) {
+            return this.props.presets;
+        }
+
+        return this.props.presets.filter((preset: Preset) => 
+            preset.name.toUpperCase().search(this.state.searchKey.toUpperCase()) >= 0);
+    }
+
+    private search(e: React.ChangeEvent<HTMLInputElement>) {
+        this.setState( { searchKey: e.target.value });
     }
 }

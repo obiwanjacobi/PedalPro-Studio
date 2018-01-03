@@ -8,18 +8,15 @@ import * as PresetActions from "./CommonPresetActions";
 export interface PresetListProps {
     presets: Preset[];
 }
-export interface PresetListEvents {
-    onSelectionChanged?(preset: Preset, selected: boolean): void;
-}
 
 export interface PresetListState { }
 
-export type PresetListAllProps = PresetListProps & PresetActions.Selected & PresetListEvents;
+export type PresetListAllProps = PresetListProps & PresetActions.PresetSelected;
 
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
     private dense: boolean = true;
 
-    private get actions(): Readonly<PresetActions.Selected> {
+    private get actions(): Readonly<PresetActions.PresetSelected> {
         return  this.props;
     }
 
@@ -54,13 +51,6 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     private toggleSelected(index: number) {
         const preset = this.props.presets[index];
         const selected = !preset.selected;
-        this.actions.presetSelected(preset, selected);
-        this.fireSelectionChanged(preset, selected);
-    }
-
-    private fireSelectionChanged(preset: Preset, selected: boolean) {
-        if (this.props.onSelectionChanged) {
-            this.props.onSelectionChanged(preset, selected);
-        }
+        this.actions.presetSelected([preset], selected);
     }
 }

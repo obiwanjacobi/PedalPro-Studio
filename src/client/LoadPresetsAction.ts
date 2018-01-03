@@ -28,8 +28,13 @@ export const createLoadPresetsAction =
 
 async function getPresets(): Promise<Preset[]> {
     const client = new Client();
-    return [await client.getPreset(0), 
+    return [
+        await client.getPreset(0), 
         await client.getPreset(1), 
         await client.getPreset(2), 
-        await client.getPreset(3)];
+        await client.getPreset(3),
+        await client.getPreset(4),
+        await client.getPreset(5),
+        await client.getPreset(6)
+    ];
 }

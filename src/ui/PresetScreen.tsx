@@ -10,6 +10,7 @@ import Preset from "../client/Preset";
 import EntityFilter from "../model/EntityFilter";
 import { createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { createPresetSelectedAction } from "../client/PresetSelectedAction";
+import { createCopyPresetsAction } from "../client/CopyPresetsAction";
 import ApplicationDocument from "../client/ApplicationDocument";
 
 import * as PresetActions from "./CommonPresetActions";
@@ -24,7 +25,8 @@ export interface PresetScreenStateProps {
     device: Preset[];
 }
 export interface PresetScreenEvents { }
-export type PresetScreenActions = PresetActions.LoadPresets & PresetActions.Selected;
+export type PresetScreenActions = 
+    PresetActions.LoadPresets & PresetActions.PresetSelected & PresetActions.CopyPresets;
 export interface PresetScreenState {
     selectedTab: number;
 }
@@ -50,10 +52,11 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
                     <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
                         <LocalPresetTab presets={this.props.local} presetSelected={this.actions.presetSelected} />
                         <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
-                            <DevicePresetTab 
-                                presets={this.props.device} 
+                            <DevicePresetTab
+                                presets={this.props.device}
                                 loadPresets={this.actions.loadPresets}
                                 presetSelected={this.actions.presetSelected}
+                                copyPresets={this.actions.copyPresets}
                             />
                             <StoragePresetTab />
                             <FactoryPresetTab />
@@ -90,8 +93,11 @@ const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, Preset
             loadPresets: (source: string, filter: EntityFilter)  => {
                 return createLoadPresetsAction(dispatch, source, filter);
             },
-            presetSelected: (preset: Preset, selected: boolean): void => {
-                dispatch(createPresetSelectedAction(preset, selected));
+            presetSelected: (presets: Preset[], selected: boolean): void => {
+                dispatch(createPresetSelectedAction(presets, selected));
+            },
+            copyPresets: (presets: Preset[], target: string): void => {
+                dispatch(createCopyPresetsAction(presets, target));
             }
         };
 };

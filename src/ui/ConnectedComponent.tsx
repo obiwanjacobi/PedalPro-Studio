@@ -1,6 +1,6 @@
 import * as React from "react";
 import ApplicationDocument from "../client/ApplicationDocument";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 
 // selector function that selects component props from store state.
 export interface StateSelector<StoreStateT, StatePropsT> {

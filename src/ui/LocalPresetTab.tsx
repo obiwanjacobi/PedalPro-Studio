@@ -9,17 +9,10 @@ import { LocalPresetToolbar } from "./LocalPresetToolbar";
 export interface LocalPresetTabProps {
     presets: Preset[];
 }
-export interface LocalPresetTabState {
-    selectedIndices: number[];
-}
+export interface LocalPresetTabState { }
 
-export type LocalPresetTabAllProps = LocalPresetTabProps & PresetActions.Selected;
+export type LocalPresetTabAllProps = LocalPresetTabProps & PresetActions.PresetSelected;
 export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, LocalPresetTabState> {
-    public componentWillReceiveProps(nextProps: Readonly<LocalPresetTabAllProps>, nextContext: {}) {
-        if (!this.state) {
-            this.setState({ selectedIndices: new Array<number>() });
-        }
-    }
 
     public render() {
         return (
@@ -28,32 +21,17 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
                 <PresetView 
                     presets={this.props.presets}
                     presetSelected={this.actions.presetSelected}
-                    // onSelectionChanged={(preset: Preset, selected: boolean) => {
-                    //     this.onSelectionChanged(preset, selected); }}
                 />
             </div>
         );
     }
 
-    private get actions(): Readonly<PresetActions.Selected> {
+    private get actions(): Readonly<PresetActions.PresetSelected> {
         return this.props;
     }
     
     private get hasSelection(): boolean {
-        if (!this.state) { return false; }
-        return this.state.selectedIndices.length > 0;
-    }
-
-    private onSelectionChanged(preset: Preset, selected: boolean) {
-        const current = this.state.selectedIndices.indexOf(preset.index);
-        let newSelected = [...this.state.selectedIndices];
-
-        if (current === -1 && selected) {
-            newSelected.push(preset.index);
-        } else {
-            newSelected.splice(current, 1);
-        }
-
-        this.setState({ selectedIndices: newSelected });
+        if (!this.props.presets) { return false; }
+        return this.props.presets.filter((preset: Preset) => preset.selected).length > 0;
     }
 }

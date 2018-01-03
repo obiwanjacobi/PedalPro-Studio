@@ -12,11 +12,11 @@ export class Application extends React.Component {
     private appStore: ApplicationStore = new ApplicationStore();
 
     public static run(appElementId: string) {
-        ReactDOM.render(<Application />, document.getElementById(appElementId));
-
         if (!Environment.isProduction) {
             iassign.freeze = true;
         }
+
+        ReactDOM.render(<Application />, document.getElementById(appElementId));
     }
 
     public render() {

@@ -4,10 +4,10 @@ export const PresetSelectedActionKey: string = "U/*/preset.selected";
 
 export interface PresetSelectedAction {
     readonly type: "U/*/preset.selected";
-    readonly preset: Preset;
+    readonly presets: Preset[];
     readonly selected: boolean;
 }
 
-export const createPresetSelectedAction = (preset: Preset, selected: boolean): PresetSelectedAction => {
-    return <PresetSelectedAction> { type: PresetSelectedActionKey, preset: preset, selected: selected };
+export const createPresetSelectedAction = (presets: Preset[], selected: boolean): PresetSelectedAction => {
+    return <PresetSelectedAction> { type: PresetSelectedActionKey, presets: presets, selected: selected };
 };

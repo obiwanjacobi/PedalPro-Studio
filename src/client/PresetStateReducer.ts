@@ -1,13 +1,14 @@
 import { AnyAction } from "redux";
-import iassign from "immutable-assign";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { PresetSelectedAction } from "./PresetSelectedAction";
+import { CopyPresetsAction } from "./CopyPresetsAction";
+
 import Preset from "./Preset";
 import ApplicationDocument from "./ApplicationDocument";
 
 // all actions this reducer handles
-export type PresetAction = LoadPresetsAction | PresetSelectedAction;
+export type PresetAction = LoadPresetsAction | PresetSelectedAction | CopyPresetsAction;
 
 // could be moved to parent reducer
 export const reduce = (state: ApplicationDocument, action: AnyAction): ApplicationDocument => {
@@ -23,8 +24,13 @@ const reducePresets = (state: ApplicationDocument, action: PresetAction): Applic
             return reduceLoadPresets(state, action.source, action.presets);
         }
         break;
+        
         case "U/*/preset.selected":
-        return reducePresetSelected(state, action.preset, action.selected);
+        return reducePresetSelected(state, action.presets, action.selected);
+
+        case "C/*/presets/*":
+        return reduceCopyPresets(state, action.presets, action.target);
+
         default:
         throw new Error("Unknown action.");
     }
@@ -32,18 +38,26 @@ const reducePresets = (state: ApplicationDocument, action: PresetAction): Applic
     return state;
 };
 
-const reducePresetSelected = (state: ApplicationDocument, preset: Preset, selected: boolean): ApplicationDocument => {
+const reduceCopyPresets = 
+    (state: ApplicationDocument, presets: Preset[], target: string): ApplicationDocument => {
+    if (presets.length === 0) { return state; }
+
     // local helper function
-    const selectPreset = (collection: Preset[], match: Preset, value: boolean): Preset[] => {
-        const index = collection.indexOf(match);
-        if (index === -1) {
-            throw new Error(`Preset ${preset.source}/${preset.name} not found for PresetSelectedAction-Reducer.`);
+    const copyPresets = (collection: Preset[], copies: Preset[], newSource: string): Preset[] => {
+        const newCollection = collection.slice();
+
+        for (let i: number = 0; i < copies.length; i++) {
+            const p = copies[i];
+            newCollection.push({ 
+                ...p, 
+                copiedFrom: p.source, 
+                source: newSource,
+                previousIndex: p.index,
+                index: newCollection.length
+            });
         }
 
-        return iassign(
-            collection, 
-            (presets: Preset[]) => presets[index],
-            (selectedPreset: Preset) => { return { ...selectedPreset, selected: value }; });
+        return newCollection;
     };
 
     let local: Preset[] | null = null;
@@ -51,41 +65,93 @@ const reducePresetSelected = (state: ApplicationDocument, preset: Preset, select
     let storage: Preset[] | null = null;
     let factory: Preset[] | null = null;
 
-    switch (preset.source) {
+    switch (target) {
         case "local":
-        local = selectPreset(state.local, preset, selected);
+        local = copyPresets(state.local, presets, target);
         break;
         
         case "device":
-        device = selectPreset(state.device, preset, selected);
+        device = copyPresets(state.device, presets, target);
         break;
         
         case "storage":
-        storage = selectPreset(state.storage, preset, selected);
+        storage = copyPresets(state.storage, presets, target);
         break;
         
         case "factory":
-        factory = selectPreset(state.factory, preset, selected);
+        factory = copyPresets(state.factory, presets, target);
         break;
         
         default: 
-        throw new Error(`Unknown source: ${preset.source} in PresetSelectedAction-Reducer.`);
+        throw new Error(`Unknown source: ${presets[0].source} in PresetSelectedAction-Reducer.`);
     }
 
-    return state.CopyOverride(local, device, storage, factory);
+    return state.copyOverride(local, device, storage, factory);
+};
+
+const reducePresetSelected = 
+    (state: ApplicationDocument, presets: Preset[], selected: boolean): ApplicationDocument => {
+    if (presets.length === 0) { return state; }
+
+    // local helper function
+    const replacePresets = (collection: Preset[], matches: Preset[], value: boolean): Preset[] => {
+        const newCollection = collection.slice();
+
+        for (let i: number = 0; i < matches.length; i++) {
+            const p = matches[i];
+            const index = newCollection.indexOf(p);
+            if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
+
+            newCollection[index] = { ...p, selected: value};
+        }
+
+        return newCollection;
+    };
+
+    let local: Preset[] | null = null;
+    let device: Preset[] | null = null;
+    let storage: Preset[] | null = null;
+    let factory: Preset[] | null = null;
+
+    switch (presets[0].source) {
+        case "local":
+        local = replacePresets(state.local, presets, selected);
+        break;
+        
+        case "device":
+        device = replacePresets(state.device, presets, selected);
+        break;
+        
+        case "storage":
+        storage = replacePresets(state.storage, presets, selected);
+        break;
+        
+        case "factory":
+        factory = replacePresets(state.factory, presets, selected);
+        break;
+        
+        default: 
+        throw new Error(`Unknown source: ${presets[0].source} in PresetSelectedAction-Reducer.`);
+    }
+
+    return state.copyOverride(local, device, storage, factory);
 };
 
 const reduceLoadPresets = 
     (state: ApplicationDocument, source: string, presets: Preset[]): ApplicationDocument => {
         switch (source) {
             case "local":
-            return state.CopyOverride(presets);
+            return state.copyOverride(presets);
+
             case "device":
-            return state.CopyOverride(null, presets);
+            return state.copyOverride(null, presets);
+
             case "storage":
-            return state.CopyOverride(null, null, presets);
+            return state.copyOverride(null, null, presets);
+
             case "factory":
-            return state.CopyOverride(null, null, null, presets);
+            return state.copyOverride(null, null, null, presets);
+            
             default:
             throw new Error(`Unknown source: ${source} in PresetSelectedAction-Reducer.`);
         }

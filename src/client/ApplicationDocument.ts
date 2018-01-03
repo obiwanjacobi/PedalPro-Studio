@@ -6,7 +6,7 @@ export default class ApplicationDocument {
     public storage: Preset[];
     public factory: Preset[];
 
-    public CopyOverride(local: Preset[] | null = null,
+    public copyOverride(local: Preset[] | null = null,
                         device: Preset[] | null = null,
                         storage: Preset[] | null = null,
                         factory: Preset[] | null = null): ApplicationDocument {
