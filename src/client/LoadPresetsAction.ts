@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 
 import ApplicationDocument from "./ApplicationDocument";
 import Client from "./Client";
-import Preset from "../model/Preset";
+import Preset from "./Preset";
 import EntityFilter from "../model/EntityFilter";
 
 export const LoadPresetsActionKey: string = "R/device/presets/*";

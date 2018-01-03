@@ -6,6 +6,7 @@
   "description": "Vintage Revolution PedalPro Editor Application.",
   "dependencies": {
     "express": "^4.16.2",
+    "immutable-assign": "^2.0.1",
     "material-ui": "^1.0.0-beta.26",
     "material-ui-icons": "^1.0.0-beta.17",
     "morgan": "^1.9.0",

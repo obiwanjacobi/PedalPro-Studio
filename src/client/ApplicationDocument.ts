@@ -1,4 +1,4 @@
-import Preset from "../model/Preset";
+import Preset from "./Preset";
 
 export default class ApplicationDocument {
     public local: Preset[];

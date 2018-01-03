@@ -6,10 +6,13 @@ import { Grid, AppBar, Tabs, Tab } from "material-ui";
 import SplitterLayout from "react-splitter-layout";
 import SwipableView from "react-swipeable-views";
 
-import Preset from "../model/Preset";
+import Preset from "../client/Preset";
 import EntityFilter from "../model/EntityFilter";
 import { createLoadPresetsAction } from "../client/LoadPresetsAction";
+import { createPresetSelectedAction } from "../client/PresetSelectedAction";
 import ApplicationDocument from "../client/ApplicationDocument";
+
+import * as PresetActions from "./CommonPresetActions";
 import { LocalPresetTab } from "./LocalPresetTab";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
@@ -21,9 +24,7 @@ export interface PresetScreenStateProps {
     device: Preset[];
 }
 export interface PresetScreenEvents { }
-export interface PresetScreenActions {
-    loadPresets(source: string, filter: EntityFilter | null): Promise<void>;
-}
+export type PresetScreenActions = PresetActions.LoadPresets & PresetActions.Selected;
 export interface PresetScreenState {
     selectedTab: number;
 }
@@ -47,9 +48,13 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
             <Grid container={true} direction="column">
                 <Grid item={true} xs={12}>
                     <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
-                        <LocalPresetTab presets={this.props.local} />
+                        <LocalPresetTab presets={this.props.local} presetSelected={this.actions.presetSelected} />
                         <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
-                            <DevicePresetTab presets={this.props.device} loadPresets={this.actions.loadPresets} />
+                            <DevicePresetTab 
+                                presets={this.props.device} 
+                                loadPresets={this.actions.loadPresets}
+                                presetSelected={this.actions.presetSelected}
+                            />
                             <StoragePresetTab />
                             <FactoryPresetTab />
                         </SwipableView>
@@ -84,6 +89,9 @@ const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, Preset
         return {
             loadPresets: (source: string, filter: EntityFilter)  => {
                 return createLoadPresetsAction(dispatch, source, filter);
+            },
+            presetSelected: (preset: Preset, selected: boolean): void => {
+                dispatch(createPresetSelectedAction(preset, selected));
             }
         };
 };

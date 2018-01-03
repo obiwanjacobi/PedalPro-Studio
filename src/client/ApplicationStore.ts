@@ -11,6 +11,9 @@ export default class ApplicationStore {
     }
 
     private appReduce(state: ApplicationDocument, action: AnyAction): ApplicationDocument {
+        // redux-specific action types
+        if ((<string> action.type).startsWith("@")) { return state; }
+        
         return PresetStateReducer.reduce(state, action);
     }
 }

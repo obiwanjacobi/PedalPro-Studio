@@ -1,9 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import iassign from "immutable-assign";
 
-import ApplicationTheme from "./ui/ApplicationTheme";
+import Environment from "./Environment";
 import ApplicationStore from "./client/ApplicationStore";
+import ApplicationTheme from "./ui/ApplicationTheme";
 import Layout from "./ui/Layout";
 
 export class Application extends React.Component {
@@ -11,6 +13,10 @@ export class Application extends React.Component {
 
     public static run(appElementId: string) {
         ReactDOM.render(<Application />, document.getElementById(appElementId));
+
+        if (!Environment.isProduction) {
+            iassign.freeze = true;
+        }
     }
 
     public render() {

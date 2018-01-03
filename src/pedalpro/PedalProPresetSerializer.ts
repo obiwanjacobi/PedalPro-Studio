@@ -3,7 +3,7 @@ import Preset from "../model/Preset";
 
 export default class PedalProPresetSerializer {
     public static deserialize(buffer: PedalProPresetBuffer): Preset {
-        const preset = new Preset();
+        const preset: Preset = <Preset> { };
 
         preset.name = buffer.name.trimRight();
 

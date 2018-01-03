@@ -1,18 +1,19 @@
 import * as React from "react";
 import { TextField } from "material-ui";
 
-import Preset from "../model/Preset";
+import Preset from "../client/Preset";
+import * as PresetActions from "./CommonPresetActions";
 import { PresetList, PresetListEvents } from "./PresetList";
 
-export interface PresetViewProps {}
 export interface PresetViewStateProps { 
     presets: Preset[];
 }
+
 export interface PresetViewState {
     searchKey: string;
 }
 
-export type PresetViewAllProps = PresetViewProps & PresetViewStateProps & PresetListEvents;
+export type PresetViewAllProps = PresetViewStateProps & PresetListEvents & PresetActions.Selected;
 
 export class PresetView extends React.Component<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
@@ -31,7 +32,11 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
                     value={this.state.searchKey}
                     disabled={this.props.presets.length === 0}
                 />
-                <PresetList presets={this.props.presets} onSelectionChanged={this.props.onSelectionChanged} />
+                <PresetList
+                    presets={this.props.presets}
+                    onSelectionChanged={this.props.onSelectionChanged}
+                    presetSelected={this.props.presetSelected}
+                />
             </div>
         );
     }

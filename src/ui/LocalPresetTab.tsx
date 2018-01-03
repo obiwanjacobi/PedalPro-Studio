@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import Preset from "../model/Preset";
+import Preset from "../client/Preset";
 
+import * as PresetActions from "./CommonPresetActions";
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
 
@@ -12,27 +13,32 @@ export interface LocalPresetTabState {
     selectedIndices: number[];
 }
 
-export class LocalPresetTab extends React.Component<LocalPresetTabProps, LocalPresetTabState> {
-    public componentWillReceiveProps(nextProps: Readonly<LocalPresetTabProps>, nextContext: any) {
+export type LocalPresetTabAllProps = LocalPresetTabProps & PresetActions.Selected;
+export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, LocalPresetTabState> {
+    public componentWillReceiveProps(nextProps: Readonly<LocalPresetTabAllProps>, nextContext: {}) {
         if (!this.state) {
-            this.setState({ selectedIndices: new Array<number>() }); 
+            this.setState({ selectedIndices: new Array<number>() });
         }
     }
 
     public render() {
-        const self = this;
         return (
             <div>
                 <LocalPresetToolbar enableCopy={this.hasSelection} />
                 <PresetView 
-                    presets={this.props.presets} 
-                    onSelectionChanged={(preset: Preset, selected: boolean, index: number) => {
-                        self.onSelectionChanged(preset, selected); }}
+                    presets={this.props.presets}
+                    presetSelected={this.actions.presetSelected}
+                    // onSelectionChanged={(preset: Preset, selected: boolean) => {
+                    //     this.onSelectionChanged(preset, selected); }}
                 />
             </div>
         );
     }
 
+    private get actions(): Readonly<PresetActions.Selected> {
+        return this.props;
+    }
+    
     private get hasSelection(): boolean {
         if (!this.state) { return false; }
         return this.state.selectedIndices.length > 0;
