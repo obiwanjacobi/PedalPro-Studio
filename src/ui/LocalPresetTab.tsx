@@ -5,7 +5,7 @@ import Preset from "../client/Preset";
 import * as PresetActions from "./CommonPresetActions";
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
-import { SelectedView } from "../client/Selected";
+import { SelectedView } from "../client/SelectedView";
 
 export interface LocalPresetTabProps {
     activeCollection: string;

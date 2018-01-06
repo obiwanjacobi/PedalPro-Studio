@@ -20,17 +20,17 @@ export class SelectedView<T extends Selected> {
     }
 
     public get anySelected(): boolean {
-        if (!this.collection) { return false; }
+        if (this.isEmpty) { return false; }
         return this.collection.some((item: Selected) => item.selected);
     }
 
     public get allSelected(): boolean {
-        if (!this.collection) { return false; }
+        if (this.isEmpty) { return false; }
         return this.collection.every((item: Selected) => item.selected);
     }
 
     public get noneSelected(): boolean {
-        if (!this.collection) { return false; }
+        if (this.isEmpty) { return false; }
         return !this.allSelected;
     }
 

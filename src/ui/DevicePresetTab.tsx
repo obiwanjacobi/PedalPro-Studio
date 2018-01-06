@@ -5,7 +5,7 @@ import * as PresetActions from "./CommonPresetActions";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
-import { SelectedView } from "../client/Selected";
+import { SelectedView } from "../client/SelectedView";
 
 export interface DevicePresetTabProps { 
     presets: Preset[];
