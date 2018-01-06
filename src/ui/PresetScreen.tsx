@@ -49,7 +49,12 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
             <Grid container={true} direction="column">
                 <Grid item={true} xs={12}>
                     <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
-                        <LocalPresetTab presets={this.props.local} selectPresets={this.actions.selectPresets} />
+                        <LocalPresetTab
+                            activeCollection={this.activeCollection}
+                            presets={this.props.local}
+                            selectPresets={this.actions.selectPresets}
+                            copyPresets={this.actions.copyPresets}
+                        />
                         <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
                             <DevicePresetTab
                                 presets={this.props.device}
@@ -76,6 +81,17 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
         );
     }
 
+    private get activeCollection(): string {
+        switch(this.selectedTab) {
+            default:
+            case 0:
+            return "device";
+            case 1:
+            return "storage";
+            case 2:
+            return "factory";
+        }
+    }
     private activatePage(index: number) {
         this.setState({ selectedTab: index });
     }

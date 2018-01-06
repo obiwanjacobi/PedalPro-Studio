@@ -5,6 +5,7 @@ import * as PresetActions from "./CommonPresetActions";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
+import { SelectedView } from "../client/Selected";
 
 export interface DevicePresetTabProps { 
     presets: Preset[];
@@ -14,18 +15,24 @@ export type DevicePresetTabActions =
 export type DevicePresetTabAllProps = DevicePresetTabProps & DevicePresetTabActions;
 
 export default class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
+    private selection: SelectedView<Preset>;
+
+    public constructor(props: DevicePresetTabAllProps) {
+        super(props);
+        this.selection = new SelectedView(props.presets);
+    }
+
     public render() {
         return (
             <div>
                 <PresetToolbar 
-                    enableCopy={this.hasSelection}
+                    enableCopy={this.selection.anySelected}
                     onCopy={() => this.onCopySelected()}
                     enableDownload={true}
                     onDownload={() => this.download()}
-                    enableUpload={this.props.presets.length > 0}
-                    
-                    enableSelectAll={this.props.presets.length > 0}
-                    valueSelectAll={this.allSelectedValue}
+                    enableUpload={!this.selection.isEmpty}
+                    enableSelectAll={!this.selection.isEmpty}
+                    valueSelectAll={this.selection.toValue()}
                     onSelectAll={() => this.toggleSelectAll()}
                 />
                 <PresetView 
@@ -36,35 +43,23 @@ export default class DevicePresetTab extends React.Component<DevicePresetTabAllP
         );
     }
 
+    public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
+        this.selection = new SelectedView(newProps.presets);
+    }
+
     protected get actions(): DevicePresetTabActions {
         return this.props;
     }
 
     private onCopySelected() {
-        const selectedPresets = this.props.presets.filter((preset: Preset) => preset.selected);
+        const selectedPresets = this.selection.selected;
         if (selectedPresets.length > 0) {
             this.actions.copyPresets(selectedPresets, "local");
         }
     }
 
-    private get hasSelection(): boolean {
-        if (!this.props.presets) { return false; }
-        return this.props.presets.filter((preset: Preset) => preset.selected).length > 0;
-    }
-
-    private get allSelected(): boolean {
-        if (!this.props.presets) { return false; }
-        return this.props.presets.every((preset: Preset) => preset.selected);
-    }
-
-    private get allSelectedValue(): number {
-        if (this.allSelected) { return 1; }
-        if (this.hasSelection) { return -1; }
-        return 0;
-    }
-
     private toggleSelectAll() {
-        this.actions.selectPresets(this.props.presets, !this.allSelected);
+        this.actions.selectPresets(this.props.presets, !this.selection.allSelected);
     }
 
     private download() {
