@@ -38,20 +38,22 @@ const reducePresets = (state: ApplicationDocument, action: PresetAction): Applic
     return state;
 };
 
-const reduceCopyPresets = 
-    (state: ApplicationDocument, presets: Preset[], target: string): ApplicationDocument => {
+const reduceCopyPresets = (
+    state: ApplicationDocument, 
+    presets: Preset[], 
+    target: string): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
     // local helper function
-    const copyPresets = (collection: Preset[], copies: Preset[], newSource: string): Preset[] => {
+    const copyPresets = (collection: Preset[]): Preset[] => {
         const newCollection = collection.slice();
 
-        for (let i: number = 0; i < copies.length; i++) {
-            const p = copies[i];
+        for (let i: number = 0; i < presets.length; i++) {
+            const p = presets[i];
             newCollection.push({ 
                 ...p, 
                 copiedFrom: p.source, 
-                source: newSource,
+                source: target,
                 previousIndex: p.index,
                 index: newCollection.length
             });
@@ -60,99 +62,72 @@ const reduceCopyPresets =
         return newCollection;
     };
 
-    let local: Preset[] | null = null;
-    let device: Preset[] | null = null;
-    let storage: Preset[] | null = null;
-    let factory: Preset[] | null = null;
-
-    switch (target) {
-        case "local":
-        local = copyPresets(state.local, presets, target);
-        break;
-        
-        case "device":
-        device = copyPresets(state.device, presets, target);
-        break;
-        
-        case "storage":
-        storage = copyPresets(state.storage, presets, target);
-        break;
-        
-        case "factory":
-        factory = copyPresets(state.factory, presets, target);
-        break;
-        
-        default: 
-        throw new Error(`Unknown source: ${presets[0].source} in PresetSelectedAction-Reducer.`);
-    }
-
-    return state.copyOverride(local, device, storage, factory);
+    return copyOverride(state, target, (oldPresets: Preset[]) => copyPresets(oldPresets));
 };
 
-const reducePresetSelected = 
-    (state: ApplicationDocument, presets: Preset[], selected: boolean): ApplicationDocument => {
+const reducePresetSelected = (
+    state: ApplicationDocument, 
+    presets: Preset[], 
+    selected: boolean): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
     // local helper function
-    const replacePresets = (collection: Preset[], matches: Preset[], value: boolean): Preset[] => {
+    const replacePresets = (collection: Preset[]): Preset[] => {
         const newCollection = collection.slice();
 
-        for (let i: number = 0; i < matches.length; i++) {
-            const p = matches[i];
+        for (let i: number = 0; i < presets.length; i++) {
+            const p = presets[i];
             const index = newCollection.indexOf(p);
             if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
 
-            newCollection[index] = { ...p, selected: value};
+            newCollection[index] = { ...p, selected: selected };
         }
 
         return newCollection;
     };
 
+    return copyOverride(state, presets[0].source, (oldPresets: Preset[]) => replacePresets(oldPresets));
+};
+
+const reduceLoadPresets = (
+    state: ApplicationDocument, 
+    source: string, 
+    presets: Preset[]): ApplicationDocument => {
+    if (presets.length === 0) { return state; }
+
+    return copyOverride(state, source, () => presets);
+};
+
+const copyOverride = (
+    state: ApplicationDocument, 
+    collection: string, 
+    process: (presets: Preset[]) => Preset[]): ApplicationDocument => {
+
     let local: Preset[] | null = null;
     let device: Preset[] | null = null;
     let storage: Preset[] | null = null;
     let factory: Preset[] | null = null;
 
-    switch (presets[0].source) {
+    switch (collection) {
         case "local":
-        local = replacePresets(state.local, presets, selected);
+        local = process(state.local);
         break;
         
         case "device":
-        device = replacePresets(state.device, presets, selected);
+        device = process(state.device);
         break;
         
         case "storage":
-        storage = replacePresets(state.storage, presets, selected);
+        storage = process(state.storage);
         break;
         
         case "factory":
-        factory = replacePresets(state.factory, presets, selected);
+        factory = process(state.factory);
         break;
         
         default: 
-        throw new Error(`Unknown source: ${presets[0].source} in PresetSelectedAction-Reducer.`);
+        throw new Error(`Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
     }
 
     return state.copyOverride(local, device, storage, factory);
-};
-
-const reduceLoadPresets = 
-    (state: ApplicationDocument, source: string, presets: Preset[]): ApplicationDocument => {
-        switch (source) {
-            case "local":
-            return state.copyOverride(presets);
-
-            case "device":
-            return state.copyOverride(null, presets);
-
-            case "storage":
-            return state.copyOverride(null, null, presets);
-
-            case "factory":
-            return state.copyOverride(null, null, null, presets);
-            
-            default:
-            throw new Error(`Unknown source: ${source} in PresetSelectedAction-Reducer.`);
-        }
-};
+}
