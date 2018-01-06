@@ -1,11 +1,12 @@
 import * as React from "react";
 
 import Preset from "../client/Preset";
+import { SelectedView } from "../client/SelectedView";
 
 import * as PresetActions from "./CommonPresetActions";
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
-import { SelectedView } from "../client/SelectedView";
+import { TargetPresetsScreen } from "./TargetPresetsScreen";
 
 export interface LocalPresetTabProps {
     activeCollection: string;
@@ -14,12 +15,16 @@ export interface LocalPresetTabProps {
 export type LocalPresetTabActions = PresetActions.SelectPresets & PresetActions.CopyPresets;
 export type LocalPresetTabAllProps = LocalPresetTabProps & LocalPresetTabActions;
 
-export class LocalPresetTab extends React.Component<LocalPresetTabAllProps> {
+export interface LocalPresetTabState {
+    openDialog: boolean;
+}
+export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, LocalPresetTabState> {
     private selection: SelectedView<Preset>;
     
     public constructor(props: LocalPresetTabAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
+        this.state = { openDialog: false };
     }
 
     public render() {
@@ -36,6 +41,7 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps> {
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
                 />
+                <TargetPresetsScreen open={this.state.openDialog} />
             </div>
         );
     }
@@ -54,13 +60,18 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps> {
     }
 
     private onCopySelected() {
-        const selectedPresets = this.selection.selected;
-        if (selectedPresets.length > 0) {
-            this.actions.copyPresets(selectedPresets, this.props.activeCollection);
-        }
+        this.openDialog(true);
+        // const selectedPresets = this.selection.selected;
+        // if (selectedPresets.length > 0) {
+        //     this.actions.copyPresets(selectedPresets, this.props.activeCollection);
+        // }
     }
 
     private toggleSelectAll() {
         this.actions.selectPresets(this.props.presets, !this.selection.allSelected);
+    }
+
+    private openDialog(open: boolean) {
+        this.setState({ openDialog: open });
     }
 }

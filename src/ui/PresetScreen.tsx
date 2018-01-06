@@ -34,15 +34,6 @@ export type PresetScreenAllProps = PresetScreenProps & PresetScreenStateProps
                     & PresetScreenActions & PresetScreenEvents;
 
 export class PresetScreen extends React.Component<PresetScreenAllProps, PresetScreenState> {
-    private get selectedTab(): number {
-        if (!this.state) { return 0; }
-        
-        return this.state.selectedTab;
-    }
-    
-    private get actions(): PresetScreenActions {
-        return this.props;
-    }
 
     public render(): React.ReactNode {
         return (
@@ -81,8 +72,18 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
         );
     }
 
+    private get selectedTab(): number {
+        if (!this.state) { return 0; }
+        
+        return this.state.selectedTab;
+    }
+    
+    private get actions(): PresetScreenActions {
+        return this.props;
+    }
+
     private get activeCollection(): string {
-        switch(this.selectedTab) {
+        switch (this.selectedTab) {
             default:
             case 0:
             return "device";
@@ -92,6 +93,7 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
             return "factory";
         }
     }
+    
     private activatePage(index: number) {
         this.setState({ selectedTab: index });
     }
