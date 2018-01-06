@@ -11,8 +11,10 @@ import { createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { createCopyPresetsAction } from "../client/CopyPresetsAction";
 import ApplicationDocument from "../client/ApplicationDocument";
+import { SelectPresets } from "../client/SelectPresetsAction";
+import { LoadPresets } from "../client/LoadPresetsAction";
+import { CopyPresets } from "../client/CopyPresetsAction";
 
-import * as PresetActions from "./CommonPresetActions";
 import { LocalPresetTab } from "./LocalPresetTab";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
@@ -24,8 +26,7 @@ export interface PresetScreenStateProps {
     device: Preset[];
 }
 export interface PresetScreenEvents { }
-export type PresetScreenActions = 
-    PresetActions.LoadPresets & PresetActions.SelectPresets & PresetActions.CopyPresets;
+export type PresetScreenActions = LoadPresets & SelectPresets & CopyPresets;
 export interface PresetScreenState {
     selectedTab: number;
 }

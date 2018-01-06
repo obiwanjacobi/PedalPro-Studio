@@ -5,9 +5,7 @@ import CloseIcon from "material-ui-icons/Close";
 // @ts-ignore: no d.ts available
 import SplitterLayout from "react-splitter-layout";
 
-export interface TargetPresetsScreenProps { 
-    open: boolean;
-}
+export interface TargetPresetsScreenProps { }
 export interface TargetPresetsScreenState { 
     open: boolean;
 }

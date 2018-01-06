@@ -4,8 +4,8 @@ import { Dispatch } from "redux";
 import Preset from "../client/Preset";
 import ApplicationDocument from "../client/ApplicationDocument";
 import { createSelectPresetsAction } from "../client/SelectPresetsAction";
+import { SelectPresets } from "../client/SelectPresetsAction";
 
-import * as PresetActions from "./CommonPresetActions";
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
 import ConnectedComponent from "./ConnectedComponent";
@@ -13,7 +13,7 @@ import ConnectedComponent from "./ConnectedComponent";
 export interface LocalPresetFrameProps {
     presets: Preset[] | null;
 }
-export type LocalPresetFrameActions = PresetActions.SelectPresets;
+export type LocalPresetFrameActions = SelectPresets;
 
 export class LocalPresetFrame extends ConnectedComponent<LocalPresetFrameProps, LocalPresetFrameActions> {
     public render() {

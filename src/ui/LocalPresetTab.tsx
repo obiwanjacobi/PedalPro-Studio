@@ -2,8 +2,9 @@ import * as React from "react";
 
 import Preset from "../client/Preset";
 import { SelectedView } from "../client/SelectedView";
+import { SelectPresets } from "../client/SelectPresetsAction";
+import { CopyPresets } from "../client/CopyPresetsAction";
 
-import * as PresetActions from "./CommonPresetActions";
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
 import { TargetPresetsScreen } from "./TargetPresetsScreen";
@@ -12,12 +13,11 @@ export interface LocalPresetTabProps {
     activeCollection: string;
     presets: Preset[];
 }
-export type LocalPresetTabActions = PresetActions.SelectPresets & PresetActions.CopyPresets;
+export type LocalPresetTabActions = SelectPresets & CopyPresets;
 export type LocalPresetTabAllProps = LocalPresetTabProps & LocalPresetTabActions;
 
-export interface LocalPresetTabState {
-    openDialog: boolean;
-}
+export interface LocalPresetTabState { }
+
 export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, LocalPresetTabState> {
     private selection: SelectedView<Preset>;
     
@@ -41,7 +41,7 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
                 />
-                <TargetPresetsScreen open={this.state.openDialog} />
+                <TargetPresetsScreen />
             </div>
         );
     }

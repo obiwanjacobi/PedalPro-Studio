@@ -1,7 +1,9 @@
 import * as React from "react";
 
 import Preset from "../client/Preset";
-import * as PresetActions from "./CommonPresetActions";
+import { SelectPresets } from "../client/SelectPresetsAction";
+import { LoadPresets } from "../client/LoadPresetsAction";
+import { CopyPresets } from "../client/CopyPresetsAction";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
@@ -11,7 +13,7 @@ export interface DevicePresetTabProps {
     presets: Preset[];
 }
 export type DevicePresetTabActions = 
-    PresetActions.SelectPresets & PresetActions.LoadPresets & PresetActions.CopyPresets;
+    SelectPresets & LoadPresets & CopyPresets;
 export type DevicePresetTabAllProps = DevicePresetTabProps & DevicePresetTabActions;
 
 export default class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {

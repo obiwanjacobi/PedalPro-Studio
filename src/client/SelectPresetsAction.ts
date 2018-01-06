@@ -11,3 +11,7 @@ export interface SelectPresetsAction {
 export const createSelectPresetsAction = (presets: Preset[], selected: boolean): SelectPresetsAction => {
     return <SelectPresetsAction> { type: SelectPresetsActionKey, presets: presets, selected: selected };
 };
+
+export interface SelectPresets {
+    selectPresets(presets: Preset[], selected: boolean): void;
+}

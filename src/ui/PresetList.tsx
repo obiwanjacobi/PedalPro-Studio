@@ -3,20 +3,20 @@ import { List, ListItem, ListItemText } from "material-ui";
 import Checkbox from "material-ui/Checkbox/Checkbox";
 
 import Preset from "../client/Preset";
-import * as PresetActions from "./CommonPresetActions";
+import { SelectPresets } from "../client/SelectPresetsAction";
 
 export interface PresetListProps {
     presets: Preset[];
 }
-
+export type PresetListActions = SelectPresets;
 export interface PresetListState { }
 
-export type PresetListAllProps = PresetListProps & PresetActions.SelectPresets;
+export type PresetListAllProps = PresetListProps & PresetListActions;
 
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
     private dense: boolean = true;
 
-    private get actions(): Readonly<PresetActions.SelectPresets> {
+    private get actions(): Readonly<PresetListActions> {
         return  this.props;
     }
 

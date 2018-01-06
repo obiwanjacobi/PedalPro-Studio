@@ -30,3 +30,7 @@ async function getPresets(): Promise<Preset[]> {
     const client = new Client();
     return await client.getPresets();
 }
+
+export interface LoadPresets {
+    loadPresets(source: string): Promise<void>;
+}

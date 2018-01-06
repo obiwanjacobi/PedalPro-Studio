@@ -2,7 +2,7 @@ import * as React from "react";
 import { TextField } from "material-ui";
 
 import Preset from "../client/Preset";
-import * as PresetActions from "./CommonPresetActions";
+import { SelectPresets } from "../client/SelectPresetsAction";
 import { PresetList } from "./PresetList";
 
 export interface PresetViewStateProps { 
@@ -13,7 +13,7 @@ export interface PresetViewState {
     searchKey: string;
 }
 
-export type PresetViewAllProps = PresetViewStateProps & PresetActions.SelectPresets;
+export type PresetViewAllProps = PresetViewStateProps & SelectPresets;
 
 export class PresetView extends React.Component<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
