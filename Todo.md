@@ -58,6 +58,9 @@ https://github.com/reactjs/reselect
 Electron
 https://github.com/MarshallOfSound/electron-devtools-installer
 
+TypeScript
+https://github.com/Microsoft/tslib
+
 ## Code
 
 - Fix shared Model between server and client.

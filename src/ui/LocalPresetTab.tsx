@@ -9,10 +9,10 @@ import { LocalPresetToolbar } from "./LocalPresetToolbar";
 export interface LocalPresetTabProps {
     presets: Preset[];
 }
-export interface LocalPresetTabState { }
 
 export type LocalPresetTabAllProps = LocalPresetTabProps & PresetActions.SelectPresets;
-export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, LocalPresetTabState> {
+
+export class LocalPresetTab extends React.Component<LocalPresetTabAllProps> {
 
     public render() {
         return (

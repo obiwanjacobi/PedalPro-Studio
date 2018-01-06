@@ -1,41 +1,40 @@
 import * as React from "react";
-import ApplicationDocument from "../client/ApplicationDocument";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
-import { makeObject } from "../Extensions";
+import ApplicationDocument from "../client/ApplicationDocument";
 
 // selector function that selects component props from store state.
 export interface StateSelector<StoreStateT, StatePropsT> {
     (state: StoreStateT): StatePropsT;
 }
 
-// @ts-ignore
-let StateWrapper = props => props.children;
-// @ts-ignore
-StateWrapper = connect(mapStateToProps, mapDispatchToProps)(StateWrapper);
-
+/**
+ * Derive the Higher Order Component (HOC) from this base class
+ * and implement (redux) state handling methods and action-handlers.
+ */
 export default abstract class ConnectedComponent<
                         StatePropsT, 
-                        ActionsT, 
-                        EventsT = {},
-                        ComponentPropsT = {}, 
-                        ComponentStateT = {}> 
-               extends React.Component<StatePropsT & ActionsT & EventsT & ComponentPropsT, ComponentStateT> {
+                        ActionsT> 
+               extends React.Component<StatePropsT & ActionsT> {
 
-    private selector: StateSelector<ApplicationDocument, StatePropsT>;
+    public constructor(props: StatePropsT & ActionsT) {
+        super(props);
+        // @ts-ignore
+        this.StateWrapper = connect(
+            (state: ApplicationDocument) => { return this.extractComponentPropsFromState(state); }, 
+            (dispatch: Dispatch<ApplicationDocument>) => { return this.createActionObject(dispatch); }
+        )(this.StateWrapper);
+    }
 
-    public render() {
+    protected renderConnection(content: JSX.Element): JSX.Element {
         return (
-            <StateWrapper>
-                {this.props.children}
-            </StateWrapper>
+            <this.StateWrapper>
+                {content}
+            </this.StateWrapper>
         );
     }
 
-    protected get componentProps(): Readonly<ComponentPropsT> {
-        return this.props;
-    }
-    
     protected get stateProps(): Readonly<StatePropsT> {
         return this.props;
     }
@@ -44,19 +43,9 @@ export default abstract class ConnectedComponent<
         return this.props;
     }
 
-    protected get events(): Readonly<EventsT> {
-        return this.props;
-    }
+    protected abstract extractComponentPropsFromState(state: ApplicationDocument): StatePropsT;
+    protected abstract createActionObject(dispatch: Dispatch<ApplicationDocument>): ActionsT;
 
-    protected abstract createStateSelector(): StateSelector<ApplicationDocument, StatePropsT>;
-
-    protected extractComponentPropsFromState(
-        state: ApplicationDocument, props: ComponentPropsT): StatePropsT & ComponentPropsT {
-            if (!this.selector) {
-                this.selector = this.createStateSelector();
-            }
-
-            const stateProps = this.selector(state);
-            return { ...makeObject(stateProps), ...makeObject(props) };
-    }
+    // @ts-ignore
+    private StateWrapper = props => props.children;
 }
