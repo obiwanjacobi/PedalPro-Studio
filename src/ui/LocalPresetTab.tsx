@@ -11,7 +11,7 @@ export interface LocalPresetTabProps {
 }
 export interface LocalPresetTabState { }
 
-export type LocalPresetTabAllProps = LocalPresetTabProps & PresetActions.PresetSelected;
+export type LocalPresetTabAllProps = LocalPresetTabProps & PresetActions.SelectPresets;
 export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, LocalPresetTabState> {
 
     public render() {
@@ -20,13 +20,13 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
                 <LocalPresetToolbar enableCopy={this.hasSelection} />
                 <PresetView 
                     presets={this.props.presets}
-                    presetSelected={this.actions.presetSelected}
+                    selectPresets={this.actions.selectPresets}
                 />
             </div>
         );
     }
 
-    private get actions(): Readonly<PresetActions.PresetSelected> {
+    private get actions(): Readonly<PresetActions.SelectPresets> {
         return this.props;
     }
     

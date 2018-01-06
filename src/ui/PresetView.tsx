@@ -13,7 +13,7 @@ export interface PresetViewState {
     searchKey: string;
 }
 
-export type PresetViewAllProps = PresetViewStateProps & PresetActions.PresetSelected;
+export type PresetViewAllProps = PresetViewStateProps & PresetActions.SelectPresets;
 
 export class PresetView extends React.Component<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
@@ -31,11 +31,11 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
                     fullWidth={true}
                     value={this.state.searchKey}
                     disabled={this.props.presets.length === 0}
-                    onChange={(e) => this.search(e)}
+                    onChange={(e) => this.search(e.target.value)}
                 />
                 <PresetList
                     presets={this.filteredPresets}
-                    presetSelected={this.props.presetSelected}
+                    selectPresets={this.props.selectPresets}
                 />
             </div>
         );
@@ -50,7 +50,7 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
             preset.name.toUpperCase().search(this.state.searchKey.toUpperCase()) >= 0);
     }
 
-    private search(e: React.ChangeEvent<HTMLInputElement>) {
-        this.setState( { searchKey: e.target.value });
+    private search(value: string) {
+        this.setState( { searchKey: value });
     }
 }

@@ -1,12 +1,11 @@
 import Preset from "../client/Preset";
-import EntityFilter from "../model/EntityFilter";
 
 export interface LoadPresets {
-    loadPresets(source: string, filter: EntityFilter | null): Promise<void>;
+    loadPresets(source: string): Promise<void>;
 }
 
-export interface PresetSelected {
-    presetSelected(presets: Preset[], selected: boolean): void;
+export interface SelectPresets {
+    selectPresets(presets: Preset[], selected: boolean): void;
 }
 
 export interface CopyPresets {

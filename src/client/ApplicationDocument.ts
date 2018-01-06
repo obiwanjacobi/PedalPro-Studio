@@ -1,29 +1,32 @@
 import Preset from "./Preset";
 
 export default class ApplicationDocument {
-    public local: Preset[];
-    public device: Preset[];
-    public storage: Preset[];
-    public factory: Preset[];
+    public readonly local: Preset[];
+    public readonly device: Preset[];
+    public readonly storage: Preset[];
+    public readonly factory: Preset[];
 
     public copyOverride(local: Preset[] | null = null,
                         device: Preset[] | null = null,
                         storage: Preset[] | null = null,
                         factory: Preset[] | null = null): ApplicationDocument {
 
-        const appDoc = new ApplicationDocument();
-        appDoc.local = local === null ? this.local : local;
-        appDoc.device = device === null ? this.device : device;
-        appDoc.storage = storage === null ? this.storage : storage;
-        appDoc.factory = factory === null ? this.factory : factory;
-
-        return appDoc;
+        return new ApplicationDocument(
+                        local === null ? this.local : local,
+                        device === null ? this.device : device,
+                        storage === null ? this.storage : storage,
+                        factory === null ? this.factory : factory
+        );
     }
 
-    public constructor() {
-        this.local = Array<Preset>();
-        this.device = Array<Preset>();
-        this.storage = Array<Preset>();
-        this.factory = Array<Preset>();
+    public constructor(local: Preset[] | null = null,
+                       device: Preset[] | null = null,
+                       storage: Preset[] | null = null,
+                       factory: Preset[] | null = null) {
+
+        this.local = local === null ? Array<Preset>() : local;
+        this.device = device === null ? Array<Preset>() : device;
+        this.storage = storage === null ? Array<Preset>() : storage;
+        this.factory = factory === null ? Array<Preset>() : factory;
     }
 }

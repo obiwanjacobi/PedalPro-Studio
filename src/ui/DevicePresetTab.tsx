@@ -10,7 +10,7 @@ export interface DevicePresetTabProps {
     presets: Preset[];
 }
 export type DevicePresetTabActions = 
-    PresetActions.PresetSelected & PresetActions.LoadPresets & PresetActions.CopyPresets;
+    PresetActions.SelectPresets & PresetActions.LoadPresets & PresetActions.CopyPresets;
 export type DevicePresetTabAllProps = DevicePresetTabProps & DevicePresetTabActions;
 
 export default class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
@@ -30,7 +30,7 @@ export default class DevicePresetTab extends React.Component<DevicePresetTabAllP
                 />
                 <PresetView 
                     presets={this.props.presets}
-                    presetSelected={this.actions.presetSelected}
+                    selectPresets={this.actions.selectPresets}
                 />
             </div>
         );
@@ -64,10 +64,10 @@ export default class DevicePresetTab extends React.Component<DevicePresetTabAllP
     }
 
     private toggleSelectAll() {
-        this.actions.presetSelected(this.props.presets, !this.allSelected);
+        this.actions.selectPresets(this.props.presets, !this.allSelected);
     }
 
     private download() {
-        this.actions.loadPresets("device", null);
+        this.actions.loadPresets("device");
     }
 }

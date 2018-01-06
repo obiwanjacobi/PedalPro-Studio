@@ -1,14 +1,14 @@
 import { AnyAction } from "redux";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
-import { PresetSelectedAction } from "./PresetSelectedAction";
+import { SelectPresetsAction } from "./SelectPresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 
 import Preset from "./Preset";
 import ApplicationDocument from "./ApplicationDocument";
 
 // all actions this reducer handles
-export type PresetAction = LoadPresetsAction | PresetSelectedAction | CopyPresetsAction;
+export type PresetAction = LoadPresetsAction | SelectPresetsAction | CopyPresetsAction;
 
 // could be moved to parent reducer
 export const reduce = (state: ApplicationDocument, action: AnyAction): ApplicationDocument => {

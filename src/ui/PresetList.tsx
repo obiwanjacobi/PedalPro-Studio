@@ -11,12 +11,12 @@ export interface PresetListProps {
 
 export interface PresetListState { }
 
-export type PresetListAllProps = PresetListProps & PresetActions.PresetSelected;
+export type PresetListAllProps = PresetListProps & PresetActions.SelectPresets;
 
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
     private dense: boolean = true;
 
-    private get actions(): Readonly<PresetActions.PresetSelected> {
+    private get actions(): Readonly<PresetActions.SelectPresets> {
         return  this.props;
     }
 
@@ -51,6 +51,6 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     private toggleSelected(index: number) {
         const preset = this.props.presets[index];
         const selected = !preset.selected;
-        this.actions.presetSelected([preset], selected);
+        this.actions.selectPresets([preset], selected);
     }
 }

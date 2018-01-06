@@ -7,9 +7,8 @@ import SplitterLayout from "react-splitter-layout";
 import SwipableView from "react-swipeable-views";
 
 import Preset from "../client/Preset";
-import EntityFilter from "../model/EntityFilter";
 import { createLoadPresetsAction } from "../client/LoadPresetsAction";
-import { createPresetSelectedAction } from "../client/PresetSelectedAction";
+import { createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { createCopyPresetsAction } from "../client/CopyPresetsAction";
 import ApplicationDocument from "../client/ApplicationDocument";
 
@@ -26,7 +25,7 @@ export interface PresetScreenStateProps {
 }
 export interface PresetScreenEvents { }
 export type PresetScreenActions = 
-    PresetActions.LoadPresets & PresetActions.PresetSelected & PresetActions.CopyPresets;
+    PresetActions.LoadPresets & PresetActions.SelectPresets & PresetActions.CopyPresets;
 export interface PresetScreenState {
     selectedTab: number;
 }
@@ -50,12 +49,12 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
             <Grid container={true} direction="column">
                 <Grid item={true} xs={12}>
                     <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
-                        <LocalPresetTab presets={this.props.local} presetSelected={this.actions.presetSelected} />
+                        <LocalPresetTab presets={this.props.local} selectPresets={this.actions.selectPresets} />
                         <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
                             <DevicePresetTab
                                 presets={this.props.device}
                                 loadPresets={this.actions.loadPresets}
-                                presetSelected={this.actions.presetSelected}
+                                selectPresets={this.actions.selectPresets}
                                 copyPresets={this.actions.copyPresets}
                             />
                             <StoragePresetTab />
@@ -90,11 +89,11 @@ const extractComponentPropsFromState: MapStateToProps<PresetScreenStateProps, Pr
 const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, PresetScreenProps> =
     (dispatch: Dispatch<ApplicationDocument>, props: PresetScreenProps): PresetScreenActions => {
         return {
-            loadPresets: (source: string, filter: EntityFilter)  => {
-                return createLoadPresetsAction(dispatch, source, filter);
+            loadPresets: (source: string)  => {
+                return createLoadPresetsAction(dispatch, source);
             },
-            presetSelected: (presets: Preset[], selected: boolean): void => {
-                dispatch(createPresetSelectedAction(presets, selected));
+            selectPresets: (presets: Preset[], selected: boolean): void => {
+                dispatch(createSelectPresetsAction(presets, selected));
             },
             copyPresets: (presets: Preset[], target: string): void => {
                 dispatch(createCopyPresetsAction(presets, target));

@@ -2,6 +2,8 @@ import * as React from "react";
 import ApplicationDocument from "../client/ApplicationDocument";
 import { connect } from "react-redux";
 
+import { makeObject } from "../Extensions";
+
 // selector function that selects component props from store state.
 export interface StateSelector<StoreStateT, StatePropsT> {
     (state: StoreStateT): StatePropsT;
@@ -55,19 +57,6 @@ export default abstract class ConnectedComponent<
             }
 
             const stateProps = this.selector(state);
-            // return { ...stateProps, ...props };
-            // bah!
-            const result = {};
-            // @ts-ignore
-            for (const member of props) {
-                // @ts-ignore
-                result[member] = props[member];
-            }
-            // @ts-ignore
-            for (const member of stateProps) {
-                // @ts-ignore
-                result[member] = stateProps[member];
-            }
-            return /*<StatePropsT & ComponentPropsT>*/ result;
+            return { ...makeObject(stateProps), ...makeObject(props) };
     }
 }
