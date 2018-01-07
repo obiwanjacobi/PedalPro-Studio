@@ -6,7 +6,7 @@ class TestClass {
 
 const ExpectedString = "Level42";
 
-describe("Extensions.ts", () => {
+describe("Extensions.ts - makeObject", () => {
     it("makeObject clones properties", () => {
         const instance = new TestClass();
         instance.myProp = ExpectedString;

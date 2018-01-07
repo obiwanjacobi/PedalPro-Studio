@@ -4,16 +4,19 @@ import Preset from "../client/Preset";
 import { SelectedView } from "../client/SelectedView";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { CopyPresets } from "../client/CopyPresetsAction";
+import { UpdateScreen } from "../client/UpdateScreenAction";
+import { ScreenState } from "../client/ApplicationDocument";
 
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
 import { TargetPresetsScreen } from "./TargetPresetsScreen";
 
 export interface LocalPresetTabProps {
+    dialogIsOpen: boolean;
     activeCollection: string;
     presets: Preset[];
 }
-export type LocalPresetTabActions = SelectPresets & CopyPresets;
+export type LocalPresetTabActions = SelectPresets & CopyPresets & UpdateScreen;
 export type LocalPresetTabAllProps = LocalPresetTabProps & LocalPresetTabActions;
 
 export interface LocalPresetTabState { }
@@ -41,7 +44,7 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
                 />
-                <TargetPresetsScreen />
+                <TargetPresetsScreen open={this.props.dialogIsOpen} updateScreen={this.actions.updateScreen} />
             </div>
         );
     }
@@ -72,6 +75,6 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
     }
 
     private openDialog(open: boolean) {
-        this.setState({ openDialog: open });
+        this.props.updateScreen(new ScreenState(open));
     }
 }

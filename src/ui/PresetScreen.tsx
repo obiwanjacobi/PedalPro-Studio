@@ -7,26 +7,26 @@ import SplitterLayout from "react-splitter-layout";
 import SwipableView from "react-swipeable-views";
 
 import Preset from "../client/Preset";
-import { createLoadPresetsAction } from "../client/LoadPresetsAction";
-import { createSelectPresetsAction } from "../client/SelectPresetsAction";
-import { createCopyPresetsAction } from "../client/CopyPresetsAction";
-import ApplicationDocument from "../client/ApplicationDocument";
-import { SelectPresets } from "../client/SelectPresetsAction";
-import { LoadPresets } from "../client/LoadPresetsAction";
-import { CopyPresets } from "../client/CopyPresetsAction";
+import ApplicationDocument, { ScreenState } from "../client/ApplicationDocument";
+import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
+import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
+import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
+import { UpdateScreen, createUpdateScreenAction } from "../client/UpdateScreenAction";
 
 import { LocalPresetTab } from "./LocalPresetTab";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
+import { toBool } from "../Extensions";
 
 export interface PresetScreenProps { }
 export interface PresetScreenStateProps {
     local: Preset[];
     device: Preset[];
+    dialogIsOpen: boolean;
 }
 export interface PresetScreenEvents { }
-export type PresetScreenActions = LoadPresets & SelectPresets & CopyPresets;
+export type PresetScreenActions = LoadPresets & SelectPresets & CopyPresets & UpdateScreen;
 export interface PresetScreenState {
     selectedTab: number;
 }
@@ -46,6 +46,8 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
                             presets={this.props.local}
                             selectPresets={this.actions.selectPresets}
                             copyPresets={this.actions.copyPresets}
+                            dialogIsOpen={this.props.dialogIsOpen}
+                            updateScreen={this.actions.updateScreen}
                         />
                         <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
                             <DevicePresetTab
@@ -102,7 +104,11 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
 
 const extractComponentPropsFromState: MapStateToProps<PresetScreenStateProps, PresetScreenProps, ApplicationDocument> = 
     (state: ApplicationDocument, props: PresetScreenProps): PresetScreenStateProps => {
-        return  { device: state.device, local: state.local, ...props };
+        return  { 
+            device: state.device, 
+            local: state.local, 
+            dialogIsOpen: toBool(state.screen.targetPresetDialogOpen),
+            ...props };
 };
 
 const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, PresetScreenProps> =
@@ -116,6 +122,9 @@ const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, Preset
             },
             copyPresets: (presets: Preset[], target: string): void => {
                 dispatch(createCopyPresetsAction(presets, target));
+            },
+            updateScreen: (screen: ScreenState): void => {
+                dispatch(createUpdateScreenAction(screen));
             }
         };
 };

@@ -1,36 +1,36 @@
 import * as React from "react";
 import { Dialog, List, ListItem, ListItemText, Slide, AppBar, Toolbar, IconButton } from "material-ui";
 import CloseIcon from "material-ui-icons/Close";
-
 // @ts-ignore: no d.ts available
 import SplitterLayout from "react-splitter-layout";
 
-export interface TargetPresetsScreenProps { }
-export interface TargetPresetsScreenState { 
+import { UpdateScreen } from "../client/UpdateScreenAction";
+import { ScreenState } from "../client/ApplicationDocument";
+
+export interface TargetPresetsScreenProps { 
     open: boolean;
 }
+export type TargetPresetsScreenAction = UpdateScreen;
 
-const Transition =(props) => {
+export type TargetPresetsScreenAllProps = TargetPresetsScreenProps & TargetPresetsScreenAction;
+
+// @ts-ignore
+const Transition = (props) => {
     return <Slide direction="up" {...props} />;
 };
 
-export class TargetPresetsScreen extends React.Component<TargetPresetsScreenProps, TargetPresetsScreenState> {
-    public constructor(props: TargetPresetsScreenProps) {
-        super(props);
-        this.state = { open: false };
-    }
-
+export class TargetPresetsScreen extends React.Component<TargetPresetsScreenAllProps> {
     public render(): React.ReactNode {
         return (
             <Dialog
                 fullScreen={true}
-                open={this.state.open}
+                open={this.props.open}
                 onClose={() => this.close()}
                 transition={Transition}
             >
                 <AppBar>
                     <Toolbar>
-                        <IconButton color="contrast" onClick={() => this.close()} aria-label="Close">
+                        <IconButton onClick={() => this.close()} aria-label="Close">
                             <CloseIcon />
                         </IconButton>
                     </Toolbar>
@@ -51,11 +51,7 @@ export class TargetPresetsScreen extends React.Component<TargetPresetsScreenProp
         );
     }
 
-    public componentWillReceiveProps(newProps: TargetPresetsScreenProps) {
-        this.setState({ open: newProps.open });
-    }
-
     private close() {
-        this.setState({open: false});
+        this.props.updateScreen(new ScreenState(false));
     }
 }
