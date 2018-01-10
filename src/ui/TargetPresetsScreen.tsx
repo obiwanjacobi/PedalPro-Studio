@@ -14,7 +14,7 @@ export type TargetPresetsScreenAction = UpdateScreen;
 
 export type TargetPresetsScreenAllProps = TargetPresetsScreenProps & TargetPresetsScreenAction;
 
-// @ts-ignore
+// @ts-ignore: copy paste from inet
 const Transition = (props) => {
     return <Slide direction="up" {...props} />;
 };
@@ -30,12 +30,12 @@ export class TargetPresetsScreen extends React.Component<TargetPresetsScreenAllP
             >
                 <AppBar>
                     <Toolbar>
-                        <IconButton onClick={() => this.close()} aria-label="Close">
+                        <IconButton onClick={() => this.close()}>
                             <CloseIcon />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
-                <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
+                <SplitterLayout primaryIndex={0} primaryMinSize={200} secondaryMinSize={160}>
                     <List>
                         <ListItem>
                             <ListItemText primary="Left..." />

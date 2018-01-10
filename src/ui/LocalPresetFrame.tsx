@@ -11,7 +11,7 @@ import { LocalPresetToolbar } from "./LocalPresetToolbar";
 import ConnectedComponent from "./ConnectedComponent";
 
 export interface LocalPresetFrameProps {
-    presets: Preset[] | null;
+    presets: Preset[];
 }
 export type LocalPresetFrameActions = SelectPresets;
 
@@ -21,7 +21,7 @@ export class LocalPresetFrame extends ConnectedComponent<LocalPresetFrameProps, 
             <div>
                 <LocalPresetToolbar enableCopy={this.hasSelection} />
                 <PresetView 
-                    presets={this.stateProps.presets || []}
+                    presets={this.stateProps.presets}
                     selectPresets={this.actions.selectPresets}
                 />
             </div>

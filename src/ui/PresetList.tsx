@@ -23,27 +23,26 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     public render(): React.ReactNode {
         if (!this.props.presets) { return <div/>; }
 
-        let index = 0;
         return (
-            <List 
-                dense={this.dense} 
-                disablePadding={true} 
-                children={this.props.presets.map((preset) => this.presetSummary(index++, preset))}
-            />
+            <List dense={this.dense} disablePadding={this.dense}>
+                {this.props.presets.map(
+                    (preset: Preset, index: number) => this.presetSummary(index, preset)
+                )}
+            </List>
         );
     }
 
     private presetSummary(index: number, preset: Preset): React.ReactNode {
         return (
             <ListItem 
-                key={preset.index} 
+                key={index} 
                 button={true} 
                 dense={this.dense} 
                 disableGutters={this.dense} 
                 onClick={() => this.toggleSelected(index)}
             >
                 <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.presets[index].selected} />
-                <ListItemText primary={preset.name}/>
+                <ListItemText primary={preset.name} />
             </ListItem>
         );
     }

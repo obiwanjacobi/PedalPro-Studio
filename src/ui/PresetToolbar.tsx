@@ -3,35 +3,31 @@ import { AppBar, Toolbar, IconButton } from "material-ui";
 import ChevronLeft from "material-ui-icons/ChevronLeft";
 import FileDownload from "material-ui-icons/FileDownload";
 import FileUpload from "material-ui-icons/FileUpload";
-import Checkbox from "material-ui/Checkbox/Checkbox";
+import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "./SelectAllButton";
 
 export interface PresetToolbarProps {
     enableCopy?: boolean;
     enableDownload?: boolean;
     enableUpload?: boolean;
-    enableSelectAll?: boolean;
-    valueSelectAll?: number;
- }
+}
 export interface PresetToolbarEvents { 
     onCopy?(): void;
     onDownload?(): void;
     onUpload?(): void;
-    onSelectAll?(): void;
 }
 
-export type PresetToolbarAllProps = PresetToolbarEvents & PresetToolbarProps;
+export type PresetToolbarAllProps = 
+    PresetToolbarEvents & PresetToolbarProps & SelectAllButtonProps & SelectAllButtonEvents;
 
 export class PresetToolbar extends React.Component<PresetToolbarAllProps> {
     public render() {
         return (
             <AppBar position="static">
                 <Toolbar disableGutters={true}>
-                    <Checkbox
-                        hidden={!this.props.valueSelectAll}
-                        disabled={!this.props.enableSelectAll}
-                        indeterminate={this.selectedSome}
-                        checked={this.selected}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.fireSelectAll()}
+                    <SelectAllButton
+                        enableSelectAll={this.props.enableSelectAll}
+                        valueSelectAll={this.props.valueSelectAll}
+                        onSelectAll={this.props.onSelectAll}
                     />
                     <IconButton disabled={!this.props.enableCopy} onClick={() => this.fireCopy()}>
                         <ChevronLeft />
@@ -63,23 +59,5 @@ export class PresetToolbar extends React.Component<PresetToolbarAllProps> {
         if (this.props.onUpload) {
             this.props.onUpload();
         }
-    }
-
-    private fireSelectAll() {
-        if (this.props.onSelectAll) {
-            this.props.onSelectAll();
-        }
-    }
-
-    private get selected(): boolean {
-        if (!this.props.valueSelectAll) { return false; }
-        if (this.props.valueSelectAll > 0) { return true; }
-        return false;
-    }
-
-    private get selectedSome(): boolean {
-        if (!this.props.valueSelectAll) { return false; }
-        if (this.props.valueSelectAll < 0) { return true; }
-        return false;
     }
 }

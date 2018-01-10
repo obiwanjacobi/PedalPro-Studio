@@ -35,7 +35,7 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
             <div>
                 <LocalPresetToolbar
                     enableCopy={this.enableCopy}
-                    onCopy={() => this.onCopySelected()}
+                    onCopy={() => this.openDialog(true)}
                     enableSelectAll={!this.selection.isEmpty}
                     valueSelectAll={this.selection.toValue()}
                     onSelectAll={() => this.toggleSelectAll()}
@@ -60,14 +60,6 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
     private get enableCopy(): boolean {
         if (this.props.activeCollection === "factory") { return false; }
         return this.selection.anySelected;
-    }
-
-    private onCopySelected() {
-        this.openDialog(true);
-        // const selectedPresets = this.selection.selected;
-        // if (selectedPresets.length > 0) {
-        //     this.actions.copyPresets(selectedPresets, this.props.activeCollection);
-        // }
     }
 
     private toggleSelectAll() {
