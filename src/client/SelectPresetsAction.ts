@@ -1,9 +1,9 @@
 import Preset from "./Preset";
 
-export const SelectPresetsActionKey: string = "U/*/preset.selected";
+export const SelectPresetsActionKey: string = "U/*/presets/.selected";
 
 export interface SelectPresetsAction {
-    readonly type: "U/*/preset.selected";
+    readonly type: "U/*/presets/.selected";
     readonly presets: Preset[];
     readonly selected: boolean;
 }

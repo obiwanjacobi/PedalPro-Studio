@@ -1,5 +1,3 @@
-import { AnyAction } from "redux";
-
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { SelectPresetsAction } from "./SelectPresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
@@ -10,13 +8,7 @@ import ApplicationDocument from "./ApplicationDocument";
 // all actions this reducer handles
 export type PresetAction = LoadPresetsAction | SelectPresetsAction | CopyPresetsAction;
 
-// could be moved to parent reducer
-export const reduce = (state: ApplicationDocument, action: AnyAction): ApplicationDocument => {
-    
-    return reducePresets(state, <PresetAction> action);
-};
-
-const reducePresets = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
+export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
         case "R/device/presets/*":
         if (action.error) { throw action.error; }
@@ -25,14 +17,14 @@ const reducePresets = (state: ApplicationDocument, action: PresetAction): Applic
         }
         break;
         
-        case "U/*/preset.selected":
+        case "U/*/presets/.selected":
         return reducePresetSelected(state, action.presets, action.selected);
 
         case "C/*/presets/*":
         return reduceCopyPresets(state, action.presets, action.target);
 
         default:
-        throw new Error("Unknown action.");
+        return state;
     }
 
     return state;
