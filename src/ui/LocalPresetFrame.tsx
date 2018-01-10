@@ -19,7 +19,13 @@ export class LocalPresetFrame extends ConnectedComponent<LocalPresetFrameProps, 
     public render() {
         return super.renderConnection(
             <div>
-                <LocalPresetToolbar enableCopy={this.hasSelection} />
+                <LocalPresetToolbar
+                    enableCopy={this.hasSelection} 
+                    onCopy={() => {}}
+                    enableSelectAll={false}
+                    valueSelectAll={0}
+                    onSelectAll={() => {}}
+                />
                 <PresetView 
                     presets={this.stateProps.presets}
                     selectPresets={this.actions.selectPresets}

@@ -1,5 +1,12 @@
 import Preset from "./Preset";
 
+export enum PresetCollection {
+    local = "local",
+    device = "device",
+    storage = "storage",
+    factory = "factroy",
+}
+
 export default class ApplicationDocument {
     public readonly local: Preset[];
     public readonly device: Preset[];

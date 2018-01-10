@@ -1,3 +1,4 @@
+import { PresetCollection } from "./ApplicationDocument";
 import * as ModelPreset from "../model/Preset";
 
 // ui extensions
@@ -6,12 +7,12 @@ export default interface Preset extends ModelPreset.default {
     /**
      * source of the preset (local/device/storage/factory)
      */
-    source: string;
+    source: PresetCollection;
 
     /**
      * the source this preset was copied from.
      */
-    copiedFrom: string;
+    copiedFrom: PresetCollection;
 
     /**
      * the index of this preset before it was copied.

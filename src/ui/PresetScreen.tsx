@@ -7,13 +7,14 @@ import SplitterLayout from "react-splitter-layout";
 import SwipableView from "react-swipeable-views";
 
 import Preset from "../client/Preset";
-import ApplicationDocument, { ScreenState } from "../client/ApplicationDocument";
+import ApplicationDocument, { ScreenState, PresetCollection } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../client/UpdateScreenAction";
 
 import { LocalPresetTab } from "./LocalPresetTab";
+// import { LocalPresetFrame } from "./LocalPresetFrame";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
@@ -85,15 +86,15 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
         return this.props;
     }
 
-    private get activeCollection(): string {
+    private get activeCollection(): PresetCollection {
         switch (this.selectedTab) {
             default:
             case 0:
-            return "device";
+            return PresetCollection.device;
             case 1:
-            return "storage";
+            return PresetCollection.storage;
             case 2:
-            return "factory";
+            return PresetCollection.factory;
         }
     }
     
@@ -114,13 +115,13 @@ const extractComponentPropsFromState: MapStateToProps<PresetScreenStateProps, Pr
 const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, PresetScreenProps> =
     (dispatch: Dispatch<ApplicationDocument>, props: PresetScreenProps): PresetScreenActions => {
         return {
-            loadPresets: (source: string)  => {
+            loadPresets: (source: PresetCollection)  => {
                 return createLoadPresetsAction(dispatch, source);
             },
             selectPresets: (presets: Preset[], selected: boolean): void => {
                 dispatch(createSelectPresetsAction(presets, selected));
             },
-            copyPresets: (presets: Preset[], target: string): void => {
+            copyPresets: (presets: Preset[], target: PresetCollection): void => {
                 dispatch(createCopyPresetsAction(presets, target));
             },
             updateScreen: (screen: ScreenState): void => {

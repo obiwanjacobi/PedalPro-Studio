@@ -3,20 +3,20 @@ import { Dispatch } from "redux";
 import ApplicationDocument from "./ApplicationDocument";
 import Client from "./Client";
 import Preset from "./Preset";
-import EntityFilter from "../model/EntityFilter";
+import { PresetCollection } from "./ApplicationDocument";
 
 export const LoadPresetsActionKey: string = "R/device/presets/*";
 
 export interface LoadPresetsAction {
     readonly type: "R/device/presets/*";
-    readonly source: string;
+    readonly source: PresetCollection;
     readonly presets: Preset[] | null;
     readonly error: Error | null;
 }
 
 export const createLoadPresetsAction = 
     (dispatch: Dispatch<ApplicationDocument>, 
-     source: string, filter: EntityFilter | null = null): Promise<void> => {
+     source: PresetCollection): Promise<void> => {
         return getPresets().then((result) => {
             dispatch(<LoadPresetsAction> 
                 { type: LoadPresetsActionKey, source: source, presets: result, error: null });
@@ -32,5 +32,5 @@ async function getPresets(): Promise<Preset[]> {
 }
 
 export interface LoadPresets {
-    loadPresets(source: string): Promise<void>;
+    loadPresets(source: PresetCollection): Promise<void>;
 }

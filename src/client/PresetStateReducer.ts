@@ -3,7 +3,7 @@ import { SelectPresetsAction } from "./SelectPresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 
 import Preset from "./Preset";
-import ApplicationDocument from "./ApplicationDocument";
+import ApplicationDocument, { PresetCollection } from "./ApplicationDocument";
 
 // all actions this reducer handles
 export type PresetAction = LoadPresetsAction | SelectPresetsAction | CopyPresetsAction;
@@ -33,7 +33,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
 const reduceCopyPresets = (
     state: ApplicationDocument, 
     presets: Preset[], 
-    target: string): ApplicationDocument => {
+    target: PresetCollection): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
     // local helper function
@@ -83,7 +83,7 @@ const reducePresetSelected = (
 
 const reduceLoadPresets = (
     state: ApplicationDocument, 
-    source: string, 
+    source: PresetCollection, 
     presets: Preset[]): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
@@ -92,7 +92,7 @@ const reduceLoadPresets = (
 
 const copyOverride = (
     state: ApplicationDocument, 
-    collection: string, 
+    collection: PresetCollection, 
     process: (presets: Preset[]) => Preset[]): ApplicationDocument => {
 
     let local: Preset[] | null = null;
@@ -101,19 +101,19 @@ const copyOverride = (
     let factory: Preset[] | null = null;
 
     switch (collection) {
-        case "local":
+        case PresetCollection.local:
         local = process(state.local);
         break;
         
-        case "device":
+        case PresetCollection.device:
         device = process(state.device);
         break;
         
-        case "storage":
+        case PresetCollection.storage:
         storage = process(state.storage);
         break;
         
-        case "factory":
+        case PresetCollection.factory:
         factory = process(state.factory);
         break;
         

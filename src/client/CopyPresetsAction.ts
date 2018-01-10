@@ -1,3 +1,4 @@
+import { PresetCollection } from "./ApplicationDocument";
 import Preset from "./Preset";
 
 const CopyPresetsActionKey = "C/*/presets/*";
@@ -5,7 +6,7 @@ const CopyPresetsActionKey = "C/*/presets/*";
 export interface CopyPresetsAction {
     readonly type: "C/*/presets/*";
     readonly presets: Preset[];
-    readonly target: string;
+    readonly target: PresetCollection;
 }
 
 export const createCopyPresetsAction = (presets: Preset[], target: string): CopyPresetsAction => {
