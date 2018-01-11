@@ -1,23 +1,25 @@
 import * as React from "react";
+import { Dispatch } from "redux";
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 
 import Preset from "../client/Preset";
-import { PresetCollectionType } from "../client/ApplicationDocument";
-import { SelectPresets } from "../client/SelectPresetsAction";
-import { LoadPresets } from "../client/LoadPresetsAction";
-import { CopyPresets } from "../client/CopyPresetsAction";
+import ApplicationDocument, { PresetCollectionType } from "../client/ApplicationDocument";
+import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
+import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
+import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
 import { SelectedView } from "../client/SelectedView";
 
-export interface DevicePresetTabProps { 
+export interface DevicePresetTabProps { }
+export interface DevicePresetTabStateProps { 
     presets: Preset[];
 }
-export type DevicePresetTabActions = 
-    SelectPresets & LoadPresets & CopyPresets;
-export type DevicePresetTabAllProps = DevicePresetTabProps & DevicePresetTabActions;
+export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets;
+export type DevicePresetTabAllProps = DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
-export default class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
+export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private selection: SelectedView<Preset>;
 
     public constructor(props: DevicePresetTabAllProps) {
@@ -69,3 +71,28 @@ export default class DevicePresetTab extends React.Component<DevicePresetTabAllP
         this.actions.loadPresets(PresetCollectionType.device);
     }
 }
+
+const extractComponentPropsFromState: MapStateToProps<
+        DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument
+    > = (state: ApplicationDocument, props: DevicePresetTabProps): DevicePresetTabStateProps => {
+        return  { 
+            presets: state.device
+        };
+};
+
+const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps> =
+    (dispatch: Dispatch<ApplicationDocument>, props: DevicePresetTabProps): DevicePresetTabActions => {
+        return {
+            loadPresets: (source: PresetCollectionType)  => {
+                return createLoadPresetsAction(dispatch, source);
+            },
+            selectPresets: (presets: Preset[], selected: boolean): void => {
+                dispatch(createSelectPresetsAction(presets, selected));
+            },
+            copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
+                dispatch(createCopyPresetsAction(presets, target));
+            }
+        };
+};
+
+export default connect(extractComponentPropsFromState, createActionObject)(DevicePresetTab);
