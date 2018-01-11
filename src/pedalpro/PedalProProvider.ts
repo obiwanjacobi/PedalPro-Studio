@@ -1,7 +1,7 @@
 import { PedalProDeviceUsb, PresetCount } from "./PedalProDevice";
 import PedalProReadPreset from "./PedalProReadPreset";
 import PedalProPresetSerializer from "./PedalProPresetSerializer";
-import EntityFilter from "../model/EntityFilter";
+
 import PresetProvider from "../model/PresetProvider";
 import Preset from "../model/Preset";
 
@@ -37,7 +37,7 @@ export default class PedalProProvider implements PresetProvider {
         return preset;
     }
 
-    public async getPresets(filter: EntityFilter): Promise<Preset[]> {
+    public async getPresets(): Promise<Preset[]> {
         return this.allPresets();
     }
 

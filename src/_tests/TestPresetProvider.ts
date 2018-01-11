@@ -1,5 +1,4 @@
 import Preset from "../model/Preset";
-import EntityFilter from "../model/EntityFilter";
 
 const preset0: Preset = {
     index: 0,
@@ -41,7 +40,7 @@ export default class TestPresetProvider {
         return new Promise((resolve) => { resolve(presets[presetIndex]); });
     }
     
-    public getPresets(filter: EntityFilter): Promise<Preset[]> {
+    public getPresets(): Promise<Preset[]> {
         return new Promise((resolve) => { resolve(presets); });
     }
 }

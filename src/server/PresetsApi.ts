@@ -1,19 +1,11 @@
 import * as express from "express";
 import ApiHandler from "./ApiHandler";
 import PresetProvider from "../model/PresetProvider";
-import EntityFilter from "../model/EntityFilter";
 
 export default class PresetsApi implements ApiHandler {
     public readonly uri: string = "/presets";
     public readonly router: express.Router = express.Router();
     private readonly provider: PresetProvider;
-
-    // tslint:disable-next-line:no-any
-    private static filterFrom(query: any): EntityFilter {
-        const filter = new EntityFilter();
-
-        return filter;
-    }
 
     public constructor(provider: PresetProvider) {
         this.provider = provider;
@@ -36,8 +28,7 @@ export default class PresetsApi implements ApiHandler {
     }
 
     private async allPresets(request: express.Request, response: express.Response) {
-        const filter = PresetsApi.filterFrom(request.query);
-        const preset = await this.provider.getPresets(filter);
+        const preset = await this.provider.getPresets();
         response.json(preset);
     }
 

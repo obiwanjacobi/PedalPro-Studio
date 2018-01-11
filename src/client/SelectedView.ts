@@ -1,8 +1,11 @@
-export interface Selected {
+export interface Selectable {
     selected: boolean;
 }
 
-export class SelectedView<T extends Selected> {
+/**
+ * Provides common functs for a collection of selectable items.
+ */
+export class SelectedView<T extends Selectable> {
     private readonly collection: T[];
 
     public constructor(collection: T[]) {
@@ -16,17 +19,17 @@ export class SelectedView<T extends Selected> {
     
     public get selected(): T[] {
         if (!this.collection) { return new Array<T>(); }
-        return this.collection.filter((item: Selected) => item.selected);
+        return this.collection.filter((item: Selectable) => item.selected);
     }
 
     public get anySelected(): boolean {
         if (this.isEmpty) { return false; }
-        return this.collection.some((item: Selected) => item.selected);
+        return this.collection.some((item: Selectable) => item.selected);
     }
 
     public get allSelected(): boolean {
         if (this.isEmpty) { return false; }
-        return this.collection.every((item: Selected) => item.selected);
+        return this.collection.every((item: Selectable) => item.selected);
     }
 
     public get noneSelected(): boolean {
