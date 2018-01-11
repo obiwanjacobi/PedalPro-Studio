@@ -1,6 +1,6 @@
 import Preset from "./Preset";
 
-export enum PresetCollection {
+export enum PresetCollectionType {
     local = "local",
     device = "device",
     storage = "storage",

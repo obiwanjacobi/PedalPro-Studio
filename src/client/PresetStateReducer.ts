@@ -3,7 +3,7 @@ import { SelectPresetsAction } from "./SelectPresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 
 import Preset from "./Preset";
-import ApplicationDocument, { PresetCollection } from "./ApplicationDocument";
+import ApplicationDocument, { PresetCollectionType } from "./ApplicationDocument";
 
 // all actions this reducer handles
 export type PresetAction = LoadPresetsAction | SelectPresetsAction | CopyPresetsAction;
@@ -33,7 +33,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
 const reduceCopyPresets = (
     state: ApplicationDocument, 
     presets: Preset[], 
-    target: PresetCollection): ApplicationDocument => {
+    target: PresetCollectionType): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
     // local helper function
@@ -83,7 +83,7 @@ const reducePresetSelected = (
 
 const reduceLoadPresets = (
     state: ApplicationDocument, 
-    source: PresetCollection, 
+    source: PresetCollectionType, 
     presets: Preset[]): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
@@ -92,7 +92,7 @@ const reduceLoadPresets = (
 
 const copyOverride = (
     state: ApplicationDocument, 
-    collection: PresetCollection, 
+    collection: PresetCollectionType, 
     process: (presets: Preset[]) => Preset[]): ApplicationDocument => {
 
     let local: Preset[] | null = null;
@@ -101,19 +101,19 @@ const copyOverride = (
     let factory: Preset[] | null = null;
 
     switch (collection) {
-        case PresetCollection.local:
+        case PresetCollectionType.local:
         local = process(state.local);
         break;
         
-        case PresetCollection.device:
+        case PresetCollectionType.device:
         device = process(state.device);
         break;
         
-        case PresetCollection.storage:
+        case PresetCollectionType.storage:
         storage = process(state.storage);
         break;
         
-        case PresetCollection.factory:
+        case PresetCollectionType.factory:
         factory = process(state.factory);
         break;
         

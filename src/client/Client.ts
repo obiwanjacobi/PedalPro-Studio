@@ -1,5 +1,5 @@
 import * as TypedRestClient from "typed-rest-client/RestClient";
-import { PresetCollection } from "./ApplicationDocument";
+import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
 
 export default class Client {
@@ -13,7 +13,7 @@ export default class Client {
         const response = await this.typedRest.get<Preset[]>("/presets/");
         if (response && response.result) {
             response.result.forEach((item: Preset) => {
-                item.source = PresetCollection.device;
+                item.source = PresetCollectionType.device;
                 item.selected = false;
             });
             return response.result;
@@ -25,7 +25,7 @@ export default class Client {
     public async getPreset(presetIndex: number): Promise<Preset> {
         const response = await this.typedRest.get<Preset>("/presets/" + presetIndex);
         if (response && response.result) {
-            response.result.source = PresetCollection.device;
+            response.result.source = PresetCollectionType.device;
             response.result.selected = false;
             return response.result;
         }

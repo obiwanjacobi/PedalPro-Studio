@@ -7,14 +7,12 @@ import SplitterLayout from "react-splitter-layout";
 import SwipableView from "react-swipeable-views";
 
 import Preset from "../client/Preset";
-import ApplicationDocument, { ScreenState, PresetCollection } from "../client/ApplicationDocument";
+import ApplicationDocument, { PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
-import { UpdateScreen, createUpdateScreenAction } from "../client/UpdateScreenAction";
 
-import { LocalPresetTab } from "./LocalPresetTab";
-// import { LocalPresetFrame } from "./LocalPresetFrame";
+import LocalPresetTab from "./LocalPresetTab";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
@@ -27,7 +25,7 @@ export interface PresetScreenStateProps {
     dialogIsOpen: boolean;
 }
 export interface PresetScreenEvents { }
-export type PresetScreenActions = LoadPresets & SelectPresets & CopyPresets & UpdateScreen;
+export type PresetScreenActions = LoadPresets & SelectPresets & CopyPresets;
 export interface PresetScreenState {
     selectedTab: number;
 }
@@ -44,11 +42,6 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
                     <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
                         <LocalPresetTab
                             activeCollection={this.activeCollection}
-                            presets={this.props.local}
-                            selectPresets={this.actions.selectPresets}
-                            copyPresets={this.actions.copyPresets}
-                            dialogIsOpen={this.props.dialogIsOpen}
-                            updateScreen={this.actions.updateScreen}
                         />
                         <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
                             <DevicePresetTab
@@ -86,15 +79,15 @@ export class PresetScreen extends React.Component<PresetScreenAllProps, PresetSc
         return this.props;
     }
 
-    private get activeCollection(): PresetCollection {
+    private get activeCollection(): PresetCollectionType {
         switch (this.selectedTab) {
             default:
             case 0:
-            return PresetCollection.device;
+            return PresetCollectionType.device;
             case 1:
-            return PresetCollection.storage;
+            return PresetCollectionType.storage;
             case 2:
-            return PresetCollection.factory;
+            return PresetCollectionType.factory;
         }
     }
     
@@ -108,24 +101,21 @@ const extractComponentPropsFromState: MapStateToProps<PresetScreenStateProps, Pr
         return  { 
             device: state.device, 
             local: state.local, 
-            dialogIsOpen: toBool(state.screen.targetPresetDialogOpen),
-            ...props };
+            dialogIsOpen: toBool(state.screen.targetPresetDialogOpen)
+        };
 };
 
 const createActionObject: MapDispatchToPropsFunction<PresetScreenActions, PresetScreenProps> =
     (dispatch: Dispatch<ApplicationDocument>, props: PresetScreenProps): PresetScreenActions => {
         return {
-            loadPresets: (source: PresetCollection)  => {
+            loadPresets: (source: PresetCollectionType)  => {
                 return createLoadPresetsAction(dispatch, source);
             },
             selectPresets: (presets: Preset[], selected: boolean): void => {
                 dispatch(createSelectPresetsAction(presets, selected));
             },
-            copyPresets: (presets: Preset[], target: PresetCollection): void => {
+            copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createCopyPresetsAction(presets, target));
-            },
-            updateScreen: (screen: ScreenState): void => {
-                dispatch(createUpdateScreenAction(screen));
             }
         };
 };

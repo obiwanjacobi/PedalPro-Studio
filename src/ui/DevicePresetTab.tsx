@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Preset from "../client/Preset";
-import { PresetCollection } from "../client/ApplicationDocument";
+import { PresetCollectionType } from "../client/ApplicationDocument";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { LoadPresets } from "../client/LoadPresetsAction";
 import { CopyPresets } from "../client/CopyPresetsAction";
@@ -57,7 +57,7 @@ export default class DevicePresetTab extends React.Component<DevicePresetTabAllP
     private onCopySelected() {
         const selectedPresets = this.selection.selected;
         if (selectedPresets.length > 0) {
-            this.actions.copyPresets(selectedPresets, PresetCollection.local);
+            this.actions.copyPresets(selectedPresets, PresetCollectionType.local);
         }
     }
 
@@ -66,6 +66,6 @@ export default class DevicePresetTab extends React.Component<DevicePresetTabAllP
     }
 
     private download() {
-        this.actions.loadPresets(PresetCollection.device);
+        this.actions.loadPresets(PresetCollectionType.device);
     }
 }

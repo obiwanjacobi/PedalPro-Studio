@@ -1,24 +1,28 @@
 import * as React from "react";
+import { Dispatch } from "redux";
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+
+import { toBool } from "../Extensions";
 
 import Preset from "../client/Preset";
 import { SelectedView } from "../client/SelectedView";
-import { SelectPresets } from "../client/SelectPresetsAction";
-import { CopyPresets } from "../client/CopyPresetsAction";
-import { UpdateScreen } from "../client/UpdateScreenAction";
-import { ScreenState } from "../client/ApplicationDocument";
+import ApplicationDocument, { ScreenState } from "../client/ApplicationDocument";
+import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
+import { UpdateScreen, createUpdateScreenAction } from "../client/UpdateScreenAction";
 
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
 import { TargetPresetsScreen } from "./TargetPresetsScreen";
 
 export interface LocalPresetTabProps {
-    dialogIsOpen: boolean;
     activeCollection: string;
+}
+export interface LocalPresetTabStateProps {
+    dialogIsOpen: boolean;
     presets: Preset[];
 }
-export type LocalPresetTabActions = SelectPresets & CopyPresets & UpdateScreen;
-export type LocalPresetTabAllProps = LocalPresetTabProps & LocalPresetTabActions;
-
+export type LocalPresetTabActions = SelectPresets & UpdateScreen;
+export type LocalPresetTabAllProps = LocalPresetTabProps & LocalPresetTabStateProps & LocalPresetTabActions;
 export interface LocalPresetTabState { }
 
 export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, LocalPresetTabState> {
@@ -70,3 +74,26 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
         this.props.updateScreen(new ScreenState(open));
     }
 }
+
+const extractComponentPropsFromState: MapStateToProps<
+    LocalPresetTabStateProps, LocalPresetTabProps, ApplicationDocument
+    > = (state: ApplicationDocument, props: LocalPresetTabProps): LocalPresetTabStateProps => {
+        return  { 
+            presets: state.local, 
+            dialogIsOpen: toBool(state.screen.targetPresetDialogOpen)
+        };
+};
+
+const createActionObject: MapDispatchToPropsFunction<LocalPresetTabActions, LocalPresetTabProps> =
+    (dispatch: Dispatch<ApplicationDocument>, props: LocalPresetTabProps): LocalPresetTabActions => {
+        return {
+            selectPresets: (presets: Preset[], selected: boolean): void => {
+                dispatch(createSelectPresetsAction(presets, selected));
+            },
+            updateScreen: (screen: ScreenState): void => {
+                dispatch(createUpdateScreenAction(screen));
+            }
+        };
+};
+
+export default connect(extractComponentPropsFromState, createActionObject)(LocalPresetTab);
