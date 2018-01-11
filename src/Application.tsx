@@ -5,8 +5,9 @@ import iassign from "immutable-assign";
 
 import Environment from "./Environment";
 import ApplicationStore from "./client/ApplicationStore";
+
 import ApplicationTheme from "./ui/ApplicationTheme";
-import Layout from "./ui/Layout";
+import PresetScreen from "./ui/PresetScreen";
 
 export class Application extends React.Component {
     private appStore: ApplicationStore = new ApplicationStore();
@@ -23,7 +24,7 @@ export class Application extends React.Component {
         return (
             <ApplicationTheme>
                 <Provider store={this.appStore.store}>
-                    <Layout />
+                    <PresetScreen />
                 </Provider>
             </ApplicationTheme>
         );
