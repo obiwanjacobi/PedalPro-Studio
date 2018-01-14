@@ -1,12 +1,9 @@
 import * as React from "react";
 import { Grid, AppBar, Tabs, Tab } from "material-ui";
-// @ts-ignore: no d.ts available
-import SplitterLayout from "react-splitter-layout";
 import SwipableView from "react-swipeable-views";
 
 import { PresetCollectionType } from "../client/ApplicationDocument";
 
-import LocalPresetTab from "./LocalPresetTab";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
@@ -22,14 +19,11 @@ export default class PresetScreen extends React.Component<PresetScreenProps, Pre
         return (
             <Grid container={true} direction="column">
                 <Grid item={true} xs={12}>
-                    <SplitterLayout  primaryIndex={1} primaryMinSize={200} secondaryMinSize={160}>
-                        <LocalPresetTab activeCollection={this.activeCollection} />
-                        <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
-                            <DevicePresetTab />
-                            <StoragePresetTab />
-                            <FactoryPresetTab />
-                        </SwipableView>
-                    </SplitterLayout>
+                    <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
+                        <DevicePresetTab />
+                        <StoragePresetTab />
+                        <FactoryPresetTab />
+                    </SwipableView>
                 </Grid>
                 <Grid item={true} xs={12}>
                     {/* need to specify position to not output unwanted styles */}

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IconButton } from "material-ui";
-import ChevronLeft from "material-ui-icons/ChevronLeft";
+import ContentCopy from "material-ui-icons/ContentCopy";
 import FileDownload from "material-ui-icons/FileDownload";
 import FileUpload from "material-ui-icons/FileUpload";
 
@@ -31,7 +31,7 @@ export class PresetToolbar extends React.Component<PresetToolbarAllProps> {
                     onSelectAll={this.props.onSelectAll}
                 />
                 <IconButton disabled={!this.props.enableCopy} onClick={() => this.fireCopy()}>
-                    <ChevronLeft />
+                    <ContentCopy />
                 </IconButton>
                 <IconButton disabled={!this.props.enableDownload} onClick={() => this.fireDownload()}>
                     <FileDownload />

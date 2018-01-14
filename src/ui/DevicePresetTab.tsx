@@ -59,7 +59,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private onCopySelected() {
         const selectedPresets = this.selection.selected;
         if (selectedPresets.length > 0) {
-            this.actions.copyPresets(selectedPresets, PresetCollectionType.local);
+            this.actions.copyPresets(selectedPresets, PresetCollectionType.storage);
         }
     }
 

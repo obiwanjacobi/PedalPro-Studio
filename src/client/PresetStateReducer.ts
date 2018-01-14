@@ -95,16 +95,11 @@ const copyOverride = (
     collection: PresetCollectionType, 
     process: (presets: Preset[]) => Preset[]): ApplicationDocument => {
 
-    let local: Preset[] | null = null;
     let device: Preset[] | null = null;
     let storage: Preset[] | null = null;
     let factory: Preset[] | null = null;
 
     switch (collection) {
-        case PresetCollectionType.local:
-        local = process(state.local);
-        break;
-        
         case PresetCollectionType.device:
         device = process(state.device);
         break;
@@ -121,5 +116,5 @@ const copyOverride = (
         throw new Error(`Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
     }
 
-    return state.copyOverride(local, device, storage, factory);
+    return state.copyOverride(device, storage, factory);
 }

@@ -68,3 +68,4 @@ https://github.com/Microsoft/tslib
 - dense on List does not work when a checkbox is in ListItem
     https://github.com/mui-org/material-ui/issues/9274
 - Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
+- reorderable/drag&drop list: https://gist.github.com/jlroettger/2d6d7ae572f985fa176c27a63cadf292
