@@ -1,7 +1,7 @@
 import * as React from "react";
-import { TextField } from "material-ui";
-// import Clear from "material-ui-icons/Clear";
-// import IconButton from "material-ui/IconButton/IconButton";
+import { TextField, Grid } from "material-ui";
+import Clear from "material-ui-icons/Clear";
+import IconButton from "material-ui/IconButton/IconButton";
 
 import Preset from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
@@ -27,22 +27,28 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
         if (!this.props.presets) { return <div>Loading...</div>; }
 
         return (
-            <div>
-                <TextField 
-                    placeholder="Type to Filter"
-                    fullWidth={true}
-                    value={this.state.searchKey}
-                    disabled={this.props.presets.length === 0}
-                    onChange={(e) => this.search(e.target.value)}
-                />
-                {/* <IconButton onClick={() => this.search("")}>
-                    <Clear/>
-                </IconButton> */}
-                <PresetList
-                    presets={this.filteredPresets}
-                    selectPresets={this.props.selectPresets}
-                />
-            </div>
+            <Grid container={true}>
+                <Grid xs={11} item={true}>
+                    <TextField 
+                        placeholder="Type to Filter Presets"
+                        fullWidth={true}
+                        value={this.state.searchKey}
+                        disabled={this.props.presets.length === 0}
+                        onChange={(e) => this.search(e.target.value)}
+                    />
+                </Grid>
+                <Grid xs={1} item={true}>
+                    <IconButton onClick={() => this.search("")}>
+                        <Clear/>
+                    </IconButton>
+                </Grid>
+                <Grid xs={12} item={true}>
+                    <PresetList
+                        presets={this.filteredPresets}
+                        selectPresets={this.props.selectPresets}
+                    />
+                </Grid>
+            </Grid>
         );
     }
 

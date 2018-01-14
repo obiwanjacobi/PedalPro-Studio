@@ -44,9 +44,7 @@ const reduceCopyPresets = (
             const p = presets[i];
             newCollection.push({ 
                 ...p, 
-                copiedFrom: p.source, 
                 source: target,
-                previousIndex: p.index,
                 index: newCollection.length
             });
         }

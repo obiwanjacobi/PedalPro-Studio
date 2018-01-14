@@ -5,6 +5,16 @@ import Preset from "./Preset";
 export default class Client {
     private readonly typedRest: TypedRestClient.RestClient;
 
+    private static initPreset(preset: Preset): void {
+        preset.history = { 
+            collection: PresetCollectionType.device,
+            index: preset.index,
+            name: preset.name,
+        };
+        preset.source = PresetCollectionType.device;
+        preset.selected = false;
+    }
+
     public constructor(baseUrl: string = "http://localhost:3000") {
         this.typedRest = new TypedRestClient.RestClient("internal", baseUrl);
     }
@@ -13,8 +23,7 @@ export default class Client {
         const response = await this.typedRest.get<Preset[]>("/presets/");
         if (response && response.result) {
             response.result.forEach((item: Preset) => {
-                item.source = PresetCollectionType.device;
-                item.selected = false;
+                Client.initPreset(item);
             });
             return response.result;
         }
@@ -25,8 +34,7 @@ export default class Client {
     public async getPreset(presetIndex: number): Promise<Preset> {
         const response = await this.typedRest.get<Preset>("/presets/" + presetIndex);
         if (response && response.result) {
-            response.result.source = PresetCollectionType.device;
-            response.result.selected = false;
+            Client.initPreset(response.result);
             return response.result;
         }
 

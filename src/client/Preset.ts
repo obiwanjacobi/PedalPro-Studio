@@ -5,22 +5,35 @@ import * as ModelPreset from "../model/Preset";
 export default interface Preset extends ModelPreset.default {
     
     /**
-     * source of the preset (local/device/storage/factory)
+     * current source of the preset
      */
     source: PresetCollectionType;
-
-    /**
-     * the source this preset was copied from.
-     */
-    copiedFrom: PresetCollectionType;
-
-    /**
-     * the index of this preset before it was copied.
-     */
-    previousIndex: number;
-
+    
     /**
      * true when the preset is selected in the ui.
      */
     selected: boolean;
+
+    /**
+     * the history of this preset
+     */
+    history: PresetHistory;
+}
+
+export interface PresetHistory {
+    
+    /**
+     * preset name when history item was created
+     */
+    name: string;
+
+    /**
+     * the index of this preset before it was copied.
+     */
+    index: number;
+
+    /**
+     * the source collection the preset was copied from.
+     */
+    collection: PresetCollectionType;
 }
