@@ -1,8 +1,10 @@
 import * as React from "react";
-import { AppBar, Toolbar, IconButton } from "material-ui";
+import { IconButton } from "material-ui";
 import ChevronLeft from "material-ui-icons/ChevronLeft";
 import FileDownload from "material-ui-icons/FileDownload";
 import FileUpload from "material-ui-icons/FileUpload";
+
+import ApplicationToolbar from "./ApplicationToolbar";
 import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "./SelectAllButton";
 
 export interface PresetToolbarProps {
@@ -22,24 +24,22 @@ export type PresetToolbarAllProps =
 export class PresetToolbar extends React.Component<PresetToolbarAllProps> {
     public render() {
         return (
-            <AppBar position="static">
-                <Toolbar disableGutters={true}>
-                    <SelectAllButton
-                        enableSelectAll={this.props.enableSelectAll}
-                        valueSelectAll={this.props.valueSelectAll}
-                        onSelectAll={this.props.onSelectAll}
-                    />
-                    <IconButton disabled={!this.props.enableCopy} onClick={() => this.fireCopy()}>
-                        <ChevronLeft />
-                    </IconButton>
-                    <IconButton disabled={!this.props.enableDownload} onClick={() => this.fireDownload()}>
-                        <FileDownload />
-                    </IconButton>
-                    <IconButton disabled={!this.props.enableUpload} onClick={() => this.fireUpload()}>
-                        <FileUpload />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
+            <ApplicationToolbar>
+                <SelectAllButton
+                    enableSelectAll={this.props.enableSelectAll}
+                    valueSelectAll={this.props.valueSelectAll}
+                    onSelectAll={this.props.onSelectAll}
+                />
+                <IconButton disabled={!this.props.enableCopy} onClick={() => this.fireCopy()}>
+                    <ChevronLeft />
+                </IconButton>
+                <IconButton disabled={!this.props.enableDownload} onClick={() => this.fireDownload()}>
+                    <FileDownload />
+                </IconButton>
+                <IconButton disabled={!this.props.enableUpload} onClick={() => this.fireUpload()}>
+                    <FileUpload />
+                </IconButton>
+            </ApplicationToolbar>
         );
     }
 

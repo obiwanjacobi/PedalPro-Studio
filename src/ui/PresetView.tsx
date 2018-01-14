@@ -1,5 +1,7 @@
 import * as React from "react";
 import { TextField } from "material-ui";
+// import Clear from "material-ui-icons/Clear";
+// import IconButton from "material-ui/IconButton/IconButton";
 
 import Preset from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
@@ -33,6 +35,9 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
                     disabled={this.props.presets.length === 0}
                     onChange={(e) => this.search(e.target.value)}
                 />
+                {/* <IconButton onClick={() => this.search("")}>
+                    <Clear/>
+                </IconButton> */}
                 <PresetList
                     presets={this.filteredPresets}
                     selectPresets={this.props.selectPresets}

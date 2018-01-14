@@ -1,23 +1,30 @@
 import * as React from "react";
-import { Dialog, List, ListItem, ListItemText, Slide, AppBar, Toolbar, IconButton } from "material-ui";
+import { Dispatch } from "redux";
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+
+import { Dialog, Slide, IconButton } from "material-ui";
 import CloseIcon from "material-ui-icons/Close";
-// @ts-ignore: no d.ts available
-import SplitterLayout from "react-splitter-layout";
 
-import { UpdateScreen } from "../client/UpdateScreenAction";
-import { ScreenState } from "../client/ApplicationDocument";
+import { toBool } from "../Extensions";
 
-export interface TargetPresetsScreenProps { 
-    open: boolean;
-}
-export type TargetPresetsScreenAction = UpdateScreen;
+import ApplicationDocument, { ScreenState } from "../client/ApplicationDocument";
+import { UpdateScreen, createUpdateScreenAction } from "../client/UpdateScreenAction";
 
-export type TargetPresetsScreenAllProps = TargetPresetsScreenProps & TargetPresetsScreenAction;
+import ApplicationToolbar from "./ApplicationToolbar";
 
 // @ts-ignore: copy paste from inet
 const Transition = (props) => {
     return <Slide direction="up" {...props} />;
 };
+
+export interface TargetPresetsScreenProps { }
+export interface TargetPresetsScreenStateProps { 
+    open: boolean;
+}
+export type TargetPresetsScreenAction = UpdateScreen;
+
+export type TargetPresetsScreenAllProps = 
+    TargetPresetsScreenProps & TargetPresetsScreenStateProps & TargetPresetsScreenAction;
 
 export class TargetPresetsScreen extends React.Component<TargetPresetsScreenAllProps> {
     public render(): React.ReactNode {
@@ -28,25 +35,11 @@ export class TargetPresetsScreen extends React.Component<TargetPresetsScreenAllP
                 onClose={() => this.close()}
                 transition={Transition}
             >
-                <AppBar>
-                    <Toolbar>
-                        <IconButton onClick={() => this.close()}>
-                            <CloseIcon />
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
-                <SplitterLayout primaryIndex={0} primaryMinSize={200} secondaryMinSize={160}>
-                    <List>
-                        <ListItem>
-                            <ListItemText primary="Left..." />
-                        </ListItem>
-                    </List>
-                    <List>
-                        <ListItem>
-                            <ListItemText primary="Right..." />
-                        </ListItem>
-                    </List>
-                </SplitterLayout>
+                <ApplicationToolbar>
+                    <IconButton onClick={() => this.close()}>
+                        <CloseIcon />
+                    </IconButton>
+                </ApplicationToolbar>
             </Dialog>
         );
     }
@@ -55,3 +48,22 @@ export class TargetPresetsScreen extends React.Component<TargetPresetsScreenAllP
         this.props.updateScreen(new ScreenState(false));
     }
 }
+
+const extractComponentPropsFromState: MapStateToProps<
+TargetPresetsScreenStateProps, TargetPresetsScreenProps, ApplicationDocument
+    > = (state: ApplicationDocument, props: TargetPresetsScreenProps): TargetPresetsScreenStateProps => {
+        return  { 
+            open: toBool(state.screen.targetPresetDialogOpen)
+        };
+};
+
+const createActionObject: MapDispatchToPropsFunction<TargetPresetsScreenAction, TargetPresetsScreenProps> =
+    (dispatch: Dispatch<ApplicationDocument>, props: TargetPresetsScreenProps): TargetPresetsScreenAction => {
+        return {
+            updateScreen: (screen: ScreenState): void => {
+                dispatch(createUpdateScreenAction(screen));
+            }
+        };
+};
+
+export default connect(extractComponentPropsFromState, createActionObject)(TargetPresetsScreen);

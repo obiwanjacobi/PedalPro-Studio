@@ -2,8 +2,6 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 
-import { toBool } from "../Extensions";
-
 import Preset from "../client/Preset";
 import { SelectedView } from "../client/SelectedView";
 import ApplicationDocument, { ScreenState } from "../client/ApplicationDocument";
@@ -12,13 +10,12 @@ import { UpdateScreen, createUpdateScreenAction } from "../client/UpdateScreenAc
 
 import { PresetView } from "./PresetView";
 import { LocalPresetToolbar } from "./LocalPresetToolbar";
-import { TargetPresetsScreen } from "./TargetPresetsScreen";
+import TargetPresetsScreen from "./TargetPresetsScreen";
 
 export interface LocalPresetTabProps {
     activeCollection: string;
 }
 export interface LocalPresetTabStateProps {
-    dialogIsOpen: boolean;
     presets: Preset[];
 }
 export type LocalPresetTabActions = SelectPresets & UpdateScreen;
@@ -39,7 +36,7 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
             <div>
                 <LocalPresetToolbar
                     enableCopy={this.enableCopy}
-                    onCopy={() => this.openDialog(true)}
+                    onCopy={() => this.openDialog()}
                     enableSelectAll={!this.selection.isEmpty}
                     valueSelectAll={this.selection.toValue()}
                     onSelectAll={() => this.toggleSelectAll()}
@@ -48,7 +45,7 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
                 />
-                <TargetPresetsScreen open={this.props.dialogIsOpen} updateScreen={this.actions.updateScreen} />
+                <TargetPresetsScreen />
             </div>
         );
     }
@@ -70,17 +67,16 @@ export class LocalPresetTab extends React.Component<LocalPresetTabAllProps, Loca
         this.actions.selectPresets(this.props.presets, !this.selection.allSelected);
     }
 
-    private openDialog(open: boolean) {
-        this.props.updateScreen(new ScreenState(open));
+    private openDialog() {
+        this.props.updateScreen(new ScreenState(true));
     }
 }
 
-const extractComponentPropsFromState: MapStateToProps<
+const extractPropsFromState: MapStateToProps<
     LocalPresetTabStateProps, LocalPresetTabProps, ApplicationDocument
     > = (state: ApplicationDocument, props: LocalPresetTabProps): LocalPresetTabStateProps => {
         return  { 
-            presets: state.local, 
-            dialogIsOpen: toBool(state.screen.targetPresetDialogOpen)
+            presets: state.local
         };
 };
 
@@ -96,4 +92,4 @@ const createActionObject: MapDispatchToPropsFunction<LocalPresetTabActions, Loca
         };
 };
 
-export default connect(extractComponentPropsFromState, createActionObject)(LocalPresetTab);
+export default connect(extractPropsFromState, createActionObject)(LocalPresetTab);
