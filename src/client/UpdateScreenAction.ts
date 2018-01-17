@@ -1,9 +1,9 @@
 import { ScreenState } from "./ApplicationDocument";
 
-const UpdateScreenActionKey = "U/screen/*";
+const UpdateScreenActionKey = "U/screen/";
 
 export interface UpdateScreenAction {
-    readonly type: "U/screen/*";
+    readonly type: "U/screen/";
     readonly screenState: ScreenState;
 }
 

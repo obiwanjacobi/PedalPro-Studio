@@ -7,17 +7,19 @@ import ApplicationDocument, { PresetCollectionType } from "../client/Application
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
+import { EditPreset, createEditPresetAction } from "../client/EditPresetAction";
+import { SelectedView } from "../client/SelectedView";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
-import { SelectedView } from "../client/SelectedView";
 
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
     presets: Preset[];
 }
-export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets;
-export type DevicePresetTabAllProps = DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
+export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets & EditPreset;
+export type DevicePresetTabAllProps = 
+    DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private selection: SelectedView<Preset>;
@@ -43,6 +45,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                 <PresetView 
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
+                    editPreset={this.actions.editPreset}
                 />
             </div>
         );
@@ -91,6 +94,9 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
             },
             copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createCopyPresetsAction(presets, target));
+            },
+            editPreset: (preset: Preset, update: Partial<Preset>): void => {
+                dispatch(createEditPresetAction(preset, update));
             }
         };
 };

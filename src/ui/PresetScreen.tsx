@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Grid, AppBar, Tabs, Tab } from "material-ui";
-import SwipableView from "react-swipeable-views";
+import { Grid, AppBar, Tabs, Tab, Collapse } from "material-ui";
 
 import { PresetCollectionType } from "../client/ApplicationDocument";
 
@@ -17,16 +16,19 @@ export default class PresetScreen extends React.Component<PresetScreenProps, Pre
 
     public render(): React.ReactNode {
         return (
-            <Grid container={true} direction="column">
+            <Grid container={true} direction="column" spacing={8}>
                 <Grid item={true} xs={12}>
-                    <SwipableView axis="x" index={this.selectedTab} onChangeIndex={this.activatePage} >
-                        <DevicePresetTab />
-                        <StoragePresetTab />
-                        <FactoryPresetTab />
-                    </SwipableView>
+                        <Collapse in={this.selectedTab === 0}>
+                            <DevicePresetTab />
+                        </Collapse>
+                        <Collapse in={this.selectedTab === 1} >
+                            <StoragePresetTab />
+                        </Collapse>
+                        <Collapse in={this.selectedTab === 2} >
+                            <FactoryPresetTab />
+                        </Collapse>
                 </Grid>
                 <Grid item={true} xs={12}>
-                    {/* need to specify position to not output unwanted styles */}
                     <AppBar position="static" style={{ position: "absolute", bottom: 0 }} >
                         <Tabs fullWidth={true} value={this.selectedTab} onChange={(e, v) => { this.activatePage(v); }}>
                             <Tab label="Device" />

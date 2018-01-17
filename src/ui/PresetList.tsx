@@ -1,63 +1,57 @@
 import * as React from "react";
 import { Collapse, Grid, Paper, Checkbox } from "material-ui";
-// import List from "material-ui/List/List";
-// import ListItem from "material-ui/List/ListItem";
-// import ListItemText from "material-ui/List/ListItemText";
-// import ListItemSecondaryAction from "material-ui/List/ListItemSecondaryAction";
 import Input, { InputAdornment } from "material-ui/Input";
-// import ExpansionPanel from "material-ui/ExpansionPanel/ExpansionPanel";
-// import ExpansionPanelSummary from "material-ui/ExpansionPanel/ExpansionPanelSummary";
-// import ExpansionPanelDetails from "material-ui/ExpansionPanel/ExpansionPanelDetails";
-// import ExpansionPanelActions from "material-ui/ExpansionPanel/ExpansionPanelActions";
 import IconButton from "material-ui/IconButton/IconButton";
 import Typography from "material-ui/Typography/Typography";
-// import TextField from "material-ui/TextField/TextField";
-import { ExpandMore, ExpandLess, Unarchive, Close } from "material-ui-icons";
+import { ExpandMore, ExpandLess, Save, Undo } from "material-ui-icons";
 
 import Preset from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
+import { EditPreset } from "../client/EditPresetAction";
 import { isNullOrUndefined } from "util";
 
 export interface PresetListProps {
     presets: Preset[];
 }
-export type PresetListActions = SelectPresets;
+export type PresetListActions = SelectPresets & EditPreset;
 export interface PresetListState {
     expanded: boolean[];
- }
+    names: string[];
+}
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
 
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
-    // private dense: boolean = true;
 
     public render(): React.ReactNode {
         if (!this.props.presets) { return <div />; }
 
         return ( 
-            <Grid container={true} >
+            <Grid container={true}>
                     {this.props.presets.map(
-                        (preset: Preset, index: number) => {
-                            return this.presetSummary(index, preset);
-                        }
+                        (preset: Preset, index: number) => this.presetSummary(preset, index)
                     )}
             </Grid>
         );
     }
 
     public componentWillReceiveProps(newProps: PresetListAllProps) {
-        if (isNullOrUndefined(this.state) || 
-            isNullOrUndefined(this.state.expanded) || 
-            this.state.expanded.length === 0) {
-            this.setState({ expanded: new Array<boolean>(newProps.presets.length) });
+        if (!this.state) {
+            var names = new Array<string>(newProps.presets.length);
+            newProps.presets.map((preset: Preset, index: number) => names[index] = preset.name);
+            
+            this.setState({ 
+                expanded: new Array<boolean>(newProps.presets.length),
+                names: names
+            });
         }
     }
 
-    private presetSummary(index: number, preset: Preset): React.ReactNode {
+    private presetSummary(preset: Preset, index: number): React.ReactNode {
         return (
-            <Grid xs={12} sm={6} md={4} lg={3} item={true} key={index}>
-                <Paper elevation={4}>
-                    <Grid container={true} alignItems="center">
+            <Grid xs={12} sm={6} md={4} lg={3} xl={2} item={true} key={index}>
+                <Paper elevation={2}>
+                    <Grid container={true} alignItems="center" spacing={8}>
                         <Grid xs={2} item={true}>
                             <Checkbox 
                                 checked={this.props.presets[index].selected} 
@@ -75,126 +69,76 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                         
                     </Grid>
                     <Collapse in={this.state.expanded[index]}>
-                        <Input
-                            id={preset.name + index} 
-                            defaultValue={preset.name}
-                            onChange={() => this.renamePreset(preset)}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton onClick={() => this.renamePreset(preset, preset.history.name)}>
-                                        <Close />
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                        <div>
-                            <IconButton onClick={() => this.renamePreset(preset, preset.history.name)}>
-                                <Unarchive />
-                            </IconButton>
-                        </div>
+                        <Grid container={true} justify="flex-end">
+                            <Grid item={true} xs={9}>
+                                <Input
+                                    value={this.state.names[index]}
+                                    onChange={(e) => this.updateName(e.target.value, index)}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton 
+                                                disabled={!this.canUndo(preset, index)}
+                                                onClick={() => this.undoName(preset, index)}
+                                            >
+                                                <Undo />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                />
+                            </Grid>
+                            <Grid item={true} xs={2}>
+                                <IconButton 
+                                    disabled={!this.canSave(preset, index)}
+                                    onClick={() => this.save(preset, index)}
+                                >
+                                    <Save />
+                                </IconButton>
+                            </Grid>
+                            <Grid item={true} xs={12} />
+                        </Grid>         
                     </Collapse>
                 </Paper>
             </Grid>
         );
     }
 
-    // private expansionpannel_presetSummary(index: number, preset: Preset): React.ReactNode {
-    //     return (
-    //         <ExpansionPanel key={index}>
-    //             <ExpansionPanelSummary>
-    //                 <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.presets[index].selected} />
-    //                 <Typography>{preset.name}</Typography>
-    //             </ExpansionPanelSummary>
-    //             <ExpansionPanelDetails>
-    //                 <Input
-    //                     id={preset.name + index} 
-    //                     // value={preset.name}
-    //                     onChange={() => this.renamePreset(preset)}
-    //                     endAdornment={
-    //                         <InputAdornment position="end">
-    //                             <IconButton
-    //                                 onClick={() => this.renamePreset(preset, preset.history.name)}
-    //                                 onMouseDown={(e) => e.preventDefault()}
-    //                             >
-    //                                 <Close />
-    //                             </IconButton>
-    //                         </InputAdornment>
-    //                     }
-    //                 />
-    //                 <Typography color="secondary">
-    //                     {preset.history.collection + ": " + preset.history.name + " (" + preset.history.index + ")"}
-    //                 </Typography>
-    //             </ExpansionPanelDetails>
-    //             <ExpansionPanelActions>
-    //                 <IconButton
-    //                     onClick={() => this.renamePreset(preset, preset.history.name)}
-    //                     onMouseDown={(e) => e.preventDefault()}
-    //                 >
-    //                     <Unarchive />
-    //                 </IconButton>
-    //             </ExpansionPanelActions>
-    //         </ExpansionPanel>
-    //     );
-    // }
+    private canSave(preset: Preset, index: number): boolean {
+        return this.state && 
+            this.state.names &&
+            !isNullOrUndefined(this.state.names[index]) &&
+            this.state.names[index].length > 0 &&
+            this.state.names[index] !== preset.name;
+    }
 
-    // private __presetSummary(index: number, preset: Preset): React.ReactNode {
-    //     return (
-    //         <Button 
-    //             key={"s" + index} 
-    //             // button={true} 
-    //             dense={this.dense} 
-    //             // disableGutters={this.dense} 
-    //             onClick={() => this.toggleSelected(index)}
-    //         >
-    //             <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.presets[index].selected} />
-    //             <ListItemText primary={preset.name} secondary={preset.index} />
-                
-    //             <ListItemSecondaryAction>
-    //                 <IconButton onClick={() => this.toggleExpanded(index)} >
-    //                     {this.state.expanded[index] ? <ExpandLess /> : <ExpandMore />}
-    //                 </IconButton>
-    //             </ListItemSecondaryAction>
-    //         </Button>
-    //     );
-    // }
+    private canUndo(preset: Preset, index: number): boolean {
+        return (
+            this.state && 
+            this.state.names &&
+            !isNullOrUndefined(this.state.names[index]) &&
+            this.state.names[index] !== preset.name)
+            
+            ||
 
-    // private presetDetails(index: number, preset: Preset): React.ReactNode {
-    //     return (
-    //         <Collapse 
-    //             component="li"
-    //             key={"d" + index} 
-    //             in={this.state.expanded[index]}
-    //         >
-    //                 <TextField
-    //                     id={preset.name + index} 
-    //                     value={preset.name}
-    //                     onChange={() => this.renamePreset(preset)}
-    //                     // endAdornment={
-    //                     //     <InputAdornment position="end">
-    //                     //         <IconButton
-    //                     //             onClick={() => this.renamePreset(preset, preset.history.name)}
-    //                     //             onMouseDown={(e) => e.preventDefault()}
-    //                     //         >
-    //                     //         <Unarchive />
-    //                     //         </IconButton>
-    //                     //     </InputAdornment>
-    //                     // }
-    //                 />
-    //             <Typography color="secondary">
-    //                 {preset.history.collection + ": " + preset.history.name + " (" + preset.history.index + ")"}
-    //             </Typography>
-    //         </Collapse>
-    //     );
-    // }
+            this.state.names[index] !== preset.history.name;
+    }
 
-    private renamePreset(preset: Preset, newName?: string) {
+    private updateName(name: string, index: number) {
+        const newNames = this.state.names.slice();
+        newNames[index] = name;
+        this.setState({ names: newNames, expanded: this.state.expanded });
+    }
+    private undoName(preset: Preset, index: number) {
+        this.updateName(preset.history.name, index);
+    }
 
+    private save(preset: Preset, index: number) {
+        this.props.editPreset(preset, { name: this.state.names[index] });
     }
 
     private toggleExpanded(index: number) {
         const newExpanded = this.state.expanded.slice();
         newExpanded[index] = !this.state.expanded[index];
-        this.setState({ expanded: newExpanded });
+        this.setState({ expanded: newExpanded, names: this.state.names });
     }
 
     private toggleSelected(index: number) {

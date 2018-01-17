@@ -6,7 +6,7 @@ export type ScreenAction = UpdateScreenAction;
 
 export const reduce = (state: ScreenState = new ScreenState(), action: ScreenAction): ScreenState => {
     switch (action.type) {
-        case "U/screen/*":
+        case "U/screen/":
         return reduceUpdateScreen(state, action.screenState);
 
         default:

@@ -5,6 +5,7 @@ import IconButton from "material-ui/IconButton/IconButton";
 
 import Preset from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
+import { EditPreset } from "../client/EditPresetAction";
 import { PresetList } from "./PresetList";
 
 export interface PresetViewStateProps { 
@@ -15,7 +16,7 @@ export interface PresetViewState {
     searchKey: string;
 }
 
-export type PresetViewAllProps = PresetViewStateProps & SelectPresets;
+export type PresetViewAllProps = PresetViewStateProps & SelectPresets & EditPreset;
 
 export class PresetView extends React.Component<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
@@ -31,7 +32,7 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
                 <Grid xs={11} item={true}>
                     <TextField 
                         placeholder="Type to Filter Presets"
-                        fullWidth={true}
+                        // fullWidth={true}
                         value={this.state.searchKey}
                         disabled={this.props.presets.length === 0}
                         onChange={(e) => this.search(e.target.value)}
@@ -46,6 +47,7 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
                     <PresetList
                         presets={this.filteredPresets}
                         selectPresets={this.props.selectPresets}
+                        editPreset={this.props.editPreset}
                     />
                 </Grid>
             </Grid>

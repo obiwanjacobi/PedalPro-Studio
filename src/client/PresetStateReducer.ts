@@ -1,16 +1,17 @@
-import { LoadPresetsAction } from "./LoadPresetsAction";
-import { SelectPresetsAction } from "./SelectPresetsAction";
-import { CopyPresetsAction } from "./CopyPresetsAction";
-
 import Preset from "./Preset";
 import ApplicationDocument, { PresetCollectionType } from "./ApplicationDocument";
 
+import { LoadPresetsAction } from "./LoadPresetsAction";
+import { SelectPresetsAction } from "./SelectPresetsAction";
+import { CopyPresetsAction } from "./CopyPresetsAction";
+import { EditPresetAction } from "./EditPresetAction";
+
 // all actions this reducer handles
-export type PresetAction = LoadPresetsAction | SelectPresetsAction | CopyPresetsAction;
+export type PresetAction = LoadPresetsAction | SelectPresetsAction | CopyPresetsAction | EditPresetAction;
 
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
-        case "R/device/presets/*":
+        case "R/device/presets/":
         if (action.error) { throw action.error; }
         if (action.presets) {
             return reduceLoadPresets(state, action.source, action.presets);
@@ -20,14 +21,38 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         case "U/*/presets/.selected":
         return reducePresetSelected(state, action.presets, action.selected);
 
-        case "C/*/presets/*":
+        case "C/*/presets/":
         return reduceCopyPresets(state, action.presets, action.target);
+
+        case "U/*/presets/.*":
+        return reduceEditPreset(state, action.preset, action.update);
 
         default:
         return state;
     }
 
     return state;
+};
+
+const reduceEditPreset = (
+    state: ApplicationDocument, 
+    preset: Preset, 
+    update: Partial<Preset>): ApplicationDocument => {
+    if (!update) { return state; }
+
+    // local helper function
+    const replacePreset = (collection: Preset[]): Preset[] => {
+        const newCollection = collection.slice();
+
+        const index = newCollection.indexOf(preset);
+        if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
+
+        newCollection[index] = { ...preset, ...update };
+
+        return newCollection;
+    };
+
+    return copyOverride(state, preset.source, replacePreset);
 };
 
 const reduceCopyPresets = (

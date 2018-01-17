@@ -1,19 +1,14 @@
 html, body {
   margin: 0;
-  height: 100vh;
+  padding: 0;
+  height: 100%;
   overflow: hidden;
+  min-height: 240;
+  min-width: 400;
 }
 
 .Application {
   margin: 0;
+  padding: 0;
   height: 100%;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 10s linear;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

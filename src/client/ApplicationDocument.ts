@@ -3,7 +3,7 @@ import Preset from "./Preset";
 export enum PresetCollectionType {
     device = "device",
     storage = "storage",
-    factory = "factroy",
+    factory = "factory",
 }
 
 export default class ApplicationDocument {

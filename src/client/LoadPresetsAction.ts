@@ -5,10 +5,10 @@ import Client from "./Client";
 import Preset from "./Preset";
 import { PresetCollectionType } from "./ApplicationDocument";
 
-export const LoadPresetsActionKey: string = "R/device/presets/*";
+export const LoadPresetsActionKey: string = "R/device/presets/";
 
 export interface LoadPresetsAction {
-    readonly type: "R/device/presets/*";
+    readonly type: "R/device/presets/";
     readonly source: PresetCollectionType;
     readonly presets: Preset[] | null;
     readonly error: Error | null;

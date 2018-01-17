@@ -1,10 +1,10 @@
 import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
 
-const CopyPresetsActionKey = "C/*/presets/*";
+const CopyPresetsActionKey = "C/*/presets/";
 
 export interface CopyPresetsAction {
-    readonly type: "C/*/presets/*";
+    readonly type: "C/*/presets/";
     readonly presets: Preset[];
     readonly target: PresetCollectionType;
 }
