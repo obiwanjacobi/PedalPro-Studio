@@ -1,9 +1,14 @@
 {
-  "name": "pedalpro-editor",
+  "name": "vintage-revolution-pedalpro-editor",
+  "description": "Vintage Revolution PedalPro Preset Editor",
   "version": "0.1.0",
-  "main": "app/startup.js",
+  "author": {
+    "email": "obiwanjacobi@hotmail.com",
+    "name": "Marc 'obiwan' Jacobi",
+    "url": "https://www.vintage-revolution.com"
+  },
+  "main": "./app/startup.js",
   "private": true,
-  "description": "Vintage Revolution PedalPro Editor Application.",
   "dependencies": {
     "express": "^4.16.2",
     "immutable-assign": "^2.0.1",
@@ -34,6 +39,7 @@
     "@types/react-swipeable-views": "^0.12.0",
     "electron": "^1.7.9",
     "electron-rebuild": "^1.6.0",
+    "electron-builder": "^19.54.0",
     "jest": "^22.0.4",
     "ts-jest": "^22.0.0",
     "tsc": "^1.20150623.0",
@@ -46,7 +52,18 @@
     "test": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest",
     "test-w": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest --watchAll",
     "start": "electron .",
-    "postinstall": "tsc && electron-rebuild --force"
+    "postinstall": "tsc && electron-rebuild --force",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "js.pedalpro.editor",
+    "mac": {
+      "category": "public.app.category.productivity"
+    },
+    "copyright": "Copyright 2018 Jacobi Software",
+    "productName": "Vintage Revolution PedalPro Preset Editor",
+    "asar": "false"
   },
   "jest": {
     "globals": {
