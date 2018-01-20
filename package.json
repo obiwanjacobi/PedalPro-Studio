@@ -7,7 +7,7 @@
     "name": "Marc 'obiwan' Jacobi",
     "url": "https://www.vintage-revolution.com"
   },
-  "main": "./app/startup.js",
+  "main": "./app/Startup.js",
   "private": true,
   "dependencies": {
     "express": "^4.16.2",
@@ -63,7 +63,16 @@
     },
     "copyright": "Copyright 2018 Jacobi Software",
     "productName": "Vintage Revolution PedalPro Preset Editor",
-    "asar": "false"
+    "asar": "true",
+    "files": [
+      "./app/**/*.js", 
+      "./app/**/*.json", 
+      "./app/**/*.css", 
+      "./app/**/*.html", 
+      "./src/**/*.css", 
+      "./src/**/*.html", 
+      "./build/*"
+    ]
   },
   "jest": {
     "globals": {

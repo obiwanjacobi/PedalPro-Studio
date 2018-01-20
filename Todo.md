@@ -70,11 +70,14 @@ https://github.com/Microsoft/tslib
 - Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
 - reorderable/drag&drop list: https://gist.github.com/jlroettger/2d6d7ae572f985fa176c27a63cadf292
 
-## Preset List:
+## Preset List
+
  - drag & drop
  
  Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
  Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device). 
  All device presets are automatically saved when uploaded to the device.
 
- 
+ ## dist
+
+ - copy content files (css/html) to app folder
