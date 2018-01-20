@@ -3,12 +3,13 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 
 import Preset from "../client/Preset";
+import { SelectedView } from "../client/SelectedView";
 import ApplicationDocument, { PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../client/EditPresetAction";
-import { SelectedView } from "../client/SelectedView";
+import { MovePreset, createMovePresetAction } from "../client/MovePresetAction";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
@@ -17,7 +18,7 @@ export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
     presets: Preset[];
 }
-export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets & EditPreset;
+export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets & EditPreset & MovePreset;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
@@ -46,6 +47,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
                     editPreset={this.actions.editPreset}
+                    movePreset={this.actions.movePreset}
                 />
             </div>
         );
@@ -97,6 +99,9 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
             },
             editPreset: (preset: Preset, update: Partial<Preset>): void => {
                 dispatch(createEditPresetAction(preset, update));
+            },
+            movePreset: (preset: Preset, displacement: number): void => {
+                dispatch(createMovePresetAction(preset, displacement));
             }
         };
 };

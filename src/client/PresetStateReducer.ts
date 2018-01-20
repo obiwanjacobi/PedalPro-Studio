@@ -5,9 +5,11 @@ import { LoadPresetsAction } from "./LoadPresetsAction";
 import { SelectPresetsAction } from "./SelectPresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
+import { MovePresetAction } from "./MovePresetAction";
 
 // all actions this reducer handles
-export type PresetAction = LoadPresetsAction | SelectPresetsAction | CopyPresetsAction | EditPresetAction;
+export type PresetAction = 
+    LoadPresetsAction | SelectPresetsAction | CopyPresetsAction | EditPresetAction | MovePresetAction;
 
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
@@ -27,11 +29,39 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         case "U/*/presets/.*":
         return reduceEditPreset(state, action.preset, action.update);
 
+        case "U/*/presets/[]":
+        return reduceMovePreset(state, action.preset, action.displacement);
+
         default:
         return state;
     }
 
     return state;
+};
+
+const reduceMovePreset = (
+    state: ApplicationDocument, 
+    preset: Preset, 
+    displacement: number): ApplicationDocument => {
+    if (displacement === 0) { return state; }
+
+    // local helper function
+    const replacePreset = (collection: Preset[]): Preset[] => {
+        const newCollection = collection.slice();
+
+        const index = newCollection.indexOf(preset);
+        if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
+        const targetIndex = index + displacement;
+
+        newCollection.splice(index, 1); // remove
+        newCollection.splice(targetIndex, 0, preset);  // insert
+
+        reIndexPresets(newCollection, Math.min(index, targetIndex), Math.max(index, targetIndex));
+
+        return newCollection;
+    };
+
+    return copyOverride(state, preset.source, replacePreset);
 };
 
 const reduceEditPreset = (
@@ -141,3 +171,9 @@ const copyOverride = (
 
     return state.copyOverride(device, storage, factory);
 }
+
+const reIndexPresets = (mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
+    for (let index = beginIndex; index <= endIndex; index++) {
+        mutableCollection[index] = { ...mutableCollection[index], index: index }
+    }
+};
