@@ -5,7 +5,7 @@ import PresetsApi from "./PresetsApi";
 // import { PedalProDevice } from "../pedalpro/PedalProDevice";
 // const device = PedalProDevice;
 // const pedalProProvider = new PedalProProvider(device);
-// static refs to all Api handlers
+// // static refs to all Api handlers
 // const pedalProPresetsApi = new PresetsApi(pedalProProvider);
 
 // test - no real usb

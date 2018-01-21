@@ -73,11 +73,16 @@ https://github.com/Microsoft/tslib
 ## Preset List
 
  - drag & drop
+ - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
  
  Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
  Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device). 
  All device presets are automatically saved when uploaded to the device.
 
- ## dist
+## performance
 
- - copy content files (css/html) to app folder
+- remove/refactor all anonymous event handlers (start with PresetList) - bind in ctor.
+- add tslib
+
+react: https://medium.com/@arikmaor/react-redux-performance-tuning-tips-cef1a6c50759
+

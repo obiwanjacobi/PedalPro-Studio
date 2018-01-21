@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, IconButton, Hidden } from "material-ui";
+import { Grid, IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import Clear from "material-ui-icons/Clear";
 

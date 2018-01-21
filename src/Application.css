@@ -12,3 +12,9 @@ html, body {
   padding: 0;
   height: 100%;
 }
+
+.vrlogo {
+  height: 48px;
+  right: 0;
+  position: absolute;
+}

@@ -39,6 +39,7 @@ export class PresetToolbar extends React.Component<PresetToolbarAllProps> {
                 <IconButton disabled={!this.props.enableUpload} onClick={() => this.fireUpload()}>
                     <FileUpload />
                 </IconButton>
+                <img src="../assets/VintageRevolutionLogoText.jpg" alt="logo" className="vrlogo" />
             </ApplicationToolbar>
         );
     }
