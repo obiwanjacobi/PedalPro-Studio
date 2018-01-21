@@ -53,6 +53,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
         );
     }
 
+    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, nextState: {}): boolean {
+        return this.props.presets !== nextProps.presets;
+    }
+
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
         this.selection = new SelectedView(newProps.presets);
     }
@@ -80,9 +84,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
 const extractComponentPropsFromState: MapStateToProps<
         DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument
     > = (state: ApplicationDocument, props: DevicePresetTabProps): DevicePresetTabStateProps => {
-        return  { 
-            presets: state.device
-        };
+        return  { presets: state.device };
 };
 
 const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps> =

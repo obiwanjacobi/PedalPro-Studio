@@ -6,7 +6,6 @@
   "description": "Vintage Revolution PedalPro Editor Application.",
   "dependencies": {
     "express": "^4.16.2",
-    "immutable-assign": "^2.0.1",
     "material-ui": "^1.0.0-beta.26",
     "material-ui-icons": "^1.0.0-beta.17",
     "morgan": "^1.9.0",
@@ -15,8 +14,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
-    "react-reflex": "^2.0.11",
-    "react-splitter-layout": "^3.0.0",
     "redux": "^3.7.2",
     "typed-rest-client": "^0.15.1",
     "typeface-roboto": "0.0.45"
@@ -31,7 +28,6 @@
     "@types/react": "^16.0.31",
     "@types/react-dom": "^16.0.3",
     "@types/react-redux": "^5.0.14",
-    "@types/react-swipeable-views": "^0.12.0",
     "electron": "^1.7.9",
     "electron-rebuild": "^1.6.0",
     "jest": "^22.0.4",

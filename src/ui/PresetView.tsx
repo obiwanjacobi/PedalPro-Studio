@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, IconButton, Hidden } from "material-ui";
+import { Grid, IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import Clear from "material-ui-icons/Clear";
 
@@ -61,6 +61,8 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
 
     private search(value: string) {
         if (value.length > 10) { return; }
-        this.setState( { searchKey: value });
+        if (this.state.searchKey !== value) {
+            this.setState( { searchKey: value });
+        }
     }
 }

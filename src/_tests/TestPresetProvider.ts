@@ -1,46 +1,32 @@
 import Preset from "../model/Preset";
 
-const preset0: Preset = {
-    index: 0,
-    name: "Preset 0"
-};
-const preset1: Preset = {
-    index: 1,
-    name: "Preset 1"
-};
-const preset2: Preset = {
-    index: 2,
-    name: "Preset 2"
-};
-const preset3: Preset = {
-    index: 3,
-    name: "Preset 3"
-};
-const preset4: Preset = {
-    index: 4,
-    name: "Preset 4"
-};
-const preset5: Preset = {
-    index: 5,
-    name: "Preset 5"
-};
-const preset6: Preset = {
-    index: 6,
-    name: "Preset 6"
-};
-
-const presets = [preset0, preset1, preset2, preset3, preset4, preset5, preset6];
+const PresetCount: number = 400;
 
 export default class TestPresetProvider {
+    private static presets: Preset[];
+
+    public constructor() {
+        if (!TestPresetProvider.presets) {
+            TestPresetProvider.presets = new Array<Preset>(PresetCount);
+
+            for (let index = 0; index < PresetCount; index++) {
+                TestPresetProvider.presets[index] = {
+                    index: index,
+                    name: "Preset " + index
+                };
+            }
+        }
+    }
+
     public get presetCount(): number {
-        return presets.length;
+        return TestPresetProvider.presets.length;
     }
 
     public getPreset(presetIndex: number): Promise<Preset> {
-        return new Promise((resolve) => { resolve(presets[presetIndex]); });
+        return new Promise((resolve) => { resolve(TestPresetProvider.presets[presetIndex]); });
     }
     
     public getPresets(): Promise<Preset[]> {
-        return new Promise((resolve) => { resolve(presets); });
+        return new Promise((resolve) => { resolve(TestPresetProvider.presets); });
     }
 }

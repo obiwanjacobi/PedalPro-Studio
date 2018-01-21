@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import iassign from "immutable-assign";
 
 import Environment from "./Environment";
 import ApplicationStore from "./client/ApplicationStore";
@@ -13,9 +12,8 @@ export class Application extends React.Component {
     private appStore: ApplicationStore = new ApplicationStore();
 
     public static run(appElementId: string) {
-        if (!Environment.isProduction) {
-            iassign.freeze = true;
-        }
+        // if (!Environment.isProduction) {
+        // }
 
         ReactDOM.render(<Application />, document.getElementById(appElementId));
     }
