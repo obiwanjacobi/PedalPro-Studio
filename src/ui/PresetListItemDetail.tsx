@@ -101,7 +101,7 @@ export default class PresetListItemDetail extends
                 <Grid item={true} xs={2}>
                     <Tooltip title="Click to keep the changes." placement="right">
                         <IconButton 
-                            color="accent"
+                            color="secondary"
                             disabled={!this.canSave}
                             onClick={this.save}
                         >

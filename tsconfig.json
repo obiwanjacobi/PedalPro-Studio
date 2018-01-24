@@ -20,7 +20,8 @@
     "alwaysStrict": true,
     "declaration": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
   },
   "exclude": [
     "node_modules",
