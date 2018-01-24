@@ -1,6 +1,6 @@
 import Preset from "../model/Preset";
 
-const PresetCount: number = 400;
+const PresetCount: number = 50;
 
 export default class TestPresetProvider {
     private static presets: Preset[];

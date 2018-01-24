@@ -47,12 +47,16 @@ const reduceMovePreset = (
 
     // local helper function
     const replacePreset = (collection: Preset[]): Preset[] => {
-        const newCollection = collection.slice();
-
-        const index = newCollection.indexOf(preset);
+        const index = collection.indexOf(preset);
         if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
         const targetIndex = index + displacement;
 
+        // bounds check
+        if (targetIndex < 0 || targetIndex > collection.length) {
+            return collection;
+        }
+
+        const newCollection = collection.slice();
         newCollection.splice(index, 1); // remove
         newCollection.splice(targetIndex, 0, preset);  // insert
 

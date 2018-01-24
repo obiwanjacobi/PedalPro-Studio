@@ -12,7 +12,7 @@ import { MovePreset } from "../client/MovePresetAction";
 export interface PresetListItemProps { 
     preset: Preset;
 }
-export type PresetListItemActions = SelectPresets & EditPreset; // & MovePreset;
+export type PresetListItemActions = SelectPresets & EditPreset & MovePreset;
 export interface PresetListItemState {
     expanded: boolean;
 }
@@ -37,7 +37,7 @@ export default class PresetListItem extends React.PureComponent<PresetListItemAl
     }
 
     public render(): React.ReactNode {
-        console.log("Render Preset: " + this.props.preset.index);
+        // console.log("Render Preset: " + this.props.preset.index);
 
         return (
             <Paper elevation={2}>
@@ -67,6 +67,7 @@ export default class PresetListItem extends React.PureComponent<PresetListItemAl
                             <PresetListItemDetail
                                 preset={this.props.preset}
                                 editPreset={this.props.editPreset}
+                                movePreset={this.props.movePreset}
                             /> : null
                         }
                     </Collapse>

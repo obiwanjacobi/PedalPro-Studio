@@ -59,7 +59,7 @@ export class PresetList extends React.PureComponent<PresetListAllProps, PresetLi
                     preset={preset}
                     selectPresets={this.props.selectPresets}
                     editPreset={this.props.editPreset}
-                    // movePreset={this.props.movePreset}
+                    movePreset={this.props.movePreset}
                 />
             </Grid>
         );

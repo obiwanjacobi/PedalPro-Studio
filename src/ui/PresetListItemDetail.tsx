@@ -10,7 +10,7 @@ import { MovePreset } from "../client/MovePresetAction";
 export interface PresetListItemDetailProps { 
     preset: Preset;
 }
-export type PresetListItemDetailActions = EditPreset; // & MovePreset;
+export type PresetListItemDetailActions = EditPreset & MovePreset;
 export interface PresetListItemDetailState {
     name: string;
 }
@@ -29,11 +29,13 @@ export default class PresetListItemDetail extends
 
     constructor(props: PresetListItemDetailAllProps) {
         super(props);
-        this.state = { name: "" };
+        this.state = { name: props.preset ? props.preset.name : "" };
         // bind event handlers
         this.updateNameHandler = this.updateNameHandler.bind(this);
         this.undoName = this.undoName.bind(this);
         this.save = this.save.bind(this);
+        this.movePresetUp = this.movePresetUp.bind(this);
+        this.movePresetDown = this.movePresetDown.bind(this);
     }
 
     public shouldComponentUpdate(
@@ -83,7 +85,7 @@ export default class PresetListItemDetail extends
                         <IconButton 
                             style={styles.smallIcon}
                             disabled={!this.canMoveUp}
-                            // onClick={this.movePresetUp}
+                            onClick={this.movePresetUp}
                         >
                             <ArrowUpward style={styles.smallIcon}/>
                         </IconButton>
@@ -92,7 +94,7 @@ export default class PresetListItemDetail extends
                         <IconButton 
                             style={styles.smallIcon}
                             // disabled={!this.canMoveDown}
-                            // onClick={this.movePresetDown}
+                            onClick={this.movePresetDown}
                         >
                             <ArrowDownward style={styles.smallIcon}/>
                         </IconButton>
@@ -118,16 +120,18 @@ export default class PresetListItemDetail extends
         return this.props.preset.index > 0;
     }
 
-    // private canMoveDown(preset: Preset): boolean {
-    //     return preset.index < this.props.presets.length - 1;
-    // }
+    private movePresetUp() {
+        this.props.movePreset(this.props.preset, -1);
+    }
 
-    // private movePreset(preset: Preset, displacement: number) {
-    //     const index = this.props.presets.indexOf(preset);
-    //     const targetIndex = index + displacement;
-    
-    //     this.props.movePreset(preset, displacement);
-    // }
+    private movePresetDown() {
+        this.props.movePreset(this.props.preset, 1);
+    }
+
+    private get canMoveDown(): boolean {
+        // TODO: use actual number of presets!
+        return this.props.preset.index < 400;
+    }
 
     private get canSave(): boolean {
         return this.state && 
@@ -135,14 +139,14 @@ export default class PresetListItemDetail extends
             this.state.name !== this.props.preset.name;
     }
 
-    private canUndo(preset: Preset, index: number): boolean {
-        return (
-            this.state && 
-            this.state.name !== this.props.preset.name)
-            
-            ||
+    private get canUndo(): boolean {
+        if (!this.state) { return false; }
 
-            this.state.name !== this.props.preset.history.name;
+        return (
+            this.state.name !== this.props.preset.name
+        ) || (
+            this.state.name !== this.props.preset.history.name
+        );
     }
 
     private updateNameHandler(e: React.ChangeEvent<HTMLInputElement>) {
