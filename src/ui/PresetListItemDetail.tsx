@@ -93,7 +93,7 @@ export default class PresetListItemDetail extends
                     <Tooltip title="Click to move this Preset down in the list" placement="left">
                         <IconButton 
                             style={styles.smallIcon}
-                            // disabled={!this.canMoveDown}
+                            disabled={!this.canMoveDown}
                             onClick={this.movePresetDown}
                         >
                             <ArrowDownward style={styles.smallIcon}/>
