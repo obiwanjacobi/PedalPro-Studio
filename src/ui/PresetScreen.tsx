@@ -12,7 +12,12 @@ export interface PresetScreenState {
     selectedTab: number;
 }
 
-export default class PresetScreen extends React.Component<PresetScreenProps, PresetScreenState> {
+export default class PresetScreen extends React.PureComponent<PresetScreenProps, PresetScreenState> {
+    public constructor(props: PresetScreenProps) {
+        super(props);
+        // bind event handlers
+        this.changePageHandler = this.changePageHandler.bind(this);
+    }
 
     public render(): React.ReactNode {
         return (
@@ -30,7 +35,7 @@ export default class PresetScreen extends React.Component<PresetScreenProps, Pre
                 </Grid>
                 <Grid item={true} xs={12}>
                     <AppBar position="static" style={{ position: "absolute", bottom: 0 }} >
-                        <Tabs fullWidth={true} value={this.selectedTab} onChange={(e, v) => { this.activatePage(v); }}>
+                        <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
                             <Tab label="Device" />
                             <Tab label="Storage" />
                             <Tab label="Factory" />
@@ -41,6 +46,10 @@ export default class PresetScreen extends React.Component<PresetScreenProps, Pre
         );
     }
 
+    private changePageHandler(event: React.ChangeEvent<{}>, value: number) {
+        this.activatePage(value);
+    }
+    
     private get selectedTab(): number {
         if (!this.state) { return 0; }
         return this.state.selectedTab;

@@ -22,12 +22,16 @@ export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets &
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
-export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
+export class DevicePresetTab extends React.PureComponent<DevicePresetTabAllProps> {
     private selection: SelectedView<Preset>;
 
     public constructor(props: DevicePresetTabAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
+        // bind event handlers
+        this.onCopySelected = this.onCopySelected.bind(this);
+        this.download = this.download.bind(this);
+        this.toggleSelectAll = this.toggleSelectAll.bind(this);
     }
 
     public render() {
@@ -35,13 +39,13 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
             <div>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
-                    onCopy={() => this.onCopySelected()}
+                    onCopy={this.onCopySelected}
                     enableDownload={true}
-                    onDownload={() => this.download()}
+                    onDownload={this.download}
                     enableUpload={!this.selection.isEmpty}
                     enableSelectAll={!this.selection.isEmpty}
                     valueSelectAll={this.selection.toValue()}
-                    onSelectAll={() => this.toggleSelectAll()}
+                    onSelectAll={this.toggleSelectAll}
                 />
                 <PresetView 
                     presets={this.props.presets}

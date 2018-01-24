@@ -19,7 +19,7 @@ export interface PresetListItemState {
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
 
-export default class PresetListItem extends React.Component<PresetListItemAllProps, PresetListItemState> {
+export default class PresetListItem extends React.PureComponent<PresetListItemAllProps, PresetListItemState> {
     constructor(props: PresetListItemAllProps) {
         super(props);
         this.state = { expanded: false };
@@ -37,7 +37,7 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
     }
 
     public render(): React.ReactNode {
-        // console.log("Render: Preset: " + this.props.preset.index);
+        console.log("Render Preset: " + this.props.preset.index);
 
         return (
             <Paper elevation={2}>
@@ -76,59 +76,10 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
 
     private formatIndex(): string {
         const index = this.props.preset.index;
+        // formats 3 digits with leading zeros
         return (String(0).repeat(3) + String(index)).slice(String(index).length);
     }
-
-    // private canMoveUp(preset: Preset): boolean {
-    //     return preset.index > 0;
-    // }
-
-    // private canMoveDown(preset: Preset): boolean {
-    //     return preset.index < this.props.presets.length - 1;
-    // }
-
-    // private movePreset(preset: Preset, displacement: number) {
-    //     const index = this.props.presets.indexOf(preset);
-    //     const targetIndex = index + displacement;
     
-    //     this.props.movePreset(preset, displacement);
-    // }
-
-    // private canSave(preset: Preset, index: number): boolean {
-    //     return this.state && 
-    //         this.state.names &&
-    //         !isNullOrUndefined(this.state.names[index]) &&
-    //         this.state.names[index].length > 0 &&
-    //         this.state.names[index] !== preset.name;
-    // }
-
-    // private canUndo(preset: Preset, index: number): boolean {
-    //     return (
-    //         this.state && 
-    //         this.state.names &&
-    //         !isNullOrUndefined(this.state.names[index]) &&
-    //         this.state.names[index] !== preset.name)
-            
-    //         ||
-
-    //         this.state.names[index] !== preset.history.name;
-    // }
-
-    // private updateName(name: string, index: number) {
-    //     if (name.length > 10) { return; }
-    //     const newNames = this.state.names.slice();
-    //     newNames[index] = name;
-    //     this.setState({ names: newNames, expanded: this.state.expanded });
-    // }
-
-    // private undoName(preset: Preset, index: number) {
-    //     this.updateName(preset.history.name, index);
-    // }
-
-    // private save(preset: Preset, index: number) {
-    //     this.props.editPreset(preset, { name: this.state.names[index] });
-    // }
-
     private toggleExpanded() {
         this.setState({ expanded: !this.state.expanded });
     }

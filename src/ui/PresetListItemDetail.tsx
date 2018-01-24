@@ -2,7 +2,6 @@ import * as React from "react";
 import { Grid, Tooltip, IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import { Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
-import { isNullOrUndefined } from "util";
 
 import Preset from "../client/Preset";
 import { EditPreset } from "../client/EditPresetAction";
@@ -26,13 +25,15 @@ const styles = {
 };
 
 export default class PresetListItemDetail extends 
-    React.Component<PresetListItemDetailAllProps, PresetListItemDetailState> {
+    React.PureComponent<PresetListItemDetailAllProps, PresetListItemDetailState> {
 
     constructor(props: PresetListItemDetailAllProps) {
         super(props);
         this.state = { name: "" };
         // bind event handlers
-        this.updateName = this.updateName.bind(this);
+        this.updateNameHandler = this.updateNameHandler.bind(this);
+        this.undoName = this.undoName.bind(this);
+        this.save = this.save.bind(this);
     }
 
     public shouldComponentUpdate(
@@ -46,9 +47,12 @@ export default class PresetListItemDetail extends
         );
     }
 
-    public render(): React.ReactNode {
-        // console.log("Render: Preset: " + this.props.preset.index);
+    public componentWillReceiveProps(
+        nextProps: PresetListItemDetailAllProps, nextState: PresetListItemDetailState) {
+        this.setState({ name: nextProps.preset.name });
+    }
 
+    public render(): React.ReactNode {
         return (
             <Grid container={true} justify="flex-end">
                 <Grid item={true} xs={8}>
@@ -56,7 +60,7 @@ export default class PresetListItemDetail extends
                         placeholder="Preset Name"
                         margin="dense"
                         value={this.state.name}
-                        onChange={this.updateName/*(e.target.value)*/}
+                        onChange={this.updateNameHandler}
                         endAdornment={
                             <InputAdornment position="end">
                                 <Tooltip 
@@ -64,8 +68,8 @@ export default class PresetListItemDetail extends
                                     placement="left"
                                 >
                                     <IconButton 
-                                        // disabled={!this.canUndo(preset, index)}
-                                        // onClick={() => this.undoName(preset, index)}
+                                        disabled={!this.canUndo}
+                                        onClick={this.undoName}
                                     >
                                         <Undo />
                                     </IconButton>
@@ -78,8 +82,8 @@ export default class PresetListItemDetail extends
                     <Tooltip title="Click to move this Preset up in the list" placement="left">
                         <IconButton 
                             style={styles.smallIcon}
-                            // disabled={!this.canMoveUp(preset)}
-                            // onClick={() => this.movePreset(preset, -1)}
+                            disabled={!this.canMoveUp}
+                            // onClick={this.movePresetUp}
                         >
                             <ArrowUpward style={styles.smallIcon}/>
                         </IconButton>
@@ -87,8 +91,8 @@ export default class PresetListItemDetail extends
                     <Tooltip title="Click to move this Preset down in the list" placement="left">
                         <IconButton 
                             style={styles.smallIcon}
-                            // disabled={!this.canMoveDown(preset)}
-                            // onClick={() => this.movePreset(preset, 1)}
+                            // disabled={!this.canMoveDown}
+                            // onClick={this.movePresetDown}
                         >
                             <ArrowDownward style={styles.smallIcon}/>
                         </IconButton>
@@ -98,8 +102,8 @@ export default class PresetListItemDetail extends
                     <Tooltip title="Click to keep the changes." placement="right">
                         <IconButton 
                             color="accent"
-                            // disabled={!this.canSave(preset, index)}
-                            // onClick={() => this.save(preset, index)}
+                            disabled={!this.canSave}
+                            onClick={this.save}
                         >
                             <Save />
                         </IconButton>
@@ -110,9 +114,9 @@ export default class PresetListItemDetail extends
         );
     }
 
-    // private canMoveUp(preset: Preset): boolean {
-    //     return preset.index > 0;
-    // }
+    private get canMoveUp(): boolean {
+        return this.props.preset.index > 0;
+    }
 
     // private canMoveDown(preset: Preset): boolean {
     //     return preset.index < this.props.presets.length - 1;
@@ -125,38 +129,36 @@ export default class PresetListItemDetail extends
     //     this.props.movePreset(preset, displacement);
     // }
 
-    // private canSave(preset: Preset, index: number): boolean {
-    //     return this.state && 
-    //         this.state.names &&
-    //         !isNullOrUndefined(this.state.names[index]) &&
-    //         this.state.names[index].length > 0 &&
-    //         this.state.names[index] !== preset.name;
-    // }
+    private get canSave(): boolean {
+        return this.state && 
+            this.state.name.length > 0 &&
+            this.state.name !== this.props.preset.name;
+    }
 
-    // private canUndo(preset: Preset, index: number): boolean {
-    //     return (
-    //         this.state && 
-    //         this.state.names &&
-    //         !isNullOrUndefined(this.state.names[index]) &&
-    //         this.state.names[index] !== preset.name)
+    private canUndo(preset: Preset, index: number): boolean {
+        return (
+            this.state && 
+            this.state.name !== this.props.preset.name)
             
-    //         ||
+            ||
 
-    //         this.state.names[index] !== preset.history.name;
-    // }
+            this.state.name !== this.props.preset.history.name;
+    }
 
-    // private updateName(name: string) {
-    private updateName(e: React.ChangeEvent<HTMLInputElement>) {
-        const name = e.target.value;
+    private updateNameHandler(e: React.ChangeEvent<HTMLInputElement>) {
+        this.updateName(e.target.value);
+    }
+
+    private updateName(name: string) {
         if (name.length > 10) { return; }
         this.setState({ name: name });
     }
 
-    // private undoName(preset: Preset, index: number) {
-    //     this.updateName(preset.history.name, index);
-    // }
+    private undoName() {
+        this.updateName(this.props.preset.history.name);
+    }
 
-    // private save(preset: Preset, index: number) {
-    //     this.props.editPreset(preset, { name: this.state.names[index] });
-    // }
+    private save() {
+        this.props.editPreset(this.props.preset, { name: this.state.name });
+    }
 }

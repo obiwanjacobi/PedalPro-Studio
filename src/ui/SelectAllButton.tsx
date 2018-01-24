@@ -10,16 +10,28 @@ export interface SelectAllButtonEvents {
     onSelectAll(): void;
 }
 
-export class SelectAllButton extends React.Component<SelectAllButtonProps & SelectAllButtonEvents> {
+export type SelectAllButtonAllProps = SelectAllButtonProps & SelectAllButtonEvents;
+
+export class SelectAllButton extends React.PureComponent<SelectAllButtonAllProps> {
+    public constructor(props: SelectAllButtonAllProps) {
+        super(props);
+        // bind event handlers
+        this.fireSelectAll = this.fireSelectAll.bind(this);
+    }
+    
     public render() {
         return (
             <Checkbox
                 disabled={!this.props.enableSelectAll}
                 indeterminate={this.selectedSome}
                 checked={this.selected}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.props.onSelectAll()}
+                onChange={this.fireSelectAll}
             />
         );
+    }
+
+    private fireSelectAll() {
+        this.props.onSelectAll();
     }
 
     private get selected(): boolean {

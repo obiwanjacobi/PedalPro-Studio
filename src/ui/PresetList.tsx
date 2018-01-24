@@ -22,7 +22,7 @@ const styles = {
     }
 };
 
-export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
+export class PresetList extends React.PureComponent<PresetListAllProps, PresetListState> {
 
     public shouldComponentUpdate(nextProps: PresetListAllProps, nextState: PresetListState): boolean {
         return (
@@ -59,6 +59,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                     preset={preset}
                     selectPresets={this.props.selectPresets}
                     editPreset={this.props.editPreset}
+                    // movePreset={this.props.movePreset}
                 />
             </Grid>
         );
