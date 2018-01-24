@@ -62,7 +62,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         );
     }
 
-    private clearSearch(e: React.MouseEvent<HTMLInputElement>) {
+    private clearSearch() {
         this.search("");
     }
     private searchHandler(e: React.ChangeEvent<HTMLInputElement>) {

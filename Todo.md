@@ -88,6 +88,7 @@ https://github.com/Microsoft/tslib
     How will this work with filtering? Filtering is done at list-level and a ListItem is instantiated for each preset index.
 - Use production build of React. Have no idea how to change that in electron/ts.
 - use a pack tool (webpack/babel/rollup) to optimize startup time (which is also pretty bad)
+    http://blog.scottlogic.com/2017/06/06/typescript-electron-webpack.html
 - derive from React.PureComponent to skip rendering on no changes.
 
 react: https://medium.com/@arikmaor/react-redux-performance-tuning-tips-cef1a6c50759

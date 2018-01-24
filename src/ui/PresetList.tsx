@@ -24,7 +24,7 @@ const styles = {
 
 export class PresetList extends React.PureComponent<PresetListAllProps, PresetListState> {
 
-    public shouldComponentUpdate(nextProps: PresetListAllProps, nextState: PresetListState): boolean {
+    public shouldComponentUpdate(nextProps: PresetListAllProps, _: PresetListState): boolean {
         return (
             this.props.presets !== nextProps.presets || 
             this.props.filter !== nextProps.filter

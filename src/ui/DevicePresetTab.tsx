@@ -57,7 +57,7 @@ export class DevicePresetTab extends React.PureComponent<DevicePresetTabAllProps
         );
     }
 
-    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, nextState: {}): boolean {
+    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: {}): boolean {
         return this.props.presets !== nextProps.presets;
     }
 
@@ -87,12 +87,12 @@ export class DevicePresetTab extends React.PureComponent<DevicePresetTabAllProps
 
 const extractComponentPropsFromState: MapStateToProps<
         DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument
-    > = (state: ApplicationDocument, props: DevicePresetTabProps): DevicePresetTabStateProps => {
+    > = (state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
         return  { presets: state.device };
 };
 
 const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps> =
-    (dispatch: Dispatch<ApplicationDocument>, props: DevicePresetTabProps): DevicePresetTabActions => {
+    (dispatch: Dispatch<ApplicationDocument>, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType)  => {
                 return createLoadPresetsAction(dispatch, source);

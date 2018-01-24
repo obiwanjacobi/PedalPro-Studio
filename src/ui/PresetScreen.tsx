@@ -46,7 +46,7 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
         );
     }
 
-    private changePageHandler(event: React.ChangeEvent<{}>, value: number) {
+    private changePageHandler(_: React.ChangeEvent<{}>, value: number) {
         this.activatePage(value);
     }
     

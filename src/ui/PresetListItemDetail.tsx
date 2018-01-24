@@ -5,7 +5,7 @@ import { Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
 
 import Preset from "../client/Preset";
 import { EditPreset } from "../client/EditPresetAction";
-import { MovePreset } from "../client/MovePresetAction";
+// import { MovePreset } from "../client/MovePresetAction";
 
 export interface PresetListItemDetailProps { 
     preset: Preset;
@@ -48,7 +48,7 @@ export default class PresetListItemDetail extends
     }
 
     public componentWillReceiveProps(
-        nextProps: PresetListItemDetailAllProps, nextState: PresetListItemDetailState) {
+        nextProps: PresetListItemDetailAllProps, _: PresetListItemDetailState) {
         this.setState({ name: nextProps.preset.name });
     }
 
@@ -135,7 +135,7 @@ export default class PresetListItemDetail extends
             this.state.name !== this.props.preset.name;
     }
 
-    private canUndo(preset: Preset, index: number): boolean {
+    private get canUndo(): boolean {
         return (
             this.state && 
             this.state.name !== this.props.preset.name)

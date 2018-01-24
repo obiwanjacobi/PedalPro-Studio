@@ -7,7 +7,7 @@ import PresetListItemDetail from "./PresetListItemDetail";
 import Preset from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
-import { MovePreset } from "../client/MovePresetAction";
+// import { MovePreset } from "../client/MovePresetAction";
 
 export interface PresetListItemProps { 
     preset: Preset;

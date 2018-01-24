@@ -1,9 +1,11 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
     "outDir": "app",
     "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "dom"],
+    "pretty": true,
     "sourceMap": true,
     "allowJs": false,
     "checkJs": false,
@@ -17,6 +19,8 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": false,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "alwaysStrict": true,
     "declaration": true,
     "emitDecoratorMetadata": true,

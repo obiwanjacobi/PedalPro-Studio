@@ -23,7 +23,7 @@ export default class TextProvider<ResourceT> implements TextLookup {
 
     public getText(resourceKey: string, condition: boolean = true): string {
         if (condition) {
-            let text = this.textResources[resourceKey];
+            let text = resourceKey; // this.textResources[resourceKey];
             return text;
         }
         return "";

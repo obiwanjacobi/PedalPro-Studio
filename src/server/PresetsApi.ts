@@ -27,17 +27,17 @@ export default class PresetsApi implements ApiHandler {
         });
     }
 
-    private async allPresets(request: express.Request, response: express.Response) {
+    private async allPresets(_: express.Request, response: express.Response) {
         const preset = await this.provider.getPresets();
         response.json(preset);
     }
 
-    private async getPreset(presetIndex: number, request: express.Request, response: express.Response) {
+    private async getPreset(presetIndex: number, _: express.Request, response: express.Response) {
         const preset = await this.provider.getPreset(presetIndex);
         response.json(preset);
     }
 
-    private async newPreset(request: express.Request, response: express.Response) {
+    private async newPreset(_: express.Request, response: express.Response) {
         response.json({ message: "new preset"});
     }
 }
