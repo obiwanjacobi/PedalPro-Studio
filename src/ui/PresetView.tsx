@@ -49,7 +49,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                         }
                     />
                 </Grid>
-                <Grid xs={12} item={true} style={{overflowY: "auto"}}>
+                <Grid xs={12} item={true}>
                     <PresetList
                         presets={this.props.presets}
                         selectPresets={this.props.selectPresets}
