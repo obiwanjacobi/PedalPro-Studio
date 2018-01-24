@@ -22,13 +22,11 @@ const styles = {
     }
 };
 
-export class PresetList extends React.PureComponent<PresetListAllProps, PresetListState> {
+export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
 
     public shouldComponentUpdate(nextProps: PresetListAllProps, nextState: PresetListState): boolean {
-        return (
-            this.props.presets !== nextProps.presets || 
-            this.props.filter !== nextProps.filter
-        );
+        return this.props.presets !== nextProps.presets || 
+            this.props.filter !== nextProps.filter;
     }
 
     public render(): React.ReactNode {

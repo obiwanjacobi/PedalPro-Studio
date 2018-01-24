@@ -25,11 +25,11 @@ const styles = {
 };
 
 export default class PresetListItemDetail extends 
-    React.PureComponent<PresetListItemDetailAllProps, PresetListItemDetailState> {
+    React.Component<PresetListItemDetailAllProps, PresetListItemDetailState> {
 
     constructor(props: PresetListItemDetailAllProps) {
         super(props);
-        this.state = { name: props.preset ? props.preset.name : "" };
+        this.state = { name: props.preset.name };
         // bind event handlers
         this.updateNameHandler = this.updateNameHandler.bind(this);
         this.undoName = this.undoName.bind(this);
@@ -40,13 +40,8 @@ export default class PresetListItemDetail extends
 
     public shouldComponentUpdate(
         nextProps: PresetListItemDetailAllProps, nextState: PresetListItemDetailState): boolean {
-        return (
-            this.props.preset !== nextProps.preset 
-        )
-            || 
-        (
-            this.state.name !== nextState.name
-        );
+        return this.props.preset !== nextProps.preset || 
+            this.state.name !== nextState.name;
     }
 
     public componentWillReceiveProps(
@@ -142,11 +137,8 @@ export default class PresetListItemDetail extends
     private get canUndo(): boolean {
         if (!this.state) { return false; }
 
-        return (
-            this.state.name !== this.props.preset.name
-        ) || (
-            this.state.name !== this.props.preset.history.name
-        );
+        return this.state.name !== this.props.preset.name ||
+            this.state.name !== this.props.preset.origin.name;
     }
 
     private updateNameHandler(e: React.ChangeEvent<HTMLInputElement>) {
@@ -159,7 +151,7 @@ export default class PresetListItemDetail extends
     }
 
     private undoName() {
-        this.updateName(this.props.preset.history.name);
+        this.updateName(this.props.preset.origin.name);
     }
 
     private save() {

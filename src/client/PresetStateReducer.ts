@@ -52,7 +52,7 @@ const reduceMovePreset = (
         const targetIndex = index + displacement;
 
         // bounds check
-        if (targetIndex < 0 || targetIndex > collection.length) {
+        if (targetIndex < 0 || targetIndex >= collection.length) {
             return collection;
         }
 

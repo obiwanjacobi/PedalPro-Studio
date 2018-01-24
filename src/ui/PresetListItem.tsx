@@ -19,7 +19,7 @@ export interface PresetListItemState {
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
 
-export default class PresetListItem extends React.PureComponent<PresetListItemAllProps, PresetListItemState> {
+export default class PresetListItem extends React.Component<PresetListItemAllProps, PresetListItemState> {
     constructor(props: PresetListItemAllProps) {
         super(props);
         this.state = { expanded: false };
@@ -29,11 +29,8 @@ export default class PresetListItem extends React.PureComponent<PresetListItemAl
     }
 
     public shouldComponentUpdate(nextProps: PresetListItemAllProps, nextState: PresetListItemState): boolean {
-        return (
-            this.props.preset !== nextProps.preset 
-        ) || (
-            this.state.expanded !== nextState.expanded
-        );
+        return this.props.preset !== nextProps.preset ||
+            this.state.expanded !== nextState.expanded;
     }
 
     public render(): React.ReactNode {

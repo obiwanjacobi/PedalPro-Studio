@@ -22,7 +22,7 @@ export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets &
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
-export class DevicePresetTab extends React.PureComponent<DevicePresetTabAllProps> {
+export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private selection: SelectedView<Preset>;
 
     public constructor(props: DevicePresetTabAllProps) {
