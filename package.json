@@ -1,7 +1,7 @@
 {
   "name": "pedalpro-editor",
   "version": "0.1.0",
-  "main": "app/startup.js",
+  "main": "app/program.js",
   "private": true,
   "description": "Vintage Revolution PedalPro Editor Application.",
   "dependencies": {
@@ -43,7 +43,9 @@
     "windows-build-tools": "^1.3.2"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.dev.config.js",
+    "build:w": "webpack -w --config webpack.dev.config.js",
+    "build:prod": "webpack --define process.env.NODE_ENV=\"production\" --config webpack.prod.config.js",
     "test": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest",
     "test-w": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest --watchAll",
     "start": "electron .",

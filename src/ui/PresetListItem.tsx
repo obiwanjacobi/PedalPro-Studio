@@ -19,7 +19,7 @@ export interface PresetListItemState {
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
 
-export default class PresetListItem extends React.PureComponent<PresetListItemAllProps, PresetListItemState> {
+export default class PresetListItem extends React.Component<PresetListItemAllProps, PresetListItemState> {
     constructor(props: PresetListItemAllProps) {
         super(props);
         this.state = { expanded: false };
@@ -37,7 +37,7 @@ export default class PresetListItem extends React.PureComponent<PresetListItemAl
     }
 
     public render(): React.ReactNode {
-        console.log("Render Preset: " + this.props.preset.index);
+        // console.log("Render Preset: " + this.props.preset.index);
 
         return (
             <Paper elevation={2}>

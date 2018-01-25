@@ -25,7 +25,7 @@ const styles = {
 };
 
 export default class PresetListItemDetail extends 
-    React.PureComponent<PresetListItemDetailAllProps, PresetListItemDetailState> {
+    React.Component<PresetListItemDetailAllProps, PresetListItemDetailState> {
 
     constructor(props: PresetListItemDetailAllProps) {
         super(props);
