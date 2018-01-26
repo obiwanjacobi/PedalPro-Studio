@@ -58,10 +58,8 @@ export default class PedalProReadPreset {
                 this.device.write(buffer);
                 preset.write(0, await this.device.read(), 1, PartSize);
                 
-                console.log("preset done");
                 resolve(preset);
             } catch (err) {
-                console.log("read-exception: " + err);
                 reject(err);
             }
         });

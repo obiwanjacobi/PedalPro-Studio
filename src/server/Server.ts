@@ -24,7 +24,7 @@ export default class Server {
     public run(): void {
         Server.expressApp.use(morgan("dev"));
 
-        Server.expressApp.get("/", function(request: express.Request, response: express.Response) {
+        Server.expressApp.get("/", function(_: express.Request, response: express.Response) {
             response.json({ message: "TODO: Sources" });
         });
 

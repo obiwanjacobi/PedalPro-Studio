@@ -7,7 +7,7 @@ import ApplicationStore from "./client/ApplicationStore";
 import ApplicationTheme from "./ui/ApplicationTheme";
 import PresetScreen from "./ui/PresetScreen";
 
-export class Application extends React.Component {
+export default class Application extends React.PureComponent {
     private appStore: ApplicationStore = new ApplicationStore();
 
     public static run(appElementId: string) {

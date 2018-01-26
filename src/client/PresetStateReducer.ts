@@ -11,32 +11,39 @@ import { MovePresetAction } from "./MovePresetAction";
 export type PresetAction = 
     LoadPresetsAction | SelectPresetsAction | CopyPresetsAction | EditPresetAction | MovePresetAction;
 
-export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
-    switch (action.type) {
-        case "R/device/presets/":
-        if (action.error) { throw action.error; }
-        if (action.presets) {
-            return reduceLoadPresets(state, action.source, action.presets);
-        }
+const copyOverride = (
+    state: ApplicationDocument, 
+    collection: PresetCollectionType, 
+    process: (presets: Preset[]) => Preset[]): ApplicationDocument => {
+
+    let device: Preset[] | null = null;
+    let storage: Preset[] | null = null;
+    let factory: Preset[] | null = null;
+
+    switch (collection) {
+        case PresetCollectionType.device:
+        device = process(state.device);
         break;
         
-        case "U/*/presets/.selected":
-        return reducePresetSelected(state, action.presets, action.selected);
-
-        case "C/*/presets/":
-        return reduceCopyPresets(state, action.presets, action.target);
-
-        case "U/*/presets/.*":
-        return reduceEditPreset(state, action.preset, action.update);
-
-        case "U/*/presets/[]":
-        return reduceMovePreset(state, action.preset, action.displacement);
-
-        default:
-        return state;
+        case PresetCollectionType.storage:
+        storage = process(state.storage);
+        break;
+        
+        case PresetCollectionType.factory:
+        factory = process(state.factory);
+        break;
+        
+        default: 
+        throw new Error(`Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
     }
 
-    return state;
+    return state.copyOverride(device, storage, factory);
+};
+
+const reIndexPresets = (mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
+    for (let index = beginIndex; index <= endIndex; index++) {
+        mutableCollection[index] = { ...mutableCollection[index], index: index };
+    }
 };
 
 const reduceMovePreset = (
@@ -47,12 +54,16 @@ const reduceMovePreset = (
 
     // local helper function
     const replacePreset = (collection: Preset[]): Preset[] => {
-        const newCollection = collection.slice();
-
-        const index = newCollection.indexOf(preset);
+        const index = collection.indexOf(preset);
         if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
         const targetIndex = index + displacement;
 
+        // bounds check
+        if (targetIndex < 0 || targetIndex >= collection.length) {
+            return collection;
+        }
+
+        const newCollection = collection.slice();
         newCollection.splice(index, 1); // remove
         newCollection.splice(targetIndex, 0, preset);  // insert
 
@@ -143,37 +154,30 @@ const reduceLoadPresets = (
     return copyOverride(state, source, () => presets);
 };
 
-const copyOverride = (
-    state: ApplicationDocument, 
-    collection: PresetCollectionType, 
-    process: (presets: Preset[]) => Preset[]): ApplicationDocument => {
+export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
+    switch (action.type) {
+        case "R/device/presets/":
+        if (action.error) { throw action.error; }
+        if (action.presets) {
+            return reduceLoadPresets(state, action.source, action.presets);
+        }
+        break;
+        
+        case "U/*/presets/.selected":
+        return reducePresetSelected(state, action.presets, action.selected);
 
-    let device: Preset[] | null = null;
-    let storage: Preset[] | null = null;
-    let factory: Preset[] | null = null;
+        case "C/*/presets/":
+        return reduceCopyPresets(state, action.presets, action.target);
 
-    switch (collection) {
-        case PresetCollectionType.device:
-        device = process(state.device);
-        break;
-        
-        case PresetCollectionType.storage:
-        storage = process(state.storage);
-        break;
-        
-        case PresetCollectionType.factory:
-        factory = process(state.factory);
-        break;
-        
-        default: 
-        throw new Error(`Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
+        case "U/*/presets/.*":
+        return reduceEditPreset(state, action.preset, action.update);
+
+        case "U/*/presets/[]":
+        return reduceMovePreset(state, action.preset, action.displacement);
+
+        default:
+        return state;
     }
 
-    return state.copyOverride(device, storage, factory);
-}
-
-const reIndexPresets = (mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
-    for (let index = beginIndex; index <= endIndex; index++) {
-        mutableCollection[index] = { ...mutableCollection[index], index: index }
-    }
+    return state;
 };

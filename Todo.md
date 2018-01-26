@@ -10,8 +10,6 @@
 
 import Document, { Head, Main, NextScript } from 'next/document';
 
-// react
-http://wix.github.io/react-templates/
 
 // material-ui
 http://google.github.io/material-design-icons/#icon-font-for-the-web
@@ -73,17 +71,28 @@ https://github.com/Microsoft/tslib
 
 ## Preset List
 
- - drag & drop
+ - drag & drop (react-sortable-hoc)
  - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
- 
+ - scolling   https://github.com/kristoferjoseph/flexboxgrid
+
  Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
  Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device). 
  All device presets are automatically saved when uploaded to the device.
 
 ## performance
 
-- remove/refactor all anonymous event handlers (start with PresetList) - bind in ctor.
+- Done: remove/refactor all anonymous event handlers (start with PresetList/Item) - bind in ctor.
 - add tslib
+- use a virtual preset list: https://github.com/bvaughn/react-virtualized
+- look into state management
+- Done: implement ShouldComponentUpdate()
+- Redux connect at list item level. Bind list with number of presets and instantiate each list item with its index.
+    How will this work with filtering? Filtering is done at list-level and a ListItem is instantiated for each preset index.
+- Use production build of React. Have no idea how to change that in electron/ts.
+- use a pack tool (webpack/babel/rollup) to optimize startup time (which is also pretty bad)
+    http://blog.scottlogic.com/2017/06/06/typescript-electron-webpack.html
 
 react: https://medium.com/@arikmaor/react-redux-performance-tuning-tips-cef1a6c50759
+https://reactjs.org/docs/optimizing-performance.html#use-the-production-build
+https://medium.com/@paularmstrong/twitter-lite-and-high-performance-react-progressive-web-apps-at-scale-d28a00e780a3
 

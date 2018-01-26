@@ -28,6 +28,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     public constructor(props: DevicePresetTabAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
+        // bind event handlers
+        this.onCopySelected = this.onCopySelected.bind(this);
+        this.download = this.download.bind(this);
+        this.toggleSelectAll = this.toggleSelectAll.bind(this);
     }
 
     public render() {
@@ -35,13 +39,13 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
             <div>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
-                    onCopy={() => this.onCopySelected()}
+                    onCopy={this.onCopySelected}
                     enableDownload={true}
-                    onDownload={() => this.download()}
+                    onDownload={this.download}
                     enableUpload={!this.selection.isEmpty}
                     enableSelectAll={!this.selection.isEmpty}
                     valueSelectAll={this.selection.toValue()}
-                    onSelectAll={() => this.toggleSelectAll()}
+                    onSelectAll={this.toggleSelectAll}
                 />
                 <PresetView 
                     presets={this.props.presets}
@@ -51,6 +55,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                 />
             </div>
         );
+    }
+
+    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: {}): boolean {
+        return this.props.presets !== nextProps.presets;
     }
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
@@ -73,20 +81,21 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     }
 
     private download() {
-        this.actions.loadPresets(PresetCollectionType.device);
+        this.actions.loadPresets(PresetCollectionType.device)
+            .catch((reason) => {
+                throw new Error(reason);
+            });
     }
 }
 
 const extractComponentPropsFromState: MapStateToProps<
         DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument
-    > = (state: ApplicationDocument, props: DevicePresetTabProps): DevicePresetTabStateProps => {
-        return  { 
-            presets: state.device
-        };
+    > = (state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
+        return  { presets: state.device };
 };
 
 const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps> =
-    (dispatch: Dispatch<ApplicationDocument>, props: DevicePresetTabProps): DevicePresetTabActions => {
+    (dispatch: Dispatch<ApplicationDocument>, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType)  => {
                 return createLoadPresetsAction(dispatch, source);

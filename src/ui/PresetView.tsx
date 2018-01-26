@@ -19,10 +19,13 @@ export interface PresetViewState {
 
 export type PresetViewAllProps = PresetViewStateProps & SelectPresets & EditPreset & MovePreset;
 
-export class PresetView extends React.Component<PresetViewAllProps, PresetViewState> {
+export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
         super(props);
         this.state = { searchKey: "" };
+        // bind event handlers
+        this.searchHandler = this.searchHandler.bind(this);
+        this.clearSearch = this.clearSearch.bind(this);
     }
 
     public render() {
@@ -36,10 +39,10 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
                         placeholder="Type to Filter Presets"
                         value={this.state.searchKey}
                         disabled={this.props.presets.length === 0}
-                        onChange={(e) => this.search(e.target.value)}
+                        onChange={this.searchHandler}
                         endAdornment={
                             <InputAdornment position="end">
-                                <IconButton onClick={() => this.search("")}>
+                                <IconButton onClick={this.clearSearch}>
                                     <Clear/>
                                 </IconButton>
                             </InputAdornment>
@@ -59,8 +62,17 @@ export class PresetView extends React.Component<PresetViewAllProps, PresetViewSt
         );
     }
 
+    private clearSearch() {
+        this.search("");
+    }
+    private searchHandler(e: React.ChangeEvent<HTMLInputElement>) {
+        this.search(e.target.value);
+    }
+
     private search(value: string) {
         if (value.length > 10) { return; }
-        this.setState( { searchKey: value });
+        if (this.state.searchKey !== value) {
+            this.setState( { searchKey: value });
+        }
     }
 }

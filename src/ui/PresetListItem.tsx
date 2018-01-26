@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Collapse, Grid, Paper, Checkbox, Tooltip, IconButton } from "material-ui";
-import Input, { InputAdornment } from "material-ui/Input";
 import Typography from "material-ui/Typography/Typography";
-import { ExpandMore, ExpandLess, Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
-import { isNullOrUndefined } from "util";
+import { ExpandMore, ExpandLess } from "material-ui-icons";
 
+import PresetListItemDetail from "./PresetListItemDetail";
 import Preset from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
@@ -13,31 +12,30 @@ import { MovePreset } from "../client/MovePresetAction";
 export interface PresetListItemProps { 
     preset: Preset;
 }
-export type PresetListItemActions = SelectPresets; // & EditPreset & MovePreset;
+export type PresetListItemActions = SelectPresets & EditPreset & MovePreset;
 export interface PresetListItemState {
     expanded: boolean;
-    name: string;
 }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
 
-const styles = {
-    smallIcon: {
-      width: 20,
-      height: 20,
-    }
-};
-
 export default class PresetListItem extends React.Component<PresetListItemAllProps, PresetListItemState> {
     constructor(props: PresetListItemAllProps) {
         super(props);
-        this.state = { expanded: false, name: "" };
+        this.state = { expanded: false };
         // bind event handlers
         this.toggleExpanded = this.toggleExpanded.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
+    public shouldComponentUpdate(nextProps: PresetListItemAllProps, nextState: PresetListItemState): boolean {
+        return this.props.preset !== nextProps.preset ||
+            this.state.expanded !== nextState.expanded;
+    }
+
     public render(): React.ReactNode {
+        // console.log("Render Preset: " + this.props.preset.index);
+
         return (
             <Paper elevation={2}>
                     <Grid container={true} alignItems="center" spacing={8}>
@@ -61,76 +59,27 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                             </Tooltip>
                         </Grid>
                     </Grid>
-                    {/* <Collapse in={this.state.expanded[index]}>
-                        <Grid container={true} justify="flex-end">
-                            <Grid item={true} xs={8}>
-                                <Input
-                                    placeholder="Preset Name"
-                                    margin="dense"
-                                    value={this.state.names[index]}
-                                    onChange={(e) => this.updateName(e.target.value, index)}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <Tooltip 
-                                                title="Click to revert to the original text" 
-                                                placement="left"
-                                            >
-                                                <IconButton 
-                                                    disabled={!this.canUndo(preset, index)}
-                                                    onClick={() => this.undoName(preset, index)}
-                                                >
-                                                    <Undo />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </Grid>
-                            <Grid xs={1} item={true}>
-                                <Tooltip title="Click to move this Preset up in the list" placement="left">
-                                    <IconButton 
-                                        style={styles.smallIcon}
-                                        disabled={!this.canMoveUp(preset)}
-                                        onClick={() => this.movePreset(preset, -1)}
-                                    >
-                                        <ArrowUpward style={styles.smallIcon}/>
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title="Click to move this Preset down in the list" placement="left">
-                                    <IconButton 
-                                        style={styles.smallIcon}
-                                        disabled={!this.canMoveDown(preset)}
-                                        onClick={() => this.movePreset(preset, 1)}
-                                    >
-                                        <ArrowDownward style={styles.smallIcon}/>
-                                    </IconButton>
-                                </Tooltip>
-                            </Grid>
-                            <Grid item={true} xs={2}>
-                                <Tooltip title="Click to keep the changes." placement="right">
-                                    <IconButton 
-                                        color="accent"
-                                        disabled={!this.canSave(preset, index)}
-                                        onClick={() => this.save(preset, index)}
-                                    >
-                                        <Save />
-                                    </IconButton>
-                                </Tooltip>
-                            </Grid>
-                            <Grid item={true} xs={12} />
-                        </Grid>         
-                    </Collapse> */}
+                    <Collapse in={this.state.expanded}>
+                        {this.state.expanded ? 
+                            <PresetListItemDetail
+                                preset={this.props.preset}
+                                editPreset={this.props.editPreset}
+                                movePreset={this.props.movePreset}
+                            /> : null
+                        }
+                    </Collapse>
                 </Paper>
         );
     }
 
     private formatIndex(): string {
         const index = this.props.preset.index;
+        // formats 3 digits with leading zeros
         return (String(0).repeat(3) + String(index)).slice(String(index).length);
     }
-
+    
     private toggleExpanded() {
-        this.setState({ expanded: !this.state.expanded, name: this.state.name });
+        this.setState({ expanded: !this.state.expanded });
     }
 
     private toggleSelected() {

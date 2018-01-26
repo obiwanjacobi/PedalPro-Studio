@@ -6,6 +6,20 @@ export enum PresetCollectionType {
     factory = "factory",
 }
 
+export class ScreenState {
+    public targetPresetDialogOpen?: boolean;
+
+    public constructor(targetPresetDialogOpen?: boolean) {
+        this.targetPresetDialogOpen = targetPresetDialogOpen ? targetPresetDialogOpen : false;
+    }
+
+    public copyOverride(targetPresetDialogOpen?: boolean): ScreenState {
+        return new ScreenState(
+            targetPresetDialogOpen !== undefined ? targetPresetDialogOpen : this.targetPresetDialogOpen
+        );
+    }
+}
+
 export default class ApplicationDocument {
     public readonly device: Preset[];
     public readonly storage: Preset[];
@@ -40,20 +54,6 @@ export default class ApplicationDocument {
     public copyOverrideScreen(screen: ScreenState): ApplicationDocument {
         return new ApplicationDocument(
             this.device, this.storage, this.factory, screen
-        );
-    }
-}
-
-export class ScreenState {
-    public targetPresetDialogOpen?: boolean;
-
-    public constructor(targetPresetDialogOpen?: boolean) {
-        this.targetPresetDialogOpen = targetPresetDialogOpen ? targetPresetDialogOpen : false;
-    }
-
-    public copyOverride(targetPresetDialogOpen?: boolean): ScreenState {
-        return new ScreenState(
-            targetPresetDialogOpen !== undefined ? targetPresetDialogOpen : this.targetPresetDialogOpen
         );
     }
 }

@@ -15,9 +15,9 @@ export default interface Preset extends ModelPreset.default {
     selected: boolean;
 
     /**
-     * the history of this preset
+     * the origin of this preset
      */
-    history: PresetHistory;
+    origin: PresetHistory;
 }
 
 export interface PresetHistory {

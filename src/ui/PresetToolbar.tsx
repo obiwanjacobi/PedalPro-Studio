@@ -21,7 +21,14 @@ export interface PresetToolbarEvents {
 export type PresetToolbarAllProps = 
     PresetToolbarEvents & PresetToolbarProps & SelectAllButtonProps & SelectAllButtonEvents;
 
-export class PresetToolbar extends React.Component<PresetToolbarAllProps> {
+export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
+    constructor(props: PresetToolbarAllProps) {
+        super(props);
+        // bind event handlers
+        this.fireCopy = this.fireCopy.bind(this);
+        this.fireDownload = this.fireDownload.bind(this);
+        this.fireUpload = this.fireUpload.bind(this);
+    }
     public render() {
         return (
             <ApplicationToolbar>
@@ -30,13 +37,13 @@ export class PresetToolbar extends React.Component<PresetToolbarAllProps> {
                     valueSelectAll={this.props.valueSelectAll}
                     onSelectAll={this.props.onSelectAll}
                 />
-                <IconButton disabled={!this.props.enableCopy} onClick={() => this.fireCopy()}>
+                <IconButton disabled={!this.props.enableCopy} onClick={this.fireCopy}>
                     <ContentCopy />
                 </IconButton>
-                <IconButton disabled={!this.props.enableDownload} onClick={() => this.fireDownload()}>
+                <IconButton disabled={!this.props.enableDownload} onClick={this.fireDownload}>
                     <FileDownload />
                 </IconButton>
-                <IconButton disabled={!this.props.enableUpload} onClick={() => this.fireUpload()}>
+                <IconButton disabled={!this.props.enableUpload} onClick={this.fireUpload}>
                     <FileUpload />
                 </IconButton>
                 <img src="../assets/VintageRevolutionLogoText.jpg" alt="logo" className="vrlogo" />
