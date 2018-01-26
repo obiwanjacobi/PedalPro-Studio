@@ -6,7 +6,7 @@ export default class Client {
     private readonly typedRest: TypedRestClient.RestClient;
 
     private static initPreset(preset: Preset): void {
-        preset.history = { 
+        preset.origin = { 
             collection: PresetCollectionType.device,
             index: preset.index,
             name: preset.name,

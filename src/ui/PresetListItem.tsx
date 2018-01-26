@@ -12,7 +12,7 @@ import { EditPreset } from "../client/EditPresetAction";
 export interface PresetListItemProps { 
     preset: Preset;
 }
-export type PresetListItemActions = SelectPresets & EditPreset; // & MovePreset;
+export type PresetListItemActions = SelectPresets & EditPreset & MovePreset;
 export interface PresetListItemState {
     expanded: boolean;
 }
@@ -29,11 +29,8 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
     }
 
     public shouldComponentUpdate(nextProps: PresetListItemAllProps, nextState: PresetListItemState): boolean {
-        return (
-            this.props.preset !== nextProps.preset 
-        ) || (
-            this.state.expanded !== nextState.expanded
-        );
+        return this.props.preset !== nextProps.preset ||
+            this.state.expanded !== nextState.expanded;
     }
 
     public render(): React.ReactNode {
@@ -67,6 +64,7 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                             <PresetListItemDetail
                                 preset={this.props.preset}
                                 editPreset={this.props.editPreset}
+                                movePreset={this.props.movePreset}
                             /> : null
                         }
                     </Collapse>

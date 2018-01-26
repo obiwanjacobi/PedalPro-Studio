@@ -72,7 +72,8 @@ https://github.com/Microsoft/tslib
 
  - drag & drop (react-sortable-hoc)
  - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
- 
+ - scolling   https://github.com/kristoferjoseph/flexboxgrid
+
  Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
  Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device). 
  All device presets are automatically saved when uploaded to the device.
@@ -89,7 +90,6 @@ https://github.com/Microsoft/tslib
 - Use production build of React. Have no idea how to change that in electron/ts.
 - use a pack tool (webpack/babel/rollup) to optimize startup time (which is also pretty bad)
     http://blog.scottlogic.com/2017/06/06/typescript-electron-webpack.html
-- derive from React.PureComponent to skip rendering on no changes.
 
 react: https://medium.com/@arikmaor/react-redux-performance-tuning-tips-cef1a6c50759
 https://reactjs.org/docs/optimizing-performance.html#use-the-production-build

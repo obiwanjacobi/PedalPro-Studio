@@ -10,7 +10,7 @@ import { EditPreset } from "../client/EditPresetAction";
 export interface PresetListItemDetailProps { 
     preset: Preset;
 }
-export type PresetListItemDetailActions = EditPreset; // & MovePreset;
+export type PresetListItemDetailActions = EditPreset & MovePreset;
 export interface PresetListItemDetailState {
     name: string;
 }
@@ -29,22 +29,19 @@ export default class PresetListItemDetail extends
 
     constructor(props: PresetListItemDetailAllProps) {
         super(props);
-        this.state = { name: "" };
+        this.state = { name: props.preset.name };
         // bind event handlers
         this.updateNameHandler = this.updateNameHandler.bind(this);
         this.undoName = this.undoName.bind(this);
         this.save = this.save.bind(this);
+        this.movePresetUp = this.movePresetUp.bind(this);
+        this.movePresetDown = this.movePresetDown.bind(this);
     }
 
     public shouldComponentUpdate(
         nextProps: PresetListItemDetailAllProps, nextState: PresetListItemDetailState): boolean {
-        return (
-            this.props.preset !== nextProps.preset 
-        )
-            || 
-        (
-            this.state.name !== nextState.name
-        );
+        return this.props.preset !== nextProps.preset || 
+            this.state.name !== nextState.name;
     }
 
     public componentWillReceiveProps(
@@ -83,7 +80,7 @@ export default class PresetListItemDetail extends
                         <IconButton 
                             style={styles.smallIcon}
                             disabled={!this.canMoveUp}
-                            // onClick={this.movePresetUp}
+                            onClick={this.movePresetUp}
                         >
                             <ArrowUpward style={styles.smallIcon}/>
                         </IconButton>
@@ -91,8 +88,8 @@ export default class PresetListItemDetail extends
                     <Tooltip title="Click to move this Preset down in the list" placement="left">
                         <IconButton 
                             style={styles.smallIcon}
-                            // disabled={!this.canMoveDown}
-                            // onClick={this.movePresetDown}
+                            disabled={!this.canMoveDown}
+                            onClick={this.movePresetDown}
                         >
                             <ArrowDownward style={styles.smallIcon}/>
                         </IconButton>
@@ -118,16 +115,18 @@ export default class PresetListItemDetail extends
         return this.props.preset.index > 0;
     }
 
-    // private canMoveDown(preset: Preset): boolean {
-    //     return preset.index < this.props.presets.length - 1;
-    // }
+    private movePresetUp() {
+        this.props.movePreset(this.props.preset, -1);
+    }
 
-    // private movePreset(preset: Preset, displacement: number) {
-    //     const index = this.props.presets.indexOf(preset);
-    //     const targetIndex = index + displacement;
-    
-    //     this.props.movePreset(preset, displacement);
-    // }
+    private movePresetDown() {
+        this.props.movePreset(this.props.preset, 1);
+    }
+
+    private get canMoveDown(): boolean {
+        // TODO: use actual number of presets!
+        return this.props.preset.index < 400;
+    }
 
     private get canSave(): boolean {
         return this.state && 
@@ -136,13 +135,10 @@ export default class PresetListItemDetail extends
     }
 
     private get canUndo(): boolean {
-        return (
-            this.state && 
-            this.state.name !== this.props.preset.name)
-            
-            ||
+        if (!this.state) { return false; }
 
-            this.state.name !== this.props.preset.history.name;
+        return this.state.name !== this.props.preset.name ||
+            this.state.name !== this.props.preset.origin.name;
     }
 
     private updateNameHandler(e: React.ChangeEvent<HTMLInputElement>) {
@@ -155,7 +151,7 @@ export default class PresetListItemDetail extends
     }
 
     private undoName() {
-        this.updateName(this.props.preset.history.name);
+        this.updateName(this.props.preset.origin.name);
     }
 
     private save() {

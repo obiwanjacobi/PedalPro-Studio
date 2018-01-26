@@ -34,7 +34,7 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
                         </Collapse>
                 </Grid>
                 <Grid item={true} xs={12}>
-                    <AppBar position="static" style={{ position: "absolute", bottom: 0 }} >
+                    <AppBar position="static" style={{ position: "absolute", bottom: 0 }}>
                         <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
                             <Tab label="Device" />
                             <Tab label="Storage" />
