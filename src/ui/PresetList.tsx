@@ -140,7 +140,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                             <Grid item={true} xs={2}>
                                 <Tooltip title="Click to keep the changes." placement="right">
                                     <IconButton 
-                                        color="accent"
+                                        color="secondary"
                                         disabled={!this.canSave(preset, index)}
                                         onClick={() => this.save(preset, index)}
                                     >

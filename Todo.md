@@ -57,6 +57,7 @@ https://github.com/reactjs/reselect
 
 Electron
 https://github.com/MarshallOfSound/electron-devtools-installer
+https://anadea.info/blog/building-desktop-app-with-electron
 
 TypeScript
 https://github.com/Microsoft/tslib
