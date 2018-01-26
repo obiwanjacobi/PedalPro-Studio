@@ -45,7 +45,7 @@
   "scripts": {
     "build": "webpack --config webpack.dev.config.js",
     "build:w": "webpack -w --config webpack.dev.config.js",
-    "build:prod": "webpack --define process.env.NODE_ENV=\"production\" --config webpack.prod.config.js",
+    "build:prod": "webpack --config webpack.prod.config.js",
     "test": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest",
     "test-w": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest --watchAll",
     "start": "electron .",
