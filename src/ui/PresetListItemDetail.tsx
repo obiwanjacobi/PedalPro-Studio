@@ -5,7 +5,7 @@ import { Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
 
 import Preset from "../client/Preset";
 import { EditPreset } from "../client/EditPresetAction";
-// import { MovePreset } from "../client/MovePresetAction";
+import { MovePreset } from "../client/MovePresetAction";
 
 export interface PresetListItemDetailProps { 
     preset: Preset;
