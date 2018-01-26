@@ -1,3 +1,5 @@
 import Application from "./Application";
 
-Application.run("application");
+if (document) {
+    Application.run("application");
+}

@@ -45,20 +45,6 @@ export default class Program {
                 Program.mainWindow.setMenu(null);
             }
         }
-
-        // import Environment from "./Environment";
-        if (!Environment.isProduction) {
-            const { default: installExtension, REACT_DEVELOPER_TOOLS } = require("electron-devtools-installer");
-            
-            installExtension(REACT_DEVELOPER_TOOLS);
-                // .then((name) => {
-                //     console.log(`Added Extension:  ${name}`);
-                // })
-                // .catch((err) => {
-                //     console.log('An error occurred: ', err);
-                // });
-        }
-
     }
 
     private static quit() {
