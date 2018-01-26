@@ -7,7 +7,7 @@
     "name": "Jacobi Software",
     "url": "https://www.vintage-revolution.com"
   },
-  "main": "./app/app.js",
+  "main": "./app/program.js",
   "private": true,
   "dependencies": {
     "express": "^4.16.2",
@@ -55,7 +55,7 @@
     "start": "electron .",
     "postinstall": "tsc && electron-rebuild --force",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "release": "electron-builder"
   },
   "build": {
     "appId": "js.pedalpro.editor",
@@ -75,7 +75,8 @@
       "./assets/**/*.*"
     ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "assets",
+      "output": "release"
     }
   },
   "jest": {
