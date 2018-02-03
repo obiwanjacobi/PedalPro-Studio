@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Grid } from "material-ui";
+import { Index, Table, Column, TableCellDataGetterParams, TableCellProps, AutoSizer } from "react-virtualized";
 
 import PresetListItem from "./PresetListItem";
 import Preset from "../client/Preset";
@@ -23,6 +24,11 @@ const styles = {
 };
 
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
+    public constructor(props: PresetListAllProps) {
+        super(props);
+        this.renderCell = this.renderCell.bind(this);
+        this.getRow = this.getRow.bind(this);
+    }
 
     public shouldComponentUpdate(nextProps: PresetListAllProps, _: PresetListState): boolean {
         return this.props.presets !== nextProps.presets || 
@@ -32,36 +38,83 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     public render(): React.ReactNode {
         if (!this.props.presets) { return <div />; }
 
-        return ( 
-            <Grid container={true}>
-                    {this.props.presets.map(
-                        (preset: Preset) => this.presetSummary(preset)
-                    )}
-            </Grid>
+        return (
+            <div style={{height: "100%"}}>
+            <AutoSizer>
+                {({height, width}) => (
+                    <Table 
+                        headerHeight={0}
+                        rowCount={this.props.presets.length}
+                        rowGetter={this.getRow}
+                        height={height}
+                        width={width}
+                        rowHeight={80}
+                    >
+                        <Column
+                            dataKey="preset"
+                            width={width}
+                            cellRenderer={this.renderCell}
+                            cellDataGetter={this.getCellData}
+                        />
+                    </Table>
+                )}
+            </AutoSizer>
+            </div>
         );
     }
 
-    private presetSummary(preset: Preset): React.ReactNode {
+    private getCellData(params: TableCellDataGetterParams) {
+        return params.rowData.index;
+    }
+
+    private getRow(info: Index) {
+        return this.props.presets[info.index];
+    }
+
+    private renderCell(props: TableCellProps) {
         return (
-            <Grid 
-                xs={12} 
-                sm={6} 
-                md={4} 
-                lg={3} 
-                xl={2} 
-                item={true} 
-                key={preset.index}
-                style={!this.isVisible(preset) ? styles.hidden : {}}
-            >
-                <PresetListItem
-                    preset={preset}
-                    selectPresets={this.props.selectPresets}
-                    editPreset={this.props.editPreset}
-                    movePreset={this.props.movePreset}
-                />
-            </Grid>
+            <PresetListItem
+                preset={this.props.presets[props.cellData]}
+                selectPresets={this.props.selectPresets}
+                editPreset={this.props.editPreset}
+                movePreset={this.props.movePreset}
+            />
         );
     }
+
+    // public render(): React.ReactNode {
+    //     if (!this.props.presets) { return <div />; }
+
+    //     return ( 
+    //         <Grid container={true}>
+    //                 {this.props.presets.map(
+    //                     (preset: Preset) => this.presetSummary(preset)
+    //                 )}
+    //         </Grid>
+    //     );
+    // }
+
+    // private presetSummary(preset: Preset): React.ReactNode {
+    //     return (
+    //         <Grid 
+    //             xs={12} 
+    //             sm={6} 
+    //             md={4} 
+    //             lg={3} 
+    //             xl={2} 
+    //             item={true} 
+    //             key={preset.index}
+    //             style={!this.isVisible(preset) ? styles.hidden : {}}
+    //         >
+    //             <PresetListItem
+    //                 preset={preset}
+    //                 selectPresets={this.props.selectPresets}
+    //                 editPreset={this.props.editPreset}
+    //                 movePreset={this.props.movePreset}
+    //             />
+    //         </Grid>
+    //     );
+    // }
 
     private isVisible(preset: Preset): boolean {
         if (!this.props.filter || this.props.filter.length === 0) {

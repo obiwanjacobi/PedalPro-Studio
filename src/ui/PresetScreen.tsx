@@ -21,28 +21,41 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
 
     public render(): React.ReactNode {
         return (
-            <Grid container={true} direction="column" spacing={8}>
-                <Grid item={true} xs={12}>
-                        <Collapse in={this.selectedTab === 0}>
-                            <DevicePresetTab />
-                        </Collapse>
-                        <Collapse in={this.selectedTab === 1} >
-                            <StoragePresetTab />
-                        </Collapse>
-                        <Collapse in={this.selectedTab === 2} >
-                            <FactoryPresetTab />
-                        </Collapse>
-                </Grid>
-                <Grid item={true} xs={12}>
-                    <AppBar position="static" style={{ position: "absolute", bottom: 0 }}>
-                        <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
-                            <Tab label="Device" />
-                            <Tab label="Storage" />
-                            <Tab label="Factory" />
-                        </Tabs>
-                    </AppBar>
-                </Grid>
-            </Grid>
+            <div>
+                {this.selectedTab === 0 && <DevicePresetTab />}
+                {this.selectedTab === 1 && <StoragePresetTab />}
+                {this.selectedTab === 2 && <FactoryPresetTab />}
+                <AppBar position="static" style={{ position: "absolute", bottom: 0 }}>
+                    <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
+                        <Tab label="Device" />
+                        <Tab label="Storage" />
+                        <Tab label="Factory" />
+                    </Tabs>
+                </AppBar>
+            </div>    
+
+            // <Grid container={true} direction="column" spacing={8}>
+            //     <Grid item={true} xs={12}>
+                        // <Collapse in={this.selectedTab === 0}>
+                        //     <DevicePresetTab />
+                        // </Collapse>
+                        // <Collapse in={this.selectedTab === 1} >
+                        //     <StoragePresetTab />
+                        // </Collapse>
+                        // <Collapse in={this.selectedTab === 2} >
+                        //     <FactoryPresetTab />
+                        // </Collapse>
+            //     </Grid>
+            //     <Grid item={true} xs={12}>
+                    //  <AppBar position="static" style={{ position: "absolute", bottom: 0 }}>
+                    //      <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
+                    //          <Tab label="Device" />
+                    //          <Tab label="Storage" />
+                    //          <Tab label="Factory" />
+                    //      </Tabs>
+                    //  </AppBar>
+            //     </Grid>
+            // </Grid>
         );
     }
 
