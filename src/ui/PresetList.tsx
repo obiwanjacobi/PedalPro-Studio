@@ -23,7 +23,53 @@ const styles = {
     }
 };
 
+class GridCalc {
+    private widthTotal: number;
+    private countTotal: number;
+    private numberOfCols: number;
+    private numberOfRows: number;
+    private col: number;
+    private arr: Array<number>;
+
+    constructor(itemCount: number, width: number) {
+        this.countTotal = itemCount;
+        this.widthTotal = width;
+
+        this.numberOfCols =  Math.floor(this.widthTotal / 340);
+        if (this.numberOfCols <= 1) { this.numberOfCols = 1; }
+        this.col = Math.floor(this.widthTotal / this.numberOfCols);
+        this.numberOfRows = this.countTotal / this.numberOfCols;
+
+        this.arr = new Array<number>(this.numberOfCols);
+        for (let i = 0; i < this.numberOfCols; i++) {
+            this.arr[i] = this.col;
+        }
+    }
+
+    public get colCount(): number {
+        return this.numberOfCols;
+    }
+
+    public get rowCount(): number {
+        return this.numberOfRows;
+    }
+
+    public get colWidth(): number {
+        return this.col;
+    }
+
+    public get columns(): Array<number> {
+        return this.arr;
+    }
+
+    public toRowIndex(index: number): number {
+        return index * this.numberOfCols;
+    }
+}
+
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
+    private grid:  GridCalc;
+
     public constructor(props: PresetListAllProps) {
         super(props);
         this.renderCell = this.renderCell.bind(this);
@@ -40,45 +86,63 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
 
         return (
             <div style={{height: "100%"}}>
-            <AutoSizer>
-                {({height, width}) => (
-                    <Table 
-                        headerHeight={0}
-                        rowCount={this.props.presets.length}
-                        rowGetter={this.getRow}
-                        height={height}
-                        width={width}
-                        rowHeight={80}
-                    >
-                        <Column
-                            dataKey="preset"
-                            width={width}
-                            cellRenderer={this.renderCell}
-                            cellDataGetter={this.getCellData}
-                        />
-                    </Table>
-                )}
-            </AutoSizer>
+                <AutoSizer>
+                    {({height, width}) => {
+                        this.grid = new GridCalc(this.props.presets.length, width);
+
+                        return (
+                            <Table 
+                                disableHeader={true}
+                                headerHeight={0}
+                                overscanRowCount={7}
+                                rowCount={this.grid.rowCount}
+                                rowGetter={this.getRow}
+                                height={height}
+                                width={width}
+                                rowHeight={80}
+                            >
+                                {this.grid.columns.map((value: number, index: number) => 
+                                    this.renderColumn(index, value))}
+                            </Table>
+                            );
+                        }}
+                </AutoSizer>
             </div>
         );
     }
 
+    private renderColumn(colIndex: number, width: number) {
+        return (
+            <Column
+                key={colIndex}
+                dataKey={colIndex}
+                width={width}
+                cellRenderer={this.renderCell}
+                cellDataGetter={this.getCellData}
+            />
+        );
+    }
+
     private getCellData(params: TableCellDataGetterParams) {
-        return params.rowData.index;
+        return params.rowData[params.dataKey];
     }
 
     private getRow(info: Index) {
-        return this.props.presets[info.index];
+        const index = this.grid.toRowIndex(info.index);
+        return this.props.presets.slice(index, this.grid.colCount);
     }
 
     private renderCell(props: TableCellProps) {
+        if (!props.cellData) return  null;
+
         return (
-            <PresetListItem
-                preset={this.props.presets[props.cellData]}
-                selectPresets={this.props.selectPresets}
-                editPreset={this.props.editPreset}
-                movePreset={this.props.movePreset}
-            />
+            <div>{props.cellData.name}</div>
+            // <PresetListItem
+            //     preset={props.cellData}
+            //     selectPresets={this.props.selectPresets}
+            //     editPreset={this.props.editPreset}
+            //     movePreset={this.props.movePreset}
+            // />
         );
     }
 

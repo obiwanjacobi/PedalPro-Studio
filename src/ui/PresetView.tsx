@@ -30,10 +30,10 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
     }
 
     public render() {
-        if (!this.props.presets) { return <div className="loading">Loading...</div>; }
+        if (!this.props.presets) { return <div className="loading" style={{height: "100%"}}>Loading...</div>; }
 
         return (
-            <div style={{height: "100%"}}>
+            <div id="PresetView" style={{height: "100%"}}>
                 <Input 
                     placeholder="Type to Filter Presets"
                     value={this.state.searchKey}
@@ -47,20 +47,13 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                         </InputAdornment>
                     }
                 />
-                <div/>
-                <AutoSizer>
-                    {({height, width}) => (
-                        <div id="PresetListContainer" style={{height: height, width: width}}>
-                        <PresetList
-                            presets={this.props.presets}
-                            selectPresets={this.props.selectPresets}
-                            editPreset={this.props.editPreset}
-                            movePreset={this.props.movePreset}
-                            filter={this.state.searchKey}
-                        />
-                        </div>
-                    )}
-                </AutoSizer>
+                <PresetList
+                    presets={this.props.presets}
+                    selectPresets={this.props.selectPresets}
+                    editPreset={this.props.editPreset}
+                    movePreset={this.props.movePreset}
+                    filter={this.state.searchKey}
+                />
             </div>
         );
     }

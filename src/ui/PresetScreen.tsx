@@ -21,7 +21,7 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
 
     public render(): React.ReactNode {
         return (
-            <div>
+            <div style={{height: "100%"}}>
                 {this.selectedTab === 0 && <DevicePresetTab />}
                 {this.selectedTab === 1 && <StoragePresetTab />}
                 {this.selectedTab === 2 && <FactoryPresetTab />}

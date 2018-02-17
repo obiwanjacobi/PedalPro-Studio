@@ -36,7 +36,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
 
     public render() {
         return (
-            <div>
+            <div style={{height: "100%"}}>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
