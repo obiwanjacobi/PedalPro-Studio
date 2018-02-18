@@ -48,7 +48,10 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                             <Typography type="subheading">{this.props.preset.name}</Typography>
                         </Grid>
                         <Grid xs={1} item={true}>
-                            <Tooltip title="Click to expand." placement="left">
+                            <Tooltip 
+                                title={this.props.preset.uiExpanded ? "Click to collapse." : "Click to expand."} 
+                                placement="left"
+                            >
                                 <IconButton onClick={this.toggleExpanded} >
                                     {this.props.preset.uiExpanded ? <ExpandLess /> : <ExpandMore />}
                                 </IconButton>

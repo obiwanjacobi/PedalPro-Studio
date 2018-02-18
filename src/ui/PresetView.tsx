@@ -36,6 +36,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         return (
             <div id="PresetView" style={{height: "100%"}}>
                 <Input 
+                    style={{paddingLeft: 16}}
                     placeholder="Type to Filter Presets"
                     value={this.state.searchKey}
                     disabled={this.props.presets.length === 0}

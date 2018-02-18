@@ -64,12 +64,14 @@ export default class PresetListItemDetail extends
                                     title="Click to revert to the original text" 
                                     placement="left"
                                 >
-                                    <IconButton 
-                                        disabled={!this.canUndo}
-                                        onClick={this.undoName}
-                                    >
-                                        <Undo />
-                                    </IconButton>
+                                    <div>
+                                        <IconButton 
+                                            disabled={!this.canUndo}
+                                            onClick={this.undoName}
+                                        >
+                                            <Undo />
+                                        </IconButton>
+                                    </div>
                                 </Tooltip>
                             </InputAdornment>
                         }
@@ -77,33 +79,39 @@ export default class PresetListItemDetail extends
                 </Grid>
                 <Grid xs={1} item={true}>
                     <Tooltip title="Click to move this Preset up in the list" placement="left">
-                        <IconButton 
-                            style={styles.smallIcon}
-                            disabled={!this.canMoveUp}
-                            onClick={this.movePresetUp}
-                        >
-                            <ArrowUpward style={styles.smallIcon}/>
-                        </IconButton>
+                        <div>
+                            <IconButton 
+                                style={styles.smallIcon}
+                                disabled={!this.canMoveUp}
+                                onClick={this.movePresetUp}
+                            >
+                                <ArrowUpward style={styles.smallIcon}/>
+                            </IconButton>
+                        </div>
                     </Tooltip>
                     <Tooltip title="Click to move this Preset down in the list" placement="left">
-                        <IconButton 
-                            style={styles.smallIcon}
-                            disabled={!this.canMoveDown}
-                            onClick={this.movePresetDown}
-                        >
-                            <ArrowDownward style={styles.smallIcon}/>
-                        </IconButton>
+                        <div>
+                            <IconButton 
+                                style={styles.smallIcon}
+                                disabled={!this.canMoveDown}
+                                onClick={this.movePresetDown}
+                            >
+                                <ArrowDownward style={styles.smallIcon}/>
+                            </IconButton>
+                        </div>
                     </Tooltip>
                 </Grid>
                 <Grid item={true} xs={2}>
                     <Tooltip title="Click to keep the changes." placement="right">
-                        <IconButton 
-                            color="secondary"
-                            disabled={!this.canSave}
-                            onClick={this.save}
-                        >
-                            <Save />
-                        </IconButton>
+                        <div>
+                            <IconButton 
+                                color="secondary"
+                                disabled={!this.canSave}
+                                onClick={this.save}
+                            >
+                                <Save />
+                            </IconButton>
+                        </div>
                     </Tooltip>
                 </Grid>
                 <Grid item={true} xs={12} />

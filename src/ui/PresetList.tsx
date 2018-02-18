@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Grid } from "material-ui";
 import { Index, List, AutoSizer, ListRowProps } from "react-virtualized";
 
 import PresetListItem from "./PresetListItem";
@@ -17,6 +16,10 @@ export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
 
+const itemHeightCollapsed = 48;
+const itemHeightExpanded = 116;
+const itemPadding = 2;
+
 const listStyles: React.CSSProperties = {
     boxSizing: "border-box"
 };
@@ -24,15 +27,16 @@ const rowStyles: React.CSSProperties = {
     width: "100%",
     height: "100%",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     boxSizing: "border-box"
 };
 const cellStyles: React.CSSProperties = {
     width: "100%",
     height: "100%",
     display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    padding: itemPadding
 };
 
 class GridCalc {
@@ -95,10 +99,11 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                     {({height, width}) => {
                         this.grid = new GridCalc(this.props.presets.length, width);
 
-                        if (this.virtualList) {
+                        if (this.virtualList && this.props.presets.length > 0 &&
+                            this.virtualList.props.rowCount > 0) {
                             // assume that when we get here, there was reason to rerender.
                             // virtualized list has to be kicked to rerender.
-                            this.virtualList.forceUpdateGrid();
+                            this.virtualList.recomputeRowHeights();
                         }
 
                         return (
@@ -146,7 +151,9 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
 
     private getRowHeight(rowIndex: Index): number {
         const cellData = this.getRowData(rowIndex.index);
-        return cellData.some((preset: Preset) => preset.uiExpanded) ? 120 : 60;
+        const nakedHeight = 
+            cellData.some((preset: Preset) => preset.uiExpanded) ? itemHeightExpanded : itemHeightCollapsed;
+        return nakedHeight + itemPadding;
     }
 
     private renderCell(preset: Preset) {
@@ -154,7 +161,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
         const style = { ...cellStyles, width: this.grid.colWidth };
 
         return (
-            <div style={style}>
+            <div key={preset.index} style={style}>
                 <PresetListItem
                     preset={preset}
                     selectPresets={this.props.selectPresets}
@@ -164,33 +171,4 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
             </div>
         );
     }
-
-    // private presetSummary(preset: Preset): React.ReactNode {
-    //     return (
-    //         <Grid 
-    //             xs={12} 
-    //             sm={6} 
-    //             md={4} 
-    //             lg={3} 
-    //             xl={2} 
-    //             item={true} 
-    //             key={preset.index}
-    //             style={!this.isVisible(preset) ? styles.hidden : {}}
-    //         >
-    //             <PresetListItem
-    //                 preset={preset}
-    //                 selectPresets={this.props.selectPresets}
-    //                 editPreset={this.props.editPreset}
-    //                 movePreset={this.props.movePreset}
-    //             />
-    //         </Grid>
-    //     );
-    // }
-
-    // private isVisible(preset: Preset): boolean {
-    //     if (!this.props.filter || this.props.filter.length === 0) {
-    //         return true;
-    //     }
-    //     return preset.name.toUpperCase().search(this.props.filter.toUpperCase()) >= 0;
-    // }
 }
