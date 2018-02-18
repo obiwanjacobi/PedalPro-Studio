@@ -12,7 +12,8 @@ export default class Client {
             name: preset.name,
         };
         preset.source = PresetCollectionType.device;
-        preset.selected = false;
+        preset.uiSelected = false;
+        preset.uiExpanded = false;
     }
 
     public constructor(baseUrl: string = "http://localhost:3000") {

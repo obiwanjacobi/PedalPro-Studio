@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Grid } from "material-ui";
-import { Index, Table, Column, TableCellDataGetterParams, TableCellProps, AutoSizer } from "react-virtualized";
+import { Index, List, AutoSizer, ListRowProps } from "react-virtualized";
 
 import PresetListItem from "./PresetListItem";
 import Preset from "../client/Preset";
@@ -17,10 +17,22 @@ export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
 
-const styles = {
-    hidden: {
-        display: "none"
-    }
+const listStyles: React.CSSProperties = {
+    boxSizing: "border-box"
+};
+const rowStyles: React.CSSProperties = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    boxSizing: "border-box"
+};
+const cellStyles: React.CSSProperties = {
+    width: "100%",
+    height: "100%",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
 };
 
 class GridCalc {
@@ -29,7 +41,6 @@ class GridCalc {
     private numberOfCols: number;
     private numberOfRows: number;
     private col: number;
-    private arr: Array<number>;
 
     constructor(itemCount: number, width: number) {
         this.countTotal = itemCount;
@@ -38,12 +49,7 @@ class GridCalc {
         this.numberOfCols =  Math.floor(this.widthTotal / 340);
         if (this.numberOfCols <= 1) { this.numberOfCols = 1; }
         this.col = Math.floor(this.widthTotal / this.numberOfCols);
-        this.numberOfRows = this.countTotal / this.numberOfCols;
-
-        this.arr = new Array<number>(this.numberOfCols);
-        for (let i = 0; i < this.numberOfCols; i++) {
-            this.arr[i] = this.col;
-        }
+        this.numberOfRows = Math.ceil(this.countTotal / this.numberOfCols);
     }
 
     public get colCount(): number {
@@ -57,14 +63,6 @@ class GridCalc {
     public get colWidth(): number {
         return this.col;
     }
-
-    public get columns(): Array<number> {
-        return this.arr;
-    }
-
-    public toRowIndex(index: number): number {
-        return index * this.numberOfCols;
-    }
 }
 
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
@@ -72,8 +70,8 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
 
     public constructor(props: PresetListAllProps) {
         super(props);
-        this.renderCell = this.renderCell.bind(this);
-        this.getRow = this.getRow.bind(this);
+        this.renderRow = this.renderRow.bind(this);
+        this.getRowHeight = this.getRowHeight.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: PresetListAllProps, _: PresetListState): boolean {
@@ -91,19 +89,14 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                         this.grid = new GridCalc(this.props.presets.length, width);
 
                         return (
-                            <Table 
-                                disableHeader={true}
-                                headerHeight={0}
-                                overscanRowCount={7}
-                                rowCount={this.grid.rowCount}
-                                rowGetter={this.getRow}
+                            <List
+                                style={listStyles}
                                 height={height}
                                 width={width}
-                                rowHeight={80}
-                            >
-                                {this.grid.columns.map((value: number, index: number) => 
-                                    this.renderColumn(index, value))}
-                            </Table>
+                                rowCount={this.grid.rowCount}
+                                rowHeight={this.getRowHeight}
+                                rowRenderer={this.renderRow}
+                            />
                             );
                         }}
                 </AutoSizer>
@@ -111,38 +104,46 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
         );
     }
 
-    private renderColumn(colIndex: number, width: number) {
+    private renderRow(listRowProps: ListRowProps) {
+        const cellData = this.getRowData(listRowProps.index);
+        const cells = new Array<React.ReactNode>(cellData.length);
+        
+        for (let i = 0; i < cellData.length; i++) {
+            const cell = this.renderCell(cellData[i]);
+            if (cell) {
+                cells.push(cell);
+            }
+        }
+
         return (
-            <Column
-                key={colIndex}
-                dataKey={colIndex}
-                width={width}
-                cellRenderer={this.renderCell}
-                cellDataGetter={this.getCellData}
-            />
+            <div key={listRowProps.key} style={{...rowStyles, ...listRowProps.style}}>
+                {cells}
+            </div>
         );
     }
 
-    private getCellData(params: TableCellDataGetterParams) {
-        return params.rowData[params.dataKey];
+    private getRowData(rowIndex: number): Preset[] {
+        const index = rowIndex * this.grid.colCount;
+        return this.props.presets.slice(index, index + this.grid.colCount);
     }
 
-    private getRow(info: Index) {
-        const index = this.grid.toRowIndex(info.index);
-        return this.props.presets.slice(index, this.grid.colCount);
+    private getRowHeight(rowIndex: Index): number {
+        const cellData = this.getRowData(rowIndex.index);
+        return cellData.some((preset: Preset) => preset.uiExpanded) ? 120 : 60;
     }
 
-    private renderCell(props: TableCellProps) {
-        if (!props.cellData) return  null;
+    private renderCell(preset: Preset) {
+        if (!preset) { return null; }
 
         return (
-            <div>{props.cellData.name}</div>
-            // <PresetListItem
-            //     preset={props.cellData}
-            //     selectPresets={this.props.selectPresets}
-            //     editPreset={this.props.editPreset}
-            //     movePreset={this.props.movePreset}
-            // />
+            <div style={cellStyles}>
+                <PresetListItem
+                    preset={preset}
+                    selectPresets={this.props.selectPresets}
+                    editPreset={this.props.editPreset}
+                    movePreset={this.props.movePreset}
+                />
+            </div>
         );
     }
 

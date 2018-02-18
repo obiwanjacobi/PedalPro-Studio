@@ -77,7 +77,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     }
 
     private toggleSelectAll() {
-        this.actions.selectPresets(this.props.presets, !this.selection.allSelected);
+        this.actions.selectPresets(this.props.presets, {selected: !this.selection.allSelected});
     }
 
     private download() {
@@ -100,8 +100,8 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
             loadPresets: (source: PresetCollectionType)  => {
                 return createLoadPresetsAction(dispatch, source);
             },
-            selectPresets: (presets: Preset[], selected: boolean): void => {
-                dispatch(createSelectPresetsAction(presets, selected));
+            selectPresets: (presets: Preset[], command: {selected?: boolean, expanded?: boolean}): void => {
+                dispatch(createSelectPresetsAction(presets, command.selected, command.expanded));
             },
             copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createCopyPresetsAction(presets, target));

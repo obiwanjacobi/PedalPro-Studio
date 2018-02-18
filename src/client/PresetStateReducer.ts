@@ -124,8 +124,10 @@ const reduceCopyPresets = (
 const reducePresetSelected = (
     state: ApplicationDocument, 
     presets: Preset[], 
-    selected: boolean): ApplicationDocument => {
+    selected?: boolean,
+    expanded?: boolean): ApplicationDocument => {
     if (presets.length === 0) { return state; }
+    if (selected === undefined && expanded === undefined) { return state; }
 
     // local helper function
     const replacePresets = (collection: Preset[]): Preset[] => {
@@ -136,7 +138,12 @@ const reducePresetSelected = (
             const index = newCollection.indexOf(p);
             if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
 
-            newCollection[index] = { ...p, selected: selected };
+            if (selected !== undefined) {
+                newCollection[index] = { ...p, uiSelected: selected === true };
+            }
+            if (expanded !== undefined) {
+                newCollection[index] = { ...p, uiExpanded: expanded === true };
+            }
         }
 
         return newCollection;
@@ -164,7 +171,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         break;
         
         case "U/*/presets/.selected":
-        return reducePresetSelected(state, action.presets, action.selected);
+        return reducePresetSelected(state, action.presets, action.selected, action.expanded);
 
         case "C/*/presets/":
         return reduceCopyPresets(state, action.presets, action.target);

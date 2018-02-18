@@ -12,7 +12,12 @@ export default interface Preset extends ModelPreset.default {
     /**
      * true when the preset is selected in the ui.
      */
-    selected: boolean;
+    uiSelected: boolean;
+
+    /**
+     * true when the preset is expanded in the ui.
+     */
+    uiExpanded: boolean;
 
     /**
      * the origin of this preset
