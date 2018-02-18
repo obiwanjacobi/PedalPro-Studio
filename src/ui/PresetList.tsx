@@ -63,15 +63,22 @@ class GridCalc {
     public get colWidth(): number {
         return this.col;
     }
+
+    public select<T>(items: T[], rowIndex: number): T[] {
+        const index = rowIndex * this.numberOfCols;
+        return items.slice(index, index + this.numberOfCols);
+    }
 }
 
 export class PresetList extends React.Component<PresetListAllProps, PresetListState> {
     private grid:  GridCalc;
+    private virtualList: List;
 
     public constructor(props: PresetListAllProps) {
         super(props);
         this.renderRow = this.renderRow.bind(this);
         this.getRowHeight = this.getRowHeight.bind(this);
+        this.refVirtualList = this.refVirtualList.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: PresetListAllProps, _: PresetListState): boolean {
@@ -88,8 +95,15 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                     {({height, width}) => {
                         this.grid = new GridCalc(this.props.presets.length, width);
 
+                        if (this.virtualList) {
+                            // assume that when we get here, there was reason to rerender.
+                            // virtualized list has to be kicked to rerender.
+                            this.virtualList.forceUpdateGrid();
+                        }
+
                         return (
                             <List
+                                ref={this.refVirtualList}
                                 style={listStyles}
                                 height={height}
                                 width={width}
@@ -102,6 +116,10 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                 </AutoSizer>
             </div>
         );
+    }
+
+    private refVirtualList(virtualList: List) {
+        this.virtualList = virtualList;
     }
 
     private renderRow(listRowProps: ListRowProps) {
@@ -123,8 +141,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     }
 
     private getRowData(rowIndex: number): Preset[] {
-        const index = rowIndex * this.grid.colCount;
-        return this.props.presets.slice(index, index + this.grid.colCount);
+        return this.grid.select(this.props.presets, rowIndex);
     }
 
     private getRowHeight(rowIndex: Index): number {

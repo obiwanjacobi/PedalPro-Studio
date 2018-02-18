@@ -10,12 +10,12 @@ export interface SelectPresetsAction {
 }
 
 export const createSelectPresetsAction = 
-    (presets: Preset[], selected?: boolean, expanded?: boolean): SelectPresetsAction => {
+    (presets: Preset[], command: { selected?: boolean, expanded?: boolean}): SelectPresetsAction => {
     return <SelectPresetsAction> { 
         type: SelectPresetsActionKey, 
         presets: presets, 
-        selected: selected, 
-        expanded: expanded
+        selected: command.selected,
+        expanded: command.expanded
     };
 };
 

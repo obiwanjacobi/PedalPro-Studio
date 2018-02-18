@@ -101,7 +101,7 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
                 return createLoadPresetsAction(dispatch, source);
             },
             selectPresets: (presets: Preset[], command: {selected?: boolean, expanded?: boolean}): void => {
-                dispatch(createSelectPresetsAction(presets, command.selected, command.expanded));
+                dispatch(createSelectPresetsAction(presets, command));
             },
             copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createCopyPresetsAction(presets, target));

@@ -2,7 +2,6 @@ import * as React from "react";
 import { Grid, IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import Clear from "material-ui-icons/Clear";
-import { AutoSizer } from "react-virtualized";
 
 import { PresetList } from "./PresetList";
 import Preset from "../client/Preset";
