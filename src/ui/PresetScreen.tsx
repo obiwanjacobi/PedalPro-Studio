@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, AppBar, Tabs, Tab, Collapse } from "material-ui";
+import { AppBar, Tabs, Tab } from "material-ui";
 
 import { PresetCollectionType } from "../client/ApplicationDocument";
 
@@ -32,30 +32,7 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
                         <Tab label="Factory" />
                     </Tabs>
                 </AppBar>
-            </div>    
-
-            // <Grid container={true} direction="column" spacing={8}>
-            //     <Grid item={true} xs={12}>
-                        // <Collapse in={this.selectedTab === 0}>
-                        //     <DevicePresetTab />
-                        // </Collapse>
-                        // <Collapse in={this.selectedTab === 1} >
-                        //     <StoragePresetTab />
-                        // </Collapse>
-                        // <Collapse in={this.selectedTab === 2} >
-                        //     <FactoryPresetTab />
-                        // </Collapse>
-            //     </Grid>
-            //     <Grid item={true} xs={12}>
-                    //  <AppBar position="static" style={{ position: "absolute", bottom: 0 }}>
-                    //      <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
-                    //          <Tab label="Device" />
-                    //          <Tab label="Storage" />
-                    //          <Tab label="Factory" />
-                    //      </Tabs>
-                    //  </AppBar>
-            //     </Grid>
-            // </Grid>
+            </div>
         );
     }
 

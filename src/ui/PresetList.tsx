@@ -151,9 +151,10 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
 
     private renderCell(preset: Preset) {
         if (!preset) { return null; }
+        const style = { ...cellStyles, width: this.grid.colWidth };
 
         return (
-            <div style={cellStyles}>
+            <div style={style}>
                 <PresetListItem
                     preset={preset}
                     selectPresets={this.props.selectPresets}
@@ -163,18 +164,6 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
             </div>
         );
     }
-
-    // public render(): React.ReactNode {
-    //     if (!this.props.presets) { return <div />; }
-
-    //     return ( 
-    //         <Grid container={true}>
-    //                 {this.props.presets.map(
-    //                     (preset: Preset) => this.presetSummary(preset)
-    //                 )}
-    //         </Grid>
-    //     );
-    // }
 
     // private presetSummary(preset: Preset): React.ReactNode {
     //     return (
@@ -198,10 +187,10 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     //     );
     // }
 
-    private isVisible(preset: Preset): boolean {
-        if (!this.props.filter || this.props.filter.length === 0) {
-            return true;
-        }
-        return preset.name.toUpperCase().search(this.props.filter.toUpperCase()) >= 0;
-    }
+    // private isVisible(preset: Preset): boolean {
+    //     if (!this.props.filter || this.props.filter.length === 0) {
+    //         return true;
+    //     }
+    //     return preset.name.toUpperCase().search(this.props.filter.toUpperCase()) >= 0;
+    // }
 }

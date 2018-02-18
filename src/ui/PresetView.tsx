@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, IconButton } from "material-ui";
+import { IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import Clear from "material-ui-icons/Clear";
 
@@ -26,6 +26,8 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         // bind event handlers
         this.searchHandler = this.searchHandler.bind(this);
         this.clearSearch = this.clearSearch.bind(this);
+        this.filteredPresets = this.filteredPresets.bind(this);
+        this.isVisible = this.isVisible.bind(this);
     }
 
     public render() {
@@ -47,7 +49,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                     }
                 />
                 <PresetList
-                    presets={this.props.presets}
+                    presets={this.filteredPresets()}
                     selectPresets={this.props.selectPresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
@@ -55,6 +57,17 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                 />
             </div>
         );
+    }
+
+    private filteredPresets(): Preset[] {
+        return  this.props.presets.filter(this.isVisible);
+    }
+
+    private isVisible(preset: Preset): boolean {
+        if (!this.state.searchKey || this.state.searchKey.length === 0) {
+            return true;
+        }
+        return preset.name.toUpperCase().search(this.state.searchKey.toUpperCase()) >= 0;
     }
 
     private clearSearch() {
