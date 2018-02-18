@@ -18,3 +18,10 @@ html, body {
   right: 0;
   position: absolute;
 }
+
+.loading {
+  height: 100%;
+  width: 100%;
+  margin-top: 100px;
+  text-align: center
+}

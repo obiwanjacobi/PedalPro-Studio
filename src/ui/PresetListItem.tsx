@@ -13,36 +13,32 @@ export interface PresetListItemProps {
     preset: Preset;
 }
 export type PresetListItemActions = SelectPresets & EditPreset & MovePreset;
-export interface PresetListItemState {
-    expanded: boolean;
-}
+export interface PresetListItemState { }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
 
 export default class PresetListItem extends React.Component<PresetListItemAllProps, PresetListItemState> {
     constructor(props: PresetListItemAllProps) {
         super(props);
-        this.state = { expanded: false };
         // bind event handlers
         this.toggleExpanded = this.toggleExpanded.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
     }
 
-    public shouldComponentUpdate(nextProps: PresetListItemAllProps, nextState: PresetListItemState): boolean {
-        return this.props.preset !== nextProps.preset ||
-            this.state.expanded !== nextState.expanded;
+    public shouldComponentUpdate(nextProps: PresetListItemAllProps, _: PresetListItemState): boolean {
+        return this.props.preset !== nextProps.preset;
     }
 
     public render(): React.ReactNode {
         // console.log("Render Preset: " + this.props.preset.index);
 
         return (
-            <Paper elevation={2}>
+            <Paper elevation={2} style={{width: "100%"}}>
                     <Grid container={true} alignItems="center" spacing={8}>
                         <Grid xs={2} item={true}>
                             <Tooltip title="Current Preset index. Click to select Preset." placement="top">
                                 <Checkbox 
-                                    checked={this.props.preset.selected} 
+                                    checked={this.props.preset.uiSelected} 
                                     onClick={this.toggleSelected}
                                     icon={this.formatIndex()}
                                 />
@@ -54,13 +50,13 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                         <Grid xs={1} item={true}>
                             <Tooltip title="Click to expand." placement="left">
                                 <IconButton onClick={this.toggleExpanded} >
-                                    {this.state.expanded ? <ExpandLess /> : <ExpandMore />}
+                                    {this.props.preset.uiExpanded ? <ExpandLess /> : <ExpandMore />}
                                 </IconButton>
                             </Tooltip>
                         </Grid>
                     </Grid>
-                    <Collapse in={this.state.expanded}>
-                        {this.state.expanded ? 
+                    <Collapse in={this.props.preset.uiExpanded}>
+                        {this.props.preset.uiExpanded ? 
                             <PresetListItemDetail
                                 preset={this.props.preset}
                                 editPreset={this.props.editPreset}
@@ -79,10 +75,11 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
     }
     
     private toggleExpanded() {
-        this.setState({ expanded: !this.state.expanded });
+        // this.setState({ expanded: !this.state.expanded });
+        this.props.selectPresets([this.props.preset], {expanded: !this.props.preset.uiExpanded});
     }
 
     private toggleSelected() {
-        this.props.selectPresets([this.props.preset], !this.props.preset.selected);
+        this.props.selectPresets([this.props.preset], {selected: !this.props.preset.uiSelected});
     }
 }

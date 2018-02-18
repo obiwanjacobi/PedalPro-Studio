@@ -1,5 +1,5 @@
 export interface Selectable {
-    selected: boolean;
+    uiSelected: boolean;
 }
 
 /**
@@ -19,17 +19,17 @@ export class SelectedView<T extends Selectable> {
     
     public get selected(): T[] {
         if (!this.collection) { return new Array<T>(); }
-        return this.collection.filter((item: Selectable) => item.selected);
+        return this.collection.filter((item: Selectable) => item.uiSelected);
     }
 
     public get anySelected(): boolean {
         if (this.isEmpty) { return false; }
-        return this.collection.some((item: Selectable) => item.selected);
+        return this.collection.some((item: Selectable) => item.uiSelected);
     }
 
     public get allSelected(): boolean {
         if (this.isEmpty) { return false; }
-        return this.collection.every((item: Selectable) => item.selected);
+        return this.collection.every((item: Selectable) => item.uiSelected);
     }
 
     public get noneSelected(): boolean {
