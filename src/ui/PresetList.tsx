@@ -94,7 +94,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
         if (!this.props.presets) { return <div />; }
 
         return (
-            <div style={{height: "100%"}}>
+            <div id="PresetList" style={{flexGrow: 1}}>
                 <AutoSizer>
                     {({height, width}) => {
                         this.grid = new GridCalc(this.props.presets.length, width);

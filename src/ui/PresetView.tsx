@@ -34,7 +34,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         if (!this.props.presets) { return <div className="loading" style={{height: "100%"}}>Loading...</div>; }
 
         return (
-            <div id="PresetView" style={{height: "100%"}}>
+            <div id="PresetView" style={{display: "flex", flexDirection: "column", flexGrow: 1}}>
                 <Input 
                     style={{paddingLeft: 16}}
                     placeholder="Type to Filter Presets"

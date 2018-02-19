@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppBar, Tabs, Tab } from "material-ui";
 
-import { PresetCollectionType } from "../client/ApplicationDocument";
+// import { PresetCollectionType } from "../client/ApplicationDocument";
 
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
@@ -21,11 +21,14 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
 
     public render(): React.ReactNode {
         return (
-            <div style={{height: "100%"}}>
-                {this.selectedTab === 0 && <DevicePresetTab />}
-                {this.selectedTab === 1 && <StoragePresetTab />}
-                {this.selectedTab === 2 && <FactoryPresetTab />}
-                <AppBar position="static" style={{ position: "absolute", bottom: 0 }}>
+            <div id="PresetScreen" style={{height: "100%", display: "flex", flexDirection: "column"}}>
+                <div style={{flex: "1 1 auto", display: "flex"}}>
+                    {this.selectedTab === 0 && <DevicePresetTab />}
+                    {this.selectedTab === 1 && <StoragePresetTab />}
+                    {this.selectedTab === 2 && <FactoryPresetTab />}
+                </div>
+                {/* <AppBar position="static" style={{ position: "absolute", bottom: 0 }}> */}
+                <AppBar position="static" style={{ flex: "0 1 auto" }}>
                     <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
                         <Tab label="Device" />
                         <Tab label="Storage" />
@@ -45,19 +48,19 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
         return this.state.selectedTab;
     }
     
-    private get activeCollection(): PresetCollectionType {
-        switch (this.selectedTab) {
-            default:
-            case 0:
-            return PresetCollectionType.device;
-            case 1:
-            return PresetCollectionType.storage;
-            case 2:
-            return PresetCollectionType.factory;
-        }
-    }
-    
     private activatePage(index: number) {
         this.setState({ selectedTab: index });
     }
+
+    // private get activeCollection(): PresetCollectionType {
+    //     switch (this.selectedTab) {
+    //         default:
+    //         case 0:
+    //         return PresetCollectionType.device;
+    //         case 1:
+    //         return PresetCollectionType.storage;
+    //         case 2:
+    //         return PresetCollectionType.factory;
+    //     }
+    // }   
 }

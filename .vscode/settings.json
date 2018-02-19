@@ -11,6 +11,7 @@
         "**/.DS_Store": true,
         "node_modules": true,
         "app": true,
-        "dist": true
+        "dist": true,
+        "release": true
     }
 }
