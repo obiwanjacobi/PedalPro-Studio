@@ -12,7 +12,9 @@ export default class TestPresetProvider {
             for (let index = 0; index < PresetCount; index++) {
                 TestPresetProvider.presets[index] = {
                     index: index,
-                    name: "Preset " + index
+                    name: "Preset " + index,
+                    expression: false,
+                    stereo: false,
                 };
             }
         }

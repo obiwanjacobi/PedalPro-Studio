@@ -8,11 +8,9 @@ import Preset from "../model/Preset";
 export default class PedalProProvider implements PresetProvider {
 
     private readonly device: PedalProDeviceUsb;
-    private readonly cache: Preset[];
 
     public constructor(device: PedalProDeviceUsb) {
         this.device = device;
-        this.cache = new Array<Preset>(PresetCount);
     }
 
     public get presetCount(): number {
@@ -20,10 +18,6 @@ export default class PedalProProvider implements PresetProvider {
     }
 
     public async getPreset(presetIndex: number): Promise<Preset> {
-        if (this.cache[presetIndex]) {
-            return this.cache[presetIndex];
-        }
-
         this.ensureConnected();
 
         const cmd = new PedalProReadPreset(this.device);
@@ -31,9 +25,6 @@ export default class PedalProProvider implements PresetProvider {
         const preset = PedalProPresetSerializer.deserialize(buffer);
         preset.index = presetIndex;
         
-        // add to cache
-        this.cache[presetIndex] = preset;
-
         return preset;
     }
 

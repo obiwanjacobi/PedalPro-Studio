@@ -8,4 +8,14 @@ export default interface Preset {
      * The name of the preset - does not have to be unique.
      */
     name: string;
+
+    /** 
+     * An indication if the preset uses an Expression Pedal.
+     */
+    expression: boolean;
+
+    /**
+     * An indication if the preset is stereo.
+     */
+    stereo: boolean;
 }

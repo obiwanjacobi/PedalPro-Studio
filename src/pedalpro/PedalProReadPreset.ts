@@ -1,5 +1,5 @@
 import { PedalProDeviceUsb } from "./PedalProDevice";
-import { ProtocolBuffer, BufferParts, PartSize } from "./ProtocolBuffer";
+import { ProtocolBuffer, BufferParts, PartSize, LastPartSize } from "./ProtocolBuffer";
 import PedalProPresetBuffer from "./PedalProPresetBuffer";
 
 export default class PedalProReadPreset {
@@ -34,6 +34,14 @@ export default class PedalProReadPreset {
         buffer.setReadPresetCmd(BufferParts.Part1);
         this.device.write(buffer);
         preset.write(0, await this.device.read(), 1, PartSize);
+
+        buffer.setReadPresetCmd(BufferParts.Part2);
+        this.device.write(buffer);
+        preset.write(PartSize, await this.device.read(), 1, PartSize);
+
+        buffer.setReadPresetCmd(BufferParts.Part3);
+        this.device.write(buffer);
+        preset.write(PartSize + PartSize, await this.device.read(), 1, LastPartSize);
 
         return preset;
     }

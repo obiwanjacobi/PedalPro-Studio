@@ -30,10 +30,10 @@ export class PedalProDeviceUsb {
     public  connect() {
         if (this.isConnected) { return; }
 
-        // VENDOR_ID  0x04d8
-        // DEVICE_ID  0x0005
+        // VENDOR_ID  0x04d8 - Vintage Revolution
+        // DEVICE_ID  0x0005 - PedalPro
         this.hidDevice = new HID(0x04d8, 0x0005);
-    }   
+    }
 
     public write(buffer: ProtocolBuffer): void {
         if (this.hidDevice !== null) {
@@ -73,4 +73,4 @@ export class PedalProDeviceUsb {
 /**
  * Use the module export mechanism to make this a singelton.
  */
-export let PedalProDevice = new PedalProDeviceUsb();
+export const PedalProDevice = new PedalProDeviceUsb();
