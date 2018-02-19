@@ -19,6 +19,12 @@ export interface PresetViewState {
 
 export type PresetViewAllProps = PresetViewStateProps & SelectPresets & EditPreset & MovePreset;
 
+const containerStyles: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1
+};
+
 export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
         super(props);
@@ -31,10 +37,11 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
     }
 
     public render() {
-        if (!this.props.presets) { return <div className="loading" style={{height: "100%"}}>Loading...</div>; }
+        if (!this.props.presets) { return <div className="loading" style={containerStyles}>Loading...</div>; }
 
         return (
-            <div id="PresetView" style={{display: "flex", flexDirection: "column", flexGrow: 1}}>
+            <div id="PresetView" style={containerStyles}>
+                <div>
                 <Input 
                     style={{paddingLeft: 16}}
                     placeholder="Type to Filter Presets"
@@ -49,6 +56,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                         </InputAdornment>
                     }
                 />
+                </div>
                 <PresetList
                     presets={this.filteredPresets()}
                     selectPresets={this.props.selectPresets}

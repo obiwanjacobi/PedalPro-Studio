@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Index, List, AutoSizer, ListRowProps } from "react-virtualized";
+import { Typography } from "material-ui";
+import { FileDownload } from "material-ui-icons";
 
 import PresetListItem from "./PresetListItem";
 import Preset from "../client/Preset";
@@ -20,6 +22,9 @@ const itemHeightCollapsed = 48;
 const itemHeightExpanded = 116;
 const itemPadding = 2;
 
+const containerStyles: React.CSSProperties = {
+    flexGrow: 1
+};
 const listStyles: React.CSSProperties = {
     boxSizing: "border-box"
 };
@@ -83,6 +88,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
         this.renderRow = this.renderRow.bind(this);
         this.getRowHeight = this.getRowHeight.bind(this);
         this.refVirtualList = this.refVirtualList.bind(this);
+        this.renderNoRows = this.renderNoRows.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: PresetListAllProps, _: PresetListState): boolean {
@@ -94,13 +100,14 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
         if (!this.props.presets) { return <div />; }
 
         return (
-            <div id="PresetList" style={{flexGrow: 1}}>
+            <div id="PresetList" style={containerStyles}>
                 <AutoSizer>
                     {({height, width}) => {
                         this.grid = new GridCalc(this.props.presets.length, width);
 
-                        if (this.virtualList && this.props.presets.length > 0 &&
-                            this.virtualList.props.rowCount > 0) {
+                        if (this.virtualList &&
+                            this.virtualList.props.rowCount > 0 && 
+                            this.props.presets.length > 0) {
                             // assume that when we get here, there was reason to rerender.
                             // virtualized list has to be kicked to rerender.
                             this.virtualList.recomputeRowHeights();
@@ -115,6 +122,8 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                                 rowCount={this.grid.rowCount}
                                 rowHeight={this.getRowHeight}
                                 rowRenderer={this.renderRow}
+                                noRowsRenderer={this.renderNoRows}
+                                overscanRowCount={10}
                             />
                             );
                         }}
@@ -168,6 +177,16 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
                 />
+            </div>
+        );
+    }
+
+    private renderNoRows() {
+        return (
+            <div style={{...containerStyles, textAlign: "center"}}>
+                <Typography>
+                    Press <FileDownload/> to retrieve the presets from the device.
+                </Typography>
             </div>
         );
     }

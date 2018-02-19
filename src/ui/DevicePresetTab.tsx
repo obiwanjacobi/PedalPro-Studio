@@ -22,6 +22,12 @@ export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets &
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
+const conatinerStyles: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1
+};
+
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private selection: SelectedView<Preset>;
 
@@ -36,7 +42,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
 
     public render() {
         return (
-            <div id="DevicePresetTab" style={{display: "flex", flexGrow: 1, flexDirection: "column"}}>
+            <div id="DevicePresetTab" style={conatinerStyles}>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}

@@ -12,6 +12,12 @@ export interface PresetScreenState {
     selectedTab: number;
 }
 
+const containerStyles: React.CSSProperties = {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column"
+};
+
 export default class PresetScreen extends React.PureComponent<PresetScreenProps, PresetScreenState> {
     public constructor(props: PresetScreenProps) {
         super(props);
@@ -21,7 +27,7 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
 
     public render(): React.ReactNode {
         return (
-            <div id="PresetScreen" style={{height: "100%", display: "flex", flexDirection: "column"}}>
+            <div id="PresetScreen" style={containerStyles}>
                 <div style={{flex: "1 1 auto", display: "flex"}}>
                     {this.selectedTab === 0 && <DevicePresetTab />}
                     {this.selectedTab === 1 && <StoragePresetTab />}
