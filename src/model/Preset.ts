@@ -18,4 +18,14 @@ export default interface Preset {
      * An indication if the preset is stereo.
      */
     stereo: boolean;
+
+    /**
+     * Indicates if this preset is considered empty.
+     */
+    empty: boolean;
+
+    /**
+     * Raw data
+     */
+    // data: string;
 }

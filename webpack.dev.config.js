@@ -34,10 +34,10 @@ const commonConfig = {
 module.exports = [
     Object.assign({
         target: "electron-main",
-        entry: { program: path.join(__dirname, "src", "Startup.ts") }
+        entry: { startup: path.join(__dirname, "src", "Startup.ts") }
     }, commonConfig),
     Object.assign({
         target: "electron-renderer",
-        entry: { app: path.join(__dirname, "src", "Autostart.ts") }
+        entry: { autostart: path.join(__dirname, "src", "Autostart.ts") }
     }, commonConfig)
 ];

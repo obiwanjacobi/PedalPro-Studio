@@ -1,0 +1,1066 @@
+[
+    {
+        "name": "Bypass",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 0
+    },
+    {
+        "name": "CleanBrgh*",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 1
+    },
+    {
+        "name": "JazzRoom1",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 2
+    },
+    {
+        "name": "CleanFunk",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 3
+    },
+    {
+        "name": "DumbleDrv1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 4
+    },
+    {
+        "name": "DumbleDrv2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 5
+    },
+    {
+        "name": "FusionDrv",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 6
+    },
+    {
+        "name": "DriveX",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 7
+    },
+    {
+        "name": "Zendrive",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 8
+    },
+    {
+        "name": "Kingdrive1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 9
+    },
+    {
+        "name": "Kingdrive2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 10
+    },
+    {
+        "name": "Kingdrive3",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 11
+    },
+    {
+        "name": "MelloDrv1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 12
+    },
+    {
+        "name": "MelloDrv2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 13
+    },
+    {
+        "name": "MelloDrv3",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 14
+    },
+    {
+        "name": "Guv'nor1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 15
+    },
+    {
+        "name": "Guv'nor2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 16
+    },
+    {
+        "name": "Guv'nor3",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 17
+    },
+    {
+        "name": "BigMuff1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 18
+    },
+    {
+        "name": "BigMuff2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 19
+    },
+    {
+        "name": "Bsiab1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 20
+    },
+    {
+        "name": "Bsiab2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 21
+    },
+    {
+        "name": "Rockdist1*",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 22
+    },
+    {
+        "name": "Rockdist2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 23
+    },
+    {
+        "name": "Rocktube1*",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 24
+    },
+    {
+        "name": "Rocktube2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 25
+    },
+    {
+        "name": "RockStack1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 26
+    },
+    {
+        "name": "RockStack2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 27
+    },
+    {
+        "name": "Fuzz0",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 28
+    },
+    {
+        "name": "Fuzz1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 29
+    },
+    {
+        "name": "Fuzz2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 30
+    },
+    {
+        "name": "Metal1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 31
+    },
+    {
+        "name": "Metal2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 32
+    },
+    {
+        "name": "Metal3",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 33
+    },
+    {
+        "name": "Metal4",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 34
+    },
+    {
+        "name": "Metal5",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 35
+    },
+    {
+        "name": "DigDly",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 36
+    },
+    {
+        "name": "MultTapDly",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 37
+    },
+    {
+        "name": "CryBaby",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 38
+    },
+    {
+        "name": "Vow i-yah",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 39
+    },
+    {
+        "name": "Vow i-yoh",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 40
+    },
+    {
+        "name": "Vow o-yia",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 41
+    },
+    {
+        "name": "TouchWah+",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 42
+    },
+    {
+        "name": "Talk Env1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 43
+    },
+    {
+        "name": "EnvelopeF1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 44
+    },
+    {
+        "name": "Sync wah",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 45
+    },
+    {
+        "name": "Chrs CE1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 46
+    },
+    {
+        "name": "Leslie 2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 47
+    },
+    {
+        "name": "Morph Chrs",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 48
+    },
+    {
+        "name": "Flange med",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 49
+    },
+    {
+        "name": "Arp-Flange",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 50
+    },
+    {
+        "name": "InfPhase",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 51
+    },
+    {
+        "name": "PurePhaser",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 52
+    },
+    {
+        "name": "ArpPhaser",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 53
+    },
+    {
+        "name": "PhsEllipse",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 54
+    },
+    {
+        "name": "VibeTrem",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 55
+    },
+    {
+        "name": "DynaPan",
+        "expression": true,
+        "stereo": true,
+        "empty": false,
+        "index": 56
+    },
+    {
+        "name": "Dly400Fb",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 57
+    },
+    {
+        "name": "Dly time",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 58
+    },
+    {
+        "name": "BendDly",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 59
+    },
+    {
+        "name": "Dly600Rep",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 60
+    },
+    {
+        "name": "DlyAttk2",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 61
+    },
+    {
+        "name": "Waterfall",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 62
+    },
+    {
+        "name": "Talk i-yoh",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 63
+    },
+    {
+        "name": "Rect i-yoh",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 64
+    },
+    {
+        "name": "Arp i-yoh",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 65
+    },
+    {
+        "name": "Talk a-way",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 66
+    },
+    {
+        "name": "Talk oo-wa",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 67
+    },
+    {
+        "name": "Talk i-yah",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 68
+    },
+    {
+        "name": "Talk ee-ah",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 69
+    },
+    {
+        "name": "Talk ia-ah",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 70
+    },
+    {
+        "name": "Sync wah",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 71
+    },
+    {
+        "name": "Sync i-ya",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 72
+    },
+    {
+        "name": "SenseWah+",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 73
+    },
+    {
+        "name": "EnvnegFst-",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 74
+    },
+    {
+        "name": "TouchWah+",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 75
+    },
+    {
+        "name": "Talk Env1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 76
+    },
+    {
+        "name": "Talk Env2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 77
+    },
+    {
+        "name": "VintTrem",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 78
+    },
+    {
+        "name": "TempoTrem",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 79
+    },
+    {
+        "name": "VibeTrem",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 80
+    },
+    {
+        "name": "TreGround",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 81
+    },
+    {
+        "name": "TreEarth",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 82
+    },
+    {
+        "name": "TreStone",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 83
+    },
+    {
+        "name": "TreVulcan",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 84
+    },
+    {
+        "name": "TreLiquid",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 85
+    },
+    {
+        "name": "TreControl",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 86
+    },
+    {
+        "name": "TreSurface",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 87
+    },
+    {
+        "name": "TreWave",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 88
+    },
+    {
+        "name": "TreBreeze",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 89
+    },
+    {
+        "name": "TreDeal",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 90
+    },
+    {
+        "name": "DynaPan",
+        "expression": true,
+        "stereo": true,
+        "empty": false,
+        "index": 91
+    },
+    {
+        "name": "PannerHit",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 92
+    },
+    {
+        "name": "RotorPan",
+        "expression": true,
+        "stereo": true,
+        "empty": false,
+        "index": 93
+    },
+    {
+        "name": "PanSoft",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 94
+    },
+    {
+        "name": "CompSoft",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 95
+    },
+    {
+        "name": "CompMed",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 96
+    },
+    {
+        "name": "CompVarymu",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 97
+    },
+    {
+        "name": "PurePhaser",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 98
+    },
+    {
+        "name": "Arp Phaser",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 99
+    },
+    {
+        "name": "PhasClass1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 100
+    },
+    {
+        "name": "PhasClass2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 101
+    },
+    {
+        "name": "PhsEllipse",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 102
+    },
+    {
+        "name": "Phaser3D",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 103
+    },
+    {
+        "name": "DeepPhase",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 104
+    },
+    {
+        "name": "PhsPulse",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 105
+    },
+    {
+        "name": "PhsFloat",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 106
+    },
+    {
+        "name": "PhsRythm",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 107
+    },
+    {
+        "name": "PhsFlow",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 108
+    },
+    {
+        "name": "PhsMoon",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 109
+    },
+    {
+        "name": "PhsAir",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 110
+    },
+    {
+        "name": "PhsFeel",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 111
+    },
+    {
+        "name": "PhsVibe",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 112
+    },
+    {
+        "name": "PhsLift",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 113
+    },
+    {
+        "name": "PhsTempest",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 114
+    },
+    {
+        "name": "PhsRest",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 115
+    },
+    {
+        "name": "PhsTone",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 116
+    },
+    {
+        "name": "PhsSurreal",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 117
+    },
+    {
+        "name": "PhsCircle",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 118
+    },
+    {
+        "name": "Chrs CE1",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 119
+    },
+    {
+        "name": "Chrs Deep",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 120
+    },
+    {
+        "name": "Chrs Brght",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 121
+    },
+    {
+        "name": "Dual Chrs",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 122
+    },
+    {
+        "name": "3D Chorus",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 123
+    },
+    {
+        "name": "Bend Chrs",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 124
+    },
+    {
+        "name": "Bend Chrs",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 125
+    },
+    {
+        "name": "Leslie 1",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 126
+    },
+    {
+        "name": "Leslie 2",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 127
+    },
+    {
+        "name": "Leslie 3",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 128
+    },
+    {
+        "name": "Morph Chrs",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 129
+    },
+    {
+        "name": "Flange nat",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 130
+    },
+    {
+        "name": "Flange med",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 131
+    },
+    {
+        "name": "MellowFlng",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 132
+    },
+    {
+        "name": "Jet Flange",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 133
+    },
+    {
+        "name": "BendFlng",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 134
+    },
+    {
+        "name": "Arp-Flange",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 135
+    },
+    {
+        "name": "OO-Flange",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 136
+    },
+    {
+        "name": "Dly 75",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 137
+    },
+    {
+        "name": "TapeDly",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 138
+    },
+    {
+        "name": "Dly400Fb",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 139
+    },
+    {
+        "name": "Dly time",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 140
+    },
+    {
+        "name": "BendDly",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 141
+    },
+    {
+        "name": "Dly600Rep",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 142
+    },
+    {
+        "name": "Dly400Inf",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 143
+    },
+    {
+        "name": "Waterfall",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 144
+    },
+    {
+        "name": "InfPhase",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 145
+    },
+    {
+        "name": "Nuage",
+        "expression": true,
+        "stereo": true,
+        "empty": false,
+        "index": 146
+    },
+    {
+        "name": "Vowel3D",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 147
+    },
+    {
+        "name": "TremDly",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 148
+    },
+    {
+        "name": "SyntDly",
+        "expression": false,
+        "stereo": true,
+        "empty": false,
+        "index": 149
+    },
+    {
+        "name": "SyntFlTre",
+        "expression": true,
+        "stereo": false,
+        "empty": false,
+        "index": 150
+    },
+    {
+        "name": "{empty_ps}",
+        "expression": false,
+        "stereo": false,
+        "empty": false,
+        "index": 155
+    }
+]

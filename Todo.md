@@ -5,6 +5,11 @@
 - Post processing build (copy content files into app folder)
 - Hot Reload in Electron
 - Electron Builder/Packager (deployment)
+- minify webpack output for prod
+
+## PedalProDevice
+
+- Recreate HID object on write error - connection may have been interrupted.
 
 ## Libraries
 
@@ -83,17 +88,16 @@ https://github.com/Microsoft/tslib
 
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
-- scolling   https://github.com/kristoferjoseph/flexboxgrid
 
- Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
- Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device). 
- All device presets are automatically saved when uploaded to the device.
+Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
+Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).
+All device presets are automatically saved when uploaded to the device.
 
 ## performance
 
 - Done: remove/refactor all anonymous event handlers (start with PresetList/Item) - bind in ctor.
 - add tslib
-- use a virtual preset list: https://github.com/bvaughn/react-virtualized
+- Done: use a virtual preset list: https://github.com/bvaughn/react-virtualized
 - look into state management
 - Done: implement ShouldComponentUpdate()
 - Redux connect at list item level. Bind list with number of presets and instantiate each list item with its index.

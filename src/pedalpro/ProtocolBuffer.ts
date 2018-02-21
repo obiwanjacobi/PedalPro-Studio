@@ -54,6 +54,16 @@ export class ProtocolBuffer {
         return length;
     }
 
+    public formatData(): string {
+        const hex = new Array<string>(this.data.length);
+
+        for (let i = 0; i < this.data.length; i++) {
+            hex[i] = this.data[i].toString(16);
+        }
+
+        return  hex.join(",");
+    }
+
     /** Prepares the buffer for the read-preset command 
      *  that brings in the preset data from the external memory 
      *  into the MCU memory. The preset is NOT selected as current.

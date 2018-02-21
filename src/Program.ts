@@ -25,7 +25,6 @@ export default class Program {
         }
     }
 
-    // TODO: wrap application window in class
     private static createWindow() {
         if (Program.mainWindow === null) {
             Program.mainWindow = new Electron.BrowserWindow(Program.wndOptions);

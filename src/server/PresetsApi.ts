@@ -9,35 +9,32 @@ export default class PresetsApi implements ApiHandler {
 
     public constructor(provider: PresetProvider) {
         this.provider = provider;
+        this.allPresets = this.allPresets.bind(this);
+        this.getPreset = this.getPreset.bind(this);
+
         this.initRoutes();
     }
     
     private initRoutes() {
-        // capture our this for callbacks to use
-        const self = this;
-
-        this.router.get("/", async (request: express.Request, response: express.Response) => {
-            return self.allPresets(request, response);
-        });
-        this.router.get("/:presetIndex", async (request: express.Request, response: express.Response) => {
-            return self.getPreset(request.params.presetIndex, request, response);
-        });
-        this.router.post("/", async (request: express.Request, response: express.Response) => {
-            return self.newPreset(request, response);
-        });
+        this.router.get("/", this.allPresets);
+        this.router.get("/:presetIndex", this.getPreset);
     }
 
     private async allPresets(_: express.Request, response: express.Response) {
-        const preset = await this.provider.getPresets();
-        response.json(preset);
+        const presets = await this.provider.getPresets();
+        response.json(presets);
     }
 
-    private async getPreset(presetIndex: number, _: express.Request, response: express.Response) {
-        const preset = await this.provider.getPreset(presetIndex);
-        response.json(preset);
-    }
+    private async getPreset(request: express.Request, response: express.Response) {
+        const presetIndex: number = request.params.presetIndex;
 
-    private async newPreset(_: express.Request, response: express.Response) {
-        response.json({ message: "new preset"});
+        try {
+            const preset = await this.provider.getPreset(presetIndex);
+            response.json(preset);
+        } catch (error) {
+            // TODO: this does not work - exception is lost
+            // error is undefined
+            response.json(error);
+        }
     }
 }

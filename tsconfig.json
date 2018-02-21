@@ -1,5 +1,5 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
     "outDir": "app",
     "module": "commonjs",
@@ -31,6 +31,7 @@
     "node_modules",
     "app",
     "dist",
+    "release",
     "src/**/_tests/*"
   ],
 }
