@@ -1,4 +1,4 @@
-import { PedalProDeviceUsb, PresetCount } from "./PedalProDevice";
+import PedalProDevice, { PresetCount } from "./PedalProDevice";
 import PedalProReadPreset from "./PedalProReadPreset";
 import PedalProPresetSerializer from "./PedalProPresetSerializer";
 
@@ -7,60 +7,45 @@ import Preset from "../model/Preset";
 
 export default class PedalProProvider implements PresetProvider {
 
-    private readonly device: PedalProDeviceUsb;
+    private readonly device: PedalProDevice;
 
-    public constructor(device: PedalProDeviceUsb) {
-        this.device = device;
+    public constructor() {
+        this.device = new PedalProDevice();
     }
 
     public get presetCount(): number {
         return PresetCount;
     }
 
-    public async getPreset(presetIndex: number): Promise<Preset> {
-        this.ensureConnected();
-        if (!PedalProDeviceUsb.isValidPresetIndex(presetIndex)) { 
+    public getPreset(presetIndex: number): Preset {
+        if (!PedalProDevice.isValidPresetIndex(presetIndex)) { 
             throw new RangeError("Not a valid preset index.");
         }
         
         return this.onePreset(presetIndex);
     }
 
-    public async getPresets(): Promise<Preset[]> {
-        this.ensureConnected();
-
-        const presets = await this.allPresets();
+    public getPresets(): Preset[] {
+        const presets = this.allPresets();
         return presets.filter((p) => !p.empty);
     }
 
-    public async allPresets(): Promise<Preset[]> {
+    public allPresets(): Preset[] {
         const presets = new Array(PresetCount);
         
         for (let index = 0; index < PresetCount; index++) {
-            presets[index] = await this.onePreset(index);
+            presets[index] = this.onePreset(index);
         }
 
         return presets;
     }
 
-    private async onePreset(presetIndex: number): Promise<Preset> {
+    private onePreset(presetIndex: number): Preset {
         const cmd = new PedalProReadPreset(this.device);
-        const buffer = await cmd.read(presetIndex);
+        const buffer = cmd.read(presetIndex);
         const preset = PedalProPresetSerializer.deserialize(buffer);
         preset.index = presetIndex;
         
         return preset;
-    }
-
-    private ensureConnected(): Error | null {
-        if (!this.device.isConnected) {
-            try {
-                this.device.connect();
-                // return  null;
-            } catch (error) {
-                throw new Error("Cannot connect to Device.");
-            }
-        }
-        return  null;
     }
 }

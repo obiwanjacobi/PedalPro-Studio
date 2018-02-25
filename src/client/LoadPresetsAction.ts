@@ -5,6 +5,8 @@ import Client from "./Client";
 import Preset from "./Preset";
 import { PresetCollectionType } from "./ApplicationDocument";
 
+const client = new Client();
+
 export const LoadPresetsActionKey: string = "R/device/presets/";
 
 export interface LoadPresetsAction {
@@ -16,21 +18,16 @@ export interface LoadPresetsAction {
 
 export const createLoadPresetsAction = 
     (dispatch: Dispatch<ApplicationDocument>, 
-     source: PresetCollectionType): Promise<void> => {
-        return getPresets().then((result) => {
-            dispatch(<LoadPresetsAction> 
+     source: PresetCollectionType): void => {
+        client.getPresets().then((result) => {
+            dispatch(
                 { type: LoadPresetsActionKey, source: source, presets: result, error: null });
-        }).catch((reason) => {
-            dispatch(<LoadPresetsAction> 
-                { type: LoadPresetsActionKey, source: source, presets: null, error: new Error(reason) });
+        }).catch((error) => {
+            dispatch(
+                { type: LoadPresetsActionKey, source: source, presets: null, error: error });
         });
 };
 
-async function getPresets(): Promise<Preset[]> {
-    const client = new Client();
-    return await client.getPresets();
-}
-
 export interface LoadPresets {
-    loadPresets(source: PresetCollectionType): Promise<void>;
+    loadPresets(source: PresetCollectionType): void;
 }

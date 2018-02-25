@@ -1,4 +1,6 @@
 import * as TypedRestClient from "typed-rest-client/RestClient";
+
+import Fault from "../model/Fault";
 import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
 
@@ -6,7 +8,7 @@ export default class Client {
     private readonly typedRest: TypedRestClient.RestClient;
 
     private static initPreset(preset: Preset): void {
-        preset.origin = { 
+        preset.origin = {
             collection: PresetCollectionType.device,
             index: preset.index,
             name: preset.name,
@@ -19,26 +21,33 @@ export default class Client {
     public constructor(baseUrl: string = "http://localhost:3000") {
         this.typedRest = new TypedRestClient.RestClient("internal", baseUrl);
     }
-    
-    public async getPresets(): Promise<Preset[]> {
-        const response = await this.typedRest.get<Preset[]>("/presets/");
-        if (response && response.result) {
-            response.result.forEach((item: Preset) => {
-                Client.initPreset(item);
-            });
-            return response.result;
-        }
 
-        throw new RangeError(`The presets could not be retrieved (${response.statusCode}).`);
+    public async getPresets(): Promise<Preset[]> {
+        const response = await this.typedRest.get<Object>("/presets/");
+        this.throwIfError(response);
+
+        const presets = response.result as Preset[];
+        presets.forEach((preset: Preset) => {
+            Client.initPreset(preset);
+        });
+
+        return presets;
     }
 
     public async getPreset(presetIndex: number): Promise<Preset> {
-        const response = await this.typedRest.get<Preset>("/presets/" + presetIndex);
-        if (response && response.result) {
-            Client.initPreset(response.result);
-            return response.result;
-        }
+        const response = await this.typedRest.get<Object>("/presets/" + presetIndex);
+        this.throwIfError(response);
+        
+        const preset = response.result as Preset;
+        Client.initPreset(preset);
+        return preset;
+    }
 
-        throw new RangeError("The specified preset index is invalid: " + presetIndex);
+    private throwIfError(response: TypedRestClient.IRestResponse<Object>) {
+        // @ts-ignore: Fault
+        if (response.result.error) {
+            // @ts-ignore: Fault
+            throw { message: response.result.error };
+        }
     }
 }

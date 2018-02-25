@@ -87,10 +87,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     }
 
     private download() {
-        this.actions.loadPresets(PresetCollectionType.device)
-            .catch((reason) => {
-                throw new Error(reason);
-            });
+        this.actions.loadPresets(PresetCollectionType.device);
     }
 }
 

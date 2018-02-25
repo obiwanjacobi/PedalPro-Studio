@@ -2,11 +2,9 @@ import * as express from "express";
 import * as morgan from "morgan";
 
 import PresetsApi from "./PresetsApi";
+
 import PedalProProvider from "../pedalpro/PedalProProvider";
-import { PedalProDevice } from "../pedalpro/PedalProDevice";
-const device = PedalProDevice;
-const pedalProProvider = new PedalProProvider(device);
-// // static refs to all Api handlers
+const pedalProProvider = new PedalProProvider();
 const pedalProPresetsApi = new PresetsApi(pedalProProvider);
 
 // test - no real usb
@@ -25,16 +23,16 @@ export default class Server {
     public run(): void {
         Server.expressApp.use(morgan("dev"));
 
+        // TODO: add source
         Server.expressApp.get("/", function(_: express.Request, response: express.Response) {
             response.json({ message: "TODO: Sources" });
         });
 
-        // TODO: add source
         Server.expressApp.use(pedalProPresetsApi.uri, pedalProPresetsApi.router);
 
         // Last: crude error handler
         Server.expressApp.get("*", (request: express.Request, respsonse: express.Response, _: express.NextFunction) => {
-            respsonse.status(404).json({ request: request.url, text: "not found."});
+            respsonse.status(404).json({ request: request.url, text: "Not found."});
         });
         Server.expressApp.use(
             (error: any, _: express.Request, respsonse: express.Response, __: express.NextFunction) => {

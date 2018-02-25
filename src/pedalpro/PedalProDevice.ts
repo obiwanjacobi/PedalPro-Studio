@@ -3,11 +3,11 @@ import { ProtocolBuffer } from "./ProtocolBuffer";
 
 export const PresetCount: number = 400;
 
-export class PedalProDeviceUsb {
+export default class PedalProDevice {
     private hidDevice: HID | null = null;
 
     public static throwIfNotValidPresetIndex(presetIndex: number) {
-        if (!PedalProDeviceUsb.isValidPresetIndex(presetIndex)) {
+        if (!PedalProDevice.isValidPresetIndex(presetIndex)) {
             throw new RangeError("Argument presetIndex is not in range of 0-399.");
         }
     }
@@ -30,47 +30,51 @@ export class PedalProDeviceUsb {
     public  connect() {
         if (this.isConnected) { return; }
 
-        // VENDOR_ID  0x04d8 - Vintage Revolution
-        // DEVICE_ID  0x0005 - PedalPro
-        this.hidDevice = new HID(0x04d8, 0x0005);
+        try {
+            // VENDOR_ID  0x04d8 - Vintage Revolution
+            // DEVICE_ID  0x0005 - PedalPro
+            this.hidDevice = new HID(0x04d8, 0x0005);
+        } catch (error) {
+            throw new Error("Device is not connected.");
+        }
     }
 
     public write(buffer: ProtocolBuffer): void {
-        if (this.hidDevice !== null) {
-            this.hidDevice.write(buffer.data);
-        } else {
-            this.ThrowNotConnected();
-        }
+        this.safeCall( () =>
+            // @ts-ignore: safeCall
+            this.hidDevice.write(buffer.data));
     }
 
-    public readSync(): number[] {
-        if (this.hidDevice !== null) {
-            return this.hidDevice.readSync();
-        }
+    public read(): number[] {
+        let buffer: number[];
 
-        return [];
+        this.safeCall( () =>
+            // @ts-ignore: safeCall
+            buffer = this.hidDevice.readSync());
+
+        return buffer;
     }
 
-    public async read(): Promise<number[]> {
-        return new Promise<number[]>((resolve, reject) => {
-            if (this.hidDevice !== null) {
-                this.hidDevice.read((error, data) => {
-                    if (data) { resolve(data); }
-                    if (error) { reject(new Error("Error reading Usb data")); }
-                    reject(new Error("No result."));
-                });
-            } else {
-                reject(new Error("Device not connected."));
+    // public async read(): Promise<number[]> {
+    //     return new Promise<number[]>((resolve, reject) => {
+    //         this.hidDevice.read((error, data) => {
+    //             if (data) { resolve(data); }
+    //             if (error) { reject(new Error("Error reading Usb data")); }
+    //             reject(new Error("No result."));
+    //         });
+    //     });
+    // }
+
+    private safeCall(operation: () => void) {
+        for (let n = 0; n < 3; n++) {
+            try {
+                if (!this.hidDevice) { this.connect(); }
+                operation();
+                return;
+            } catch (error) {
+                this.disconnect();
+                if (error === "") { return; }
             }
-        });
-    }
-
-    private ThrowNotConnected() {
-        throw new Error("PedalPro not connected");
+        }
     }
 }
-
-/**
- * Use the module export mechanism to make this a singelton.
- */
-export const PedalProDevice = new PedalProDeviceUsb();

@@ -9,32 +9,34 @@ export default class PresetsApi implements ApiHandler {
 
     public constructor(provider: PresetProvider) {
         this.provider = provider;
-        this.allPresets = this.allPresets.bind(this);
+        this.getPresets = this.getPresets.bind(this);
         this.getPreset = this.getPreset.bind(this);
 
         this.initRoutes();
     }
     
     private initRoutes() {
-        this.router.get("/", this.allPresets);
+        this.router.get("/", this.getPresets);
         this.router.get("/:presetIndex", this.getPreset);
     }
 
-    private async allPresets(_: express.Request, response: express.Response) {
-        const presets = await this.provider.getPresets();
-        response.json(presets);
+    private getPresets(_: express.Request, response: express.Response) {
+        try {
+            const presets = this.provider.getPresets();
+            response.json(presets);
+        } catch (error) {
+            response.json({error: error.message});
+        }
     }
 
-    private async getPreset(request: express.Request, response: express.Response) {
+    private getPreset(request: express.Request, response: express.Response) {
         const presetIndex: number = request.params.presetIndex;
 
         try {
-            const preset = await this.provider.getPreset(presetIndex);
+            const preset = this.provider.getPreset(presetIndex);
             response.json(preset);
         } catch (error) {
-            // TODO: this does not work - exception is lost
-            // error is undefined
-            response.json(error);
+            response.json({error: error.message});
         }
     }
 }

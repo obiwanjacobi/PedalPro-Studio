@@ -1,3 +1,4 @@
+import Fault from "../model/Fault";
 import Preset from "./Preset";
 import ApplicationDocument, { PresetCollectionType } from "./ApplicationDocument";
 
@@ -161,10 +162,16 @@ const reduceLoadPresets = (
     return copyOverride(state, source, () => presets);
 };
 
+const reduceFault = (state: ApplicationDocument, fault: Fault): ApplicationDocument => {
+    return state.copyOverrideFaults([...state.faults, fault]);
+};
+
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
         case "R/device/presets/":
-        if (action.error) { throw action.error; }
+        if (action.error) { 
+            return reduceFault(state, action.error);
+        }
         if (action.presets) {
             return reduceLoadPresets(state, action.source, action.presets);
         }

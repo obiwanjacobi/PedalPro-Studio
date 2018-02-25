@@ -33,7 +33,6 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
                     {this.selectedTab === 1 && <StoragePresetTab />}
                     {this.selectedTab === 2 && <FactoryPresetTab />}
                 </div>
-                {/* <AppBar position="static" style={{ position: "absolute", bottom: 0 }}> */}
                 <AppBar position="static" style={{ flex: "0 1 auto" }}>
                     <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
                         <Tab label="Device" />
