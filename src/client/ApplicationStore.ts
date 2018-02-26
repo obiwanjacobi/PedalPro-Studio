@@ -3,6 +3,7 @@ import { AnyAction, Store, createStore } from "redux";
 import ApplicationDocument from "./ApplicationDocument";
 import * as PresetStateReducer from "./PresetStateReducer";
 import * as ScreenStateReducer from "./ScreenStateReducer";
+import * as NotificationReducer from "./NotificationStateReduces";
 
 export default class ApplicationStore {
     public readonly store: Store<ApplicationDocument>;
@@ -24,6 +25,11 @@ export default class ApplicationStore {
         
         if (actionType.indexOf("presets") > 0) {
             return PresetStateReducer.reduce(state, <PresetStateReducer.PresetAction> action);
+        }
+
+        if (actionType.indexOf("notification") > 0) {
+            return state.copyOverrideNotification(
+                NotificationReducer.reduce(state.notifications, <NotificationReducer.NotificationAction> action));
         }
 
         return state;

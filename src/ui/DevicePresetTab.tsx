@@ -100,8 +100,8 @@ const extractComponentPropsFromState: MapStateToProps<
 const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps> =
     (dispatch: Dispatch<ApplicationDocument>, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
-            loadPresets: (source: PresetCollectionType)  => {
-                return createLoadPresetsAction(dispatch, source);
+            loadPresets: (source: PresetCollectionType): void  => {
+                createLoadPresetsAction(dispatch, source);
             },
             selectPresets: (presets: Preset[], command: {selected?: boolean, expanded?: boolean}): void => {
                 dispatch(createSelectPresetsAction(presets, command));

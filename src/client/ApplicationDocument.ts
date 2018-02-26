@@ -1,5 +1,5 @@
 import Preset from "./Preset";
-import Fault from "../model/Fault";
+import Notification from "./Notification";
 
 export enum PresetCollectionType {
     device = "device",
@@ -27,20 +27,20 @@ export default class ApplicationDocument {
     public readonly factory: Preset[];
 
     public readonly screen: ScreenState;
-    public readonly faults: Fault[];
+    public readonly notifications: Notification[];
 
     public constructor(device: Preset[] | null = null,
                        storage: Preset[] | null = null,
                        factory: Preset[] | null = null,
                        screen: ScreenState | null = null,
-                       faults: Fault[] | null = null) {
+                       notifications: Notification[] | null = null) {
 
         this.device = device === null ? Array<Preset>() : device;
         this.storage = storage === null ? Array<Preset>() : storage;
         this.factory = factory === null ? Array<Preset>() : factory;
 
         this.screen = screen === null ? new ScreenState() : screen;
-        this.faults = faults === null ? Array<Fault>() : faults;
+        this.notifications = notifications === null ? Array<Notification>() : notifications;
     }
 
     public copyOverride(device: Preset[] | null = null,
@@ -61,8 +61,8 @@ export default class ApplicationDocument {
         );
     }
 
-    public copyOverrideFaults(faults: Fault[]): ApplicationDocument {
+    public copyOverrideNotification(notifications: Notification[]): ApplicationDocument {
         return new ApplicationDocument(
-            this.device, this.storage, this.factory, this.screen, faults);
+            this.device, this.storage, this.factory, this.screen, notifications);
     }
 }

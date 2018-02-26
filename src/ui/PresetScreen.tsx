@@ -6,6 +6,7 @@ import { AppBar, Tabs, Tab } from "material-ui";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
+import UserNotification from "./UserNotification";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {
@@ -40,6 +41,7 @@ export default class PresetScreen extends React.PureComponent<PresetScreenProps,
                         <Tab label="Factory" />
                     </Tabs>
                 </AppBar>
+                <UserNotification />
             </div>
         );
     }

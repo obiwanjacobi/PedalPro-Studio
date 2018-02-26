@@ -163,7 +163,7 @@ const reduceLoadPresets = (
 };
 
 const reduceFault = (state: ApplicationDocument, fault: Fault): ApplicationDocument => {
-    return state.copyOverrideFaults([...state.faults, fault]);
+    return state.copyOverrideNotification([{ type: "warning", message: fault.message }, ...state.notifications]);
 };
 
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
