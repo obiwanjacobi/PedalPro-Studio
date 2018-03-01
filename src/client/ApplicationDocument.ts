@@ -1,5 +1,5 @@
 import Preset from "./Preset";
-import Notification from "./Notification";
+import Notification from "./Notification/Notification";
 
 export enum PresetCollectionType {
     device = "device",

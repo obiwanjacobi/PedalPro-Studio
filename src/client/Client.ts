@@ -1,6 +1,5 @@
 import * as TypedRestClient from "typed-rest-client/RestClient";
 
-import Fault from "../model/Fault";
 import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
 

@@ -2,8 +2,8 @@ import * as React from "react";
 import { IconButton, Typography } from "material-ui";
 import { Clear, Error, ErrorOutline, Warning, Info, Healing } from "material-ui-icons";
 
-import Notification from "../client/Notification";
-import { RemoveNotification } from "../client/RemoveNotificationAction";
+import Notification from "./Notification";
+import { RemoveNotification } from "./RemoveNotificationAction";
 
 export interface UserNotificationItemProps {
     notification: Notification;

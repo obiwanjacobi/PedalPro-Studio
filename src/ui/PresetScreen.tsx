@@ -6,7 +6,7 @@ import { AppBar, Tabs, Tab } from "material-ui";
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
-import UserNotification from "./UserNotification";
+import UserNotification from "../client/Notification/UserNotification";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {

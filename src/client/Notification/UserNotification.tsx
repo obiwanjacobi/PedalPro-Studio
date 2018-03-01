@@ -4,11 +4,11 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redu
 import { Drawer, Divider, IconButton, Typography } from "material-ui";
 import { ExpandMore } from "material-ui-icons";
 
-import Notification from "../client/Notification";
-import ApplicationDocument from "../client/ApplicationDocument";
-import { RemoveNotification, createRemoveNotificationAction } from "../client/RemoveNotificationAction";
+import ApplicationDocument from "../ApplicationDocument";
 
+import Notification from "./Notification";
 import UserNotificationItem from "./UserNotificationItem";
+import { RemoveNotification, createRemoveNotificationAction } from "./RemoveNotificationAction";
 
 export interface UserNotificationProps {}
 export interface UserNotificationStateProps {
