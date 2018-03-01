@@ -1,9 +1,8 @@
 import { Dispatch } from "redux";
 
-import ApplicationDocument from "./ApplicationDocument";
+import ApplicationDocument, { PresetCollectionType } from "./ApplicationDocument";
 import Client from "./Client";
 import Preset from "./Preset";
-import { PresetCollectionType } from "./ApplicationDocument";
 
 const client = new Client();
 

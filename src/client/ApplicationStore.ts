@@ -3,7 +3,7 @@ import { AnyAction, Store, createStore } from "redux";
 import ApplicationDocument from "./ApplicationDocument";
 import * as PresetStateReducer from "./PresetStateReducer";
 import * as ScreenStateReducer from "./ScreenStateReducer";
-import * as NotificationReducer from "./Notification/NotificationStateReduces";
+import * as NotificationReducer from "./notification/NotificationStateReduces";
 
 export default class ApplicationStore {
     public readonly store: Store<ApplicationDocument>;
