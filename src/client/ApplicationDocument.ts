@@ -1,24 +1,11 @@
 import Preset from "./Preset";
 import Notification from "./notification/Notification";
+import ScreenState from "./screen/ScreenState";
 
 export enum PresetCollectionType {
     device = "device",
     storage = "storage",
     factory = "factory",
-}
-
-export class ScreenState {
-    public targetPresetDialogOpen?: boolean;
-
-    public constructor(targetPresetDialogOpen?: boolean) {
-        this.targetPresetDialogOpen = targetPresetDialogOpen ? targetPresetDialogOpen : false;
-    }
-
-    public copyOverride(targetPresetDialogOpen?: boolean): ScreenState {
-        return new ScreenState(
-            targetPresetDialogOpen !== undefined ? targetPresetDialogOpen : this.targetPresetDialogOpen
-        );
-    }
 }
 
 export default class ApplicationDocument {
