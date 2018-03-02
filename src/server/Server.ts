@@ -3,13 +3,13 @@ import * as morgan from "morgan";
 
 import PresetsApi from "./PresetsApi";
 
-// import PedalProProvider from "../pedalpro/PedalProProvider";
-// const pedalProProvider = new PedalProProvider();
-// const pedalProPresetsApi = new PresetsApi(pedalProProvider);
+import PedalProProvider from "../pedalpro/PedalProProvider";
+const pedalProProvider = new PedalProProvider();
+const pedalProPresetsApi = new PresetsApi(pedalProProvider);
 
 // test - no real usb
-import TestPresetProvider from "../_tests/TestPresetProvider";
-const pedalProPresetsApi = new PresetsApi(new TestPresetProvider());
+// import TestPresetProvider from "../_tests/TestPresetProvider";
+// const pedalProPresetsApi = new PresetsApi(new TestPresetProvider());
 
 export default class Server {
     static readonly expressApp: express.Application = express();

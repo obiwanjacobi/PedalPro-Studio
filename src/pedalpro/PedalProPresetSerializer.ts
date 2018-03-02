@@ -6,7 +6,7 @@ export default class PedalProPresetSerializer {
     public static deserialize(buffer: PedalProPresetBuffer): Preset {
         const preset: Preset = <Preset> { };
 
-        // preset.data = buffer.formatData();
+        preset.data = buffer.formatData(10);
 
         preset.name = buffer.name.trim();
         preset.expression = buffer.expression;

@@ -1,6 +1,9 @@
 import { ProtocolBuffer, PartSize, LastPartSize } from "./ProtocolBuffer";
+import * as PresetDef from "./PresetBufferDefs71";
 
 const PresetBufferSize = PartSize + PartSize + LastPartSize;
+const SingleCoilChar = 0x02;
+const HumbuckerChar = 0x03;
 const ExpressionChar = 0x04;
 const StereoChar = 0x05;
 const nameMaxLength = 10;
@@ -12,7 +15,7 @@ export default class PedalProPresetBuffer extends ProtocolBuffer {
 
     public get name(): string {
         let name: number[] = new Array(nameMaxLength);
-        super.read(0, name, 0, nameMaxLength);
+        super.read(PresetDef.PresetName, name, 0, nameMaxLength);
 
         name = name.filter((char: number) => 
             char !== ExpressionChar && char !== StereoChar);
@@ -20,17 +23,34 @@ export default class PedalProPresetBuffer extends ProtocolBuffer {
         return String.fromCharCode(...name);
     }
 
-    public get expression(): boolean {
-        let name: number[] = new Array(nameMaxLength);
-        super.read(0, name, 0, nameMaxLength);
+    public get singleCoil(): boolean {
+        return this.findCharInName(SingleCoilChar);
+    }
 
-        return name.findIndex((char: number) => char === ExpressionChar) !== -1;
+    public get humbucker(): boolean {
+        return this.findCharInName(HumbuckerChar);
+    }
+
+    public get expression(): boolean {
+        return this.findCharInName(ExpressionChar);
     }
 
     public get stereo(): boolean {
-        let name: number[] = new Array(nameMaxLength);
-        super.read(0, name, 0, nameMaxLength);
+        return this.findCharInName(StereoChar);
+    }
 
-        return name.findIndex((char: number) => char === StereoChar) !== -1;
+    private findCharInName(c: number): boolean {
+        let name: number[] = new Array(nameMaxLength);
+        super.read(PresetDef.PresetName, name, 0, nameMaxLength);
+
+        return name.findIndex((char: number) => char === c) !== -1;
+    }
+
+    public get bypassSlaveCmp1(): PresetDef.BypassSlaveCmp1Flags {
+        return this.data[PresetDef.BypassSlaveCmp1];
+    }
+
+    public get bypassSlaveCmp2(): PresetDef.BypassSlaveCmp2Flags {
+        return this.data[PresetDef.BypassSlaveCmp2];
     }
 }

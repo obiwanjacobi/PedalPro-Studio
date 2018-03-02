@@ -1,3 +1,14 @@
+import Compressor from "./Compressor";
+import Distortion from "./Distortion";
+import Boost from "./Boost";
+import NoiseGate from "./NoiseGate";
+import VoltageControlledAmp from "./VoltageControlledAmp";
+import Filters from "./Filters";
+import Volume from "./Volume";
+import Modulation from "./Modulation";
+import Delay from "./Delay";
+import Aux from "./SendReturn";
+
 export default interface Preset {
     /**
      * The index or position of this preset in the collection (order).
@@ -27,5 +38,21 @@ export default interface Preset {
     /**
      * Raw data
      */
-    // data: string;
+    data: string;
+
+    /**
+     * Effects
+     */
+    compressor: Compressor;
+    boost: Boost;
+    noiseGate: NoiseGate;
+    vca: VoltageControlledAmp;
+    filters: Filters;
+    volume: Volume;
+    modulation: Modulation;
+    delay: Delay;
+    aux: Aux;
+
+    // pre version 7
+    distortion?: Distortion;
 }

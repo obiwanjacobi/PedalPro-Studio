@@ -52,18 +52,9 @@ export default class PedalProDevice {
             // @ts-ignore: safeCall
             buffer = this.hidDevice.readSync());
 
+        // @ts-ignore: works fine
         return buffer;
     }
-
-    // public async read(): Promise<number[]> {
-    //     return new Promise<number[]>((resolve, reject) => {
-    //         this.hidDevice.read((error, data) => {
-    //             if (data) { resolve(data); }
-    //             if (error) { reject(new Error("Error reading Usb data")); }
-    //             reject(new Error("No result."));
-    //         });
-    //     });
-    // }
 
     private safeCall(operation: () => void) {
         for (let n = 0; n < 3; n++) {

@@ -54,14 +54,14 @@ export class ProtocolBuffer {
         return length;
     }
 
-    public formatData(): string {
-        const hex = new Array<string>(this.data.length);
+    public formatData(offset: number = 0): string {
+        const hex = new Array<string>(this.data.length - offset);
 
-        for (let i = 0; i < this.data.length; i++) {
-            hex[i] = this.data[i].toString(16);
+        for (let i = offset; i < this.data.length; i++) {
+            hex[i - offset] = this.data[i].toString(16);
         }
 
-        return  hex.join(",");
+        return hex.join(",");
     }
 
     /** Prepares the buffer for the read-preset command 
