@@ -15,6 +15,7 @@ export default class TestPresetProvider {
                     name: "Preset " + index,
                     expression: false,
                     stereo: false,
+                    empty: false,
                 };
             }
         }
@@ -24,11 +25,11 @@ export default class TestPresetProvider {
         return TestPresetProvider.presets.length;
     }
 
-    public getPreset(presetIndex: number): Promise<Preset> {
-        return new Promise((resolve) => { resolve(TestPresetProvider.presets[presetIndex]); });
+    public getPreset(presetIndex: number): Preset {
+        return TestPresetProvider.presets[presetIndex];
     }
     
-    public getPresets(): Promise<Preset[]> {
-        return new Promise((resolve) => { resolve(TestPresetProvider.presets); });
+    public getPresets(): Preset[] {
+        return TestPresetProvider.presets;
     }
 }

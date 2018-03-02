@@ -2,19 +2,20 @@ import * as TypedRestClient from "typed-rest-client/RestClient";
 
 import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
+import * as ModelPreset from "../model/Preset";
 
 export default class Client {
     private readonly typedRest: TypedRestClient.RestClient;
 
-    private static initPreset(preset: Preset): void {
-        preset.origin = {
-            collection: PresetCollectionType.device,
-            index: preset.index,
-            name: preset.name,
+    private static createPreset(preset: ModelPreset.default): Preset {
+        const clientPreset: Preset = { 
+            ...preset, 
+            origin: preset,
+            source: PresetCollectionType.device,
+            uiExpanded: false,
+            uiSelected: false
         };
-        preset.source = PresetCollectionType.device;
-        preset.uiSelected = false;
-        preset.uiExpanded = false;
+        return clientPreset;
     }
 
     public constructor(baseUrl: string = "http://localhost:3000") {
@@ -25,10 +26,12 @@ export default class Client {
         const response = await this.typedRest.get<Object>("/presets/");
         this.throwIfError(response);
 
-        const presets = response.result as Preset[];
-        presets.forEach((preset: Preset) => {
-            Client.initPreset(preset);
-        });
+        const modelPresets = response.result as ModelPreset.default[];
+        const presets = new Array<Preset>(modelPresets.length);
+        
+        for (let i = 0; i < modelPresets.length; i++) {
+            presets[i] = Client.createPreset(modelPresets[i]);
+        }
 
         return presets;
     }
@@ -37,9 +40,8 @@ export default class Client {
         const response = await this.typedRest.get<Object>("/presets/" + presetIndex);
         this.throwIfError(response);
         
-        const preset = response.result as Preset;
-        Client.initPreset(preset);
-        return preset;
+        const preset = response.result as ModelPreset.default;
+        return Client.createPreset(preset);
     }
 
     private throwIfError(response: TypedRestClient.IRestResponse<Object>) {

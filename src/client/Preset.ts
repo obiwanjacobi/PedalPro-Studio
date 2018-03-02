@@ -22,23 +22,5 @@ export default interface Preset extends ModelPreset.default {
     /**
      * the origin of this preset
      */
-    origin: PresetHistory;
-}
-
-export interface PresetHistory {
-    
-    /**
-     * preset name when history item was created
-     */
-    name: string;
-
-    /**
-     * the index of this preset before it was copied.
-     */
-    index: number;
-
-    /**
-     * the source collection the preset was copied from.
-     */
-    collection: PresetCollectionType;
+    origin: ModelPreset.default;
 }
