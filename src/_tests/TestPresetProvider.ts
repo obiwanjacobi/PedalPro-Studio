@@ -1,4 +1,4 @@
-import Preset from "../model/Preset";
+import Preset from "../server/Preset";
 
 const PresetCount: number = 400;
 

@@ -2,7 +2,7 @@ import PedalProDevice, { PresetCount } from "./PedalProDevice";
 import PedalProReadPreset from "./PedalProReadPreset";
 import PedalProPresetSerializer from "./PedalProPresetSerializer";
 
-import PresetProvider from "../model/PresetProvider";
+import PresetProvider from "../server/PresetProvider";
 import Preset from "../model/Preset";
 
 export default class PedalProProvider implements PresetProvider {
