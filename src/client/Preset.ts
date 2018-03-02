@@ -24,3 +24,12 @@ export default interface Preset extends ModelPreset.default {
      */
     origin: ModelPreset.default;
 }
+
+export function presetHasChanged(preset: Preset): boolean {
+    return !(
+        preset.origin.index === preset.index &&
+        preset.origin.name === preset.name &&
+        preset.origin.expression === preset.expression &&
+        preset.origin.stereo === preset.stereo
+    );
+};

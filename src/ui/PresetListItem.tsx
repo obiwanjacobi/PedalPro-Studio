@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Collapse, Grid, Paper, Checkbox, Tooltip, IconButton } from "material-ui";
+import { Collapse, Grid, Paper, Checkbox, IconButton } from "material-ui";
 import Typography from "material-ui/Typography/Typography";
-import { ExpandMore, ExpandLess } from "material-ui-icons";
+import { ExpandMore, ExpandLess, Flag } from "material-ui-icons";
 
 import PresetListItemDetail from "./PresetListItemDetail";
-import Preset from "../client/Preset";
+import Preset, { presetHasChanged } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
@@ -36,26 +36,27 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
             <Paper elevation={2} style={{width: "100%"}}>
                     <Grid container={true} alignItems="center" spacing={8}>
                         <Grid xs={2} item={true}>
-                            <Tooltip title="Current Preset index. Click to select Preset." placement="top">
-                                <Checkbox 
-                                    checked={this.props.preset.uiSelected} 
-                                    onClick={this.toggleSelected}
-                                    icon={this.formatIndex()}
-                                />
-                            </Tooltip>
+                            <Checkbox 
+                                checked={this.props.preset.uiSelected} 
+                                onClick={this.toggleSelected}
+                                icon={this.formatIndex()}
+                            />
                         </Grid>
-                        <Grid xs={8} item={true}>
-                            <Typography type="subheading">{this.props.preset.name}</Typography>
+                        <Grid xs={7} item={true}>
+                            <Typography type="subheading">
+                                {this.props.preset.name}
+                            </Typography>
                         </Grid>
                         <Grid xs={1} item={true}>
-                            <Tooltip 
-                                title={this.props.preset.uiExpanded ? "Click to collapse." : "Click to expand."} 
-                                placement="left"
-                            >
-                                <IconButton onClick={this.toggleExpanded} >
-                                    {this.props.preset.uiExpanded ? <ExpandLess /> : <ExpandMore />}
-                                </IconButton>
-                            </Tooltip>
+                            <Flag 
+                                color="secondary" 
+                                style={{display: presetHasChanged(this.props.preset) ? "block" : "none"}}
+                            />
+                        </Grid>
+                        <Grid xs={1} item={true}>
+                            <IconButton onClick={this.toggleExpanded} >
+                                {this.props.preset.uiExpanded ? <ExpandLess /> : <ExpandMore />}
+                            </IconButton>
                         </Grid>
                     </Grid>
                     <Collapse in={this.props.preset.uiExpanded}>
@@ -72,13 +73,12 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
     }
 
     private formatIndex(): string {
-        const index = this.props.preset.index;
+        const value = this.props.preset.index;
         // formats 3 digits with leading zeros
-        return (String(0).repeat(3) + String(index)).slice(String(index).length);
+        return (String(0).repeat(3) + String(value)).slice(String(value).length);
     }
     
     private toggleExpanded() {
-        // this.setState({ expanded: !this.state.expanded });
         this.props.selectPresets([this.props.preset], {expanded: !this.props.preset.uiExpanded});
     }
 

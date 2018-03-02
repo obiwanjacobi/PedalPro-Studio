@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Tooltip, IconButton } from "material-ui";
+import { Grid, IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import { Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
 
@@ -60,59 +60,40 @@ export default class PresetListItemDetail extends
                         onChange={this.updateNameHandler}
                         endAdornment={
                             <InputAdornment position="end">
-                                <Tooltip 
-                                    title="Click to revert to the original text" 
-                                    placement="left"
+                                <IconButton 
+                                    disabled={!this.canUndo}
+                                    onClick={this.undoName}
                                 >
-                                    <div>
-                                        <IconButton 
-                                            disabled={!this.canUndo}
-                                            onClick={this.undoName}
-                                        >
-                                            <Undo />
-                                        </IconButton>
-                                    </div>
-                                </Tooltip>
+                                    <Undo />
+                                </IconButton>
                             </InputAdornment>
                         }
                     />
                 </Grid>
                 <Grid xs={1} item={true}>
-                    <Tooltip title="Click to move this Preset up in the list" placement="left">
-                        <div>
-                            <IconButton 
-                                style={styles.smallIcon}
-                                disabled={!this.canMoveUp}
-                                onClick={this.movePresetUp}
-                            >
-                                <ArrowUpward style={styles.smallIcon}/>
-                            </IconButton>
-                        </div>
-                    </Tooltip>
-                    <Tooltip title="Click to move this Preset down in the list" placement="left">
-                        <div>
-                            <IconButton 
-                                style={styles.smallIcon}
-                                disabled={!this.canMoveDown}
-                                onClick={this.movePresetDown}
-                            >
-                                <ArrowDownward style={styles.smallIcon}/>
-                            </IconButton>
-                        </div>
-                    </Tooltip>
+                    <IconButton 
+                        style={styles.smallIcon}
+                        disabled={!this.canMoveUp}
+                        onClick={this.movePresetUp}
+                    >
+                        <ArrowUpward style={styles.smallIcon}/>
+                    </IconButton>
+                    <IconButton 
+                        style={styles.smallIcon}
+                        disabled={!this.canMoveDown}
+                        onClick={this.movePresetDown}
+                    >
+                        <ArrowDownward style={styles.smallIcon}/>
+                    </IconButton>
                 </Grid>
                 <Grid item={true} xs={2}>
-                    <Tooltip title="Click to keep the changes." placement="right">
-                        <div>
-                            <IconButton 
-                                color="secondary"
-                                disabled={!this.canSave}
-                                onClick={this.save}
-                            >
-                                <Save />
-                            </IconButton>
-                        </div>
-                    </Tooltip>
+                    <IconButton 
+                        color="secondary"
+                        disabled={!this.canSave}
+                        onClick={this.save}
+                    >
+                        <Save />
+                    </IconButton>
                 </Grid>
                 <Grid item={true} xs={12} />
             </Grid>         
