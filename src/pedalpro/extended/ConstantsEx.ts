@@ -1,5 +1,5 @@
 export const PartSize = 0x39;
-export const LastPartSize = 0x0D;
+export const LastPartSize = 0x2E;
 
 export enum BufferParts {
     Part1,

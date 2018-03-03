@@ -1,5 +1,5 @@
 import { ProtocolBuffer } from "../ProtocolBuffer";
-import { BufferParts, PartSize, LastPartSize } from "./Constants";
+import { BufferParts, PartSize, LastPartSize } from "./ConstantsEx";
 
 export default class CommandBufferExBuilder {
     private buffer: ProtocolBuffer;

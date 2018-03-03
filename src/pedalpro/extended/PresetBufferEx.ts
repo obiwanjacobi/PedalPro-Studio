@@ -1,6 +1,6 @@
 import { ProtocolBuffer } from "../ProtocolBuffer";
 import { PresetBufferExFields } from "./PresetBufferExFields";
-import { PresetBufferSize } from "./Constants";
+import { PresetBufferSize } from "./ConstantsEx";
 import { nameMaxLength, ExpressionChar, StereoChar, SingleCoilChar, HumbuckerChar } from "../Common";
 
 export default class PresetBufferEx extends ProtocolBuffer {
