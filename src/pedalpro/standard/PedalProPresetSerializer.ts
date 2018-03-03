@@ -1,6 +1,6 @@
-import PedalProPresetBuffer from "./commands/PedalProPresetBuffer";
+import PedalProPresetBuffer from "./PresetBuffer";
 import { EmptyPresetBuffer } from "./EmptyPresetBuffer";
-import Preset from "../model/Preset";
+import Preset from "../../model/Preset";
 
 export default class PedalProPresetSerializer {
     public static deserialize(buffer: PedalProPresetBuffer): Preset {

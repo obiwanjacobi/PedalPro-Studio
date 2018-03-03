@@ -1,10 +1,10 @@
-import PedalProDevice, { PresetCount } from "./PedalProDevice";
-import PedalProReadPreset from "./commands/PedalProReadPreset";
+import PedalProDevice, { PresetCount } from "../PedalProDevice";
 import PedalProPresetSerializer from "./PedalProPresetSerializer";
+import ReadPreset from "./ReadPreset";
 
-import PresetProvider from "../server/PresetProvider";
-import Preset from "../model/Preset";
-import DeviceIdentity from "../model/DeviceIdentity";
+import PresetProvider from "../../server/PresetProvider";
+import Preset from "../../model/Preset";
+import DeviceIdentity from "../../model/DeviceIdentity";
 
 export default class PedalProProvider implements PresetProvider {
     private readonly device: PedalProDevice;
@@ -48,7 +48,7 @@ export default class PedalProProvider implements PresetProvider {
     }
 
     private onePreset(presetIndex: number): Preset {
-        const cmd = new PedalProReadPreset(this.device);
+        const cmd = new ReadPreset(this.device);
         const buffer = cmd.read(presetIndex);
         const preset = PedalProPresetSerializer.deserialize(buffer);
         preset.index = presetIndex;

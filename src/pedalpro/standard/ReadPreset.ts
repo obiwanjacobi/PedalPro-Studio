@@ -1,8 +1,10 @@
 import PedalProDevice from "../PedalProDevice";
-import { ProtocolBuffer, BufferParts, PartSize, LastPartSize } from "../ProtocolBuffer";
-import PedalProPresetBuffer from "./PedalProPresetBuffer";
+import { ProtocolBuffer } from "../ProtocolBuffer";
+import PresetBuffer from "./PresetBuffer";
+import CommandBufferBuilder from "./CommandBufferBuilder";
+import { PartSize, LastPartSize, BufferParts } from "./Constants";
 
-export default class PedalProReadPreset {
+export default class ReadPreset {
     private device: PedalProDevice;
 
     // private static isCommandDone(command: number, response: number[]): boolean {
@@ -16,30 +18,31 @@ export default class PedalProReadPreset {
         this.device = device;
     }
 
-    public read(presetIndex: number): PedalProPresetBuffer {
+    public read(presetIndex: number): PresetBuffer {
         if (!this.device.isConnected) { this.device.connect(); }
         PedalProDevice.throwIfNotValidPresetIndex(presetIndex);
 
         const buffer = new ProtocolBuffer();
-        buffer.setLoadPresetCmd(presetIndex);
+        const builder = new CommandBufferBuilder(buffer);
+        builder.setLoadPresetCmd(presetIndex);
         this.device.write(buffer);
 
         this.device.read();
-        // if (!PedalProReadPreset.isCommandDone(buffer.command, await this.device.read())) {
+        // if (!PedalProReadPreset.isCommandDone(buffer.command, this.device.read())) {
         //     throw new Error("PedalPro Command failed.");
         // }
 
-        const preset = new PedalProPresetBuffer();
+        const preset = new PresetBuffer();
         
-        buffer.setReadPresetCmd(BufferParts.Part1);
+        builder.setReadPresetCmd(BufferParts.Part1);
         this.device.write(buffer);
         preset.write(0, this.device.read(), 1, PartSize);
 
-        buffer.setReadPresetCmd(BufferParts.Part2);
+        builder.setReadPresetCmd(BufferParts.Part2);
         this.device.write(buffer);
         preset.write(PartSize, this.device.read(), 1, PartSize);
 
-        buffer.setReadPresetCmd(BufferParts.Part3);
+        builder.setReadPresetCmd(BufferParts.Part3);
         this.device.write(buffer);
         preset.write(PartSize + PartSize, this.device.read(), 1, LastPartSize);
 

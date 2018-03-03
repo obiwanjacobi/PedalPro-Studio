@@ -1,4 +1,4 @@
-import PedalProPresetBuffer from "./commands/PedalProPresetBuffer";
+import PresetBuffer from "./PresetBuffer";
 
 const emptyData = [
     0x7b, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x5f, 0x70, 
@@ -18,13 +18,13 @@ const emptyData = [
     0x20, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
 
-export class EmptyPresetBufferImpl  extends PedalProPresetBuffer {
+export class EmptyPresetBufferImpl  extends PresetBuffer {
     constructor() {
         super();
         this.data = emptyData;
     }
 
-    public isEmpty(buffer: PedalProPresetBuffer): boolean {
+    public isEmpty(buffer: PresetBuffer): boolean {
         for (let i = 0; i < this.data.length; i++) {
             if (buffer.data[i] !== this.data[i]) { 
                 return false;

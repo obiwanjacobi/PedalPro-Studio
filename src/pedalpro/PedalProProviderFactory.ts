@@ -1,8 +1,8 @@
-import PedalProProvider from "./PedalProProvider";
+import PedalProProvider from "./standard/PedalProProvider";
 import PedalProDevice from "./PedalProDevice";
-import ReadDeviceIdentity from "./commands/ReadDeviceIdentity";
+import ReadDeviceIdentity from "./ReadDeviceIdentity";
 import PedalProDeviceIdentity, { PedalProDeviceModel } from "./PedalProDeviceIdentity";
-import PedalProExProvider from "./PedalProExProvider";
+import PedalProExProvider from "./extended/PedalProExProvider";
 
 export default class PedalProProviderFactory {
     public static create(): PedalProProvider {

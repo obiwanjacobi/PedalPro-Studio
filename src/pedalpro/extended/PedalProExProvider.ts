@@ -1,5 +1,5 @@
-import PedalProDevice from "./PedalProDevice";
-import PedalProProvider from "./PedalProProvider";
+import PedalProDevice from "../PedalProDevice";
+import PedalProProvider from "../standard/PedalProProvider";
 
 export default class PedalProExProvider extends PedalProProvider {
 

@@ -1,13 +1,4 @@
-export const PartSize = 0x39;
-export const LastPartSize = 0x0D;
 const ProtocolBufferSize = 65;
-
-export enum BufferParts {
-    Part1,
-    Part2,
-    Part3,
-    LastPart = Part3
-}
 
 export class ProtocolBuffer {
     
@@ -63,28 +54,6 @@ export class ProtocolBuffer {
         }
 
         return hex.join(",");
-    }
-
-    /** Prepares the buffer for the read-preset command 
-     *  that brings in the preset data from the external memory 
-     *  into the MCU memory. The preset is NOT selected as current.
-     */
-    public setLoadPresetCmd(presetIndex: number) {
-        this.clear();
-        this.data[1] = 0x16;    // read-preset command
-        this.data[3] = presetIndex / 256;
-        this.data[4] = presetIndex % 256;
-    }
-
-    /** Prepares the buffer for the load-preset command
-     *  that sends the preset data in the MCU memory over 
-     *  the USB wire.
-     */
-    public setReadPresetCmd(bufferIndex: BufferParts) {
-        this.clear();
-        this.data[1] = 0x17;    // load-preset command
-        this.data[5] = bufferIndex === BufferParts.LastPart ? LastPartSize : PartSize;
-        this.data[6] = bufferIndex * PartSize;
     }
 
     /**

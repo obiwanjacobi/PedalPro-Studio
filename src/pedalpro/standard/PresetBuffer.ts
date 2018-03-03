@@ -1,14 +1,14 @@
-import { ProtocolBuffer, PartSize, LastPartSize } from "../ProtocolBuffer";
-import * as PresetDef from "../PresetBufferDefs71";
+import { ProtocolBuffer } from "../ProtocolBuffer";
+import * as PresetDef from "./PresetBufferDefs";
+import { PresetBufferSize } from "./Constants";
 
-const PresetBufferSize = PartSize + PartSize + LastPartSize;
 const SingleCoilChar = 0x02;
 const HumbuckerChar = 0x03;
 const ExpressionChar = 0x04;
 const StereoChar = 0x05;
 const nameMaxLength = 10;
 
-export default class PedalProPresetBuffer extends ProtocolBuffer {
+export default class PresetBuffer extends ProtocolBuffer {
     public constructor() {
         super(PresetBufferSize);
     }
