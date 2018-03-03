@@ -8,6 +8,7 @@ import Volume from "./Volume";
 import Modulation from "./Modulation";
 import Delay from "./Delay";
 import Aux from "./SendReturn";
+import PreAmp from "./PreAmp";
 
 export default interface Preset {
     /**
@@ -55,4 +56,6 @@ export default interface Preset {
 
     // pre version 7
     distortion?: Distortion;
+    // post version 7 (Ex)
+    pre?: PreAmp;
 }

@@ -1,6 +1,6 @@
 import * as express from "express";
 import ApiHandler from "./ApiHandler";
-import PresetProvider from "../model/PresetProvider";
+import PresetProvider from "./PresetProvider";
 
 export default class PresetsApi implements ApiHandler {
     public readonly uri: string = "/presets";

@@ -1,4 +1,4 @@
-import Preset from "./Preset";
+import Preset from "../model/Preset";
 
 export default interface PresetProvider {
     presetCount: number;
