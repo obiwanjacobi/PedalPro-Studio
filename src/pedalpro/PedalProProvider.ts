@@ -1,5 +1,5 @@
 import PedalProDevice, { PresetCount } from "./PedalProDevice";
-import PedalProReadPreset from "./PedalProReadPreset";
+import PedalProReadPreset from "./commands/PedalProReadPreset";
 import PedalProPresetSerializer from "./PedalProPresetSerializer";
 
 import PresetProvider from "../server/PresetProvider";
@@ -9,8 +9,9 @@ export default class PedalProProvider implements PresetProvider {
 
     private readonly device: PedalProDevice;
 
-    public constructor() {
-        this.device = new PedalProDevice();
+    public constructor(device: PedalProDevice) {
+        // this.device = new PedalProDevice();
+        this.device = device;
     }
 
     public get presetCount(): number {

@@ -9,7 +9,8 @@
 
 ## PedalProDevice
 
-- Recreate HID object on write error - connection may have been interrupted.
+- Done: Recreate HID object on write error - connection may have been interrupted.
+- Allow filtering on index (numerical input & ranges using - or :)
 
 ## Libraries
 

@@ -1,14 +1,17 @@
 import * as express from "express";
 import ApiHandler from "./ApiHandler";
 import PresetProvider from "./PresetProvider";
+import PedalProProviderFactory from "../pedalpro/PedalProProviderFactory";
+
+// test - no real usb
+// import TestPresetProvider from "../_tests/TestPresetProvider";
+// const pedalProPresetsApi = new PresetsApi(new TestPresetProvider());
 
 export default class PresetsApi implements ApiHandler {
     public readonly uri: string = "/presets";
     public readonly router: express.Router = express.Router();
-    private readonly provider: PresetProvider;
 
-    public constructor(provider: PresetProvider) {
-        this.provider = provider;
+    public constructor() {
         this.getPresets = this.getPresets.bind(this);
         this.getPreset = this.getPreset.bind(this);
 
@@ -22,10 +25,11 @@ export default class PresetsApi implements ApiHandler {
 
     private getPresets(_: express.Request, response: express.Response) {
         try {
-            const presets = this.provider.getPresets();
-            response.json(presets);
+            const provider = this.createProvider();
+            const presets = provider.getPresets();
+            response.json({ presets: presets });
         } catch (error) {
-            response.json({error: error.message});
+            response.json({fault: { error: error.message}});
         }
     }
 
@@ -33,10 +37,15 @@ export default class PresetsApi implements ApiHandler {
         const presetIndex: number = request.params.presetIndex;
 
         try {
-            const preset = this.provider.getPreset(presetIndex);
-            response.json(preset);
+            const provider = this.createProvider();
+            const preset = provider.getPreset(presetIndex);
+            response.json({presets: [preset]});
         } catch (error) {
-            response.json({error: error.message});
+            response.json({ fault: {error: error.message}});
         }
+    }
+
+    private createProvider(): PresetProvider {
+        return PedalProProviderFactory.create();
     }
 }

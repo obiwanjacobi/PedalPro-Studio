@@ -1,5 +1,5 @@
-import PedalProDevice from "./PedalProDevice";
-import { ProtocolBuffer, BufferParts, PartSize, LastPartSize } from "./ProtocolBuffer";
+import PedalProDevice from "../PedalProDevice";
+import { ProtocolBuffer, BufferParts, PartSize, LastPartSize } from "../ProtocolBuffer";
 import PedalProPresetBuffer from "./PedalProPresetBuffer";
 
 export default class PedalProReadPreset {

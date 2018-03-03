@@ -10,6 +10,7 @@ export enum BufferParts {
 }
 
 export class ProtocolBuffer {
+    
     public data: number[];
 
     public constructor(byteCount: number = ProtocolBufferSize) {
@@ -85,4 +86,13 @@ export class ProtocolBuffer {
         this.data[5] = bufferIndex === BufferParts.LastPart ? LastPartSize : PartSize;
         this.data[6] = bufferIndex * PartSize;
     }
+
+    public setVintageUnitTypeCmd() {
+        this.clear();
+        this.data[1] = 0x22;    // read vut command
+        // this.data[2] = 0;       // payload
+        // this.data[3] = 0x00;    // address hi
+        this.data[4] = 0x10;    // address lo
+    }
+
 }

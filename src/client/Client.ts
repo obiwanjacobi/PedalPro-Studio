@@ -3,6 +3,7 @@ import * as TypedRestClient from "typed-rest-client/RestClient";
 import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
 import * as ModelPreset from "../model/Preset";
+import PresetResponse from "../model/PresetResponse";
 
 export default class Client {
     private readonly typedRest: TypedRestClient.RestClient;
@@ -23,10 +24,10 @@ export default class Client {
     }
 
     public async getPresets(): Promise<Preset[]> {
-        const response = await this.typedRest.get<Object>("/presets/");
+        const response = await this.typedRest.get<PresetResponse>("/presets/");
         this.throwIfError(response);
 
-        const modelPresets = response.result as ModelPreset.default[];
+        const modelPresets = response.result.presets;
         const presets = new Array<Preset>(modelPresets.length);
         
         for (let i = 0; i < modelPresets.length; i++) {
@@ -37,18 +38,22 @@ export default class Client {
     }
 
     public async getPreset(presetIndex: number): Promise<Preset> {
-        const response = await this.typedRest.get<Object>("/presets/" + presetIndex);
+        const response = await this.typedRest.get<PresetResponse>("/presets/" + presetIndex);
         this.throwIfError(response);
         
-        const preset = response.result as ModelPreset.default;
-        return Client.createPreset(preset);
+        const modelPreset = response.result.presets[0];
+        return Client.createPreset(modelPreset);
     }
 
-    private throwIfError(response: TypedRestClient.IRestResponse<Object>) {
-        // @ts-ignore: Fault
-        if (response.result.error) {
-            // @ts-ignore: Fault
-            throw { message: response.result.error };
+    private throwIfError(response: TypedRestClient.IRestResponse<PresetResponse>) {
+        if (response.statusCode !== 200) {
+            throw new Error(`Internal Error: ${response.statusCode}.`);
+        }
+        if (response.result.fault) {
+            throw { message: response.result.fault };
+        }
+        if (!response.result.presets || response.result.presets.length === 0) {
+            throw new Error("No presets were retrieved.");
         }
     }
 }

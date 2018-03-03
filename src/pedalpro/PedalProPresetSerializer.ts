@@ -1,4 +1,4 @@
-import PedalProPresetBuffer from "./PedalProPresetBuffer";
+import PedalProPresetBuffer from "./commands/PedalProPresetBuffer";
 import { EmptyPresetBuffer } from "./EmptyPresetBuffer";
 import Preset from "../model/Preset";
 

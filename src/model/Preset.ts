@@ -39,20 +39,20 @@ export default interface Preset {
     /**
      * Raw data
      */
-    data: string;
+    data?: string;
 
     /**
      * Effects
      */
-    compressor: Compressor;
-    boost: Boost;
-    noiseGate: NoiseGate;
-    vca: VoltageControlledAmp;
-    filters: Filters;
-    volume: Volume;
-    modulation: Modulation;
-    delay: Delay;
-    aux: Aux;
+    compressor?: Compressor;
+    boost?: Boost;
+    noiseGate?: NoiseGate;
+    vca?: VoltageControlledAmp;
+    filters?: Filters;
+    volume?: Volume;
+    modulation?: Modulation;
+    delay?: Delay;
+    aux?: Aux;
 
     // pre version 7
     distortion?: Distortion;

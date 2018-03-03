@@ -1,5 +1,5 @@
-import { ProtocolBuffer, PartSize, LastPartSize } from "./ProtocolBuffer";
-import * as PresetDef from "./PresetBufferDefs71";
+import { ProtocolBuffer, PartSize, LastPartSize } from "../ProtocolBuffer";
+import * as PresetDef from "../PresetBufferDefs71";
 
 const PresetBufferSize = PartSize + PartSize + LastPartSize;
 const SingleCoilChar = 0x02;
