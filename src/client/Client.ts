@@ -52,6 +52,10 @@ export default class Client {
         if (response.result.fault) {
             throw { message: response.result.fault };
         }
+        if (!response.result.device.supported) {
+            // tslint:disable:max-line-length
+            throw new Error(`The connected device ${response.result.device.device} version ${response.result.device.version} is not supported. Please upgrade the device.`);
+        }
         if (!response.result.presets || response.result.presets.length === 0) {
             throw new Error("No presets were retrieved.");
         }

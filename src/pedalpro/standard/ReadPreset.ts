@@ -3,6 +3,7 @@ import { ProtocolBuffer } from "../ProtocolBuffer";
 import PresetBuffer from "./PresetBuffer";
 import CommandBufferBuilder from "./CommandBufferBuilder";
 import { PartSize, LastPartSize, BufferParts } from "./Constants";
+import PedalProProvider from "./PedalProProvider";
 
 export default class ReadPreset {
     private device: PedalProDevice;
@@ -19,8 +20,8 @@ export default class ReadPreset {
     }
 
     public read(presetIndex: number): PresetBuffer {
+        PedalProProvider.throwIfNotValidPresetIndex(presetIndex);
         if (!this.device.isConnected) { this.device.connect(); }
-        PedalProDevice.throwIfNotValidPresetIndex(presetIndex);
 
         const buffer = new ProtocolBuffer();
         const builder = new CommandBufferBuilder(buffer);

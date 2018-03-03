@@ -1,6 +1,7 @@
-import PedalProDevice, { PresetCount } from "../PedalProDevice";
+import PedalProDevice from "../PedalProDevice";
 import PedalProPresetSerializer from "./PedalProPresetSerializer";
 import ReadPreset from "./ReadPreset";
+import { PresetCount } from "./Constants";
 
 import PresetProvider from "../../server/PresetProvider";
 import Preset from "../../model/Preset";
@@ -8,6 +9,16 @@ import DeviceIdentity from "../../model/DeviceIdentity";
 
 export default class PedalProProvider implements PresetProvider {
     private readonly device: PedalProDevice;
+
+    public static throwIfNotValidPresetIndex(presetIndex: number) {
+        if (!PedalProProvider.isValidPresetIndex(presetIndex)) {
+            throw new RangeError(`The Preset index is not valid (0-${PresetCount - 1}).`);
+        }
+    }
+
+    public static isValidPresetIndex(presetIndex: number): boolean {
+        return presetIndex >= 0 && presetIndex < PresetCount;
+    }
 
     public constructor(device: PedalProDevice) {
         this.device = device;
@@ -17,7 +28,7 @@ export default class PedalProProvider implements PresetProvider {
         if (this.device.Id) {
             return this.device.Id;
         }
-        return { vendor: "", device: "", version: "" };
+        return { vendor: "", device: "", version: "", supported: false };
     }
 
     public get presetCount(): number {
@@ -25,10 +36,7 @@ export default class PedalProProvider implements PresetProvider {
     }
 
     public getPreset(presetIndex: number): Preset {
-        if (!PedalProDevice.isValidPresetIndex(presetIndex)) { 
-            throw new RangeError("Not a valid preset index.");
-        }
-        
+        PedalProProvider.throwIfNotValidPresetIndex(presetIndex);
         return this.onePreset(presetIndex);
     }
 

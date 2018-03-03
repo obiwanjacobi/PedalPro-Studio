@@ -54,7 +54,8 @@ export default class PresetsApi implements ApiHandler {
         return { 
             vendor: provider.deviceIdentity.vendor, 
             device: provider.deviceIdentity.device, 
-            version: provider.deviceIdentity.version 
+            version: provider.deviceIdentity.version,
+            supported: provider.deviceIdentity.supported, 
         };
     }
 }

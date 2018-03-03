@@ -9,3 +9,5 @@ export enum BufferParts {
 }
 
 export const PresetBufferSize = PartSize + PartSize + LastPartSize;
+
+export const PresetCount: number = 500;

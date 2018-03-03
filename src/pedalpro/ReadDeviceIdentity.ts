@@ -14,7 +14,8 @@ export default class ReadDeviceIdentity {
             device: "",
             vendor: "Vintage Revolution",
             version: "",
-            model: PedalProDeviceModel.Unspecified
+            model: PedalProDeviceModel.Unspecified,
+            supported: false,
         };
 
         this.readVut(deviceId);
@@ -34,12 +35,13 @@ export default class ReadDeviceIdentity {
             deviceId.device = "PedalPro-Ex";
             break;
 
-            case PedalProDeviceModel.Pedalino:
-            deviceId.device = "Pedalino";
-            break;
+            // case PedalProDeviceModel.Pedalino:
+            // deviceId.device = "Pedalino";
+            // break;
 
             default:
-            deviceId.device = "Unspported";
+            deviceId.device = "Unknown";
+            deviceId.supported = false;
             break;
         }
     }
@@ -55,11 +57,18 @@ export default class ReadDeviceIdentity {
             let id = vutData[1];
             if (id > 0 && id < 5) {
                 deviceId.model = <PedalProDeviceModel> id;
+                deviceId.supported = 
+                    deviceId.model === PedalProDeviceModel.PedalPro ||
+                    deviceId.model === PedalProDeviceModel.PedalProEx;
             } else {
                 id = vutData[2];
-                deviceId.model =  (id === 1) ?
-                    deviceId.model = PedalProDeviceModel.PedalProEx :
+                if (id === 1) {
+                    deviceId.model = PedalProDeviceModel.PedalProEx;
+                    deviceId.supported = vutData[3] === 1;
+                } else {
                     deviceId.model = PedalProDeviceModel.PedalPro;
+                    deviceId.supported = true;
+                }
             }
         }
     }

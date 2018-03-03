@@ -2,22 +2,10 @@ import { HID } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
 import PedalProDeviceIdentity from "./PedalProDeviceIdentity";
 
-export const PresetCount: number = 400;
-
 export default class PedalProDevice {
     public Id?: PedalProDeviceIdentity;
 
     private hidDevice: HID | null = null;
-
-    public static throwIfNotValidPresetIndex(presetIndex: number) {
-        if (!PedalProDevice.isValidPresetIndex(presetIndex)) {
-            throw new RangeError("Argument presetIndex is not in range of 0-399.");
-        }
-    }
-
-    public static isValidPresetIndex(presetIndex: number): boolean {
-        return presetIndex >= 0 && presetIndex < PresetCount;
-    }
 
     public get isConnected(): boolean {
         return this.hidDevice !== null;
