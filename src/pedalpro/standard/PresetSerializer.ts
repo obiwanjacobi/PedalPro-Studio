@@ -42,7 +42,7 @@ export default class PresetSerializer {
     public static deserializeBoost(buffer: PresetBuffer): Boost {
         const boost: Boost = <Boost> { };
 
-        // boost.enabled = buffer.getField(PresetBufferFields.??);
+        boost.enabled = !buffer.bypassBoost;
         boost.gain = buffer.getField(PresetBufferFields.PreampGain);
 
         return  boost;

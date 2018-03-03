@@ -58,7 +58,7 @@ export default class PresetBuffer extends ProtocolBuffer {
         return this.bypassSlaveCmp1Test(BypassSlaveCmp1Flags.BypassPhaser);
     }
 
-    public get bypassPre(): boolean {
+    public get bypassBoost(): boolean {
         return this.bypassSlaveCmp1Test(BypassSlaveCmp1Flags.BypassPre);
     }
 
