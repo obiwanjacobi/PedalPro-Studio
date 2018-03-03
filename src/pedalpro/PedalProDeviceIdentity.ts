@@ -1,3 +1,5 @@
+import DeviceIdentity from "../model/DeviceIdentity";
+
 export enum PedalProDeviceModel {
     Unspecified,
     PedalPro,
@@ -7,9 +9,6 @@ export enum PedalProDeviceModel {
     AccousticBox
 }
 
-export default interface DeviceIdentity {
-    vendor: string;
-    name: string;
-    version: string;
+export default interface PedalProDeviceIdentity extends DeviceIdentity {
     model: PedalProDeviceModel;
 }

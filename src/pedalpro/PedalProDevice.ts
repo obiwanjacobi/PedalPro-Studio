@@ -1,9 +1,12 @@
 import { HID } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
+import PedalProDeviceIdentity from "./PedalProDeviceIdentity";
 
 export const PresetCount: number = 400;
 
 export default class PedalProDevice {
+    public Id?: PedalProDeviceIdentity;
+
     private hidDevice: HID | null = null;
 
     public static throwIfNotValidPresetIndex(presetIndex: number) {

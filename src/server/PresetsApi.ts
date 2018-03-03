@@ -2,6 +2,7 @@ import * as express from "express";
 import ApiHandler from "./ApiHandler";
 import PresetProvider from "./PresetProvider";
 import PedalProProviderFactory from "../pedalpro/PedalProProviderFactory";
+import DeviceIdentity from "../model/DeviceIdentity";
 
 // test - no real usb
 // import TestPresetProvider from "../_tests/TestPresetProvider";
@@ -27,7 +28,7 @@ export default class PresetsApi implements ApiHandler {
         try {
             const provider = this.createProvider();
             const presets = provider.getPresets();
-            response.json({ presets: presets });
+            response.json({ device: this.createDevice(provider), presets: presets });
         } catch (error) {
             response.json({fault: { error: error.message}});
         }
@@ -39,7 +40,7 @@ export default class PresetsApi implements ApiHandler {
         try {
             const provider = this.createProvider();
             const preset = provider.getPreset(presetIndex);
-            response.json({presets: [preset]});
+            response.json({ device: this.createDevice(provider), presets: [preset] });
         } catch (error) {
             response.json({ fault: {error: error.message}});
         }
@@ -47,5 +48,13 @@ export default class PresetsApi implements ApiHandler {
 
     private createProvider(): PresetProvider {
         return PedalProProviderFactory.create();
+    }
+
+    private createDevice(provider: PresetProvider): DeviceIdentity {
+        return { 
+            vendor: provider.deviceIdentity.vendor, 
+            device: provider.deviceIdentity.device, 
+            version: provider.deviceIdentity.version 
+        };
     }
 }

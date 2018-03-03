@@ -4,14 +4,20 @@ import PedalProPresetSerializer from "./PedalProPresetSerializer";
 
 import PresetProvider from "../server/PresetProvider";
 import Preset from "../model/Preset";
+import DeviceIdentity from "../model/DeviceIdentity";
 
 export default class PedalProProvider implements PresetProvider {
-
     private readonly device: PedalProDevice;
 
     public constructor(device: PedalProDevice) {
-        // this.device = new PedalProDevice();
         this.device = device;
+    }
+
+    public get deviceIdentity(): DeviceIdentity {
+        if (this.device.Id) {
+            return this.device.Id;
+        }
+        return { vendor: "", device: "", version: "" };
     }
 
     public get presetCount(): number {

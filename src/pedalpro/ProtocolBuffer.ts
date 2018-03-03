@@ -87,6 +87,10 @@ export class ProtocolBuffer {
         this.data[6] = bufferIndex * PartSize;
     }
 
+    /**
+     * Prepares the buffer for the read-vut command
+     * that returns device identifiaction data.
+     */
     public setVintageUnitTypeCmd() {
         this.clear();
         this.data[1] = 0x22;    // read vut command
@@ -95,4 +99,15 @@ export class ProtocolBuffer {
         this.data[4] = 0x10;    // address lo
     }
 
+    /**
+     * Prepares the buffer for read-vut command for the master FW 
+     * that serves as a verion identification for the device.
+     */
+    public setMasterVersionCmd() {
+        this.clear();
+        this.data[1] = 0x22;    // read vut command
+        // this.data[2] = 0;       // payload
+        this.data[3] = 0x7F;    // address hi
+        this.data[4] = 0x40;    // address lo
+    }
 }
