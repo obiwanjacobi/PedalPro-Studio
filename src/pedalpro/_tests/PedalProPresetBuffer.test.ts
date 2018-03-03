@@ -1,9 +1,9 @@
-import PedalProPresetBuffer from "../PedalProPresetBuffer";
+import PresetBuffer from "../standard/PresetBuffer";
 
 describe("PedalProPresetBuffer.ts", () => {
 
     it("name - with space", () => {
-        const buffer = new PedalProPresetBuffer();
+        const buffer = new PresetBuffer();
         buffer.write(0, [65, 73, 80, 32, 90, 32, 32, 32, 32, 32], 0, 10);
 
         expect(buffer.name.length).toBe(10);
@@ -11,7 +11,7 @@ describe("PedalProPresetBuffer.ts", () => {
     });
 
     it("name - expression", () => {
-        const buffer = new PedalProPresetBuffer();
+        const buffer = new PresetBuffer();
         buffer.write(0, [65, 73, 80, 32, 32, 32, 32, 32, 32, 5], 0, 10);
 
         expect(buffer.name.length).toBe(9);
@@ -19,7 +19,7 @@ describe("PedalProPresetBuffer.ts", () => {
     });
 
     it("name - stereo", () => {
-        const buffer = new PedalProPresetBuffer();
+        const buffer = new PresetBuffer();
         buffer.write(0, [65, 73, 80, 32, 32, 32, 32, 32, 32, 4], 0, 10);
 
         expect(buffer.name.length).toBe(9);

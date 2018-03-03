@@ -11,6 +11,7 @@
 
 - Done: Recreate HID object on write error - connection may have been interrupted.
 - Allow filtering on index (numerical input & ranges using - or :)
+- Reverse engineer .vrf binary files to be able to read in old PedalManager files (Java).
 
 ## Libraries
 
