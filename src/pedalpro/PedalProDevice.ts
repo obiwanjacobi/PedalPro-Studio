@@ -49,8 +49,9 @@ export default class PedalProDevice {
 
     private safeCall(operation: () => void) {
         for (let n = 0; n < 3; n++) {
+            if (!this.hidDevice) { this.connect(); }
+
             try {
-                if (!this.hidDevice) { this.connect(); }
                 operation();
                 return;
             } catch (error) {
