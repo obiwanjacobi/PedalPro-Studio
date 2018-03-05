@@ -2,16 +2,15 @@ import PresetBufferEx from "./PresetBufferEx";
 import { EmptyPresetBufferEx } from "./EmptyPresetBufferEx";
 import Preset from "../../model/Preset";
 
-// import { PresetBufferExFields } from "./PresetBufferExFields";
-// import Compressor from "../../model/Compressor";
-// import Boost from "../../model/Boost";
-// import Distortion from "../../model/Distortion";
-// import Phaser from "../../model/Phaser";
-// import NoiseGate from "../../model/NoiseGate";
-// import Volume from "../../model/Volume";
-// import Filters, { 
-//     Filter1, Filter2, AutoFilter1, EnvelopeFilter1, EqFilter1, AutoFilter2, EnvelopeFilter2, EqFilter2 
-// } from "../../model/Filters";
+import { PresetBufferExFields } from "./PresetBufferExFields";
+import Compressor from "../../model/Compressor";
+import Boost from "../../model/Boost";
+import Phaser from "../../model/Phaser";
+import NoiseGate from "../../model/NoiseGate";
+import Volume from "../../model/Volume";
+import Filters, { 
+    Filter1, Filter2, AutoFilter1, EnvelopeFilter1, EqFilter1, AutoFilter2, EnvelopeFilter2, EqFilter2 
+} from "../../model/Filters";
 
 export default class PresetSerializerEx {
     public static deserialize(buffer: PresetBufferEx): Preset {
@@ -27,129 +26,117 @@ export default class PresetSerializerEx {
         return preset;
     }
 
-    // public static deserializeCompressor(buffer: PresetBufferEx): Compressor {
-    //     const compressor: Compressor = <Compressor> { };
+    public static deserializeCompressor(buffer: PresetBufferEx): Compressor {
+        const compressor: Compressor = <Compressor> { };
 
-    //     // compressor.attack = buffer.getField(PresetBufferFields.??);
-    //     compressor.enabled = !buffer.bypassCompressor;
-    //     compressor.level = buffer.getField(PresetBufferFields.CompressorOut);
-    //     compressor.model = buffer.getField(PresetBufferFields.CompressorModel);
-    //     // compressor.release = buffer.getField(PresetBufferFields.??);
-    //     compressor.sensitivity = buffer.getField(PresetBufferFields.CompressorSensitivity);
+        // compressor.attack = buffer.getField(PresetBufferExFields.??);
+        compressor.enabled = !buffer.bypassCompressor;
+        compressor.level = buffer.getField(PresetBufferExFields.CompressorOut);
+        compressor.model = buffer.getField(PresetBufferExFields.CompressorModel);
+        // compressor.release = buffer.getField(PresetBufferExFields.??);
+        compressor.sensitivity = buffer.getField(PresetBufferExFields.CompressorSensitivity);
 
-    //     return  compressor;
-    // }
+        return  compressor;
+    }
 
-    // public static deserializeBoost(buffer: PresetBuffer): Boost {
-    //     const boost: Boost = <Boost> { };
+    public static deserializeBoost(buffer: PresetBufferEx): Boost {
+        const boost: Boost = <Boost> { };
 
-    //     // boost.enabled = buffer.getField(PresetBufferFields.??);
-    //     boost.gain = buffer.getField(PresetBufferFields.PreampGain);
+        boost.enabled = !buffer.bypassBoost;
+        boost.gain = buffer.getField(PresetBufferExFields.PreampGain);
 
-    //     return  boost;
-    // }
+        return  boost;
+    }
 
-    // public static deserializeDistortion(buffer: PresetBuffer): Distortion {
-    //     const dist: Distortion = <Distortion> { };
+    public static deserializePhaser(buffer: PresetBufferEx): Phaser {
+        const phaser: Phaser = <Phaser> { };
 
-    //     dist.enabled = !buffer.bypassDistortion;
-    //     // dist.bright = buffer.getField(PresetBufferFields.??);
-    //     dist.level = buffer.getField(PresetBufferFields.DistortionOut);
-    //     // dist.lowPass = buffer.getField(PresetBufferFields.??);
-    //     dist.tone = buffer.getField(PresetBufferFields.DistortionTone);
+        phaser.enabled = !buffer.bypassPhaser;
+        phaser.depth = buffer.getField(PresetBufferExFields.PhaserDepth);
+        phaser.manual = buffer.getField(PresetBufferExFields.PhaserManual);
+        // phaser.phase = buffer.getField(PresetBufferExFields.??);
+        // phaser.tempo = MakeWord(
+        //     buffer.getField(PresetBufferExFields.PhaserPeriodHi), 
+        // buffer.getField(PresetBufferExFields.PhaserPeriodLo));
+        // phaser.wave = buffer.getField(PresetBufferExFields.??);
 
-    //     return  dist;
-    // }
+        return  phaser;
+    }
 
-    // public static deserializePhaser(buffer: PresetBuffer): Phaser {
-    //     const phaser: Phaser = <Phaser> { };
+    public static deserializeNoiseGate(buffer: PresetBufferEx): NoiseGate {
+        const noiseGate: NoiseGate = <NoiseGate> { };
 
-    //     phaser.enabled = !buffer.bypassPhaser;
-    //     phaser.depth = buffer.getField(PresetBufferFields.PhaserDepth);
-    //     phaser.manual = buffer.getField(PresetBufferFields.PhaserManual);
-    //     // phaser.phase = buffer.getField(PresetBufferFields.??);
-    //     // phaser.tempo = MakeWord(
-    //     //     buffer.getField(PresetBufferFields.PhaserPeriodHi), 
-    //     // buffer.getField(PresetBufferFields.PhaserPeriodLo));
-    //     // phaser.wave = buffer.getField(PresetBufferFields.??);
+        noiseGate.enabled = !buffer.bypassNoiseGate;
+        noiseGate.noiseLevel = buffer.getField(PresetBufferExFields.NoiseGateSensitivity);
+        noiseGate.release = buffer.getField(PresetBufferExFields.NoiseGateRelease);
+        noiseGate.sustain = buffer.noiseGateSustainOn;
 
-    //     return  phaser;
-    // }
+        return  noiseGate;
+    }
 
-    // public static deserializeNoiseGate(buffer: PresetBuffer): NoiseGate {
-    //     const noiseGate: NoiseGate = <NoiseGate> { };
+    public static deserializeVolume(buffer: PresetBufferEx): Volume {
+        const volume: Volume = <Volume> { };
 
-    //     noiseGate.enabled = !buffer.bypassNoiseGate;
-    //     noiseGate.noiseLevel = buffer.getField(PresetBufferFields.NoiseGateSensitivity);
-    //     noiseGate.release = buffer.getField(PresetBufferFields.NoiseGateRelease);
-    //     noiseGate.sustain = buffer.noiseGateSustainOn;
+        volume.enabled = !buffer.bypassVolume;
+        volume.levelL = buffer.getField(PresetBufferExFields.VolumeLeft);
+        volume.levelR = buffer.getField(PresetBufferExFields.VolumeRight);
 
-    //     return  noiseGate;
-    // }
+        return  volume;
+    }
 
-    // public static deserializeVolume(buffer: PresetBuffer): Volume {
-    //     const volume: Volume = <Volume> { };
+    public static deserializeFilters(buffer: PresetBufferEx): Filters {
+        const filters: Filters = <Filters> { };
 
-    //     volume.enabled = !buffer.bypassVolume;
-    //     volume.levelL = buffer.getField(PresetBufferFields.VolumeLeft);
-    //     volume.levelR = buffer.getField(PresetBufferFields.VolumeRight);
+        // filters.autoHumanSync = buffer.getField(PresetBufferExFields.HumanSync);
+        // filters.routing = buffer.getField(PresetBufferExFields.??);
 
-    //     return  volume;
-    // }
-
-    // public static deserializeFilters(buffer: PresetBuffer): Filters {
-    //     const filters: Filters = <Filters> { };
-
-    //     // filters.autoHumanSync = buffer.getField(PresetBufferFields.??);
-    //     // filters.routing = buffer.getField(PresetBufferFields.??);
-
-    //     filters.filter1 = <Filter1> { };
-    //     filters.filter1.resonance = buffer.getField(PresetBufferFields.DAQResonanceQ1);
-    //     // filters.filter1.mode = buffer.getField(PresetBufferFields.??);
+        filters.filter1 = <Filter1> { };
+        filters.filter1.resonance = buffer.getField(PresetBufferExFields.DAQResonanceQ1);
+        // filters.filter1.mode = buffer.getField(PresetBufferExFields.??);
         
-    //     filters.filter1.auto = <AutoFilter1> { };
-    //     filters.filter1.auto.maxFrequency = buffer.getField(PresetBufferFields.Frequency1MaxLo);
-    //     filters.filter1.auto.minFrequency = buffer.getField(PresetBufferFields.Frequency1MinLo);
-    //     // filters.filter1.auto.phase = buffer.getField(PresetBufferFields.??);
-    //     // filters.filter1.auto.tempo = buffer.getField(PresetBufferFields.??);
-    //     // filters.filter1.auto.wave = buffer.getField(PresetBufferFields.??);
+        filters.filter1.auto = <AutoFilter1> { };
+        filters.filter1.auto.maxFrequency = buffer.getField(PresetBufferExFields.Frequency1MaxLo);
+        filters.filter1.auto.minFrequency = buffer.getField(PresetBufferExFields.Frequency1MinLo);
+        // filters.filter1.auto.phase = buffer.getField(PresetBufferExFields.??);
+        // filters.filter1.auto.tempo = buffer.getField(PresetBufferExFields.??);
+        // filters.filter1.auto.wave = buffer.getField(PresetBufferExFields.??);
         
-    //     filters.filter1.envelope = <EnvelopeFilter1> { };
-    // hi/lo nibble?
-    //     // filters.filter1.envelope.function = buffer.getField(PresetBufferFields.EnvelopeFunction);   
-    //     filters.filter1.envelope.sensitivity = buffer.getField(PresetBufferFields.EnvelopeSensitivity1);
-    //     // filters.filter1.envelope.startFrequency = MakeWord(
-    //     //     LoNibble(buffer.getField(PresetBufferFields.FrequencyStart1HH)), 
-    //     //     buffer.getField(PresetBufferFields.FrequencyStart1Lo));
+        filters.filter1.envelope = <EnvelopeFilter1> { };
+        // hi/lo nibble?
+        // filters.filter1.envelope.function = buffer.getField(PresetBufferExFields.EnvelopeFunction);   
+        filters.filter1.envelope.sensitivity = buffer.getField(PresetBufferExFields.EnvelopeSensitivity1);
+        // filters.filter1.envelope.startFrequency = MakeWord(
+        //     LoNibble(buffer.getField(PresetBufferExFields.FrequencyStart1HH)), 
+        //     buffer.getField(PresetBufferExFields.FrequencyStart1Lo));
         
-    //     filters.filter1.eq = <EqFilter1> { };
-    //     // filters.filter1.eq.resonance = buffer.getField(PresetBufferFields.??);
-    //     // filters.filter1.eq.enhancedFrequency = buffer.getField(PresetBufferFields.??);
+        filters.filter1.eq = <EqFilter1> { };
+        // filters.filter1.eq.resonance = buffer.getField(PresetBufferExFields.??);
+        // filters.filter1.eq.enhancedFrequency = buffer.getField(PresetBufferExFields.??);
 
-    //     filters.filter2 = <Filter2> { };
-    //     filters.filter2.resonance = buffer.getField(PresetBufferFields.DAQResonanceQ2);
+        filters.filter2 = <Filter2> { };
+        filters.filter2.resonance = buffer.getField(PresetBufferExFields.DAQResonanceQ2);
 
-    //     // filters.filter2.mode = buffer.getField(PresetBufferFields.??);
+        // filters.filter2.mode = buffer.getField(PresetBufferExFields.??);
         
-    //     filters.filter2.auto = <AutoFilter2> { };
-    //     filters.filter2.auto.maxFrequency = buffer.getField(PresetBufferFields.Frequency2MaxLo);
-    //     filters.filter2.auto.minFrequency = buffer.getField(PresetBufferFields.Frequency2MinLo);
-    //     // filters.filter2.auto.phase = buffer.getField(PresetBufferFields.??);
-    //     // filters.filter2.auto.tempo = buffer.getField(PresetBufferFields.??);
-    //     // filters.filter2.auto.wave = buffer.getField(PresetBufferFields.??);
+        filters.filter2.auto = <AutoFilter2> { };
+        filters.filter2.auto.maxFrequency = buffer.getField(PresetBufferExFields.Frequency2MaxLo);
+        filters.filter2.auto.minFrequency = buffer.getField(PresetBufferExFields.Frequency2MinLo);
+        // filters.filter2.auto.phase = buffer.getField(PresetBufferExFields.??);
+        // filters.filter2.auto.tempo = buffer.getField(PresetBufferExFields.??);
+        // filters.filter2.auto.wave = buffer.getField(PresetBufferExFields.??);
         
-    //     filters.filter2.envelope = <EnvelopeFilter2> { };
-    // hi/lo nibble?
-    //     // filters.filter2.envelope.function = buffer.getField(PresetBufferFields.EnvelopeFunction);  
-    //     filters.filter2.envelope.sensitivity = buffer.getField(PresetBufferFields.EnvelopeSensitivity2);
-    //     // filters.filter2.envelope.startFrequency = MakeWord(
-    //         // LoNibble(buffer.getField(PresetBufferFields.FrequencyStart1HH)), 
-    //         // buffer.getField(PresetBufferFields.FrequencyStart1Lo));
+        filters.filter2.envelope = <EnvelopeFilter2> { };
+        // hi/lo nibble?
+        // filters.filter2.envelope.function = buffer.getField(PresetBufferExFields.EnvelopeFunction);  
+        filters.filter2.envelope.sensitivity = buffer.getField(PresetBufferExFields.EnvelopeSensitivity2);
+        // filters.filter2.envelope.startFrequency = MakeWord(
+            // LoNibble(buffer.getField(PresetBufferExFields.FrequencyStart1HH)), 
+            // buffer.getField(PresetBufferExFields.FrequencyStart1Lo));
         
-    //     filters.filter2.eq = <EqFilter2> { };
-    //     // filters.filter2.eq.resonance = buffer.getField(PresetBufferFields.??);
-    //     // filters.filter2.eq.enhancedFrequency = buffer.getField(PresetBufferFields.??);
+        filters.filter2.eq = <EqFilter2> { };
+        // filters.filter2.eq.resonance = buffer.getField(PresetBufferExFields.??);
+        // filters.filter2.eq.enhancedFrequency = buffer.getField(PresetBufferExFields.??);
 
-    //     return  filters;
-    // }
+        return  filters;
+    }
 }

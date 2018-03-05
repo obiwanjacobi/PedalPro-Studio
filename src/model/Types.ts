@@ -9,7 +9,7 @@ export type TempoSpeed = number;
 export enum WaveForm {
     Sine,
     Triangle,
-    Trapeze,
+    Trapezoidal,
     Rectangle,
     PCal,
     Shelf,

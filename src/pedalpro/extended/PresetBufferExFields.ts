@@ -4,7 +4,7 @@
 
 // bit flags for each option
 export enum BypassSlaveCmp1Flags {
-    BypassAll = 0,
+    BypassAll = 0,  // not used
     BypassPan = 1,
     BypassPanSel = 2,
     BypassBoost = 3,
