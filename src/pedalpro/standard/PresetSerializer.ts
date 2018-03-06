@@ -11,6 +11,7 @@ import Volume from "../../model/Volume";
 import Filters, { 
     Filter1, Filter2, AutoFilter1, EnvelopeFilter1, EqFilter1, AutoFilter2, EnvelopeFilter2, EqFilter2 
 } from "../../model/Filters";
+import PresetTraits from "../../model/PresetTraits";
 
 export default class PresetSerializer {
     public static deserialize(buffer: PresetBuffer): Preset {
@@ -19,13 +20,25 @@ export default class PresetSerializer {
         preset.data = buffer.formatData();
 
         preset.name = buffer.name.trim();
-        preset.expression = buffer.expression;
-        preset.stereo = buffer.stereo;
-        preset.empty = EmptyPresetBuffer.isEmpty(buffer);
         
+        preset.traits = PresetSerializer.deserializeTraits(buffer);
+
         return preset;
     }
 
+    public static deserializeTraits(buffer: PresetBuffer): PresetTraits {
+        const traits = <PresetTraits> { };
+
+        traits.singleCoil = buffer.singleCoil;
+        traits.humbucker = buffer.humbucker;
+        traits.expression = buffer.expression;
+        traits.stereo = buffer.stereo;
+
+        traits.empty = EmptyPresetBuffer.isEmpty(buffer);
+
+        return traits;
+    }
+    
     public static deserializeCompressor(buffer: PresetBuffer): Compressor {
         const compressor: Compressor = <Compressor> { };
 

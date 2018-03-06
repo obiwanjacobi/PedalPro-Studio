@@ -1,4 +1,5 @@
 import { Effects, EffectsEx } from "./Effects";
+import PresetTraits from "./PresetTraits";
 
 export default interface Preset {
     /**
@@ -11,25 +12,15 @@ export default interface Preset {
      */
     name: string;
 
-    /** 
-     * An indication if the preset uses an Expression Pedal.
-     */
-    expression: boolean;
-
-    /**
-     * An indication if the preset is stereo.
-     */
-    stereo: boolean;
-
-    /**
-     * Indicates if this preset is considered empty.
-     */
-    empty: boolean;
-
     /**
      * Raw data
      */
     data?: string;
+
+    /**
+     * Specific traits of the preset
+     */
+    traits: PresetTraits;
 
     /**
      * Effects of the preset

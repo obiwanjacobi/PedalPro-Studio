@@ -4,8 +4,11 @@ import { PresetBufferSize } from "./Constants";
 import { nameMaxLength, ExpressionChar, StereoChar, SingleCoilChar, HumbuckerChar } from "../Common";
 
 export default class PresetBuffer extends ProtocolBuffer {
-    public constructor() {
-        super(PresetBufferSize);
+    public constructor(bufferSize: number = PresetBufferSize) {
+        super(bufferSize);
+        if (bufferSize < PresetBufferSize) {
+            throw new RangeError(`A Preset Buffer must be at least ${PresetBufferSize} bytes.`);
+        }
     }
 
     public get name(): string {
@@ -32,10 +35,6 @@ export default class PresetBuffer extends ProtocolBuffer {
 
     public get stereo(): boolean {
         return this.findCharInName(StereoChar);
-    }
-
-    public get bypassAll(): boolean {
-        return this.bypassSlaveCmp1Test(BypassSlaveCmp1Flags.BypassAll);
     }
 
     public get bypassCompressor(): boolean {

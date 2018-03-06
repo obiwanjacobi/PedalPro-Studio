@@ -1,7 +1,7 @@
-import { ProtocolBuffer } from "../ProtocolBuffer";
-import { BufferParts, PartSize, LastPartSize } from "./ConstantsEx";
+import { ProtocolBuffer } from "./ProtocolBuffer";
+import { PresetBufferParts } from "./Common";
 
-export default class CommandBufferExBuilder {
+export default class CommandBufferBuilder {
     private buffer: ProtocolBuffer;
 
     public constructor(buffer: ProtocolBuffer) {
@@ -23,11 +23,11 @@ export default class CommandBufferExBuilder {
     *  that sends the preset data in the MCU memory over 
     *  the USB wire.
     */
-   public setReadPresetCmd(bufferIndex: BufferParts) {
+   public setReadPresetCmd(bufferIndex: PresetBufferParts, partSize: number, lastPartSize: number) {
        this.buffer.clear();
        this.buffer.data[1] = 0x17;    // load-preset command
-       this.buffer.data[5] = bufferIndex === BufferParts.LastPart ? LastPartSize : PartSize;
-       this.buffer.data[6] = bufferIndex * PartSize;
+       this.buffer.data[5] = bufferIndex === PresetBufferParts.LastPart ? lastPartSize : partSize;
+       this.buffer.data[6] = bufferIndex * partSize;
    }
 
 }

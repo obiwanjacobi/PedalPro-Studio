@@ -26,10 +26,17 @@ export default interface Preset extends ModelPreset.default {
 }
 
 export function presetHasChanged(preset: Preset): boolean {
-    return !(
+    const presetChanged = !(
         preset.origin.index === preset.index &&
-        preset.origin.name === preset.name &&
-        preset.origin.expression === preset.expression &&
-        preset.origin.stereo === preset.stereo
+        preset.origin.name === preset.name
     );
-};
+
+    const traitsChanged = !(
+        preset.traits.expression === preset.origin.traits.expression &&
+        preset.traits.humbucker === preset.origin.traits.humbucker &&
+        preset.traits.singleCoil === preset.origin.traits.singleCoil &&
+        preset.traits.stereo === preset.origin.traits.stereo
+    );
+
+    return presetChanged && traitsChanged;
+}

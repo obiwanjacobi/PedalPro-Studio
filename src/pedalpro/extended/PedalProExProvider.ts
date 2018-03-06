@@ -33,7 +33,7 @@ export default class PedalProExProvider extends PedalProProvider {
 
     public getPresets(): Preset[] {
         const presets = this.allPresets();
-        return presets.filter((p) => !p.empty);
+        return presets.filter((p) => !p.traits.empty);
     }
 
     public allPresets(): Preset[] {
