@@ -50,7 +50,7 @@ export default class Client {
             throw new Error(`Internal Error: ${response.statusCode}.`);
         }
         if (response.result.fault) {
-            throw { message: response.result.fault };
+            throw response.result.fault;
         }
         if (!response.result.device.supported) {
             // tslint:disable:max-line-length

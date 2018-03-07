@@ -10,12 +10,14 @@ import Delay from "./Delay";
 import Aux from "./SendReturn";
 import PreAmp from "./PreAmp";
 import Dsp from "./Dsp";
+import Phaser from "./Phaser";
 
 export interface Effects {
     compressor: Compressor;
     boost: Boost;
-    distortion?: Distortion;
+    distortion: Distortion;
     vca: VoltageControlledAmp;
+    phaser: Phaser;
     volume: Volume;
     filters: Filters;
     modulation: Modulation;
@@ -29,6 +31,7 @@ export interface EffectsEx {
     boost: Boost;
     pre: PreAmp;
     vca: VoltageControlledAmp;
+    phaser: Phaser;
     volume: Volume;
     filters: Filters;
     modulation: Modulation;

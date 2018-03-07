@@ -1,9 +1,9 @@
 import { Percent } from "./Types";
 
 export enum CompressorModelType {
-    Limiter = 0,
-    VariMu = 1,
-    TubeGen = 2,
+    Limiter,
+    VariMu,
+    TubeGen,
 }
 
 export enum CompressorAttackTime {

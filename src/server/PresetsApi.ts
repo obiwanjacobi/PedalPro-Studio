@@ -30,7 +30,7 @@ export default class PresetsApi implements ApiHandler {
             const presets = provider.getPresets();
             response.json({ device: this.createDevice(provider), presets: presets });
         } catch (error) {
-            response.json({fault: { error: error.message}});
+            response.json({fault: { message: error.message }});
         }
     }
 
@@ -42,7 +42,7 @@ export default class PresetsApi implements ApiHandler {
             const preset = provider.getPreset(presetIndex);
             response.json({ device: this.createDevice(provider), presets: [preset] });
         } catch (error) {
-            response.json({ fault: {error: error.message}});
+            response.json({ fault: { message: error.message }});
         }
     }
 

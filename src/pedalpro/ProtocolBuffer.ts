@@ -46,11 +46,13 @@ export class ProtocolBuffer {
         return length;
     }
 
-    public formatData(offset: number = 0): string {
-        const hex = new Array<string>(this.data.length - offset);
+    public formatData(offset: number = 0, end: number = 0): string {
+        if (end === 0) { end = this.data.length; }
+        if (end > this.data.length) { end = this.data.length; }
+        const hex = new Array<string>(end - offset);
 
-        for (let i = offset; i < this.data.length; i++) {
-            hex[i - offset] = this.data[i].toString(16);
+        for (let i = offset; i < end; i++) {
+            hex[i - offset] = this.data[i].toString(16).toUpperCase();
         }
 
         return hex.join(",");

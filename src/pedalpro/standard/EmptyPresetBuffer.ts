@@ -1,4 +1,5 @@
-import PresetBuffer from "./PresetBuffer";
+import PresetBuffer from "../PresetBuffer";
+import { PresetBufferSize } from "./Constants";
 
 const emptyData = [
     0x7b, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x5f, 0x70, 
@@ -21,7 +22,7 @@ const emptyData = [
 
 export class EmptyPresetBufferImpl  extends PresetBuffer {
     constructor() {
-        super();
+        super(PresetBufferSize);
         this.data = emptyData;
     }
 

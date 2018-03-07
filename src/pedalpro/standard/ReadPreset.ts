@@ -1,9 +1,9 @@
 import PedalProDevice from "../PedalProDevice";
 import { ProtocolBuffer } from "../ProtocolBuffer";
-import PresetBuffer from "./PresetBuffer";
+import PresetBuffer from "../PresetBuffer";
 import CommandBufferBuilder from "../CommandBufferBuilder";
 import { PresetBufferParts } from "../Common";
-import { PartSize, LastPartSize } from "./Constants";
+import { PartSize, LastPartSize, PresetBufferSize } from "./Constants";
 import PedalProProvider from "./PedalProProvider";
 
 export default class ReadPreset {
@@ -34,7 +34,7 @@ export default class ReadPreset {
         //     throw new Error("PedalPro Command failed.");
         // }
 
-        const preset = new PresetBuffer();
+        const preset = new PresetBuffer(PresetBufferSize);
         
         builder.setReadPresetCmd(PresetBufferParts.Part1, PartSize, LastPartSize);
         this.device.write(buffer);
