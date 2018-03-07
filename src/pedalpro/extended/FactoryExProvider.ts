@@ -4,7 +4,7 @@ import VrFile from "../VrFile";
 import PresetDeserializerEx from "./PresetDeserializerEx";
 import PresetBufferEx from "./PresetBufferEx";
 import { PresetBufferExFields } from "./PresetBufferExFields";
-import { PresetBufferSize } from "../standard/Constants";
+import { PresetBufferSize } from "./ConstantsEx";
 
 export default class FactoryExProvider {
     public readonly deviceIdentity: DeviceIdentity;
@@ -22,9 +22,8 @@ export default class FactoryExProvider {
 
         const file = VrFile.read(path, PresetBufferSize);
         this.presets = new Array<Preset>(file.presets.length);
-
+        const buffer = new PresetBufferEx();
         for (let i = 0; i < file.presets.length; i++) {
-            const buffer = new PresetBufferEx();
             buffer.data = file.presets[i];
 
             const deserializer = new PresetDeserializerEx(PresetBufferExFields);
