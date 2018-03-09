@@ -8,6 +8,8 @@ import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
 
+const PresetCount = 400;
+
 // all actions this reducer handles
 export type PresetAction = 
     LoadPresetsAction | SelectPresetsAction | CopyPresetsAction | EditPresetAction | MovePresetAction;
@@ -42,9 +44,10 @@ const copyOverride = (
     return state.copyOverride(device, storage, factory);
 };
 
-const reIndexPresets = (mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
-    for (let index = beginIndex; index <= endIndex; index++) {
-        mutableCollection[index] = { ...mutableCollection[index], index: index };
+const reIndexPresets = (presetIndex: number, mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
+    for (let indexPos = beginIndex; indexPos <= endIndex; indexPos++) {
+        mutableCollection[indexPos] = { ...mutableCollection[indexPos], index: presetIndex };
+        presetIndex++;
     }
 };
 
@@ -56,21 +59,29 @@ const reduceMovePreset = (
 
     // local helper function
     const replacePreset = (collection: Preset[]): Preset[] => {
-        const index = collection.indexOf(preset);
-        if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
-        const targetIndex = index + displacement;
-
-        // bounds check
-        if (targetIndex < 0 || targetIndex >= collection.length) {
-            return collection;
-        }
+        const indexPos = collection.indexOf(preset);
+        if (indexPos === -1) { throw new Error("Invalid preset - not found in collection."); }
+        
+        const targetIndex = preset.index + displacement;
+        if (targetIndex < 0 || targetIndex >= PresetCount) { return collection; }
 
         const newCollection = collection.slice();
-        newCollection.splice(index, 1); // remove
-        newCollection.splice(targetIndex, 0, preset);  // insert
-
-        reIndexPresets(newCollection, Math.min(index, targetIndex), Math.max(index, targetIndex));
-
+        const targetIndexPos = collection.findIndex((prst: Preset) => prst.index === targetIndex);
+        if (targetIndexPos === -1) {
+            // no preset has the new target index
+            // just copy the preset with the new index
+            newCollection[indexPos] = { ...preset, index: targetIndex };
+        } else {
+            const reindex = Math.min(preset.index, newCollection[targetIndex].index);
+            newCollection.splice(indexPos, 1); // remove
+            newCollection.splice(targetIndexPos, 0, preset);  // insert
+    
+            reIndexPresets(
+                reindex,
+                newCollection, 
+                Math.min(indexPos, targetIndexPos), 
+                Math.max(indexPos, targetIndexPos));
+        }
         return newCollection;
     };
 
@@ -167,7 +178,7 @@ const reduceFault = (state: ApplicationDocument, source: PresetCollectionType, f
     return state.copyOverrideNotification([{
             type: "warning", 
             message: fault.message, 
-            context: source.toString() },
+            context: source.toString().toUpperCase() },
         ...state.notifications]);
 };
 

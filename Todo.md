@@ -10,7 +10,7 @@
 - Done: Recreate HID object on write error - connection may have been interrupted.
 - Allow filtering on index (numerical input & ranges using - or :)
 - Change the way a preset is moved in the list to allow for index-gaps (where empty presets have been filtered out).
-- Reverse engineer .vrf binary files to be able to read in old PedalManager files (Java).
+- Done: Reverse engineer .vrf binary files to be able to read in old PedalManager files (Java).
 
 ## Code
 
@@ -53,6 +53,7 @@ import Document, { Head, Main, NextScript } from 'next/document';
 https://github.com/brillout/awesome-react-components
 
 // material-ui
+https://github.com/react-toolbox/react-toolbox/issues/1057#issuecomment-371335234
 http://google.github.io/material-design-icons/#icon-font-for-the-web
 https://www.npmjs.com/package/material-ui-bottom-sheet
 
@@ -82,4 +83,3 @@ https://anadea.info/blog/building-desktop-app-with-electron
 
 TypeScript
 https://github.com/Microsoft/tslib
-
