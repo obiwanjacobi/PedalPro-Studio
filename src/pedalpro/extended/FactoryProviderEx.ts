@@ -39,6 +39,10 @@ export default class FactoryProviderEx {
     }
 
     public getPresets(): Preset[] {
+        return this.presets.filter((p) => !p.traits.empty);
+    }
+
+    public allPresets(): Preset[] {
         return this.presets;
     }
 }

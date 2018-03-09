@@ -30,7 +30,7 @@ export class EmptyPresetBufferExImpl  extends PresetBufferEx {
         this.data = emptyData;
     }
 
-    public isEmpty2(buffer: PresetBufferEx): boolean {
+    public isEmpty(buffer: PresetBufferEx): boolean {
         for (let i = 0; i < nameMaxLength; i++) {
             if (buffer.data[i] !== this.data[i]) { 
                 return false;
@@ -40,7 +40,7 @@ export class EmptyPresetBufferExImpl  extends PresetBufferEx {
         return true;
     }
 
-    public isEmpty(buffer: PresetBufferEx): boolean {
+    public isEmptyExact(buffer: PresetBufferEx): boolean {
         for (let i = 0; i < this.data.length; i++) {
             if (buffer.data[i] !== this.data[i]) { 
                 return false;

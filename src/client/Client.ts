@@ -8,20 +8,11 @@ import PresetResponse from "../model/PresetResponse";
 export class PresetsClient {
     private readonly typedRest: TypedRestClient.RestClient;
     private readonly baseUrl: string;
+    private readonly collection: PresetCollectionType;
 
-    private static createPreset(preset: ModelPreset.default): Preset {
-        const clientPreset: Preset = { 
-            ...preset, 
-            origin: preset,
-            source: PresetCollectionType.device,
-            uiExpanded: false,
-            uiSelected: false
-        };
-        return clientPreset;
-    }
-
-    public constructor(typedRest: TypedRestClient.RestClient, baseUrl: string) {
+    public constructor(typedRest: TypedRestClient.RestClient, collection: PresetCollectionType, baseUrl: string) {
         this.typedRest = typedRest;
+        this.collection = collection;
         this.baseUrl = baseUrl;
     }
 
@@ -33,7 +24,7 @@ export class PresetsClient {
         const presets = new Array<Preset>(modelPresets.length);
         
         for (let i = 0; i < modelPresets.length; i++) {
-            presets[i] = PresetsClient.createPreset(modelPresets[i]);
+            presets[i] = this.createPreset(modelPresets[i]);
         }
 
         return presets;
@@ -44,7 +35,18 @@ export class PresetsClient {
         this.throwIfError(response);
         
         const modelPreset = response.result.presets[0];
-        return PresetsClient.createPreset(modelPreset);
+        return this.createPreset(modelPreset);
+    }
+
+    private createPreset(preset: ModelPreset.default): Preset {
+        const clientPreset: Preset = { 
+            ...preset, 
+            origin: preset,
+            source: this.collection,
+            uiExpanded: false,
+            uiSelected: false
+        };
+        return clientPreset;
     }
 
     private throwIfError(response: TypedRestClient.IRestResponse<PresetResponse>) {
@@ -74,11 +76,11 @@ export default class Client {
     public getSource(source: PresetCollectionType) {
         switch (source) {
             case PresetCollectionType.device:
-                return new PresetsClient(this.typedRest, "/device");
+                return new PresetsClient(this.typedRest, source, "/device");
             case PresetCollectionType.factory:
-                return new PresetsClient(this.typedRest, "/device/factory");
+                return new PresetsClient(this.typedRest, source, "/device/factory");
             case PresetCollectionType.storage:
-                return new PresetsClient(this.typedRest, "/storage");
+                return new PresetsClient(this.typedRest, source, "/storage");
             default:
                 throw new RangeError("Invlid source type (PresetCollectionType).");
         }
