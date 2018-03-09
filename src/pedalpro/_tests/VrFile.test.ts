@@ -25,11 +25,10 @@ describe("VrFile.ts", () => {
         const presets = provider.getPresets();
 
         expect(presets).not.toBeUndefined();
-        expect(presets.length).toBe(400);
+        // empty's are filtered out.
+        expect(presets.length).toBe(163);
 
         expect(presets[0].name).toBe("CleanJazz");
         expect(presets[1].name).toBe("CleanBrght");
-        expect(presets[362].name).toBe("#Tremolo");
-        expect(presets[399].name).toBe("{empty_ps}");
     });
 });
