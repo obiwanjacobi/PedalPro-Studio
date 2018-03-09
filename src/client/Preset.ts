@@ -38,5 +38,5 @@ export function presetHasChanged(preset: Preset): boolean {
         preset.traits.stereo === preset.origin.traits.stereo
     );
 
-    return presetChanged && traitsChanged;
+    return presetChanged || traitsChanged;
 }

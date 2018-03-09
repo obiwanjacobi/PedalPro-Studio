@@ -13,7 +13,7 @@ export interface PresetListProps {
     presets: Preset[];
     filter: string;
 }
-export type PresetListActions = SelectPresets & EditPreset & MovePreset;
+export type PresetListActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
 export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;

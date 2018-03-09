@@ -12,7 +12,7 @@ import { MovePreset } from "../client/MovePresetAction";
 export interface PresetListItemProps { 
     preset: Preset;
 }
-export type PresetListItemActions = SelectPresets & EditPreset & MovePreset;
+export type PresetListItemActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
 export interface PresetListItemState { }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
@@ -23,6 +23,8 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
         // bind event handlers
         this.toggleExpanded = this.toggleExpanded.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
+        this.editPreset = this.editPreset.bind(this);
+        this.movePreset = this.movePreset.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: PresetListItemAllProps, _: PresetListItemState): boolean {
@@ -54,24 +56,29 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                             />
                         </Grid>
                         <Grid xs={1} item={true}>
+                            {this.hasDetails &&
                             <IconButton onClick={this.toggleExpanded} >
                                 {this.props.preset.uiExpanded ? <ExpandLess /> : <ExpandMore />}
-                            </IconButton>
+                            </IconButton>}
                         </Grid>
                     </Grid>
+                    {this.hasDetails &&
                     <Collapse in={this.props.preset.uiExpanded}>
                         {this.props.preset.uiExpanded ? 
                             <PresetListItemDetail
                                 preset={this.props.preset}
-                                editPreset={this.props.editPreset}
-                                movePreset={this.props.movePreset}
+                                editPreset={this.editPreset}
+                                movePreset={this.movePreset}
                             /> : null
                         }
-                    </Collapse>
+                    </Collapse>}
                 </Paper>
         );
     }
 
+    private get hasDetails() {
+        return this.props.editPreset;
+    }
     private formatIndex(): string {
         const value = this.props.preset.index;
         // formats 3 digits with leading zeros
@@ -84,5 +91,17 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
 
     private toggleSelected() {
         this.props.selectPresets([this.props.preset], {selected: !this.props.preset.uiSelected});
+    }
+
+    private editPreset(preset: Preset, update: Partial<Preset>) {
+        if (this.props.editPreset) {
+            this.props.editPreset(preset, update);
+        }
+    }
+
+    private movePreset(preset: Preset, displacement: number) {
+        if (this.props.movePreset) {
+            this.props.movePreset(preset, displacement);
+        }
     }
 }

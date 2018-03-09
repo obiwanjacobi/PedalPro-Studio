@@ -37,15 +37,18 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
                     valueSelectAll={this.props.valueSelectAll}
                     onSelectAll={this.props.onSelectAll}
                 />
+                {this.props.onCopy &&
                 <IconButton disabled={!this.props.enableCopy} onClick={this.fireCopy}>
                     <ContentCopy />
-                </IconButton>
+                </IconButton>}
+                {this.props.onDownload &&
                 <IconButton disabled={!this.props.enableDownload} onClick={this.fireDownload}>
                     <FileDownload />
-                </IconButton>
+                </IconButton>}
+                {this.props.onUpload &&
                 <IconButton disabled={!this.props.enableUpload} onClick={this.fireUpload}>
                     <FileUpload />
-                </IconButton>
+                </IconButton>}
                 <img src="../assets/VintageRevolutionLogoText.jpg" alt="logo" className="vrlogo" />
             </ApplicationToolbar>
         );

@@ -56,8 +56,8 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                 <PresetView 
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
-                    editPreset={this.actions.editPreset}
-                    movePreset={this.actions.movePreset}
+                    // editPreset={this.actions.editPreset}
+                    // movePreset={this.actions.movePreset}
                 />
             </div>
         );

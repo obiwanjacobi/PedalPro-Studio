@@ -17,7 +17,7 @@ export interface PresetViewState {
     searchKey: string;
 }
 
-export type PresetViewAllProps = PresetViewStateProps & SelectPresets & EditPreset & MovePreset;
+export type PresetViewAllProps = PresetViewStateProps & SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
 
 const containerStyles: React.CSSProperties = {
     display: "flex",
@@ -76,7 +76,14 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         if (!this.state.searchKey || this.state.searchKey.length === 0) {
             return true;
         }
-        return preset.name.toUpperCase().search(this.state.searchKey.toUpperCase()) >= 0;
+
+        const isMatch = preset.name.toUpperCase().search(this.state.searchKey.toUpperCase()) >= 0;
+        const searchForIndex = Number(this.state.searchKey);
+        if (!isNaN(searchForIndex)) {
+            return isMatch ||
+                preset.index.toString().search(this.state.searchKey) >= 0;
+        }
+        return isMatch;
     }
 
     private clearSearch() {
