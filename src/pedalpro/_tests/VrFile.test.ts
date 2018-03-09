@@ -1,6 +1,6 @@
 import VrFile from "../VrFile";
 import * as fs from "fs";
-import FactoryExProvider from "../extended/FactoryExProvider";
+import FactoryExProvider from "../extended/FactoryProviderEx";
 
 const TestFilePath = "./src/pedalpro/_tests/PPEPreset81.vrf";
 

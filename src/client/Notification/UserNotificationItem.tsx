@@ -33,6 +33,7 @@ export default class UserNotificationItem extends
             >
                 {this.renderNotificationType(this.props.notification)}
                 <Typography>{this.props.notification.message}</Typography>
+                <Typography>{this.props.notification.context}</Typography>
                 <IconButton onClick={this.remove}>
                     <Clear />
                 </IconButton>

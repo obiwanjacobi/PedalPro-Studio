@@ -4,7 +4,7 @@ import ApplicationDocument, { PresetCollectionType } from "./ApplicationDocument
 import Client from "./Client";
 import Preset from "./Preset";
 
-const client = new Client();
+const client = new Client(0x04d8);
 
 export const LoadPresetsActionKey: string = "R/device/presets/";
 
@@ -18,7 +18,7 @@ export interface LoadPresetsAction {
 export const createLoadPresetsAction = 
     (dispatch: Dispatch<ApplicationDocument>, 
      source: PresetCollectionType): void => {
-        client.getPresets().then((result) => {
+        client.getSource(source).getPresets().then((result) => {
             dispatch(
                 { type: LoadPresetsActionKey, source: source, presets: result, error: null });
         }).catch((error) => {

@@ -6,7 +6,7 @@ import PresetBufferEx from "./PresetBufferEx";
 import { PresetBufferExFields } from "./PresetBufferExFields";
 import { PresetBufferSize } from "./ConstantsEx";
 
-export default class FactoryExProvider {
+export default class FactoryProviderEx {
     public readonly deviceIdentity: DeviceIdentity;
     public readonly presetCount: number;
     

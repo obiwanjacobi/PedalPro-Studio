@@ -35,7 +35,8 @@ const copyOverride = (
         break;
         
         default: 
-        throw new Error(`Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
+        throw new RangeError(
+            `Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
     }
 
     return state.copyOverride(device, storage, factory);
@@ -162,15 +163,19 @@ const reduceLoadPresets = (
     return copyOverride(state, source, () => presets);
 };
 
-const reduceFault = (state: ApplicationDocument, fault: Fault): ApplicationDocument => {
-    return state.copyOverrideNotification([{ type: "warning", message: fault.message }, ...state.notifications]);
+const reduceFault = (state: ApplicationDocument, source: PresetCollectionType, fault: Fault): ApplicationDocument => {
+    return state.copyOverrideNotification([{
+            type: "warning", 
+            message: fault.message, 
+            context: source.toString() },
+        ...state.notifications]);
 };
 
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
         case "R/device/presets/":
         if (action.error) { 
-            return reduceFault(state, action.error);
+            return reduceFault(state, action.source, action.error);
         }
         if (action.presets) {
             return reduceLoadPresets(state, action.source, action.presets);

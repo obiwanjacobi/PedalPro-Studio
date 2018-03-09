@@ -18,7 +18,11 @@ export default class PresetsApi implements ApiHandler {
 
         this.initRoutes();
     }
-    
+
+    protected createProvider(): PresetProvider {
+        return PedalProProviderFactory.create();
+    }
+
     private initRoutes() {
         this.router.get("/", this.getPresets);
         this.router.get("/:presetIndex", this.getPreset);
@@ -44,10 +48,6 @@ export default class PresetsApi implements ApiHandler {
         } catch (error) {
             response.json({ fault: { message: error.message }});
         }
-    }
-
-    private createProvider(): PresetProvider {
-        return PedalProProviderFactory.create();
     }
 
     private createDevice(provider: PresetProvider): DeviceIdentity {
