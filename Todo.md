@@ -20,6 +20,21 @@
 - Fixed: Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
 - reorderable/drag&drop list: https://gist.github.com/jlroettger/2d6d7ae572f985fa176c27a63cadf292
 
+## Bugs
+
+- Parsing Factory Ex (8.1) (.vrf) fails at:
+  - DlyAttak2 [36]: (0x0A) is F and should be FC
+  - DDoubleDly [38]: (0x0A, 0x0B) is F and 1. Should be FC and 1F
+  - DBounceDly [39]: (0x0A, 0x0B) is F and 1. Should be FC and 1F
+  - D3TapsDly [42]: (0x0A, 0x0B) is F and 1. Should be FC and 1F
+  - Flange med [55]: (0x0A, 0x0B) is F and 1. Should be FA and 1E
+  - PurePhaser [64]: (0x0A, 0x0B) is 7 and 1. Should be 7E and 1F
+  - Vow i-yoh [86]: (0x0B) is D. Should be DE
+
+After the name the optional favorite number is not parsed:
+    09 ' ' 09  => means no fav
+    09 '1' '2' 09 => means fav #12
+
 ## Preset List
 
 - drag & drop (react-sortable-hoc)

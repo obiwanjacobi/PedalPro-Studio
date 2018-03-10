@@ -17,20 +17,27 @@ class VrFileReader {
     getPresetIndex(): number {
         this.skipUntil("0");
         const index = this.readStringWhile(" ");
-        this.skipUntil(" ");
+        this.skipSeparator();
         return Number(index);
     }
 
     getName(): number[] {
-        const name = this.read(10);
-        this.skip(3);
-        return name;
+        return this.read(10);
+    }
+
+    getFavorite(): number {
+        this.skipSeparator();
+        const fav = this.readStringWhile(" ");
+        this.skipSeparator();
+        return  Number(fav);
     }
 
     getPreset(bufferSize: number): number[] {
         bufferSize -= 10;   // minus length name
         this.getPresetIndex();
         const name = this.getName();
+        this.getFavorite();
+        
         const result = new Array<number>(bufferSize);
         for (let i = 0; i < bufferSize; i++) {
             result[i] = this.readByte();
@@ -52,10 +59,11 @@ class VrFileReader {
         return Number.parseInt(byte, 16);
     }
 
-    private skip(count: number) {
-        for (let i = 0; i < count; i++) {
-            this.next();
+    private skipSeparator() {
+        if (this.current !== 0x09) {
+            throw new Error("Parsing Error (favorite)");
         }
+        this.next();
     }
     private skipUntil(ascii: string) {
         const char = this.oneCharOnly(ascii);

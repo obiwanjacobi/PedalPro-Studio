@@ -1,10 +1,9 @@
 import * as React from "react";
-import { Collapse, Grid, Paper, Checkbox, IconButton } from "material-ui";
-import Typography from "material-ui/Typography/Typography";
+import { Collapse, Grid, Paper, Checkbox, IconButton, Typography } from "material-ui";
 import { ExpandMore, ExpandLess, Flag } from "material-ui-icons";
 
 import PresetListItemDetail from "./PresetListItemDetail";
-import Preset, { presetHasChanged } from "../client/Preset";
+import Preset, { presetHasChanged, onlyIndexHasChanged } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
@@ -50,10 +49,8 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                             </Typography>
                         </Grid>
                         <Grid xs={1} item={true}>
-                            <Flag 
-                                color="secondary" 
-                                style={{display: presetHasChanged(this.props.preset) ? "block" : "none"}}
-                            />
+                            {presetHasChanged(this.props.preset) &&
+                            <Flag color={onlyIndexHasChanged(this.props.preset) ? "primary" : "secondary"} />}
                         </Grid>
                         <Grid xs={1} item={true}>
                             {this.hasDetails &&
