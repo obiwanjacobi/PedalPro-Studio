@@ -5,6 +5,7 @@ import PresetDeserializerEx from "./PresetDeserializerEx";
 import PresetBufferEx from "./PresetBufferEx";
 import { PresetBufferExFields } from "./PresetBufferExFields";
 import { PresetBufferSize } from "./ConstantsEx";
+import LogicalTransformerEx from "./LogicalTransformerEx";
 
 export default class FactoryProviderEx {
     public readonly deviceIdentity: DeviceIdentity;
@@ -28,6 +29,7 @@ export default class FactoryProviderEx {
 
             const deserializer = new PresetDeserializerEx(PresetBufferExFields);
             const preset = deserializer.deserialize(buffer);
+            LogicalTransformerEx.preset(preset);
             preset.index = i;
 
             this.presets[i] = preset;

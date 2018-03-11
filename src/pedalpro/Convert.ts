@@ -11,7 +11,59 @@ export default class Convert {
     }
 
     public static toPercent(byte: number): number {
-        return Math.floor(this.transformRange(byte, 0, 255, 0, 1000)) / 10;
+        return Math.floor(this.transformRange(byte, 0, 0xFF, 0, 1000)) / 10;
+    }
+
+    public static toDB(value: number): number {
+        if (value > 0x3E) { return 0; }
+        return Math.floor(this.transformRange(value, 0, 0x3E, -60, 250)) / 10;
+    }
+
+    public static toLogDB(value: number): number {
+        if (value > 0x40) { return 0; }
+        
+        return Math.floor(this.transformRange(value, 0, 0x40, -120, 120)) / 10;
+    }
+
+    public static toTempoSpeed(value: number): number {
+        if (value > 0x155E) { return 0; }
+        return Math.floor(this.transformRange(value, 0, 0x155E, 30, 5500)) / 10;
+    }
+
+    public static toResonance1(value: number): number {
+        if (value > 0x22) { return 0; }
+        return Math.floor(this.transformRange(value, 0, 0x22, 10, 180)) / 10;
+    }
+
+    public static toFrequency1(value: number): number {
+        if (value > 0x3FF) { return 0; }
+        return Math.floor(this.transformRange(value, 0, 0x3FF, 370, 1968));
+    }
+
+    public static toResonance2(value: number): number {
+        if (value > 0x1E) { return 0; }
+        return Math.floor(this.transformRange(value, 0, 0x1E, 10, 160)) / 10;
+    }
+
+    public static toFrequency2(value: number): number {
+        if (value > 0x3FF) { return 0; }
+        return Math.floor(this.transformRange(value, 0, 0x3FF, 150, 2697));
+    }
+
+    public static toTimeShort(value: number): number {
+        return Math.floor(this.transformRange(value, 0, 0xFF, 237, 994)) / 10;
+    }
+
+    public static toTimeMedium(value: number): number {
+        return Math.floor(this.transformRange(value, 0, 0xFF, 409, 4094)) / 10;
+    }
+
+    public static toTimeLong(value: number): number {
+        return Math.floor(this.transformRange(value, 0, 0xFF, 614, 6143)) / 10;
+    }
+
+    public static toEmphasisFrequency(value: number): number {
+        return Math.floor(this.transformRange(value, 0, 0xFF, 1000, 2000));
     }
 
     public static hasFlag(value: number, flag: number): boolean {

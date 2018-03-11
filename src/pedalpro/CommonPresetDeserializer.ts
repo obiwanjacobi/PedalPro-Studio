@@ -184,13 +184,13 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
             buffer.getField(this.fields.EnvelopeFunction), 5, 2);
         filters.filter2.envelope.sensitivity = buffer.getField(this.fields.EnvelopeSensitivity2);
         filters.filter2.envelope.startFrequency = Convert.makeWord(
-            Convert.getBitsOf(buffer.getField(this.fields.FrequencyStartHH), 7, 2),
-            buffer.getField(this.fields.FrequencyStart1Lo));
+            Convert.getBitsOf(buffer.getField(this.fields.FrequencyStartHH), 3, 2),
+            buffer.getField(this.fields.FrequencyStart2Lo));
         
         filters.filter2.eq = <EqFilter2> { };
         filters.filter2.eq.resonance = buffer.getField(this.fields.DAQResonanceQ2);
         filters.filter2.eq.enhancedFrequency = Convert.makeWord(
-            Convert.getBitsOf(buffer.getField(this.fields.DAQFrequencyHH), 7, 2),
+            Convert.getBitsOf(buffer.getField(this.fields.DAQFrequencyHH), 3, 2),
             buffer.getField(this.fields.DAQFixFrequency2Lo));
 
         return  filters;

@@ -6,6 +6,7 @@ import { PresetCount } from "./ConstantsEx";
 import ReadPresetEx from "./ReadPresetEx";
 import { PresetBufferExFields } from "./PresetBufferExFields";
 import PresetDeserializerEx from "./PresetDeserializerEx";
+import LogicalTransformerEx from "./LogicalTransformerEx";
 
 export default class PedalProExProvider extends PedalProProvider {
 
@@ -28,7 +29,7 @@ export default class PedalProExProvider extends PedalProProvider {
     }
 
     public getPreset(presetIndex: number): Preset {
-        PedalProProvider.throwIfNotValidPresetIndex(presetIndex);
+        PedalProExProvider.throwIfNotValidPresetIndex(presetIndex);
         return this.onePresetEx(presetIndex);
     }
 
@@ -52,6 +53,7 @@ export default class PedalProExProvider extends PedalProProvider {
         const buffer = cmd.read(presetIndex);
         const deserializer = new PresetDeserializerEx(PresetBufferExFields);
         const preset = deserializer.deserialize(buffer);
+        LogicalTransformerEx.preset(preset);
         preset.index = presetIndex;
         
         return preset;
