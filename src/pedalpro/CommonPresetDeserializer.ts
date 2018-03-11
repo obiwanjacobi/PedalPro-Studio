@@ -12,7 +12,7 @@ import PresetTraits from "../model/PresetTraits";
 import CommonPresetBufferFieldIndex from "./CommonPresetBufferFieldIndex";
 import Convert from "./Convert";
 import { BypassSlaveCmp1Flags, BypassSlaveCmp2Flags } from "./Common";
-import Modulation, { Chorus, Vibe, Flanger } from "../model/Modulation";
+import Modulation, { Chorus, Vibe, Flanger, Harmonics } from "../model/Modulation";
 import Delay from "../model/Delay";
 import Aux from "../model/SendReturn";
 import VoltageControlledAmp from "../model/VoltageControlledAmp";
@@ -95,7 +95,7 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
             buffer.getField(this.fields.BypassSlaveCmp2), BypassSlaveCmp2Flags.BypassNoiseGate);
         noiseGate.noiseLevel = buffer.getField(this.fields.NoiseGateSensitivity);
         noiseGate.release = buffer.getField(this.fields.NoiseGateRelease);
-        noiseGate.sustain = Convert.hasFlag(
+        noiseGate.sustain = !Convert.hasFlag(
             buffer.getField(this.fields.BypassSlaveCmp2), BypassSlaveCmp2Flags.NoiseGateSustainOn);
 
         return  noiseGate;
@@ -217,7 +217,7 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
         modulation.chorus.wet = buffer.getField(this.fields.WetChorus);
 
         modulation.vibe = <Vibe> { };
-        modulation.vibe.boost = Convert.hasFlag(
+        modulation.vibe.boost = !Convert.hasFlag(
             buffer.getField(this.fields.ModulationConfig), 4);
         modulation.vibe.depth = buffer.getField(this.fields.DepthTremoloChorus);
         modulation.vibe.phase = Convert.getBitsOf(
@@ -232,7 +232,8 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
         modulation.flanger.delay = buffer.getField(this.fields.DlyFlanger);
         modulation.flanger.depth = buffer.getField(this.fields.DetuneFlanger);
         modulation.flanger.feedback = buffer.getField(this.fields.FeedbackFlanger);
-        // modulation.flanger.harmonics = buffer.getField(this.fields.FuctionFlanger);
+        modulation.flanger.harmonics = Convert.hasFlag(
+            buffer.getField(this.fields.ModulationConfig), 5) ? Harmonics.Odd : Harmonics.Even;
         modulation.flanger.tempo = Convert.makeWord(
             buffer.getField(this.fields.FlangerPeriodHi),
             buffer.getField(this.fields.FlangerPeriodLo));

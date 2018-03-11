@@ -11,11 +11,12 @@ export default class Convert {
     }
 
     public static toPercent(byte: number): number {
-        return this.transformRange(byte, 0, 255, 0, 1000);
+        return Math.floor(this.transformRange(byte, 0, 255, 0, 1000)) / 10;
     }
 
     public static hasFlag(value: number, flag: number): boolean {
-        return (value & flag) > 0;
+        const mask = 1 << flag;
+        return (value & mask) > 0;
     }
 
     public static getBitsOf(source: number, bit: number, bitLength: number): number {

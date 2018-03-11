@@ -10,9 +10,8 @@ export default class PresetBuffer extends ProtocolBuffer {
         let name: number[] = new Array(nameMaxLength);
         super.read(0, name, 0, nameMaxLength);
 
-        name = name.filter((char: number) => 
-            char !== ExpressionChar && char !== StereoChar && char !== SingleCoilChar && char !== HumbuckerChar);
-
+        // filter out non-ascii
+        name = name.filter((char: number) => char >= 0x20);
         return String.fromCharCode(...name);
     }
 
