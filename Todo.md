@@ -7,33 +7,22 @@
 
 ## PedalProDevice
 
-- Done: Recreate HID object on write error - connection may have been interrupted.
-- Allow filtering on index (numerical input & ranges using - or :)
+- [Done] Recreate HID object on write error - connection may have been interrupted.
+- [Done] Allow filtering on index (numerical input & ranges using - or :)
 - Change the way a preset is moved in the list to allow for index-gaps (where empty presets have been filtered out).
-- Done: Reverse engineer .vrf binary files to be able to read in old PedalManager files (Java).
+- [Done] Reverse engineer .vrf binary files to be able to read in old PedalManager files (Java).
 
 ## Code
 
 - [Will not] Fix shared Model between server and client.
-- Done: react-redux connect method: investigate
+- [Done] react-redux connect method: investigate
 - dense on List does not work when a checkbox is in ListItem https://github.com/mui-org/material-ui/issues/9274
-- Fixed: Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
+- [Fixed] Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
 - reorderable/drag&drop list: https://gist.github.com/jlroettger/2d6d7ae572f985fa176c27a63cadf292
 
 ## Bugs
 
-- Parsing Factory Ex (8.1) (.vrf) fails at:
-  - DlyAttak2 [36]: (0x0A) is F and should be FC
-  - DDoubleDly [38]: (0x0A, 0x0B) is F and 1. Should be FC and 1F
-  - DBounceDly [39]: (0x0A, 0x0B) is F and 1. Should be FC and 1F
-  - D3TapsDly [42]: (0x0A, 0x0B) is F and 1. Should be FC and 1F
-  - Flange med [55]: (0x0A, 0x0B) is F and 1. Should be FA and 1E
-  - PurePhaser [64]: (0x0A, 0x0B) is 7 and 1. Should be 7E and 1F
-  - Vow i-yoh [86]: (0x0B) is D. Should be DE
-
-After the name the optional favorite number is not parsed:
-    09 ' ' 09  => means no fav
-    09 '1' '2' 09 => means fav #12
+- Convert.toLogDB yields wrong results. Range is not linear.
 
 ## Preset List
 
@@ -46,15 +35,15 @@ All device presets are automatically saved when uploaded to the device.
 
 ## performance
 
-- Done: remove/refactor all anonymous event handlers (start with PresetList/Item) - bind in ctor.
+- [Done] remove/refactor all anonymous event handlers (start with PresetList/Item) - bind in ctor.
 - add tslib
-- Done: use a virtual preset list: https://github.com/bvaughn/react-virtualized
+- [Done] use a virtual preset list: https://github.com/bvaughn/react-virtualized
 - look into state management
-- Done: implement ShouldComponentUpdate()
+- [Done] implement ShouldComponentUpdate()
 - Redux connect at list item level. Bind list with number of presets and instantiate each list item with its index.
     How will this work with filtering? Filtering is done at list-level and a ListItem is instantiated for each preset index.
-- Done: Use production build of React. Have no idea how to change that in electron/ts.
-- Done: use a pack tool (webpack/babel/rollup) to optimize startup time (which is also pretty bad)
+- [Done] Use production build of React. Have no idea how to change that in electron/ts.
+- [Done] use a pack tool (webpack/babel/rollup) to optimize startup time (which is also pretty bad)
     http://blog.scottlogic.com/2017/06/06/typescript-electron-webpack.html
 
 react: https://medium.com/@arikmaor/react-redux-performance-tuning-tips-cef1a6c50759

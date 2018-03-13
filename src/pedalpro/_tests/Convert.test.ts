@@ -228,12 +228,44 @@ describe("Convert.ts", () => {
     });
 
     it ("toLogDB -12.0", () => {
-        const actual = Convert.toLogDB(0x0);
+        const actual = Convert.toLogDB(0);
         expect(actual).toBe(-12);
     });
     it ("toLogDB -11.0", () => {
-        const actual = Convert.toLogDB(0x1);
+        const actual = Convert.toLogDB(1);
         expect(actual).toBe(-11);
+    });
+    it ("toLogDB -9.0", () => {
+        const actual = Convert.toLogDB(3);
+        expect(actual).toBe(-9);
+    });
+    it ("toLogDB -8.0", () => {
+        const actual = Convert.toLogDB(4);
+        expect(actual).toBe(-8);
+    });
+    it ("toLogDB -7.5", () => {
+        const actual = Convert.toLogDB(5);
+        expect(actual).toBe(-7.5);
+    });
+    it ("toLogDB -7.0", () => {
+        const actual = Convert.toLogDB(6);
+        expect(actual).toBe(-7);
+    });
+    it ("toLogDB -4.5", () => {
+        const actual = Convert.toLogDB(11);
+        expect(actual).toBe(-4.5);
+    });
+    it ("toLogDB -4.0", () => {
+        const actual = Convert.toLogDB(12);
+        expect(actual).toBe(-4);
+    });
+    it ("toLogDB -3.8", () => {
+        const actual = Convert.toLogDB(13);
+        expect(actual).toBe(-3.8);
+    });
+    it ("toLogDB +11.0", () => {
+        const actual = Convert.toLogDB(0x3F);
+        expect(actual).toBe(11);
     });
     it ("toLogDB +12.0", () => {
         const actual = Convert.toLogDB(0x40);

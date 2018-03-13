@@ -1,5 +1,21 @@
 // tslint:disable:no-bitwise
 
+const logDBTable: number[] = [
+    -120, -110, -100, -90, -80,
+    -75, -70, -65, -60, -55, -50, -45,
+    -40, -38, -36, -34, -32, -30,
+    -28, -26, -24, -22, -20, 
+    -18, -16, -14, -12, -10,
+    -8, -6, -4, -2,
+    0,
+    2, 4, 6, 8, 10,
+    12, 14, 16, 18, 20,
+    22, 24, 26, 28, 30,
+    32, 34, 36, 38, 40, 
+    45, 50, 55, 60, 65, 70, 75,
+    80, 90, 100, 110, 120
+];
+
 export default class Convert {
 
     public static makeByte(bit0: number, bit1: number): number {
@@ -20,9 +36,10 @@ export default class Convert {
     }
 
     public static toLogDB(value: number): number {
+        if (value < 0) { return 0; }
         if (value > 0x40) { return 0; }
-        
-        return Math.floor(this.transformRange(value, 0, 0x40, -120, 120)) / 10;
+
+        return  logDBTable[value] / 10;
     }
 
     public static toTempoSpeed(value: number): number {
