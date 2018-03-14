@@ -4,9 +4,19 @@ export class ProtocolBuffer {
     
     public data: number[];
 
+    public static isCommandDone(command: number, response: number[]): boolean {
+        return response &&
+            response.length >= 2 &&
+            response[1] === command;
+    }
+
     public constructor(byteCount: number = ProtocolBufferSize) {
         this.data = new Array(byteCount);
         this.clear();
+    }
+
+    public isCommandSuccess(response: number[]): boolean {
+        return ProtocolBuffer.isCommandDone(this.command, response);
     }
 
     public clear() {

@@ -4,35 +4,22 @@ import PresetBuffer from "../PresetBuffer";
 import CommandBufferBuilder from "../CommandBufferBuilder";
 import { PresetBufferParts } from "../Common";
 import { PartSize, LastPartSize, PresetBufferSize } from "./Constants";
-import PedalProProvider from "./PedalProProvider";
 
 export default class ReadPreset {
     private device: PedalProDevice;
-
-    // private static isCommandDone(command: number, response: number[]): boolean {
-    //     return response &&
-    //         response.length >= 2 &&
-    //         response[0] === command &&
-    //         response[1] === 0x0F;    // done
-    // }
 
     public constructor(device: PedalProDevice) {
         this.device = device;
     }
 
     public read(presetIndex: number): PresetBuffer {
-        PedalProProvider.throwIfNotValidPresetIndex(presetIndex);
         if (!this.device.isConnected) { this.device.connect(); }
 
         const buffer = new ProtocolBuffer();
         const builder = new CommandBufferBuilder(buffer);
         builder.setLoadPresetCmd(presetIndex);
         this.device.write(buffer);
-
-        this.device.read();
-        // if (!PedalProReadPreset.isCommandDone(buffer.command, this.device.read())) {
-        //     throw new Error("PedalPro Command failed.");
-        // }
+        this.throwIfCommandFailed(buffer);
 
         const preset = new PresetBuffer(PresetBufferSize);
         
@@ -49,5 +36,11 @@ export default class ReadPreset {
         preset.write(PartSize + PartSize, this.device.read(), 1, LastPartSize);
 
         return preset;
+    }
+
+    private throwIfCommandFailed(buffer: ProtocolBuffer) {
+        if (!buffer.isCommandSuccess(this.device.read())) {
+            throw new Error("Device communication fault.");
+        }
     }
 }
