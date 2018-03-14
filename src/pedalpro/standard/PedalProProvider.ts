@@ -7,6 +7,7 @@ import PresetProvider from "../../server/PresetProvider";
 import Preset from "../../model/Preset";
 import DeviceIdentity from "../../model/DeviceIdentity";
 import { PresetBufferFields } from "./PresetBufferFields";
+import LogicalTransformer from "./LogicalTransformer";
 
 export default class PedalProProvider implements PresetProvider {
     protected readonly device: PedalProDevice;
@@ -62,6 +63,7 @@ export default class PedalProProvider implements PresetProvider {
         
         const deserializer = new PresetDeserializer(PresetBufferFields);
         const preset = deserializer.deserialize(buffer);
+        LogicalTransformer.preset(preset);
         preset.index = presetIndex;
         
         return preset;

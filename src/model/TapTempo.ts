@@ -8,7 +8,7 @@ export enum TapTempoDivision {
     DotEighth
 }
 
-export default class TapTempo {
+export default interface TapTempo {
     mode: TapTempoMode;
     tempoDivision: TapTempoDivision;
     tempoDivisionDelay: TapTempoDivision;

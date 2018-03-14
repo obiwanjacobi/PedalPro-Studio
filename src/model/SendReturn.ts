@@ -10,6 +10,13 @@ export enum AuxRouting {
     Mixer
 }
 
+export interface AmpSwitches {
+    switch1: boolean;
+    switch2: boolean;
+    switch3: boolean;
+    switch4: boolean;
+}
+
 export default interface Aux {
     routing: AuxRouting;
 
@@ -19,4 +26,6 @@ export default interface Aux {
     mixDryLevelR: Percent;
     mixWetLevelL: Percent;
     mixWetLevelR: Percent;
+
+    switches: AmpSwitches;
 }

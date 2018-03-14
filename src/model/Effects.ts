@@ -13,7 +13,6 @@ import Dsp from "./Dsp";
 import Phaser from "./Phaser";
 import TapTempo from "./TapTempo";
 import Midi from "./Midi";
-import AmpSwitches from "./AmpSwitches";
 
 export interface Effects {
     compressor: Compressor;
@@ -29,7 +28,6 @@ export interface Effects {
     noiseGate: NoiseGate;
     tap: TapTempo;
     midi: Midi;
-    switches: AmpSwitches;
 }
 
 export interface EffectsEx {
@@ -47,5 +45,4 @@ export interface EffectsEx {
     noiseGate: NoiseGate;
     tap: TapTempo;
     midi: Midi;
-    switches: AmpSwitches;
 }
