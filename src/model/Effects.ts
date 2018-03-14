@@ -11,6 +11,9 @@ import Aux from "./SendReturn";
 import PreAmp from "./PreAmp";
 import Dsp from "./Dsp";
 import Phaser from "./Phaser";
+import TapTempo from "./TapTempo";
+import Midi from "./Midi";
+import AmpSwitches from "./AmpSwitches";
 
 export interface Effects {
     compressor: Compressor;
@@ -24,6 +27,9 @@ export interface Effects {
     delay: Delay;
     aux: Aux;
     noiseGate: NoiseGate;
+    tap: TapTempo;
+    midi: Midi;
+    switches: AmpSwitches;
 }
 
 export interface EffectsEx {
@@ -39,4 +45,7 @@ export interface EffectsEx {
     aux: Aux;
     dsp: Dsp;
     noiseGate: NoiseGate;
+    tap: TapTempo;
+    midi: Midi;
+    switches: AmpSwitches;
 }

@@ -3,7 +3,8 @@ import { PhaseShift, WaveForm, TempoSpeed, Percent } from "./Types";
 export enum VcaAssign {
     Tremolo,
     Panner,
-    Expression
+    VolumeExpression,
+    PannerExpression
 }
 
 export default interface VoltageControlledAmp {

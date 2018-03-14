@@ -30,6 +30,9 @@ export default class PresetDeserializer extends CommonPresetDeserializer<PresetB
         effects.modulation = super.deserializeModulation(buffer);
         effects.delay = super.deserializeDelay(buffer);
         effects.aux = super.deserializeAux(buffer);
+        effects.midi = super.deserializeMidi(buffer);
+        effects.tap = super.deserializeTapTempo(buffer);
+        effects.switches = super.deserializeAmpSwitches(buffer);
         preset.effects = effects;
         
         return preset;
@@ -40,9 +43,11 @@ export default class PresetDeserializer extends CommonPresetDeserializer<PresetB
 
         dist.enabled = !Convert.hasFlag(
             buffer.getField(this.fields.BypassSlaveCmp1), BypassSlaveCmp1Flags.BypassPreAmp);
-        // dist.bright = buffer.getField(PresetBufferFields.??);
+        dist.bright = !Convert.hasFlag(
+            buffer.getField(this.fields.BypassSlaveCmp2), 2);
         dist.level = buffer.getField(this.fields.DistortionOut);
-        // dist.lowPass = buffer.getField(PresetBufferFields.??);
+        dist.lowPass = Convert.getBitsOf(
+            buffer.getField(this.fields.CompressorEnvelopeInfo), 7, 2);
         dist.tone = buffer.getField(this.fields.DistortionTone);
 
         return  dist;

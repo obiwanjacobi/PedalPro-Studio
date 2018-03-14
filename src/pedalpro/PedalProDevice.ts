@@ -23,6 +23,7 @@ export default class PedalProDevice {
 
         try {
             // VENDOR_ID  0x04d8 - Vintage Revolution
+            // DEVICE_ID  0x0005 - PedalProEx
             // DEVICE_ID  0x0005 - PedalPro
             this.hidDevice = new HID(0x04d8, 0x0005);
         } catch (error) {

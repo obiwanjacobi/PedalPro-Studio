@@ -16,6 +16,9 @@ import Modulation, { Chorus, Vibe, Flanger, Harmonics } from "../model/Modulatio
 import Delay from "../model/Delay";
 import Aux from "../model/SendReturn";
 import VoltageControlledAmp from "../model/VoltageControlledAmp";
+import TapTempo from "../model/TapTempo";
+import Midi, { MidiRouting } from "../model/Midi";
+import AmpSwitches from "../model/AmpSwitches";
 
 export default abstract class CommonPresetDeserializer<FieldsT extends CommonPresetBufferFieldIndex> {
     protected readonly fields: FieldsT;
@@ -298,5 +301,46 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
             buffer.getField(this.fields.FuncTremolo), 3, 3);
 
         return vca;
+    }
+
+    protected deserializeTapTempo(buffer: PresetBuffer): TapTempo {
+        const tap = <TapTempo> { };
+
+        tap.mode = buffer.getField(this.fields.TapTempoMode);
+        tap.tempoDivision = buffer.getField(this.fields.TapTempoDivision);
+        tap.tempoDivisionDelay = buffer.getField(this.fields.TapTempoDivisionDelay);
+
+        return tap;
+    }
+
+    protected deserializeMidi(buffer: PresetBuffer): Midi {
+        const midi = <Midi> { };
+
+        midi.routing = <MidiRouting> { };
+        midi.routing.aux = Convert.getBitsOf(
+            buffer.getField(this.fields.MIDICCRoutingAUXDELAY), 4, 3);
+        midi.routing.delay = Convert.getBitsOf(
+            buffer.getField(this.fields.MIDICCRoutingAUXDELAY), 0, 2);
+        midi.routing.filter = Convert.getBitsOf(
+                buffer.getField(this.fields.MIDICCRoutingChorusFilter), 0, 4);
+        midi.routing.modulation = Convert.getBitsOf(
+            buffer.getField(this.fields.MIDICCRoutingChorusFilter), 4, 2);
+
+        return midi;
+    }
+
+    protected deserializeAmpSwitches(buffer: PresetBuffer): AmpSwitches {
+        const switches = <AmpSwitches> { };
+
+        switches.switch1 = !Convert.hasFlag(
+            buffer.getField(this.fields.BypassSlaveFilter), 0);
+        switches.switch2 = !Convert.hasFlag(
+            buffer.getField(this.fields.BypassSlaveFilter), 1);
+        switches.switch3 = !Convert.hasFlag(
+            buffer.getField(this.fields.BypassSlaveFilter), 2);
+        switches.switch4 = !Convert.hasFlag(
+            buffer.getField(this.fields.BypassSlaveFilter), 3);
+            
+        return  switches;
     }
 }

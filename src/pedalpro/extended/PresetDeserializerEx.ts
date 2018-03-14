@@ -33,6 +33,9 @@ export default class PresetDeserializerEx extends CommonPresetDeserializer<Prese
         effects.modulation = super.deserializeModulation(buffer);
         effects.delay = super.deserializeDelay(buffer);
         effects.aux = super.deserializeAux(buffer);
+        effects.midi = super.deserializeMidi(buffer);
+        effects.tap = super.deserializeTapTempo(buffer);
+        effects.switches = super.deserializeAmpSwitches(buffer);
         preset.effects = effects;
 
         return preset;
