@@ -23,3 +23,19 @@ export default class Server {
         this.expressApp.listen(port);
     }
 }
+
+/**
+ * localhost:1240
+ *  /device
+ *      { device: <device identification> } | { fault: <error> }
+ *      /presets
+ *          { presets: [<all device presets>] } | { fault: <error> }
+ *      /presets/[presetIndex]
+ *          { presets: [<one device preset>] } | { fault: <error> }
+ *      /factory/presets
+ *          { presets: [<all factory presets>] } | { fault: <error> }
+ *      /factory/presets/[presetIndex]
+ *          { presets: [<one factory presets>] } | { fault: <error> }
+ *  /storage
+ * 
+ */

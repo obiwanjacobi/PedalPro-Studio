@@ -3,7 +3,7 @@ import * as TypedRestClient from "typed-rest-client/RestClient";
 import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
 import * as ModelPreset from "../model/Preset";
-import PresetResponse from "../model/PresetResponse";
+import { PresetResponse } from "../model/Messages";
 
 export class PresetsClient {
     private readonly typedRest: TypedRestClient.RestClient;
@@ -24,7 +24,7 @@ export class PresetsClient {
         const presets = new Array<Preset>(modelPresets.length);
         
         for (let i = 0; i < modelPresets.length; i++) {
-            presets[i] = this.createPreset(modelPresets[i]);
+            presets[i] = this.extendPreset(modelPresets[i]);
         }
 
         return presets;
@@ -35,11 +35,11 @@ export class PresetsClient {
         this.throwIfError(response);
         
         const modelPreset = response.result.presets[0];
-        return this.createPreset(modelPreset);
+        return this.extendPreset(modelPreset);
     }
 
-    private createPreset(preset: ModelPreset.default): Preset {
-        const clientPreset: Preset = { 
+    private extendPreset(preset: ModelPreset.default): Preset {
+        const clientPreset: Preset = {
             ...preset, 
             origin: preset,
             source: this.collection,
@@ -55,10 +55,6 @@ export class PresetsClient {
         }
         if (response.result.fault) {
             throw response.result.fault;
-        }
-        if (!response.result.device.supported) {
-            // tslint:disable:max-line-length
-            throw new Error(`The connected device ${response.result.device.device} version ${response.result.device.version} is not supported. Please upgrade the device.`);
         }
         if (!response.result.presets || response.result.presets.length === 0) {
             throw new Error("No presets were retrieved.");

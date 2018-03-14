@@ -21,7 +21,7 @@ export default class PedalProProviderFactory {
         }
     }
 
-    private static getDeviceIdentity(device: PedalProDevice): PedalProDeviceIdentity {
+    public static getDeviceIdentity(device: PedalProDevice): PedalProDeviceIdentity {
         const reader = new ReadDeviceIdentity(device);
         const identity = reader.read();
         return identity;

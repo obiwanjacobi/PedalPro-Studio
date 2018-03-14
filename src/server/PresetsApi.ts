@@ -1,10 +1,10 @@
 import * as express from "express";
-import ApiHandler from "./ApiHandler";
+import ApiHandler, { createFault } from "./ApiHandler";
 import PresetProvider from "./PresetProvider";
 import PedalProProviderFactory from "../pedalpro/PedalProProviderFactory";
-import DeviceIdentity from "../model/DeviceIdentity";
+import { PresetResponse } from "../model/Messages";
 
-// test - no real usb
+// test - no usb
 // import TestPresetProvider from "../_tests/TestPresetProvider";
 // const pedalProPresetsApi = new PresetsApi(new TestPresetProvider());
 
@@ -29,33 +29,28 @@ export default class PresetsApi implements ApiHandler {
     }
 
     private getPresets(_: express.Request, response: express.Response) {
+        const msg = <PresetResponse> { };
+
         try {
             const provider = this.createProvider();
-            const presets = provider.getPresets();
-            response.json({ device: this.createDevice(provider), presets: presets });
+            msg.presets = provider.getPresets();
         } catch (error) {
-            response.json({fault: { message: error.message }});
+            msg.fault = createFault(error.message);
         }
+
+        response.json(msg);
     }
 
     private getPreset(request: express.Request, response: express.Response) {
+        const msg = <PresetResponse> { };
         const presetIndex: number = request.params.presetIndex;
 
         try {
             const provider = this.createProvider();
-            const preset = provider.getPreset(presetIndex);
-            response.json({ device: this.createDevice(provider), presets: [preset] });
+            msg.presets = [provider.getPreset(presetIndex)];
         } catch (error) {
-            response.json({ fault: { message: error.message }});
+            msg.fault = createFault(error.message);
         }
-    }
-
-    private createDevice(provider: PresetProvider): DeviceIdentity {
-        return { 
-            vendor: provider.deviceIdentity.vendor, 
-            device: provider.deviceIdentity.device, 
-            version: provider.deviceIdentity.version,
-            supported: provider.deviceIdentity.supported, 
-        };
+        response.json(msg);
     }
 }
