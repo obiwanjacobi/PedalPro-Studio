@@ -24,9 +24,11 @@ export default class PedalProExProvider extends PedalProProvider {
         super(device);
     }
 
-    public get presetCount(): number {
-        return PresetCount;
-    }
+    // public putPreset(preset: Preset) {
+    //     const buffer = new PresetBufferEx()
+    //     const writer = new WritePresetEx(this.device);
+    //     writer.write(buffer, preset.index);
+    // }
 
     public getPreset(presetIndex: number): Preset {
         PedalProExProvider.throwIfNotValidPresetIndex(presetIndex);
@@ -53,7 +55,7 @@ export default class PedalProExProvider extends PedalProProvider {
         const buffer = cmd.read(presetIndex);
         const deserializer = new PresetDeserializerEx(PresetBufferExFields);
         const preset = deserializer.deserialize(buffer);
-        LogicalTransformerEx.preset(preset);
+        LogicalTransformerEx.presetToLogical(preset);
         preset.index = presetIndex;
         
         return preset;

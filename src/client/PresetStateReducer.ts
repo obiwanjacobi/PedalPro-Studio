@@ -7,12 +7,15 @@ import { SelectPresetsAction } from "./SelectPresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
+import { SavePresetsAction } from "./SavePresetsAction";
 
 const PresetCount = 400;
 
 // all actions this reducer handles
 export type PresetAction = 
-    LoadPresetsAction | SelectPresetsAction | CopyPresetsAction | EditPresetAction | MovePresetAction;
+    LoadPresetsAction | SavePresetsAction | 
+    SelectPresetsAction | CopyPresetsAction | 
+    EditPresetAction | MovePresetAction;
 
 const copyOverride = (
     state: ApplicationDocument, 
@@ -58,7 +61,7 @@ const reduceMovePreset = (
     if (displacement === 0) { return state; }
 
     // local helper function
-    const replacePreset = (collection: Preset[]): Preset[] => {
+    const replaceMovedPreset = (collection: Preset[]): Preset[] => {
         const indexPos = collection.indexOf(preset);
         if (indexPos === -1) { throw new Error("Invalid preset - not found in collection."); }
         
@@ -85,7 +88,7 @@ const reduceMovePreset = (
         return newCollection;
     };
 
-    return copyOverride(state, preset.source, replacePreset);
+    return copyOverride(state, preset.source, replaceMovedPreset);
 };
 
 const reduceEditPreset = (
@@ -143,7 +146,7 @@ const reducePresetSelected = (
     if (selected === undefined && expanded === undefined) { return state; }
 
     // local helper function
-    const replacePresets = (collection: Preset[]): Preset[] => {
+    const replaceSelectedPresets = (collection: Preset[]): Preset[] => {
         const newCollection = collection.slice();
 
         for (let i: number = 0; i < presets.length; i++) {
@@ -162,7 +165,20 @@ const reducePresetSelected = (
         return newCollection;
     };
 
-    return copyOverride(state, presets[0].source, (oldPresets: Preset[]) => replacePresets(oldPresets));
+    return copyOverride(state, presets[0].source, (oldPresets: Preset[]) => replaceSelectedPresets(oldPresets));
+};
+
+const replacePresets = (collection: Preset[], replacements: Preset[]): Preset[] => {
+    const newPresets = collection.slice();
+
+    replacements.forEach(replacePreset => {
+        const index = collection.findIndex((p) => p.index === replacePreset.index);
+        if (index !== -1) {
+            newPresets[index] = replacePreset;
+        }
+    });
+
+    return newPresets;
 };
 
 const reduceLoadPresets = (
@@ -171,7 +187,11 @@ const reduceLoadPresets = (
     presets: Preset[]): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
-    return copyOverride(state, source, () => presets);
+    return copyOverride(state, source, (oldPresets: Preset[]) => {
+        if (!oldPresets || oldPresets.length === 0 || oldPresets.length === presets.length) { return presets; }
+
+        return replacePresets(oldPresets, presets);
+    });
 };
 
 const reduceFault = (state: ApplicationDocument, source: PresetCollectionType, fault: Fault): ApplicationDocument => {
@@ -184,7 +204,15 @@ const reduceFault = (state: ApplicationDocument, source: PresetCollectionType, f
 
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
-        case "R/device/presets/":
+        case "R/*/presets/":
+        if (action.error) { 
+            return reduceFault(state, action.source, action.error);
+        }
+        if (action.presets) {
+            return reduceLoadPresets(state, action.source, action.presets);
+        }
+        break;
+        case "U/*/presets/":
         if (action.error) { 
             return reduceFault(state, action.source, action.error);
         }

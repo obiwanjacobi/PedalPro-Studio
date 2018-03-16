@@ -5,11 +5,13 @@ import { PresetCount } from "./Constants";
 
 import PresetProvider from "../../server/PresetProvider";
 import Preset from "../../model/Preset";
-import DeviceIdentity from "../../model/DeviceIdentity";
 import { PresetBufferFields } from "./PresetBufferFields";
 import LogicalTransformer from "./LogicalTransformer";
+import PresetBuffer from "../PresetBuffer";
+import WritePreset from "./WritePreset";
+import { PresetBufferSize } from "../extended/ConstantsEx";
 
-export default class PedalProProvider implements PresetProvider {
+export default class PedalProProvider extends PresetProvider {
     protected readonly device: PedalProDevice;
 
     public static throwIfNotValidPresetIndex(presetIndex: number) {
@@ -23,18 +25,15 @@ export default class PedalProProvider implements PresetProvider {
     }
 
     public constructor(device: PedalProDevice) {
+        super();
         this.device = device;
     }
 
-    public get deviceIdentity(): DeviceIdentity {
-        if (this.device.Id) {
-            return this.device.Id;
-        }
-        return { vendor: "", device: "", version: "", supported: false };
-    }
-
-    public get presetCount(): number {
-        return PresetCount;
+    public putPreset(preset: Preset) {
+        const buffer = new PresetBuffer(PresetBufferSize);
+        
+        const writer = new WritePreset(this.device);
+        writer.write(buffer, preset.index);
     }
 
     public getPreset(presetIndex: number): Preset {
@@ -63,7 +62,7 @@ export default class PedalProProvider implements PresetProvider {
         
         const deserializer = new PresetDeserializer(PresetBufferFields);
         const preset = deserializer.deserialize(buffer);
-        LogicalTransformer.preset(preset);
+        LogicalTransformer.presetToLogical(preset);
         preset.index = presetIndex;
         
         return preset;

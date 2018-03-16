@@ -1,4 +1,3 @@
-import DeviceIdentity from "../../model/DeviceIdentity";
 import Preset from "../../model/Preset";
 import VrFile from "../VrFile";
 import PresetDeserializerEx from "./PresetDeserializerEx";
@@ -6,21 +5,14 @@ import PresetBufferEx from "./PresetBufferEx";
 import { PresetBufferExFields } from "./PresetBufferExFields";
 import { PresetBufferSize } from "./ConstantsEx";
 import LogicalTransformerEx from "./LogicalTransformerEx";
+import PresetProvider from "../../server/PresetProvider";
 
-export default class FactoryProviderEx {
-    public readonly deviceIdentity: DeviceIdentity;
-    public readonly presetCount: number;
-    
+export default class FactoryProviderEx extends PresetProvider {
     private readonly presets: Preset[];
 
     public constructor(path: string) {
-        this.deviceIdentity = {
-            vendor: "Vintage Revolution",
-            device: "PedalProEx Factory Presets File",
-            version: "8.1",
-            supported: true
-        };
-
+        super();
+        
         const file = VrFile.read(path, PresetBufferSize);
         this.presets = new Array<Preset>(file.presets.length);
         const buffer = new PresetBufferEx();
@@ -29,7 +21,7 @@ export default class FactoryProviderEx {
 
             const deserializer = new PresetDeserializerEx(PresetBufferExFields);
             const preset = deserializer.deserialize(buffer);
-            LogicalTransformerEx.preset(preset);
+            LogicalTransformerEx.presetToLogical(preset);
             preset.index = i;
 
             this.presets[i] = preset;

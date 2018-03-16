@@ -10,15 +10,17 @@ import { SelectPresets, createSelectPresetsAction } from "../client/SelectPreset
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../client/EditPresetAction";
 import { MovePreset, createMovePresetAction } from "../client/MovePresetAction";
+import { SavePresets, createSavePresetsAction } from "../client/SavePresetsAction";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
+
 
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
     presets: Preset[];
 }
-export type DevicePresetTabActions = SelectPresets & LoadPresets & CopyPresets & EditPreset & MovePreset;
+export type DevicePresetTabActions = SelectPresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
@@ -37,6 +39,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
         // bind event handlers
         this.onCopySelected = this.onCopySelected.bind(this);
         this.download = this.download.bind(this);
+        this.upload = this.upload.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
     }
 
@@ -48,10 +51,11 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                     onCopy={this.onCopySelected}
                     enableDownload={true}
                     onDownload={this.download}
-                    enableUpload={!this.selection.isEmpty}
                     enableSelectAll={!this.selection.isEmpty}
                     valueSelectAll={this.selection.toValue()}
                     onSelectAll={this.toggleSelectAll}
+                    enableUpload={!this.selection.isEmpty}
+                    onUpload={this.upload}
                 />
                 <PresetView 
                     presets={this.props.presets}
@@ -89,6 +93,11 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private download() {
         this.actions.loadPresets(PresetCollectionType.device);
     }
+
+    private upload() {
+        const selectedPresets = this.selection.selected;
+        this.actions.savePresets(PresetCollectionType.device, selectedPresets);
+    }
 }
 
 const extractComponentPropsFromState: MapStateToProps<
@@ -102,6 +111,9 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
         return {
             loadPresets: (source: PresetCollectionType): void  => {
                 createLoadPresetsAction(dispatch, source);
+            },
+            savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
+                createSavePresetsAction(dispatch, source, presets);
             },
             selectPresets: (presets: Preset[], command: {selected?: boolean, expanded?: boolean}): void => {
                 dispatch(createSelectPresetsAction(presets, command));

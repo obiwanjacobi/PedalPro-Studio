@@ -1,10 +1,7 @@
 import { HID } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
-import PedalProDeviceIdentity from "./PedalProDeviceIdentity";
 
 export default class PedalProDevice {
-    public Id?: PedalProDeviceIdentity;
-
     private hidDevice: HID | null = null;
 
     public get isConnected(): boolean {

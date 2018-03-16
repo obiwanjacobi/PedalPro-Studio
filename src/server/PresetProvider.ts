@@ -1,9 +1,15 @@
 import Preset from "../model/Preset";
-import DeviceIdentity from "../model/DeviceIdentity";
 
-export default interface PresetProvider {
-    deviceIdentity: DeviceIdentity;
-    presetCount: number;
-    getPreset(presetIndex: number): Preset;
-    getPresets(): Preset[];
+export default class PresetProvider {
+    getPreset(_: number): Preset {
+        throw new Error("Not Supported.");
+    }
+    
+    getPresets(): Preset[] {
+        throw new Error("Not Supported.");
+    }
+    
+    putPreset(_: Preset): void {
+        throw new Error("Not Supported.");
+    }
 }

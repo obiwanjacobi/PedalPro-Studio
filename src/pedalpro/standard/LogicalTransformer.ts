@@ -5,28 +5,51 @@ import Convert from "../Convert";
 import Distortion from "../../model/Distortion";
 
 export default class LogicalTransformer {
-    public static preset(preset: Preset) {
-        LogicalTransformer.effects(<Effects> preset.effects);
+    public static presetToLogical(preset: Preset) {
+        LogicalTransformer.effectsToLogical(<Effects> preset.effects);
     }
 
-    private static effects(effects: Effects) {
-        CommonLogicalTransformer.compressor(effects.compressor);
-        CommonLogicalTransformer.boost(effects.boost);
-        CommonLogicalTransformer.noiseGate(effects.noiseGate);
-        CommonLogicalTransformer.vca(effects.vca);
-        CommonLogicalTransformer.phaser(effects.phaser);
-        CommonLogicalTransformer.filters(effects.filters);
-        CommonLogicalTransformer.volume(effects.volume);
-        CommonLogicalTransformer.modulation(effects.modulation);
-        CommonLogicalTransformer.delay(effects.delay);
-        CommonLogicalTransformer.aux(effects.aux);
+    public static presetFromLogical(preset: Preset) {
+        LogicalTransformer.effectsFromLogical(<Effects> preset.effects);
+    }
+    
+    private static effectsToLogical(effects: Effects) {
+        CommonLogicalTransformer.compressorToLogical(effects.compressor);
+        CommonLogicalTransformer.boostToLogical(effects.boost);
+        CommonLogicalTransformer.noiseGateToLogical(effects.noiseGate);
+        CommonLogicalTransformer.vcaToLogical(effects.vca);
+        CommonLogicalTransformer.phaserToLogical(effects.phaser);
+        CommonLogicalTransformer.filtersToLogical(effects.filters);
+        CommonLogicalTransformer.volumeToLogical(effects.volume);
+        CommonLogicalTransformer.modulationToLogical(effects.modulation);
+        CommonLogicalTransformer.delayToLogical(effects.delay);
+        CommonLogicalTransformer.auxToLogical(effects.aux);
 
-        LogicalTransformer.distortion(effects.distortion);
+        LogicalTransformer.distortionToLogical(effects.distortion);
     }
 
-    private static distortion(dist: Distortion) {
+    private static effectsFromLogical(effects: Effects) {
+        CommonLogicalTransformer.compressorFromLogical(effects.compressor);
+        CommonLogicalTransformer.boostFromLogical(effects.boost);
+        CommonLogicalTransformer.noiseGateFromLogical(effects.noiseGate);
+        CommonLogicalTransformer.vcaFromLogical(effects.vca);
+        CommonLogicalTransformer.phaserFromLogical(effects.phaser);
+        CommonLogicalTransformer.filtersFromLogical(effects.filters);
+        CommonLogicalTransformer.volumeFromLogical(effects.volume);
+        CommonLogicalTransformer.modulationFromLogical(effects.modulation);
+        CommonLogicalTransformer.delayFromLogical(effects.delay);
+        CommonLogicalTransformer.auxFromLogical(effects.aux);
+
+        LogicalTransformer.distortionFromLogical(effects.distortion);
+    }
+
+    private static distortionToLogical(dist: Distortion) {
         dist.level = Convert.toPercent(dist.level);
         dist.tone = Convert.toPercent(dist.tone);
     }
 
+    private static distortionFromLogical(dist: Distortion) {
+        dist.level = Convert.fromPercent(dist.level);
+        dist.tone = Convert.fromPercent(dist.tone);
+    }
 }

@@ -61,6 +61,23 @@ describe("Convert.ts", () => {
         expect(actual).toBe(100.0);
     });
 
+    it ("fromPercent 0.7%", () => {
+        const actual = Convert.fromPercent(0.7);
+        expect(actual).toBe(0x02);
+    });
+    it ("fromPercent 1.1%", () => {
+        const actual = Convert.fromPercent(1.1);
+        expect(actual).toBe(0x03);
+    });
+    it ("fromPercent 50%", () => {
+        const actual = Convert.fromPercent(50.1);
+        expect(actual).toBe(0x80);
+    });
+    it ("fromPercent 100%", () => {
+        const actual = Convert.fromPercent(100.0);
+        expect(actual).toBe(0xFF);
+    });
+
     it ("toDb -6 dB", () => {
         const actual = Convert.toDB(0x00);
         expect(actual).toBe(-6);
@@ -72,6 +89,15 @@ describe("Convert.ts", () => {
     it ("toDb +25.0 dB", () => {
         const actual = Convert.toDB(0x3E);
         expect(actual).toBe(25);
+    });
+
+    it ("fromDb -5.5 dB", () => {
+        const actual = Convert.fromDB(-5.5);
+        expect(actual).toBe(0x1);
+    });
+    it ("fromDb +25.0 dB", () => {
+        const actual = Convert.fromDB(25);
+        expect(actual).toBe(0x3E);
     });
 
     it ("toTempoSpeed 3", () => {
@@ -270,5 +296,18 @@ describe("Convert.ts", () => {
     it ("toLogDB +12.0", () => {
         const actual = Convert.toLogDB(0x40);
         expect(actual).toBe(12);
+    });
+
+    it ("fromLogDB -11.0", () => {
+        const actual = Convert.fromLogDB(-11);
+        expect(actual).toBe(1);
+    });
+    it ("fromLogDB -4.5", () => {
+        const actual = Convert.fromLogDB(-4.5);
+        expect(actual).toBe(11);
+    });
+    it ("fromLogDB +11.0", () => {
+        const actual = Convert.fromLogDB(11);
+        expect(actual).toBe(0x3F);
     });
 });

@@ -3,7 +3,7 @@ import * as TypedRestClient from "typed-rest-client/RestClient";
 import { PresetCollectionType } from "./ApplicationDocument";
 import Preset from "./Preset";
 import * as ModelPreset from "../model/Preset";
-import { PresetResponse } from "../model/Messages";
+import { PresetResponse, PresetRequest } from "../model/Messages";
 
 export class PresetsClient {
     private readonly typedRest: TypedRestClient.RestClient;
@@ -14,20 +14,24 @@ export class PresetsClient {
         this.typedRest = typedRest;
         this.collection = collection;
         this.baseUrl = baseUrl;
+
+        this.extendPreset = this.extendPreset.bind(this);
+        this.unextendPreset = this.unextendPreset.bind(this);
+    }
+
+    public async replacePresets(presets: Preset[]): Promise<Preset[]> {
+        const msg = <PresetRequest> { presets: presets.map(this.unextendPreset) };
+        const response = await this.typedRest.replace<PresetRequest>(`${this.baseUrl}/presets/`, msg);
+        this.throwIfError(response);
+
+        return response.result.presets.map(this.extendPreset);
     }
 
     public async getPresets(): Promise<Preset[]> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/`);
         this.throwIfError(response);
 
-        const modelPresets = response.result.presets;
-        const presets = new Array<Preset>(modelPresets.length);
-        
-        for (let i = 0; i < modelPresets.length; i++) {
-            presets[i] = this.extendPreset(modelPresets[i]);
-        }
-
-        return presets;
+        return response.result.presets.map(this.extendPreset);
     }
 
     public async getPreset(presetIndex: number): Promise<Preset> {
@@ -47,6 +51,16 @@ export class PresetsClient {
             uiSelected: false
         };
         return clientPreset;
+    }
+
+    private unextendPreset(clientPreset: Preset): ModelPreset.default {
+        const preset: ModelPreset.default = {
+            name: clientPreset.name,
+            index: clientPreset.index,
+            traits: clientPreset.traits,
+            effects: clientPreset.effects,
+        };
+        return preset;
     }
 
     private throwIfError(response: TypedRestClient.IRestResponse<PresetResponse>) {

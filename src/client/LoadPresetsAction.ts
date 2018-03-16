@@ -6,10 +6,10 @@ import Preset from "./Preset";
 
 const client = new Client(0x04d8);
 
-export const LoadPresetsActionKey: string = "R/device/presets/";
+export const LoadPresetsActionKey: string = "R/*/presets/";
 
 export interface LoadPresetsAction {
-    readonly type: "R/device/presets/";
+    readonly type: "R/*/presets/";
     readonly source: PresetCollectionType;
     readonly presets: Preset[] | null;
     readonly error: Error | null;
@@ -18,7 +18,8 @@ export interface LoadPresetsAction {
 export const createLoadPresetsAction = 
     (dispatch: Dispatch<ApplicationDocument>, 
      source: PresetCollectionType): void => {
-        client.getSource(source).getPresets().then((result) => {
+        client.getSource(source).getPresets()
+            .then((result) => {
             dispatch(
                 { type: LoadPresetsActionKey, source: source, presets: result, error: null });
         }).catch((error) => {

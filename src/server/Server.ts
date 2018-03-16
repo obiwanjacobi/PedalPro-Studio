@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as bodyParser from "body-parser";
 import * as morgan from "morgan";
 
 import DeviceApi from "./DeviceApi";
@@ -9,6 +10,7 @@ export default class Server {
 
     public run(port: number): void {
         this.expressApp.use(morgan("dev"));
+        this.expressApp.use(bodyParser.json());
         this.expressApp.use(this.deviceApi.uri, this.deviceApi.router);
 
         // Last: crude error handler

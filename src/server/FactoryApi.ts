@@ -1,10 +1,10 @@
 import * as express from "express";
 import ApiHandler from "./ApiHandler";
-import PresetsApi from "./PresetsApi";
+import ReadPresetsApi from "./ReadPresetsApi";
 import PresetProvider from "./PresetProvider";
 import FactoryProviderEx from "../pedalpro/extended/FactoryProviderEx";
 
-export class FactoryPresetApi extends PresetsApi {
+export class FactoryPresetApi extends ReadPresetsApi {
     protected createProvider(): PresetProvider {
         // TODO: file path!
         return new FactoryProviderEx("./src/pedalpro/_tests/PPEPreset81.vrf");

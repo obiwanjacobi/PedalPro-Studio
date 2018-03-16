@@ -7,9 +7,9 @@ import PedalProExProvider from "./extended/PedalProExProvider";
 export default class PedalProProviderFactory {
     public static create(): PedalProProvider {
         const device = new PedalProDevice();
-        device.Id = PedalProProviderFactory.getDeviceIdentity(device);
+        const deviceId = PedalProProviderFactory.getDeviceIdentity(device);
 
-        switch (device.Id.model) {
+        switch (deviceId.model) {
             case PedalProDeviceModel.PedalPro:
             return new PedalProProvider(device);
 
@@ -17,13 +17,12 @@ export default class PedalProProviderFactory {
             return new PedalProExProvider(device);
 
             default:
-            throw new Error(`Device ${device.Id.device}, version ${device.Id.version} is not supported.`);
+            throw new Error(`Device ${deviceId.device}, version ${deviceId.version} is not supported.`);
         }
     }
 
     public static getDeviceIdentity(device: PedalProDevice): PedalProDeviceIdentity {
         const reader = new ReadDeviceIdentity(device);
-        const identity = reader.read();
-        return identity;
+        return reader.read();
     }
 }

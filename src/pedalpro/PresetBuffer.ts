@@ -2,8 +2,30 @@ import { ProtocolBuffer } from "./ProtocolBuffer";
 import { nameMaxLength, ExpressionChar, StereoChar, SingleCoilChar, HumbuckerChar } from "./Common";
 
 export default class PresetBuffer extends ProtocolBuffer {
+    
     public constructor(bufferSize: number) {
         super(bufferSize);
+    }
+
+    public setName(
+        presetName: string, 
+        singleCoil: boolean, 
+        humbucker: boolean, 
+        expression: boolean, 
+        stereo: boolean): void {
+        const name: number[] = new Array(nameMaxLength);
+
+        for (let i = 0; i < nameMaxLength; i++) {
+            if (i < presetName.length) {
+                name[i] = presetName.charCodeAt(i);
+            } else {
+                name[i] = 20;   // space
+            }
+        }
+
+        // TODO: add special chars
+
+        super.write(0, name, 0, nameMaxLength);
     }
 
     public get name(): string {
@@ -31,20 +53,8 @@ export default class PresetBuffer extends ProtocolBuffer {
         return this.findCharInName(StereoChar);
     }
 
-    // public getBypassSlaveCmp1Flag(flag: BypassSlaveCmp1Flags): boolean {
-    //     return Convert.hasFlag(this.data[PresetBufferFields.BypassSlaveCmp1], flag);
-    // }
-
-    // public getBypassSlaveCmp2Flag(flag: BypassSlaveCmp2Flags): boolean {
-    //     return Convert.hasFlag(this.data[PresetBufferFields.BypassSlaveCmp2], flag);
-    // }
-
-    public getField(offset: number): number {
-        return this.data[offset];
-    }
-
     private findCharInName(c: number): boolean {
-        let name: number[] = new Array(nameMaxLength);
+        const name: number[] = new Array(nameMaxLength);
         super.read(0, name, 0, nameMaxLength);
 
         return name.findIndex((char: number) => char === c) !== -1;

@@ -1,7 +1,7 @@
 import * as express from "express";
 import ApiHandler, { createFault } from "./ApiHandler";
 import FactoryApi from "./FactoryApi";
-import PresetsApi from "./PresetsApi";
+import WritePresetsApi from "./WritePresetsApi";
 import PedalProDevice from "../pedalpro/PedalProDevice";
 import PedalProProviderFactory from "../pedalpro/PedalProProviderFactory";
 import { DeviceResponse } from "../model/Messages";
@@ -11,7 +11,7 @@ export default class DeviceApi implements ApiHandler {
     public readonly router: express.Router = express.Router();
 
     private readonly factoryApi = new FactoryApi();
-    private readonly presetsApi = new PresetsApi();
+    private readonly presetsApi = new WritePresetsApi();
 
     public constructor() {
         this.factoryApi = new FactoryApi();
