@@ -8,7 +8,6 @@ import Volume from "../model/Volume";
 import Filters, { Filter2Type } from "../model/Filters";
 import CommonPresetBufferFieldIndex from "./CommonPresetBufferFieldIndex";
 import Convert from "./Convert";
-import { BypassSlaveCmp1Flags, BypassSlaveCmp2Flags } from "./Common";
 import Modulation, { Harmonics } from "../model/Modulation";
 import Delay from "../model/Delay";
 import Aux from "../model/SendReturn";
@@ -36,7 +35,7 @@ export default abstract class CommonPresetSerializer<FieldsT extends CommonPrese
     
     protected serializeCompressor(buffer: PresetBuffer, compressor: Compressor): void {
         buffer.setBitsOfField(this.fields.CompressorEnvelopeInfo, compressor.attack, 2, 3);
-        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !compressor.enabled, BypassSlaveCmp1Flags.BypassCompressor);
+        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !compressor.enabled, 5);
         buffer.setField(this.fields.CompressorOut, compressor.level);
         buffer.setField(this.fields.CompressorModel, compressor.model);
         buffer.setBitsOfField(this.fields.CompressorEnvelopeInfo, compressor.release, 5, 3);
@@ -44,12 +43,12 @@ export default abstract class CommonPresetSerializer<FieldsT extends CommonPrese
     }
 
     protected serializeBoost(buffer: PresetBuffer, boost: Boost): void {
-        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !boost.enabled, BypassSlaveCmp1Flags.BypassBoost);
+        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !boost.enabled, 3);
         buffer.setField(this.fields.PreampGain, boost.gain);
     }
 
     protected serializePhaser(buffer: PresetBuffer, phaser: Phaser): void {
-        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !phaser.enabled, BypassSlaveCmp1Flags.BypassPhaser);
+        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !phaser.enabled, 7);
         buffer.setField(this.fields.PhaserDepth, phaser.depth);
         buffer.setField(this.fields.PhaserManual, phaser.manual);
         buffer.setBitsOfField(this.fields.PhaseRelationCompressor, phaser.phase, 3, 2);
@@ -59,14 +58,14 @@ export default abstract class CommonPresetSerializer<FieldsT extends CommonPrese
     }
 
     protected serializeNoiseGate(buffer: PresetBuffer, noiseGate: NoiseGate): void {
-        buffer.setBitOfField(this.fields.BypassSlaveCmp2, !noiseGate.enabled, BypassSlaveCmp2Flags.BypassNoiseGate);
+        buffer.setBitOfField(this.fields.BypassSlaveCmp2, !noiseGate.enabled, 0);
         buffer.setField(this.fields.NoiseGateSensitivity, noiseGate.noiseLevel);
         buffer.setField(this.fields.NoiseGateRelease, noiseGate.release);
-        buffer.setBitOfField(this.fields.BypassSlaveCmp2, !noiseGate.sustain, BypassSlaveCmp2Flags.NoiseGateSustainOn);
+        buffer.setBitOfField(this.fields.BypassSlaveCmp2, !noiseGate.sustain, 1);
     }
 
     protected serializeVolume(buffer: PresetBuffer, volume: Volume): void {
-        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !volume.enabled, BypassSlaveCmp1Flags.BypassVolume);
+        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !volume.enabled, 4);
         buffer.setField(this.fields.VolumeLeft, volume.levelL);
         buffer.setField(this.fields.VolumeRight, volume.levelR);
     }

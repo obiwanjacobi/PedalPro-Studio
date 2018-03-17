@@ -2,62 +2,35 @@ import PedalProDevice from "../PedalProDevice";
 import PedalProProvider from "../standard/PedalProProvider";
 import Preset from "../../model/Preset";
 
-import { PresetCount } from "./ConstantsEx";
-import ReadPresetEx from "./ReadPresetEx";
-import { PresetBufferExFields } from "./PresetBufferExFields";
+import { PresetCount, PresetBufferSize, PartSize, LastPartSize } from "./ConstantsEx";
 import PresetDeserializerEx from "./PresetDeserializerEx";
+import PresetSerializerEx from "../extended/PresetSerializerEx";
+import { DeviceProfile } from "../DeviceCommand";
+import PresetBuffer from "../PresetBuffer";
 import LogicalTransformerEx from "./LogicalTransformerEx";
 
+const DeviceExProfile: DeviceProfile = {
+    presetCount: PresetCount,
+    presetBufferSize: PresetBufferSize,
+    partSize: PartSize,
+    lastPartSize: LastPartSize
+};
+
 export default class PedalProExProvider extends PedalProProvider {
-
-    public static throwIfNotValidPresetIndex(presetIndex: number) {
-        if (!PedalProProvider.isValidPresetIndex(presetIndex)) {
-            throw new RangeError(`The Preset index is not valid (0-${PresetCount - 1}).`);
-        }
-    }
-
-    public static isValidPresetIndex(presetIndex: number): boolean {
-        return presetIndex >= 0 && presetIndex < PresetCount;
-    }
-
     public constructor(device: PedalProDevice) {
-        super(device);
+        super(device, DeviceExProfile);
     }
 
-    // public putPreset(preset: Preset) {
-    //     const buffer = new PresetBufferEx()
-    //     const writer = new WritePresetEx(this.device);
-    //     writer.write(buffer, preset.index);
-    // }
-
-    public getPreset(presetIndex: number): Preset {
-        PedalProExProvider.throwIfNotValidPresetIndex(presetIndex);
-        return this.onePresetEx(presetIndex);
+    protected serialize(buffer: PresetBuffer, preset: Preset): void {
+        LogicalTransformerEx.presetFromLogical(preset);
+        const serializer = new PresetSerializerEx();
+        serializer.serialize(buffer, preset);
     }
 
-    public getPresets(): Preset[] {
-        const presets = this.allPresets();
-        return presets.filter((p) => !p.traits.empty);
-    }
-
-    public allPresets(): Preset[] {
-        const presets = new Array(PresetCount);
-        
-        for (let index = 0; index < PresetCount; index++) {
-            presets[index] = this.onePresetEx(index);
-        }
-
-        return presets;
-    }
-
-    private onePresetEx(presetIndex: number): Preset {
-        const cmd = new ReadPresetEx(this.device);
-        const buffer = cmd.read(presetIndex);
-        const deserializer = new PresetDeserializerEx(PresetBufferExFields);
+    protected deserialize(buffer: PresetBuffer): Preset {
+        const deserializer = new PresetDeserializerEx();
         const preset = deserializer.deserialize(buffer);
         LogicalTransformerEx.presetToLogical(preset);
-        preset.index = presetIndex;
-        
         return preset;
     }
 }

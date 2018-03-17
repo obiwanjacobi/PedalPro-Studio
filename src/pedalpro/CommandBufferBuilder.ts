@@ -15,7 +15,7 @@ export default class CommandBufferBuilder {
     public setLoadPresetCmd(presetIndex: number) {
         this.buffer.clear();
         this.buffer.data[1] = 0x16;    // read-preset command
-        this.buffer.data[3] = presetIndex / 256;
+        this.buffer.data[3] = Math.floor(presetIndex / 256);
         this.buffer.data[4] = presetIndex % 256;
     }
 
@@ -50,7 +50,7 @@ export default class CommandBufferBuilder {
     public setSavePresetCmd(presetIndex: number) {
         this.buffer.clear();
         this.buffer.data[1] = 0x14;     // write-preset command
-        this.buffer.data[3] = presetIndex / 256;
+        this.buffer.data[3] = Math.floor(presetIndex / 256);
         this.buffer.data[4] = presetIndex % 256;
     }
 }

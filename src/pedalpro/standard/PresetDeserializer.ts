@@ -1,16 +1,15 @@
 import PresetBuffer from "../PresetBuffer";
 import Preset from "../../model/Preset";
-import { PresetBufferFieldIndex } from "./PresetBufferFields";
+import { PresetBufferFieldIndex, PresetBufferFields } from "./PresetBufferFields";
 import Distortion from "../../model/Distortion";
 import CommonPresetDeserializer from "../CommonPresetDeserializer";
 import Convert from "../Convert";
-import { BypassSlaveCmp1Flags } from "../Common";
 import { Effects } from "../../model/Effects";
 import { EmptyPresetBuffer } from "./EmptyPresetBuffer";
 
 export default class PresetDeserializer extends CommonPresetDeserializer<PresetBufferFieldIndex> {
-    public constructor(fields: PresetBufferFieldIndex) {
-        super(fields);
+    public constructor() {
+        super(PresetBufferFields);
     }
     
     public deserialize(buffer: PresetBuffer): Preset {
@@ -41,7 +40,7 @@ export default class PresetDeserializer extends CommonPresetDeserializer<PresetB
         const dist = <Distortion> { };
 
         dist.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp1), BypassSlaveCmp1Flags.BypassPreAmp);
+            buffer.getField(this.fields.BypassSlaveCmp1), 6);
         dist.bright = !Convert.hasFlag(
             buffer.getField(this.fields.BypassSlaveCmp2), 2);
         dist.level = buffer.getField(this.fields.DistortionOut);

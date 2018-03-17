@@ -1,111 +1,90 @@
 import Preset from "../../model/Preset";
 import { EffectsEx } from "../../model/Effects";
-import PreAmp, { PreEmphasis, PreDistortionDiode, PreDistortionFet, PreFuzz, PreEqualizer } from "../../model/PreAmp";
+import PreAmp from "../../model/PreAmp";
 import Dsp, { 
     DspType /*, DspDoubleDelay, DoubleDelay, DoubleDelay3, DoubleDelay4, DspCaveDelay, 
     CaveDelay1, CaveDelay2, CaveDelay3, CaveDelay4, 
     DspSingleTap, DspFourTapsDelay, DspTripleDelay, DspPlate, DspCustomSpring, DspHall, DspFreeVerb */
 } from "../../model/Dsp";
-import CommonPresetDeserializer from "../CommonPresetDeserializer";
-import Convert from "../Convert";
-import { EmptyPresetBufferEx } from "./EmptyPresetBufferEx";
 import { PresetBufferExFieldIndex, PresetBufferExFields } from "./PresetBufferExFields";
+import CommonPresetSerializer from "../CommonPresetSerializer";
 import PresetBuffer from "../PresetBuffer";
 
-export default class PresetDeserializerEx extends CommonPresetDeserializer<PresetBufferExFieldIndex> {
+export default class PresetSerializerEx extends CommonPresetSerializer<PresetBufferExFieldIndex> {
     
     public constructor() {
         super(PresetBufferExFields);
     }
 
-    public deserialize(buffer: PresetBuffer): Preset {
-        const preset: Preset = super.deserializePreset(buffer);
-        preset.traits.empty = EmptyPresetBufferEx.isEmpty(buffer);
+    public serialize(buffer: PresetBuffer, preset: Preset): void {
+        super.serializePreset(buffer, preset);
 
-        const effects = <EffectsEx> { };
-        effects.pre = this.deserializePreAmp(buffer);
-        effects.dsp = this.deserializeDsp(buffer);
+        const effects = preset.effects as EffectsEx;
 
-        effects.compressor = super.deserializeCompressor(buffer);
-        effects.boost = super.deserializeBoost(buffer);        
-        effects.vca = super.deserializeVca(buffer);
-        effects.noiseGate = super.deserializeNoiseGate(buffer);
-        effects.volume = super.deserializeVolume(buffer);
-        effects.phaser = super.deserializePhaser(buffer);
-        effects.filters = super.deserializeFilters(buffer);
-        effects.modulation = super.deserializeModulation(buffer);
-        effects.delay = super.deserializeDelay(buffer);
-        effects.aux = super.deserializeAux(buffer);
-        effects.midi = super.deserializeMidi(buffer);
-        effects.tap = super.deserializeTapTempo(buffer);
-        preset.effects = effects;
+        if (effects) {
+            this.serializePreAmp(buffer, effects.pre);
+            this.serializeDsp(buffer, effects.dsp);
 
-        return preset;
+            super.serializeCompressor(buffer, effects.compressor);
+            super.serializeBoost(buffer, effects.boost);
+            super.serializeVca(buffer, effects.vca);
+            super.serializeNoiseGate(buffer, effects.noiseGate);
+            super.serializeVolume(buffer, effects.volume);
+            super.serializePhaser(buffer, effects.phaser);
+            super.serializeFilters(buffer, effects.filters);
+            super.serializeModulation(buffer, effects.modulation);
+            super.serializeDelay(buffer, effects.delay);
+            super.serializeAux(buffer, effects.aux);
+            super.serializeMidi(buffer, effects.midi);
+            super.serializeTapTempo(buffer, effects.tap);
+        }
     }
 
-    private deserializePreAmp(buffer: PresetBuffer): PreAmp {
-        const preamp = <PreAmp> { };
+    private serializePreAmp(buffer: PresetBuffer, preamp: PreAmp): void {
+        buffer.setBitOfField(this.fields.BypassSlaveCmp1, !preamp.enabled, 6);
+        buffer.setField(this.fields.PreAmpConfig, preamp.routing);
 
-        preamp.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp1), 6);
-        preamp.routing = buffer.getField(this.fields.PreAmpConfig);
+        buffer.setBitOfField(this.fields.DdreamSwitches, !preamp.emphasis.boost, 4);
+        buffer.setField(this.fields.EmphasyFrequency, preamp.emphasis.frequency);
+        buffer.setField(this.fields.EmphasydB, preamp.emphasis.gain);
+        buffer.setField(this.fields.EmphasyHighPass, preamp.emphasis.high);
+        buffer.setField(this.fields.EmphasyLowPass, preamp.emphasis.low);
+        buffer.setField(this.fields.EmphasyVolume, preamp.emphasis.level);
+        buffer.setBitsOfField(this.fields.DdreamSwitches, preamp.emphasis.resonance, 1, 2);
 
-        preamp.emphasis = <PreEmphasis> { };
-        preamp.emphasis.boost = !Convert.hasFlag(
-            buffer.getField(this.fields.DdreamSwitches), 4);
-        preamp.emphasis.frequency = buffer.getField(this.fields.EmphasyFrequency);
-        preamp.emphasis.gain = buffer.getField(this.fields.EmphasydB);
-        preamp.emphasis.high = buffer.getField(this.fields.EmphasyHighPass);
-        preamp.emphasis.low = buffer.getField(this.fields.EmphasyLowPass);
-        preamp.emphasis.level = buffer.getField(this.fields.EmphasyVolume);
-        preamp.emphasis.resonance = Convert.getBitsOf(
-            buffer.getField(this.fields.DdreamSwitches), 1, 2);
+        buffer.setBitsOfField(this.fields.DdreamSwitches, preamp.distortionDiode.type, 7, 3);
+        buffer.setField(this.fields.DistortionDiodeHighPass, preamp.distortionDiode.high);
+        buffer.setField(this.fields.DistortionDiodeMidPass, preamp.distortionDiode.mid);
+        buffer.setField(this.fields.DistortionDiodeLowPass, preamp.distortionDiode.low);
+        buffer.setField(this.fields.DistortionDiodeVolume, preamp.distortionDiode.level);
 
-        preamp.distortionDiode = <PreDistortionDiode> { };
-        preamp.distortionDiode.type = Convert.getBitsOf(
-            buffer.getField(this.fields.DdreamSwitches), 7, 3);
-        preamp.distortionDiode.high = buffer.getField(this.fields.DistortionDiodeHighPass);
-        preamp.distortionDiode.mid = buffer.getField(this.fields.DistortionDiodeMidPass);
-        preamp.distortionDiode.low = buffer.getField(this.fields.DistortionDiodeLowPass);
-        preamp.distortionDiode.level = buffer.getField(this.fields.DistortionDiodeVolume);
+        buffer.setField(this.fields.DistortionFetContour, preamp.distortionFet.contour);
+        buffer.setField(this.fields.DistortionFetVolume, preamp.distortionFet.level);
 
-        preamp.distortionFet = <PreDistortionFet> { };
-        preamp.distortionFet.contour = buffer.getField(this.fields.DistortionFetContour);
-        preamp.distortionFet.level = buffer.getField(this.fields.DistortionFetVolume);
+        buffer.setBitOfField(this.fields.DdreamSwitches, !preamp.fuzz.boost, 3);
+        buffer.setField(this.fields.DistortionFuzzVolume, preamp.fuzz.level);
 
-        preamp.fuzz = <PreFuzz> { };
-        preamp.fuzz.boost = !Convert.hasFlag(
-            buffer.getField(this.fields.DdreamSwitches), 3);
-        preamp.fuzz.level = buffer.getField(this.fields.DistortionFuzzVolume);
-
-        preamp.equalizer = <PreEqualizer> { };
-        preamp.equalizer.band60Hz = buffer.getField(this.fields.Equalizer60);
-        preamp.equalizer.band125Hz = buffer.getField(this.fields.Equalizer125);
-        preamp.equalizer.band250Hz = buffer.getField(this.fields.Equalizer250);
-        preamp.equalizer.band500Hz = buffer.getField(this.fields.Equalizer500);
-        preamp.equalizer.band1000Hz = buffer.getField(this.fields.Equalizer1K);
-        preamp.equalizer.band2000Hz = buffer.getField(this.fields.Equalizer2K);
-        preamp.equalizer.band4000Hz = buffer.getField(this.fields.Equalizer4K);
-        preamp.equalizer.band8000Hz = buffer.getField(this.fields.Equalizer8K);
-
-        return  preamp;
+        buffer.setField(this.fields.Equalizer60, preamp.equalizer.band60Hz);
+        buffer.setField(this.fields.Equalizer125, preamp.equalizer.band125Hz);
+        buffer.setField(this.fields.Equalizer250, preamp.equalizer.band250Hz);
+        buffer.setField(this.fields.Equalizer500, preamp.equalizer.band500Hz);
+        buffer.setField(this.fields.Equalizer1K, preamp.equalizer.band1000Hz);
+        buffer.setField(this.fields.Equalizer2K, preamp.equalizer.band2000Hz);
+        buffer.setField(this.fields.Equalizer4K, preamp.equalizer.band4000Hz);
+        buffer.setField(this.fields.Equalizer8K, preamp.equalizer.band8000Hz);
     }
 
-    private deserializeDsp(buffer: PresetBuffer): Dsp {
-        const dsp = <Dsp> { };
-
-        dsp.enabled = Convert.hasFlag(
-            buffer.getField(this.fields.DelayAuxConfig), 7);
-        dsp.type = buffer.getField(this.fields.DspAlgorithm);
+    private serializeDsp(buffer: PresetBuffer, dsp: Dsp): void {
+        buffer.setBitOfField(this.fields.DelayAuxConfig, !dsp.enabled, 7);
+        buffer.setField(this.fields.DspAlgorithm, dsp.type);
 
         if (dsp.enabled) {
-            dsp.input = buffer.getField(this.fields.AuxGainL);
-            dsp.dry = buffer.getField(this.fields.AuxDryL);
-            dsp.wet = buffer.getField(this.fields.AuxWetL);
-        } else {
-            dsp.input = 0;
-            dsp.dry = 0;
-            dsp.wet = 0;
+            buffer.setField(this.fields.AuxGainL, dsp.input);
+            buffer.setField(this.fields.AuxGainR, dsp.input);
+            buffer.setField(this.fields.AuxDryL, dsp.dry);
+            buffer.setField(this.fields.AuxDryR, dsp.dry);
+            buffer.setField(this.fields.AuxWetL, dsp.wet);
+            buffer.setField(this.fields.AuxWetR, dsp.wet);
         }
 
         // params for customizable algorithms
@@ -213,9 +192,5 @@ export default class PresetDeserializerEx extends CommonPresetDeserializer<Prese
             default:
             break;
         }
-
-        dsp.data = buffer.formatData(this.fields.DspDataStart, this.fields.DspDataEnd + 1);
-
-        return  dsp;
     }
 }

@@ -11,7 +11,6 @@ import Filters, {
 import PresetTraits from "../model/PresetTraits";
 import CommonPresetBufferFieldIndex from "./CommonPresetBufferFieldIndex";
 import Convert from "./Convert";
-import { BypassSlaveCmp1Flags, BypassSlaveCmp2Flags } from "./Common";
 import Modulation, { Chorus, Vibe, Flanger, Harmonics } from "../model/Modulation";
 import Delay from "../model/Delay";
 import Aux, { AmpSwitches } from "../model/SendReturn";
@@ -53,7 +52,7 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
         compressor.attack = Convert.getBitsOf(
             buffer.getField(this.fields.CompressorEnvelopeInfo), 2, 3);
         compressor.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp1), BypassSlaveCmp1Flags.BypassCompressor);
+            buffer.getField(this.fields.BypassSlaveCmp1), 5);
         compressor.level = buffer.getField(this.fields.CompressorOut);
         compressor.model = buffer.getField(this.fields.CompressorModel);
         compressor.release = Convert.getBitsOf(
@@ -67,7 +66,7 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
         const boost = <Boost> { };
 
         boost.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp1), BypassSlaveCmp1Flags.BypassBoost);
+            buffer.getField(this.fields.BypassSlaveCmp1), 3);
         boost.gain = buffer.getField(this.fields.PreampGain);
 
         return  boost;
@@ -77,7 +76,7 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
         const phaser = <Phaser> { };
 
         phaser.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp1), BypassSlaveCmp1Flags.BypassPhaser);
+            buffer.getField(this.fields.BypassSlaveCmp1), 7);
         phaser.depth = buffer.getField(this.fields.PhaserDepth);
         phaser.manual = buffer.getField(this.fields.PhaserManual);
         phaser.phase = Convert.getBitsOf(
@@ -94,11 +93,11 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
         const noiseGate = <NoiseGate> { };
 
         noiseGate.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp2), BypassSlaveCmp2Flags.BypassNoiseGate);
+            buffer.getField(this.fields.BypassSlaveCmp2), 0);
         noiseGate.noiseLevel = buffer.getField(this.fields.NoiseGateSensitivity);
         noiseGate.release = buffer.getField(this.fields.NoiseGateRelease);
         noiseGate.sustain = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp2), BypassSlaveCmp2Flags.NoiseGateSustainOn);
+            buffer.getField(this.fields.BypassSlaveCmp2), 3);
 
         return  noiseGate;
     }
@@ -107,7 +106,7 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
         const volume = <Volume> { };
 
         volume.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp1), BypassSlaveCmp1Flags.BypassVolume);
+            buffer.getField(this.fields.BypassSlaveCmp1), 4);
         volume.levelL = buffer.getField(this.fields.VolumeLeft);
         volume.levelR = buffer.getField(this.fields.VolumeRight);
 

@@ -14,10 +14,6 @@ export default class DataBuffer {
         }
     }
 
-    
-
-
-
     public write(offset: number, source: number[], srcOffset: number, length: number): number {
         if (offset > this.data.length) { return 0; }
         if (srcOffset > source.length) { return 0; }

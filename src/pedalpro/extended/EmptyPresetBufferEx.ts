@@ -1,5 +1,6 @@
-import PresetBufferEx from "./PresetBufferEx";
 import { nameMaxLength } from "../Common";
+import PresetBuffer from "../PresetBuffer";
+import { PresetBufferSize } from "./ConstantsEx";
 
 const emptyData = [
     0x7b, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x5f, 0x70, 
@@ -24,13 +25,13 @@ const emptyData = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 ];
 
-export class EmptyPresetBufferExImpl  extends PresetBufferEx {
+export class EmptyPresetBufferExImpl  extends PresetBuffer {
     constructor() {
-        super();
+        super(PresetBufferSize);
         this.data = emptyData;
     }
 
-    public isEmpty(buffer: PresetBufferEx): boolean {
+    public isEmpty(buffer: PresetBuffer): boolean {
         for (let i = 0; i < nameMaxLength; i++) {
             if (buffer.data[i] !== this.data[i]) { 
                 return false;
@@ -40,7 +41,7 @@ export class EmptyPresetBufferExImpl  extends PresetBufferEx {
         return true;
     }
 
-    public isEmptyExact(buffer: PresetBufferEx): boolean {
+    public isEmptyExact(buffer: PresetBuffer): boolean {
         for (let i = 0; i < this.data.length; i++) {
             if (buffer.data[i] !== this.data[i]) { 
                 return false;

@@ -7,7 +7,7 @@ export class ProtocolBuffer extends DataBuffer {
     public static isCommandDone(command: number, response: number[]): boolean {
         return response &&
             response.length >= 2 &&
-            response[1] === command;
+            response[0] === command;
     }
 
     public constructor(byteCount: number = ProtocolBufferSize) {

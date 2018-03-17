@@ -218,24 +218,3 @@ export const PresetBufferExFields: PresetBufferExFieldIndex = {
     DspDataStart: 0x80,
     DspDataEnd: 0x9F,
 };
-
-// bit flags for each option
-export enum BypassSlaveCmp1Flags {
-    BypassAll = 0,  // not used
-    BypassPan = 1,
-    BypassPanSel = 2,
-    BypassBoost = 3,
-    BypassVolume = 4,
-    BypassComp = 5,
-    BypassPreAmp = 6,
-    BypassPhaser = 7
-}
-
-// bit flags for each option
-export enum BypassSlaveCmp2Flags {
-    BypassNoiseGate = 0,
-    SoloOn = 1,
-    BluesOn = 2,
-    NoiseGateSustainOn = 3,
-    VcaTremoloOn = 4,
-}
