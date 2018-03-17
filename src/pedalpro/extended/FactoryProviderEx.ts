@@ -15,10 +15,11 @@ export default class FactoryProviderEx extends PresetProvider {
         const file = VrFile.read(path, PresetBufferSize);
         this.presets = new Array<Preset>(file.presets.length);
         const buffer = new PresetBuffer(PresetBufferSize);
+        const deserializer = new PresetDeserializerEx();
+
         for (let i = 0; i < file.presets.length; i++) {
             buffer.data = file.presets[i];
 
-            const deserializer = new PresetDeserializerEx();
             const preset = deserializer.deserialize(buffer);
             LogicalTransformerEx.presetToLogical(preset);
             preset.index = i;

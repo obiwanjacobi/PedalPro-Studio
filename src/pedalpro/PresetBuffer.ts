@@ -19,7 +19,7 @@ export default class PresetBuffer extends ProtocolBuffer {
             if (i < presetName.length) {
                 name[i] = presetName.charCodeAt(i);
             } else {
-                name[i] = 20;   // space
+                name[i] = 0x20;   // space
             }
         }
 
