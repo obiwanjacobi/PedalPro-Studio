@@ -52,6 +52,7 @@ export default class WritePresetsApi extends ReadPresetsApi {
                     provider.putPreset(preset);
                     
                     // msg.presets.push(provider.getPreset(preset.index));
+                    msg.presets.push(preset);
                 }
             } else {
                 response.status(400); // invalid request
