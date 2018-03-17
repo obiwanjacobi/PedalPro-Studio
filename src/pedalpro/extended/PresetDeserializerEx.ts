@@ -7,7 +7,6 @@ import Dsp, {
     DspSingleTap, DspFourTapsDelay, DspTripleDelay, DspPlate, DspCustomSpring, DspHall, DspFreeVerb */
 } from "../../model/Dsp";
 import CommonPresetDeserializer from "../CommonPresetDeserializer";
-import Convert from "../Convert";
 import { EmptyPresetBufferEx } from "./EmptyPresetBufferEx";
 import { PresetBufferExFieldIndex, PresetBufferExFields } from "./PresetBufferExFields";
 import PresetBuffer from "../PresetBuffer";
@@ -45,25 +44,20 @@ export default class PresetDeserializerEx extends CommonPresetDeserializer<Prese
 
     private deserializePreAmp(buffer: PresetBuffer): PreAmp {
         const preamp = <PreAmp> { };
-
-        preamp.enabled = !Convert.hasFlag(
-            buffer.getField(this.fields.BypassSlaveCmp1), 6);
+        preamp.enabled = !buffer.getBitOfField(this.fields.BypassSlaveCmp1, 6);
         preamp.routing = buffer.getField(this.fields.PreAmpConfig);
 
         preamp.emphasis = <PreEmphasis> { };
-        preamp.emphasis.boost = !Convert.hasFlag(
-            buffer.getField(this.fields.DdreamSwitches), 4);
+        preamp.emphasis.boost = !buffer.getBitOfField(this.fields.DdreamSwitches, 4);
         preamp.emphasis.frequency = buffer.getField(this.fields.EmphasyFrequency);
         preamp.emphasis.gain = buffer.getField(this.fields.EmphasydB);
         preamp.emphasis.high = buffer.getField(this.fields.EmphasyHighPass);
         preamp.emphasis.low = buffer.getField(this.fields.EmphasyLowPass);
         preamp.emphasis.level = buffer.getField(this.fields.EmphasyVolume);
-        preamp.emphasis.resonance = Convert.getBitsOf(
-            buffer.getField(this.fields.DdreamSwitches), 1, 2);
+        preamp.emphasis.resonance = buffer.getBitsOfField(this.fields.DdreamSwitches, 1, 2);
 
         preamp.distortionDiode = <PreDistortionDiode> { };
-        preamp.distortionDiode.type = Convert.getBitsOf(
-            buffer.getField(this.fields.DdreamSwitches), 7, 3);
+        preamp.distortionDiode.type = buffer.getBitsOfField(this.fields.DdreamSwitches, 7, 3);
         preamp.distortionDiode.high = buffer.getField(this.fields.DistortionDiodeHighPass);
         preamp.distortionDiode.mid = buffer.getField(this.fields.DistortionDiodeMidPass);
         preamp.distortionDiode.low = buffer.getField(this.fields.DistortionDiodeLowPass);
@@ -74,8 +68,7 @@ export default class PresetDeserializerEx extends CommonPresetDeserializer<Prese
         preamp.distortionFet.level = buffer.getField(this.fields.DistortionFetVolume);
 
         preamp.fuzz = <PreFuzz> { };
-        preamp.fuzz.boost = !Convert.hasFlag(
-            buffer.getField(this.fields.DdreamSwitches), 3);
+        preamp.fuzz.boost = !buffer.getBitOfField(this.fields.DdreamSwitches, 3);
         preamp.fuzz.level = buffer.getField(this.fields.DistortionFuzzVolume);
 
         preamp.equalizer = <PreEqualizer> { };
@@ -93,9 +86,7 @@ export default class PresetDeserializerEx extends CommonPresetDeserializer<Prese
 
     private deserializeDsp(buffer: PresetBuffer): Dsp {
         const dsp = <Dsp> { };
-
-        dsp.enabled = Convert.hasFlag(
-            buffer.getField(this.fields.DelayAuxConfig), 7);
+        dsp.enabled = buffer.getBitOfField(this.fields.DelayAuxConfig, 7);
         dsp.type = buffer.getField(this.fields.DspAlgorithm);
 
         if (dsp.enabled) {

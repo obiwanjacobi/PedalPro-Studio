@@ -54,9 +54,9 @@ export default class PedalProProvider extends PresetProvider {
     }
 
     public allPresets(): Preset[] {
-        const presets = new Array(PresetCount);
+        const presets = new Array(this.profile.presetCount);
         
-        for (let index = 0; index < PresetCount; index++) {
+        for (let index = 0; index < this.profile.presetCount; index++) {
             presets[index] = this.onePreset(index);
         }
 

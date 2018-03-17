@@ -1,5 +1,6 @@
 import PresetBuffer from "../PresetBuffer";
 import { PresetBufferSize } from "./Constants";
+import { nameMaxLength } from "../Common";
 
 const emptyData = [
     0x7b, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x5f, 0x70, 
@@ -27,6 +28,16 @@ export class EmptyPresetBufferImpl  extends PresetBuffer {
     }
 
     public isEmpty(buffer: PresetBuffer): boolean {
+        for (let i = 0; i < nameMaxLength; i++) {
+            if (buffer.data[i] !== this.data[i]) { 
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public isEmptyStrict(buffer: PresetBuffer): boolean {
         for (let i = 0; i < this.data.length; i++) {
             if (buffer.data[i] !== this.data[i]) { 
                 return false;
