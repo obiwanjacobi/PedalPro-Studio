@@ -34,8 +34,8 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
             <ApplicationToolbar>
                 <SelectAllButton
                     enableSelectAll={this.props.enableSelectAll}
-                    valueSelectAll={this.props.valueSelectAll}
-                    onSelectAll={this.props.onSelectAll}
+                    statusSelectAll={this.props.statusSelectAll}
+                    onSelectAllChanged={this.props.onSelectAllChanged}
                 />
                 {this.props.onCopy &&
                 <IconButton disabled={!this.props.enableCopy} onClick={this.fireCopy}>

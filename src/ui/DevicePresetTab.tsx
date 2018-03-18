@@ -4,6 +4,7 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redu
 
 import Preset from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
+import ChangedView from "../client/controls/ChangedView";
 import ApplicationDocument, { PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
@@ -14,13 +15,14 @@ import { SavePresets, createSavePresetsAction } from "../client/SavePresetsActio
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
-
+import { SelectAllButtonStatus } from "../client/controls/SelectAllButton";
 
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
     presets: Preset[];
 }
-export type DevicePresetTabActions = SelectPresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset;
+export type DevicePresetTabActions = 
+    SelectPresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
@@ -32,10 +34,13 @@ const conatinerStyles: React.CSSProperties = {
 
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private selection: SelectedView<Preset>;
+    private changed: ChangedView;
 
     public constructor(props: DevicePresetTabAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
+        this.changed = new ChangedView(props.presets);
+
         // bind event handlers
         this.onCopySelected = this.onCopySelected.bind(this);
         this.download = this.download.bind(this);
@@ -52,9 +57,9 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                     enableDownload={true}
                     onDownload={this.download}
                     enableSelectAll={!this.selection.isEmpty}
-                    valueSelectAll={this.selection.toValue()}
-                    onSelectAll={this.toggleSelectAll}
-                    enableUpload={!this.selection.isEmpty}
+                    statusSelectAll={this.selectAllStatus}
+                    onSelectAllChanged={this.toggleSelectAll}
+                    enableUpload={this.changed.anyChanged}
                     onUpload={this.upload}
                 />
                 <PresetView 
@@ -73,6 +78,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
         this.selection = new SelectedView(newProps.presets);
+        this.changed = new ChangedView(newProps.presets);
     }
 
     protected get actions(): DevicePresetTabActions {
@@ -86,8 +92,56 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
         }
     }
 
-    private toggleSelectAll() {
-        this.actions.selectPresets(this.props.presets, {selected: !this.selection.allSelected});
+    private get selectAllStatus(): SelectAllButtonStatus {
+        const changed = this.changed.toValue();
+        const selected = this.selection.toValue();
+
+        if (changed === SelectAllButtonStatus.NoneSelected &&
+            selected === SelectAllButtonStatus.NoneSelected) {
+            return SelectAllButtonStatus.NoneSelected;
+        }
+
+        if (selected === SelectAllButtonStatus.AllSelected) {
+            return SelectAllButtonStatus.AllSelected;
+        }
+
+        if (this.changed.changed.length === this.selection.selected.length) {
+            for (let i = 0; i < this.changed.changed.length; i++) {
+                if (this.changed.changed[i] !== this.selection.selected[i]) {
+                    return SelectAllButtonStatus.SomeSelected;
+                }
+            }
+
+            return SelectAllButtonStatus.AllChanged;
+        }
+
+        if (selected === SelectAllButtonStatus.SomeSelected) {
+            return SelectAllButtonStatus.SomeSelected;
+        }
+
+        return SelectAllButtonStatus.NoneSelected;
+    }
+
+    private toggleSelectAll(status: SelectAllButtonStatus) {
+        let presets = this.props.presets;
+        let selectPresets = false;
+
+        switch (status) {
+            case SelectAllButtonStatus.AllChanged:
+            presets = this.changed.changed;
+            selectPresets = presets.length > 0;
+            break;
+            case SelectAllButtonStatus.AllSelected:
+            selectPresets = true;
+            break;
+            default:
+            break;
+        }
+
+        this.actions.selectPresets(this.props.presets, {selected: false});
+        if (selectPresets) {
+            this.actions.selectPresets(presets, {selected: selectPresets});
+        }
     }
 
     private download() {
@@ -95,8 +149,8 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     }
 
     private upload() {
-        const selectedPresets = this.selection.selected;
-        this.actions.savePresets(PresetCollectionType.device, selectedPresets);
+        const changedPresets = this.changed.changed;
+        this.actions.savePresets(PresetCollectionType.device, changedPresets);
     }
 }
 

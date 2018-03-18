@@ -40,7 +40,7 @@ export default abstract class CommonPresetDeserializer<FieldsT extends CommonPre
 
     protected deserializePreset(buffer: PresetBuffer): Preset {
         const preset: Preset = <Preset> { };
-        preset.data = buffer.formatData();
+        // preset.data = buffer.formatData();
         preset.name = buffer.name.trim();
         preset.traits = CommonPresetDeserializer.deserializeTraits(buffer);
 

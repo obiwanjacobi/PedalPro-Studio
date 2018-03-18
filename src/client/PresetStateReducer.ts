@@ -151,7 +151,8 @@ const reducePresetSelected = (
 
         for (let i: number = 0; i < presets.length; i++) {
             const p = presets[i];
-            const index = newCollection.indexOf(p);
+            // const index = newCollection.indexOf(p);
+            const index = newCollection.findIndex((prst) => p.index === prst.index);
             if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
 
             if (selected !== undefined) {

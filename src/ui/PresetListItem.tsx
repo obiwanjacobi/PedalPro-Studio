@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Collapse, Grid, Paper, Checkbox, IconButton, Typography } from "material-ui";
-import { ExpandMore, ExpandLess, Flag } from "material-ui-icons";
+import { ExpandMore, ExpandLess } from "material-ui-icons";
+import { Flag, FlagOutline  } from "mdi-material-ui";
 
 import PresetListItemDetail from "./PresetListItemDetail";
 import Preset, { presetHasChanged, onlyIndexHasChanged } from "../client/Preset";
@@ -49,8 +50,8 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                             </Typography>
                         </Grid>
                         <Grid xs={1} item={true}>
-                            {presetHasChanged(this.props.preset) &&
-                            <Flag color={onlyIndexHasChanged(this.props.preset) ? "primary" : "secondary"} />}
+                            {this.showChangedFlag && <Flag color="secondary" />}
+                            {this.showChangedFlagOutline && <FlagOutline color="secondary" />}
                         </Grid>
                         <Grid xs={1} item={true}>
                             {this.hasDetails &&
@@ -71,6 +72,14 @@ export default class PresetListItem extends React.Component<PresetListItemAllPro
                     </Collapse>}
                 </Paper>
         );
+    }
+
+    private get showChangedFlag(): boolean {
+        return presetHasChanged(this.props.preset) && !onlyIndexHasChanged(this.props.preset);
+    }
+
+    private get showChangedFlagOutline(): boolean {
+        return  presetHasChanged(this.props.preset) && onlyIndexHasChanged(this.props.preset);
     }
 
     private get hasDetails() {

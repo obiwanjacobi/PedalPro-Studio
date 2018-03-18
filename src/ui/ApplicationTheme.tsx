@@ -23,6 +23,7 @@ const globalStyles = (theme: Theme) => ({
     "@global": {
         html: {
             background: theme.palette.background.default,
+            fontFamily: "Roboto, sans-serif",
       },
     },
 });

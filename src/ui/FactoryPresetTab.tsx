@@ -8,8 +8,6 @@ import ApplicationDocument, { PresetCollectionType } from "../client/Application
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
-import { EditPreset, createEditPresetAction } from "../client/EditPresetAction";
-import { MovePreset, createMovePresetAction } from "../client/MovePresetAction";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
@@ -18,7 +16,7 @@ export interface FactoryPresetTabProps { }
 export interface FactoryPresetTabStateProps { 
     presets: Preset[];
 }
-export type FactoryPresetTabActions = SelectPresets & LoadPresets & CopyPresets & EditPreset & MovePreset;
+export type FactoryPresetTabActions = SelectPresets & LoadPresets & CopyPresets;
 export type FactoryPresetTabAllProps = 
     FactoryPresetTabProps & FactoryPresetTabStateProps & FactoryPresetTabActions;
 
@@ -36,7 +34,6 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
         this.selection = new SelectedView(props.presets);
         // bind event handlers
         this.onCopySelected = this.onCopySelected.bind(this);
-        this.download = this.download.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
     }
 
@@ -46,21 +43,22 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
-                    enableDownload={true}
-                    onDownload={this.download}
-                    enableUpload={!this.selection.isEmpty}
                     enableSelectAll={!this.selection.isEmpty}
-                    valueSelectAll={this.selection.toValue()}
-                    onSelectAll={this.toggleSelectAll}
+                    statusSelectAll={this.selection.toValue()}
+                    onSelectAllChanged={this.toggleSelectAll}
                 />
                 <PresetView 
                     presets={this.props.presets}
                     selectPresets={this.actions.selectPresets}
-                    // editPreset={this.actions.editPreset}
-                    // movePreset={this.actions.movePreset}
                 />
             </div>
         );
+    }
+
+    public componentWillMount() {
+        if (!this.props.presets || this.props.presets.length === 0) {
+            this.actions.loadPresets(PresetCollectionType.factory);
+        }
     }
 
     public shouldComponentUpdate(nextProps: FactoryPresetTabAllProps, _: {}): boolean {
@@ -85,10 +83,6 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
     private toggleSelectAll() {
         this.actions.selectPresets(this.props.presets, {selected: !this.selection.allSelected});
     }
-
-    private download() {
-        this.actions.loadPresets(PresetCollectionType.factory);
-    }
 }
 
 const extractComponentPropsFromState: MapStateToProps<
@@ -108,12 +102,6 @@ const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, Fa
             },
             copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createCopyPresetsAction(presets, target));
-            },
-            editPreset: (preset: Preset, update: Partial<Preset>): void => {
-                dispatch(createEditPresetAction(preset, update));
-            },
-            movePreset: (preset: Preset, displacement: number): void => {
-                dispatch(createMovePresetAction(preset, displacement));
             }
         };
 };

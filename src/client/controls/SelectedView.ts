@@ -1,3 +1,5 @@
+import { SelectAllButtonStatus } from "./SelectAllButton";
+
 export interface Selectable {
     uiSelected: boolean;
 }
@@ -37,9 +39,9 @@ export class SelectedView<T extends Selectable> {
         return !this.allSelected;
     }
 
-    public toValue(): number {
-        if (this.allSelected) { return 1; }
-        if (this.anySelected) { return -1; }
-        return 0;
+    public toValue(): SelectAllButtonStatus {
+        if (this.allSelected) { return SelectAllButtonStatus.AllSelected; }
+        if (this.anySelected) { return SelectAllButtonStatus.SomeSelected; }
+        return SelectAllButtonStatus.NoneSelected;
     }
 }
