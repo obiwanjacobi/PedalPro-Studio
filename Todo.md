@@ -9,7 +9,7 @@
 
 - [Done] Recreate HID object on write error - connection may have been interrupted.
 - [Done] Allow filtering on index (numerical input & ranges using - or :)
-- Change the way a preset is moved in the list to allow for index-gaps (where empty presets have been filtered out).
+- [Done] Change the way a preset is moved in the list to allow for index-gaps (where empty presets have been filtered out).
 - [Done] Reverse engineer .vrf binary files to be able to read in old PedalManager files (Java).
 
 ## Code
@@ -22,7 +22,7 @@
 
 ## Bugs
 
-- Convert.toLogDB yields wrong results. Range is not linear.
+- [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
 
 ## Preset List
 

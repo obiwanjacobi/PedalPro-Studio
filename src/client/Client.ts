@@ -92,7 +92,7 @@ export default class Client {
             case PresetCollectionType.storage:
                 return new PresetsClient(this.typedRest, source, "/storage");
             default:
-                throw new RangeError("Invlid source type (PresetCollectionType).");
+                throw new RangeError("Invalid source type (PresetCollectionType).");
         }
     }
 }
