@@ -1,7 +1,7 @@
-import { ProtocolBuffer } from "./ProtocolBuffer";
+import DataBuffer from "./DataBuffer";
 import { nameMaxLength, ExpressionChar, StereoChar, SingleCoilChar, HumbuckerChar } from "./Common";
 
-export default class PresetBuffer extends ProtocolBuffer {
+export default class PresetBuffer extends DataBuffer {
     
     public constructor(bufferSize: number) {
         super(bufferSize);

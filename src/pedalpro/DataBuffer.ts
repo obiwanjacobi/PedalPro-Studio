@@ -40,13 +40,13 @@ export default class DataBuffer {
         return length;
     }
 
-    public formatData(offset: number = 0, end: number = 0): string {
+    public formatData(offset: number = 0, end: number = 0, radix: number = 16): string {
         if (end === 0) { end = this.data.length; }
         if (end > this.data.length) { end = this.data.length; }
         const hex = new Array<string>(end - offset);
 
         for (let i = offset; i < end; i++) {
-            hex[i - offset] = this.data[i].toString(16).toUpperCase();
+            hex[i - offset] = this.data[i].toString(radix).toUpperCase();
         }
 
         return hex.join(",");

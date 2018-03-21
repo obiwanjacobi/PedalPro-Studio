@@ -36,30 +36,23 @@ export default class PresetCommands extends DeviceCommand {
         return preset;
     }
 
-    public write(presetBuffer: PresetBuffer, presetIndex: number) {
+    public write(preset: PresetBuffer, presetIndex: number) {
         if (!this.device.isConnected) { this.device.connect(); }
 
         const buffer = new ProtocolBuffer();
         const builder = new CommandBufferBuilder(buffer);
 
-        let offset = builder.setWritePresetCmd(
-            PresetBufferParts.Part1, this.profile.partSize, this.profile.lastPartSize);
-        buffer.write(offset, presetBuffer.data, 0, this.profile.partSize);
-        this.device.write(buffer);
-        this.throwIfCommandFailed(buffer);
+        const writeBuffer = (offset: number, length: number) => {
+            const offsetInBuffer = builder.setWritePresetCmd(offset, length);
+            buffer.write(offsetInBuffer, preset.data, offset, length);
+            
+            this.device.write(buffer);
+            this.throwIfCommandFailed(buffer);
+        };
 
-        offset = builder.setWritePresetCmd(
-            PresetBufferParts.Part2, this.profile.partSize, this.profile.lastPartSize);
-        buffer.write(offset, presetBuffer.data, this.profile.partSize, this.profile.partSize);
-        this.device.write(buffer);
-        this.throwIfCommandFailed(buffer);
-
-        offset = builder.setWritePresetCmd(
-            PresetBufferParts.Part3, this.profile.partSize, this.profile.lastPartSize);
-        buffer.write(
-            offset, presetBuffer.data, this.profile.partSize + this.profile.partSize, this.profile.lastPartSize);
-        this.device.write(buffer);
-        this.throwIfCommandFailed(buffer);
+        writeBuffer(0, this.profile.partSize);
+        writeBuffer(this.profile.partSize, this.profile.partSize);
+        writeBuffer(this.profile.partSize * 2, this.profile.lastPartSize);
 
         builder.setSavePresetCmd(presetIndex);
         this.device.write(buffer);

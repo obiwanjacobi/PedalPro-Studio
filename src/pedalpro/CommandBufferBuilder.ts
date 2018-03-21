@@ -35,11 +35,11 @@ export default class CommandBufferBuilder {
      * that transfers the preset data in segments/parts.
      * Returns the offset into the buffer where the payload data starts.
      */
-    public setWritePresetCmd(bufferIndex: PresetBufferParts, partSize: number, lastPartSize: number): number {
+    public setWritePresetCmd(offset: number, length: number): number {
         this.buffer.clear();
         this.buffer.data[1] = 0x15;     // save-preset command
-        this.buffer.data[5] = bufferIndex === PresetBufferParts.LastPart ? lastPartSize : partSize;
-        this.buffer.data[6] = bufferIndex * partSize;
+        this.buffer.data[5] = length;
+        this.buffer.data[6] = offset;
         return 7;
     }
 
