@@ -165,6 +165,10 @@ export default class Convert {
         return Math.round(this.transformRange(value, 1000, 2000, 0, 0xFF));
     }
 
+    public static transformRange(x: number, minIn: number, maxIn: number, minOut: number, maxOut: number): number {
+        return (x - minIn) * (maxOut - minOut) / (maxIn - minIn) + minOut;
+    }
+    
     public static makeByte(bit0: number, bit1: number): number {
         return ((bit1 & 0x01) << 1) | (bit0 & 0x01);
     }
@@ -209,9 +213,5 @@ export default class Convert {
         }
 
         return  mask;
-    }
-    
-    private static transformRange(x: number, minIn: number, maxIn: number, minOut: number, maxOut: number): number {
-        return (x - minIn) * (maxOut - minOut) / (maxIn - minIn) + minOut;
     }
 }

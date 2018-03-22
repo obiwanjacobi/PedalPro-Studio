@@ -7,6 +7,10 @@ html, body {
   min-width: 400;
 }
 
+div[tabindex]:focus {
+  outline: none
+}
+
 .Application {
   margin: 0;
   padding: 0;

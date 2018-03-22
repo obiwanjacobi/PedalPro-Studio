@@ -8,10 +8,3 @@ export const ArrowChar = 0x06;
 export const LogoChar = 0x07;
 
 export const nameMaxLength = 10;
-
-export enum PresetBufferParts {
-    Part1,
-    Part2,
-    Part3,
-    LastPart = Part3
-}

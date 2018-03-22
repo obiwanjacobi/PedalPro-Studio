@@ -1,40 +1,25 @@
 import PedalProDevice from "../PedalProDevice";
 import PresetDeserializer from "./PresetDeserializer";
-import PresetCommands from "../PresetCommands";
-import { PresetCount, PartSize, PresetBufferSize, LastPartSize } from "./Constants";
+import PresetCommands from "./PresetCommands";
+import { PresetCount, PresetBufferSize } from "./Constants";
 
-import PresetProvider from "../../server/PresetProvider";
+import PresetProvider, { DeviceProfile } from "../../server/PresetProvider";
 import Preset from "../../model/Preset";
 import LogicalTransformer from "./LogicalTransformer";
 import PresetBuffer from "../PresetBuffer";
 import PresetSerializer from "./PresetSerializer";
-import { DeviceProfile } from "../DeviceCommand";
 
 const DeviceProfile: DeviceProfile = {
     presetCount: PresetCount,
-    presetBufferSize: PresetBufferSize,
-    partSize: PartSize,
-    lastPartSize: LastPartSize
+    presetBufferSize: PresetBufferSize
 };
 
 export default class PedalProProvider extends PresetProvider {
     private readonly commands: PresetCommands;
-    private readonly profile: DeviceProfile;
-
-    public throwIfNotValidPresetIndex(presetIndex: number) {
-        if (!this.isValidPresetIndex(presetIndex)) {
-            throw new RangeError(`The Preset index is not valid (0-${this.profile.presetCount - 1}).`);
-        }
-    }
-
-    public isValidPresetIndex(presetIndex: number): boolean {
-        return presetIndex >= 0 && presetIndex < this.profile.presetCount;
-    }
 
     public constructor(device: PedalProDevice, profile: DeviceProfile = DeviceProfile) {
-        super();
-        this.profile = profile;
-        this.commands = new PresetCommands(device, profile);
+        super(profile);
+        this.commands = new PresetCommands(device);
     }
 
     public putPreset(preset: Preset) {
@@ -54,7 +39,7 @@ export default class PedalProProvider extends PresetProvider {
     }
 
     public allPresets(): Preset[] {
-        const presets = new Array(this.profile.presetCount);
+        const presets = new Array<Preset>(this.profile.presetCount);
         
         for (let index = 0; index < this.profile.presetCount; index++) {
             presets[index] = this.onePreset(index);
@@ -63,13 +48,13 @@ export default class PedalProProvider extends PresetProvider {
         return presets;
     }
 
-    protected serialize(buffer: PresetBuffer, preset: Preset): void {
+    private serialize(buffer: PresetBuffer, preset: Preset): void {
         LogicalTransformer.presetFromLogical(preset);
         const serializer = new PresetSerializer();
         serializer.serialize(buffer, preset);
     }
 
-    protected deserialize(buffer: PresetBuffer): Preset {
+    private deserialize(buffer: PresetBuffer): Preset {
         const deserializer = new PresetDeserializer();
         const preset = deserializer.deserialize(buffer);
         LogicalTransformer.presetToLogical(preset);
@@ -77,7 +62,8 @@ export default class PedalProProvider extends PresetProvider {
     }
 
     private onePreset(presetIndex: number): Preset {
-        const buffer = this.commands.read(presetIndex);
+        const buffer = new PresetBuffer(this.profile.presetBufferSize);
+        this.commands.read(presetIndex, buffer);
         const preset = this.deserialize(buffer);
         preset.index = presetIndex;
         return preset;

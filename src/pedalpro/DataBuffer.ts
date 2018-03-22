@@ -43,13 +43,13 @@ export default class DataBuffer {
     public formatData(offset: number = 0, end: number = 0, radix: number = 16): string {
         if (end === 0) { end = this.data.length; }
         if (end > this.data.length) { end = this.data.length; }
-        const hex = new Array<string>(end - offset);
+        const data = new Array<string>(end - offset);
 
         for (let i = offset; i < end; i++) {
-            hex[i - offset] = this.data[i].toString(radix).toUpperCase();
+            data[i - offset] = this.data[i].toString(radix).toUpperCase();
         }
 
-        return hex.join(",");
+        return data.join(",");
     }
 
     public getField(offset: number): number {

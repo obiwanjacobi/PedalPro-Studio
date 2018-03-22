@@ -2,6 +2,7 @@ import Preset from "../../model/Preset";
 
 const ZeroRaw: Preset = {
     name: "Zero",
+    index: 0,
     traits: { 
         singleCoil: false,
         humbucker: false,

@@ -10,8 +10,8 @@ export class ProtocolBuffer extends DataBuffer {
             response[0] === command;
     }
 
-    public constructor(byteCount: number = ProtocolBufferSize) {
-        super(byteCount);
+    public constructor() {
+        super(ProtocolBufferSize);
     }
 
     public isCommandSuccess(response: number[]): boolean {
