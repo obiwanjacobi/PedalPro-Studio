@@ -4,9 +4,8 @@ import DataBuffer from "./DataBuffer";
 import CommandBufferBuilder from "./CommandBufferBuilder";
 
 const PartSize = 0x39;
-const LastPartSize = 0x0E;
 
-export default class DeviceCommand {
+export default class DeviceCommands {
     protected readonly device: PedalProDevice;
 
     public constructor(device: PedalProDevice) {
@@ -14,6 +13,7 @@ export default class DeviceCommand {
     }
 
     public read(epromPage: number, data: DataBuffer): void {
+        const lastPartSize = this.calcLastPartSize(data);
         const buffer = new ProtocolBuffer();
         const builder = new CommandBufferBuilder(buffer);
 
@@ -29,10 +29,11 @@ export default class DeviceCommand {
 
         readBuffer(0, PartSize);
         readBuffer(PartSize, PartSize);
-        readBuffer(PartSize * 2, LastPartSize);
+        readBuffer(PartSize * 2, lastPartSize);
     }
 
     public write(data: DataBuffer, epromPage: number) {
+        const lastPartSize = this.calcLastPartSize(data);
         const buffer = new ProtocolBuffer();
         const builder = new CommandBufferBuilder(buffer);
 
@@ -46,7 +47,7 @@ export default class DeviceCommand {
 
         writeBuffer(0, PartSize);
         writeBuffer(PartSize, PartSize);
-        writeBuffer(PartSize * 2, LastPartSize);
+        writeBuffer(PartSize * 2, lastPartSize);
 
         builder.setSavePresetCmd(epromPage);
         this.device.write(buffer);
@@ -57,5 +58,11 @@ export default class DeviceCommand {
         if (!buffer.isCommandSuccess(this.device.read())) {
             throw new Error("Device communication fault.");
         }
+    }
+
+    private calcLastPartSize(buffer: DataBuffer): number {
+        const lastPartSize = buffer.data.length - (2 * PartSize);
+        if (lastPartSize > PartSize) {return  PartSize; }
+        return  lastPartSize;
     }
 }

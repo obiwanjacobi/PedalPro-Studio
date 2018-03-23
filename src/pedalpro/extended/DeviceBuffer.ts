@@ -1,41 +1,53 @@
 import DataBuffer from "../DataBuffer";
-import Convert from "../Convert";
 
-const NominalPresetCount = 500;
+const MaxPresetCount = 500;
 const EpromPageSize = 128;
-const DeviceBufferSize = NominalPresetCount * EpromPageSize;
+const DeviceBufferSize = MaxPresetCount * EpromPageSize;
+
+export class EpromPageBuffer extends DataBuffer {
+    public constructor() {
+        super(EpromPageSize);
+    }
+}
 
 export default class DeviceBuffer extends DataBuffer {
     public readonly presetCount: number;
     public readonly pageCount: number = 500;
-    private readonly presetLength: number;
+    public readonly presetLength: number;
 
-    public constructor(presetCount: number = NominalPresetCount) {
+    public constructor(presetCount: number) {
         super(DeviceBufferSize);
-        this.presetCount = presetCount;
-        this.presetLength = Math.floor(DeviceBufferSize / this.presetCount);
 
-        if (presetCount < NominalPresetCount) { 
-            throw new Error("Unsupported preset count.");
+        if (presetCount > MaxPresetCount) { 
+            throw new RangeError("Unsupported preset count.");
         }
+
+        this.presetCount = presetCount;
+        this.presetLength = Math.ceil(DeviceBufferSize / this.presetCount);
     }
 
     public writePreset(presetIndex: number, buffer: DataBuffer) {
+        buffer.throwIfNotOfLength(this.presetLength);
         const offset = this.presetIndexToOffset(presetIndex);
         this.write(offset, buffer.data, 0, buffer.data.length);
     }
 
     public readPreset(presetIndex: number, buffer: DataBuffer) {
+        buffer.throwIfNotOfLength(this.presetLength);
         const offset = this.presetIndexToOffset(presetIndex);
         this.read(offset, buffer.data, 0, buffer.data.length);
     }
 
     public writePage(epromPage: number, buffer: DataBuffer) {
-        this.write(epromPage * EpromPageSize, buffer.data, 0, buffer.data.length);
+        buffer.throwIfNotOfLength(EpromPageSize);
+        const offset = this.epromPageToOffset(epromPage);
+        this.write(offset, buffer.data, 0, buffer.data.length);
     }
 
     public readPage(epromPage: number, buffer: DataBuffer) {
-        this.read(epromPage * EpromPageSize, buffer.data, 0, buffer.data.length);
+        buffer.throwIfNotOfLength(EpromPageSize);
+        const offset = this.epromPageToOffset(epromPage);
+        this.read(offset, buffer.data, 0, buffer.data.length);
     }
 
     public clearPage(epromPage: number) {
@@ -46,27 +58,19 @@ export default class DeviceBuffer extends DataBuffer {
         }
     }
 
+    public epromPageToOffset(page: number): number {
+        return page * EpromPageSize;
+    }
+
     public presetIndexToOffset(presetIndex: number): number {
-        return Convert.transformRange(presetIndex, 0, this.presetCount - 1, 0, 499 * EpromPageSize);
+        return presetIndex * this.presetLength;
     }
 
     public presetToEpromPages(preset: number): number[] {
-        if (this.presetCount === NominalPresetCount) { return [preset]; }
+        if (this.presetCount === MaxPresetCount) { return [preset]; }
 
         const pages = new Array<number>();
         this.presetToEpromPagesInternal(pages, preset);
-
-        // remove duplicates and sort
-        return pages.filter((v, i, a) => a.indexOf(v) === i).sort();
-    }
-
-    public presetsToEpromPages(presets: number[]): number[] {
-        if (this.presetCount === NominalPresetCount) { return  presets; }
-
-        const pages = new Array<number>();
-        for (let i = 0; i < presets.length; i++) {
-            this.presetToEpromPagesInternal(pages, presets[i]);
-        }
 
         // remove duplicates and sort
         return pages.filter((v, i, a) => a.indexOf(v) === i).sort();

@@ -1,9 +1,8 @@
 import PedalProDevice from "../PedalProDevice";
 import PresetDeserializer from "./PresetDeserializer";
-import PresetCommands from "./PresetCommands";
+import DeviceCommands from "../DeviceCommands";
 import { PresetCount, PresetBufferSize } from "./Constants";
-
-import PresetProvider, { DeviceProfile } from "../../server/PresetProvider";
+import CommonPresetProvider, { DeviceProfile } from "../CommonPresetProvider";
 import Preset from "../../model/Preset";
 import LogicalTransformer from "./LogicalTransformer";
 import PresetBuffer from "../PresetBuffer";
@@ -11,21 +10,33 @@ import PresetSerializer from "./PresetSerializer";
 
 const DeviceProfile: DeviceProfile = {
     presetCount: PresetCount,
-    presetBufferSize: PresetBufferSize
+    presetBufferSize: PresetBufferSize,
 };
 
-export default class PedalProProvider extends PresetProvider {
-    private readonly commands: PresetCommands;
+export default class PedalProProvider extends CommonPresetProvider {
+    protected readonly commands: DeviceCommands;
 
     public constructor(device: PedalProDevice, profile: DeviceProfile = DeviceProfile) {
         super(profile);
-        this.commands = new PresetCommands(device);
+        this.commands = new DeviceCommands(device);
     }
 
     public putPreset(preset: Preset) {
         const buffer = new PresetBuffer(this.profile.presetBufferSize);
         this.serialize(buffer, preset);
         this.commands.write(buffer, preset.index);
+    }
+
+    public putPresets(presets: Preset[]) {
+        const buffer = new PresetBuffer(this.profile.presetBufferSize);
+
+        for (let i = 0; i < presets.length; i++) {
+            const preset = presets[i];
+
+            buffer.clear();
+            this.serialize(buffer, preset);
+            this.commands.write(buffer, preset.index);
+        }
     }
 
     public getPreset(presetIndex: number): Preset {
@@ -48,13 +59,13 @@ export default class PedalProProvider extends PresetProvider {
         return presets;
     }
 
-    private serialize(buffer: PresetBuffer, preset: Preset): void {
+    protected serialize(buffer: PresetBuffer, preset: Preset): void {
         LogicalTransformer.presetFromLogical(preset);
         const serializer = new PresetSerializer();
         serializer.serialize(buffer, preset);
     }
 
-    private deserialize(buffer: PresetBuffer): Preset {
+    protected deserialize(buffer: PresetBuffer): Preset {
         const deserializer = new PresetDeserializer();
         const preset = deserializer.deserialize(buffer);
         LogicalTransformer.presetToLogical(preset);

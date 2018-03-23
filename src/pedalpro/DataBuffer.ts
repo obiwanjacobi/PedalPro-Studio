@@ -46,7 +46,11 @@ export default class DataBuffer {
         const data = new Array<string>(end - offset);
 
         for (let i = offset; i < end; i++) {
-            data[i - offset] = this.data[i].toString(radix).toUpperCase();
+            if (this.data[i] !== undefined) {
+                data[i - offset] = this.data[i].toString(radix).toUpperCase();
+            } else {
+                data[i - offset] = "?";
+            }
         }
 
         return data.join(",");
@@ -74,5 +78,15 @@ export default class DataBuffer {
 
     public setBitOfField(offset: number, value: boolean, bit: number): void {
         this.data[offset] = Convert.setBitsOf(this.data[offset], value ? 1 : 0, bit, 1);
+    }
+
+    public throwIfNotOfLength(expectedLength: number) {
+        this.throwIfBufferNotOfLength(this.data, expectedLength);
+    }
+
+    protected throwIfBufferNotOfLength(data: number[], expectedLength: number) {
+        if (data.length < expectedLength) {
+            throw new RangeError("Buffer length mismatch.");
+        }
     }
 }

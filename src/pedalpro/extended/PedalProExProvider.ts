@@ -5,37 +5,37 @@ import PresetDeserializerEx from "./PresetDeserializerEx";
 import PresetSerializerEx from "../extended/PresetSerializerEx";
 import PresetBuffer from "../PresetBuffer";
 import LogicalTransformerEx from "./LogicalTransformerEx";
-import PresetProvider, { DeviceProfile } from "../../server/PresetProvider";
+import { DeviceProfile } from "../CommonPresetProvider";
 import DeviceBuffer from "./DeviceBuffer";
 import DeviceBufferAccessor from "./DeviceBufferAccessor";
+import PedalProProvider from "../standard/PedalProProvider";
 
 const DeviceExProfile: DeviceProfile = {
     presetCount: PresetCount,
-    presetBufferSize: PresetBufferSize
+    presetBufferSize: PresetBufferSize,
 };
 
-export default class PedalProExProvider extends PresetProvider {
+export default class PedalProExProvider extends PedalProProvider {
     private readonly deviceBuffer: DeviceBuffer;
-    private readonly device: PedalProDevice;
 
     public constructor(device: PedalProDevice) {
-        super(DeviceExProfile);
-        this.device = device;
+        super(device, DeviceExProfile);
         this.deviceBuffer = new DeviceBuffer(this.profile.presetCount);
     }
 
     public putPreset(preset: Preset) {
         this.throwIfNotValidPresetIndex(preset.index);
 
-        const accessor = new DeviceBufferAccessor(this.device, this.deviceBuffer);
         const buffer = new PresetBuffer(this.profile.presetBufferSize);
         this.serialize(buffer, preset);
+
+        const accessor = new DeviceBufferAccessor(this.commands, this.deviceBuffer);
         accessor.write(buffer, preset.index);
         accessor.saveDirtyPages();
     }
 
     public putPresets(presets: Preset[]) {
-        const accessor = new DeviceBufferAccessor(this.device, this.deviceBuffer);
+        const accessor = new DeviceBufferAccessor(this.commands, this.deviceBuffer);
         const buffer = new PresetBuffer(this.profile.presetBufferSize);
 
         for (let i = 0; i < presets.length; i++) {
@@ -49,44 +49,13 @@ export default class PedalProExProvider extends PresetProvider {
         accessor.saveDirtyPages();
     }
 
-    public getPreset(presetIndex: number): Preset {
-        this.throwIfNotValidPresetIndex(presetIndex);
-
-        const accessor = new DeviceBufferAccessor(this.device, this.deviceBuffer);
-        const buffer = new PresetBuffer(this.profile.presetBufferSize);
-        accessor.read(presetIndex, buffer);
-        const preset = this.deserialize(buffer);
-        preset.index = presetIndex;
-        return preset;
-    }
-
-    public getPresets(): Preset[] {
-        const presets = this.allPresets();
-        return presets.filter((p) => !p.traits.empty);
-    }
-
-    public allPresets(): Preset[] {
-        const accessor = new DeviceBufferAccessor(this.device, this.deviceBuffer);
-        accessor.readAll();
-
-        const presets = new Array<Preset>(this.profile.presetCount);
-        const buffer = new PresetBuffer(this.profile.presetBufferSize);
-        for (let index = 0; index < this.deviceBuffer.presetCount; index++) {
-            this.deviceBuffer.readPreset(index, buffer);
-            presets[index] = this.deserialize(buffer);
-            presets[index].index = index;
-        }
-
-        return presets;
-    }
-
-    private serialize(buffer: PresetBuffer, preset: Preset): void {
+    protected serialize(buffer: PresetBuffer, preset: Preset): void {
         LogicalTransformerEx.presetFromLogical(preset);
         const serializer = new PresetSerializerEx();
         serializer.serialize(buffer, preset);
     }
 
-    private deserialize(buffer: PresetBuffer): Preset {
+    protected deserialize(buffer: PresetBuffer): Preset {
         const deserializer = new PresetDeserializerEx();
         const preset = deserializer.deserialize(buffer);
         LogicalTransformerEx.presetToLogical(preset);

@@ -3,9 +3,10 @@ import PedalProDevice from "./PedalProDevice";
 import ReadDeviceIdentity from "./ReadDeviceIdentity";
 import PedalProDeviceIdentity, { PedalProDeviceModel } from "./PedalProDeviceIdentity";
 import PedalProExProvider from "./extended/PedalProExProvider";
+import PresetProvider from "../server/PresetProvider";
 
 export default class PedalProProviderFactory {
-    public static create(): PedalProProvider {
+    public static create(): PresetProvider {
         const device = new PedalProDevice();
         const deviceId = PedalProProviderFactory.getDeviceIdentity(device);
 

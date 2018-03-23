@@ -2,7 +2,6 @@ import * as express from "express";
 import ReadPresetsApi from "./ReadPresetsApi";
 import { createFault } from "./ApiHandler";
 import { PresetResponse, PresetRequest } from "../model/Messages";
-import Preset from "../model/Preset";
 
 export default class WritePresetsApi extends ReadPresetsApi {
     public constructor() {
@@ -44,16 +43,9 @@ export default class WritePresetsApi extends ReadPresetsApi {
             const presetRequest = <PresetRequest> request.body;
             if (presetRequest.presets && presetRequest.presets.length > 0) {
                 const provider = this.createProvider();
+                provider.putPresets(presetRequest.presets);
 
-                msg.presets = new Array<Preset>();
-                
-                for (let i = 0; i < presetRequest.presets.length; i++) {
-                    const preset = presetRequest.presets[i];
-                    provider.putPreset(preset);
-                    
-                    // msg.presets.push(provider.getPreset(preset.index));
-                    msg.presets.push(preset);
-                }
+                msg.presets = presetRequest.presets;
             } else {
                 response.status(400); // invalid request
                 throw new Error("Expect one or more presets.");
