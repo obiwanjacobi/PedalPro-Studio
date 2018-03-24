@@ -1,12 +1,12 @@
-import Preset from "../../model/Preset";
-import VrFile from "../VrFile";
-import PresetDeserializerEx from "./PresetDeserializerEx";
+import { Preset } from "../../model/Preset";
+import { VrFile } from "../VrFile";
+import { PresetDeserializerEx } from "./PresetDeserializerEx";
 import { DeviceExProfile } from "./DeviceExProfile";
-import LogicalTransformerEx from "./LogicalTransformerEx";
-import CommonPresetProvider from "../CommonPresetProvider";
-import PresetBuffer from "../PresetBuffer";
+import { LogicalTransformerEx } from "./LogicalTransformerEx";
+import { CommonPresetProvider } from "../CommonPresetProvider";
+import { PresetBuffer } from "../PresetBuffer";
 
-export default class FactoryProviderEx extends CommonPresetProvider {
+export class FactoryProviderEx extends CommonPresetProvider {
     private readonly presets: Preset[];
 
     public constructor(path: string) {

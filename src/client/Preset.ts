@@ -1,9 +1,9 @@
 import { PresetCollectionType } from "./ApplicationDocument";
 import * as ModelPreset from "../model/Preset";
-import PresetTraits from "../model/PresetTraits";
+import { PresetTraits } from "../model/PresetTraits";
 
 // ui extensions
-export default interface Preset extends ModelPreset.default {
+export interface Preset extends ModelPreset.Preset {
     
     /**
      * current source of the preset
@@ -23,7 +23,7 @@ export default interface Preset extends ModelPreset.default {
     /**
      * the origin of this preset
      */
-    origin: ModelPreset.default;
+    origin: ModelPreset.Preset;
 }
 
 function traitsEqual(origin: PresetTraits, traits: PresetTraits): boolean {

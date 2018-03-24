@@ -1,8 +1,8 @@
-import PresetSerializerEx from "../extended/PresetSerializerEx";
-import PresetDeserializerEx from "../extended/PresetDeserializerEx";
-import PresetBuffer from "../PresetBuffer";
+import { PresetSerializerEx } from "../extended/PresetSerializerEx";
+import { PresetDeserializerEx } from "../extended/PresetDeserializerEx";
+import { PresetBuffer } from "../PresetBuffer";
 import { EffectsEx } from "../../model/Effects";
-import LogicalTransformerEx from "../extended/LogicalTransformerEx";
+import { LogicalTransformerEx } from "../extended/LogicalTransformerEx";
 
 const PresetBufferSize = 160;
 const serializer = new PresetSerializerEx();

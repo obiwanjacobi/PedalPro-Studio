@@ -105,7 +105,7 @@ class VrFileReader {
     }
 }
 
-export default class VrFile {
+export class VrFile {
     public readonly presets: number[][];
 
     public static read(path: string, expectedSize: number): VrFile {

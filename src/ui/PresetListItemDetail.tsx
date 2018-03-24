@@ -3,7 +3,7 @@ import { Grid, IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import { Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
 
-import Preset from "../client/Preset";
+import { Preset } from "../client/Preset";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
 
@@ -24,7 +24,7 @@ const styles = {
     }
 };
 
-export default class PresetListItemDetail extends 
+export class PresetListItemDetail extends 
     React.Component<PresetListItemDetailAllProps, PresetListItemDetailState> {
 
     constructor(props: PresetListItemDetailAllProps) {

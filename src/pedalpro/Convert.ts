@@ -16,7 +16,7 @@ const logDBTable: number[] = [
     80, 90, 100, 110, 120
 ];
 
-export default class Convert {
+export class Convert {
 
     public static toPercent(value: number): number {
         if (value < 0) { return 0; }

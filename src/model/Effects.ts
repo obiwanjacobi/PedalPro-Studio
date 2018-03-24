@@ -1,18 +1,18 @@
-import Compressor from "./Compressor";
-import Distortion from "./Distortion";
-import Boost from "./Boost";
-import NoiseGate from "./NoiseGate";
-import VoltageControlledAmp from "./VoltageControlledAmp";
-import Filters from "./Filters";
-import Volume from "./Volume";
-import Modulation from "./Modulation";
-import Delay from "./Delay";
-import Aux from "./SendReturn";
-import PreAmp from "./PreAmp";
-import Dsp from "./Dsp";
-import Phaser from "./Phaser";
-import TapTempo from "./TapTempo";
-import Midi from "./Midi";
+import { Compressor } from "./Compressor";
+import { Distortion } from "./Distortion";
+import { Boost } from "./Boost";
+import { NoiseGate } from "./NoiseGate";
+import { VoltageControlledAmp } from "./VoltageControlledAmp";
+import { Filters } from "./Filters";
+import { Volume } from "./Volume";
+import { Modulation } from "./Modulation";
+import { Delay } from "./Delay";
+import { Aux } from "./SendReturn";
+import { PreAmp } from "./PreAmp";
+import { Dsp } from "./Dsp";
+import { Phaser } from "./Phaser";
+import { TapTempo } from "./TapTempo";
+import { Midi } from "./Midi";
 
 export interface Effects {
     compressor: Compressor;

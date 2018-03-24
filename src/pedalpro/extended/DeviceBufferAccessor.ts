@@ -1,8 +1,8 @@
-import DeviceBuffer, { EpromPageBuffer } from "./DeviceBuffer";
-import PresetBuffer from "../PresetBuffer";
-import DeviceCommands from "../DeviceCommands";
+import { DeviceBuffer, EpromPageBuffer } from "./DeviceBuffer";
+import { PresetBuffer } from "../PresetBuffer";
+import { DeviceCommands } from "../DeviceCommands";
 
-export default class DeviceBufferAccessor {
+export class DeviceBufferAccessor {
     private readonly commands: DeviceCommands;
     private readonly deviceBuffer: DeviceBuffer;
     private readonly preparedPages: number[];

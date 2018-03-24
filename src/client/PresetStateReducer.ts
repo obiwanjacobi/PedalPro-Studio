@@ -1,6 +1,6 @@
-import Fault from "../model/Fault";
-import Preset from "./Preset";
-import ApplicationDocument, { PresetCollectionType } from "./ApplicationDocument";
+import { Fault } from "../model/Fault";
+import { Preset } from "./Preset";
+import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { SelectPresetsAction } from "./SelectPresetsAction";

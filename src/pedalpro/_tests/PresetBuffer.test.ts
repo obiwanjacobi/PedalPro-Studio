@@ -1,4 +1,4 @@
-import PresetBuffer from "../PresetBuffer";
+import { PresetBuffer } from "../PresetBuffer";
 
 const TestBufferSize = 20;
 

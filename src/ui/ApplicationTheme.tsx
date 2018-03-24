@@ -33,7 +33,7 @@ let ThemeWrapper = props => props.children;
 // @ts-ignore
 ThemeWrapper = withStyles(globalStyles)(ThemeWrapper);
 
-export default class ApplicationTheme extends React.PureComponent {
+export class ApplicationTheme extends React.PureComponent {
     render() {
         return (
             <MuiThemeProvider theme={appTheme}>

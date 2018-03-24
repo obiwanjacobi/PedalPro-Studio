@@ -1,26 +1,26 @@
-import PresetBuffer from "./PresetBuffer";
-import Preset from "../model/Preset";
-import Compressor from "../model/Compressor";
-import Boost from "../model/Boost";
-import Phaser from "../model/Phaser";
-import NoiseGate from "../model/NoiseGate";
-import Volume from "../model/Volume";
-import Filters, { 
+import { PresetBuffer } from "./PresetBuffer";
+import { Preset } from "../model/Preset";
+import { Compressor } from "../model/Compressor";
+import { Boost } from "../model/Boost";
+import { Phaser } from "../model/Phaser";
+import { NoiseGate } from "../model/NoiseGate";
+import { Volume } from "../model/Volume";
+import { Filters, 
     Filter1, Filter2, AutoFilter1, EnvelopeFilter1, EqFilter1, AutoFilter2, EnvelopeFilter2, EqFilter2, Filter2Type 
 } from "../model/Filters";
-import PresetTraits from "../model/PresetTraits";
-import CommonPresetBufferFieldIndex from "./CommonPresetBufferFieldIndex";
-import Convert from "./Convert";
-import Modulation, { Chorus, Vibe, Flanger, Harmonics } from "../model/Modulation";
-import Delay from "../model/Delay";
-import Aux, { AmpSwitches } from "../model/SendReturn";
-import VoltageControlledAmp from "../model/VoltageControlledAmp";
-import TapTempo from "../model/TapTempo";
-import Midi, { MidiRouting } from "../model/Midi";
+import { PresetTraits } from "../model/PresetTraits";
+import { CommonPresetBufferFieldIndex } from "./CommonPresetBufferFieldIndex";
+import { Convert } from "./Convert";
+import { Modulation, Chorus, Vibe, Flanger, Harmonics } from "../model/Modulation";
+import { Delay } from "../model/Delay";
+import { Aux, AmpSwitches } from "../model/SendReturn";
+import { VoltageControlledAmp } from "../model/VoltageControlledAmp";
+import { TapTempo } from "../model/TapTempo";
+import { Midi, MidiRouting } from "../model/Midi";
 
 // tslint:disable:max-line-length
 
-export default abstract class CommonPresetDeserializer<FieldsT extends CommonPresetBufferFieldIndex> {
+export abstract class CommonPresetDeserializer<FieldsT extends CommonPresetBufferFieldIndex> {
     protected readonly fields: FieldsT;
 
     protected static deserializeTraits(buffer: PresetBuffer): PresetTraits {

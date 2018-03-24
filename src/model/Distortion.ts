@@ -6,7 +6,7 @@ export enum DistortionLowPass {
     Low = 2
 }
 
-export default interface Distortion {
+export interface Distortion {
     enabled: boolean;
     bright: boolean;
     tone: Percent;

@@ -3,8 +3,8 @@ import { Index, List, AutoSizer, ListRowProps } from "react-virtualized";
 import { Typography } from "material-ui";
 import { FileDownload } from "material-ui-icons";
 
-import PresetListItem from "./PresetListItem";
-import Preset from "../client/Preset";
+import { PresetListItem } from "./PresetListItem";
+import { Preset } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";

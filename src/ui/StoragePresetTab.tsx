@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default class StoragePresetTab extends React.PureComponent {
+export class StoragePresetTab extends React.PureComponent {
     public render() {
         return (
             <div>

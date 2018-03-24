@@ -1,4 +1,4 @@
-import DataBuffer from "../DataBuffer";
+import { DataBuffer } from "../DataBuffer";
 
 const MaxPresetCount = 500;
 const EpromPageSize = 128;
@@ -10,7 +10,7 @@ export class EpromPageBuffer extends DataBuffer {
     }
 }
 
-export default class DeviceBuffer extends DataBuffer {
+export class DeviceBuffer extends DataBuffer {
     public readonly presetCount: number;
     public readonly pageCount: number = 500;
     public readonly presetLength: number;

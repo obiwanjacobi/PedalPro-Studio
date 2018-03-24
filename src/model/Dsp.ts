@@ -165,7 +165,7 @@ export interface DspFreeVerb {
     hiPassFrequency: DspPassFrequency;
 }
 
-export default interface Dsp {
+export interface Dsp {
     enabled: boolean;
     type: DspType;
     input: Percent;

@@ -1,6 +1,6 @@
-import VrFile from "../VrFile";
 import * as fs from "fs";
-import FactoryExProvider from "../extended/FactoryProviderEx";
+import { VrFile } from "../VrFile";
+import { FactoryProviderEx } from "../extended/FactoryProviderEx";
 
 const TestFilePath = "./src/pedalpro/_tests/PPEPreset81.vrf";
 
@@ -21,7 +21,7 @@ describe("VrFile.ts", () => {
     });
 
     it ("Provider", () => {
-        const provider = new FactoryExProvider(TestFilePath);
+        const provider = new FactoryProviderEx(TestFilePath);
         const presets = provider.getPresets();
 
         expect(presets).not.toBeUndefined();

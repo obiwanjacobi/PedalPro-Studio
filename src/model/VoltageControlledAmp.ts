@@ -7,7 +7,7 @@ export enum VcaAssign {
     PannerExpression
 }
 
-export default interface VoltageControlledAmp {
+export interface VoltageControlledAmp {
     enabled: boolean;
     assign: VcaAssign;
     tempo: TempoSpeed;

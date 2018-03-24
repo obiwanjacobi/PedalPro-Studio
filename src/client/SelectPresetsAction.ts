@@ -1,4 +1,4 @@
-import Preset from "./Preset";
+import { Preset } from "./Preset";
 
 export const SelectPresetsActionKey: string = "U/*/presets/.selected";
 

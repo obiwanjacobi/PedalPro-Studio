@@ -2,7 +2,7 @@ import * as React from "react";
 import { IconButton, Typography } from "material-ui";
 import { Clear, Error, ErrorOutline, Warning, Info, Healing } from "material-ui-icons";
 
-import Notification from "./Notification";
+import { Notification } from "./Notification";
 import { RemoveNotification } from "./RemoveNotificationAction";
 
 export interface UserNotificationItemProps {
@@ -12,7 +12,7 @@ export type UserNotificationItemActions = RemoveNotification;
 export type UserNotificationItemAllProps = UserNotificationItemProps & UserNotificationItemActions;
 export interface UserNotificationItemState {}
 
-export default class UserNotificationItem extends 
+export class UserNotificationItem extends 
     React.Component<UserNotificationItemAllProps, UserNotificationItemState> {
 
     constructor(props: UserNotificationItemAllProps) {

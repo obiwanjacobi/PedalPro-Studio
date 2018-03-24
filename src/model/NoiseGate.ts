@@ -1,6 +1,6 @@
 import { Percent } from "./Types";
 
-export default interface NoiseGate {
+export interface NoiseGate {
     enabled: boolean;
     sustain: boolean;
     noiseLevel: Percent;

@@ -1,8 +1,8 @@
 import * as express from "express";
-import ApiHandler from "./ApiHandler";
-import ReadPresetsApi from "./ReadPresetsApi";
-import PresetProvider from "./PresetProvider";
-import FactoryProviderEx from "../pedalpro/extended/FactoryProviderEx";
+import { ApiHandler } from "./ApiHandler";
+import { ReadPresetsApi } from "./ReadPresetsApi";
+import { PresetProvider } from "./PresetProvider";
+import { FactoryProviderEx } from "../pedalpro/extended/FactoryProviderEx";
 
 export class FactoryPresetApi extends ReadPresetsApi {
     protected createProvider(): PresetProvider {
@@ -11,7 +11,7 @@ export class FactoryPresetApi extends ReadPresetsApi {
     }
 }
 
-export default class FactoryApi implements ApiHandler {
+export class FactoryApi implements ApiHandler {
     public readonly uri: string = "/factory";
     public readonly router: express.Router = express.Router();
 

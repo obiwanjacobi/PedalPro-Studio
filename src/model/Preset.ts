@@ -1,7 +1,7 @@
 import { Effects, EffectsEx } from "./Effects";
-import PresetTraits from "./PresetTraits";
+import { PresetTraits } from "./PresetTraits";
 
-export default interface Preset {
+export interface Preset {
     /**
      * The index or position of this preset in the collection (order).
      */

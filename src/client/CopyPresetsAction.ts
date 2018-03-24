@@ -1,5 +1,5 @@
 import { PresetCollectionType } from "./ApplicationDocument";
-import Preset from "./Preset";
+import { Preset } from "./Preset";
 
 const CopyPresetsActionKey = "C/*/presets/";
 

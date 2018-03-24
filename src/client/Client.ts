@@ -1,7 +1,7 @@
 import * as TypedRestClient from "typed-rest-client/RestClient";
 
 import { PresetCollectionType } from "./ApplicationDocument";
-import Preset from "./Preset";
+import { Preset } from "./Preset";
 import * as ModelPreset from "../model/Preset";
 import { PresetResponse, PresetRequest } from "../model/Messages";
 
@@ -42,7 +42,7 @@ export class PresetsClient {
         return this.extendPreset(modelPreset);
     }
 
-    private extendPreset(preset: ModelPreset.default): Preset {
+    private extendPreset(preset: ModelPreset.Preset): Preset {
         const clientPreset: Preset = {
             ...preset, 
             origin: preset,
@@ -53,8 +53,8 @@ export class PresetsClient {
         return clientPreset;
     }
 
-    private unextendPreset(clientPreset: Preset): ModelPreset.default {
-        const preset: ModelPreset.default = {
+    private unextendPreset(clientPreset: Preset): ModelPreset.Preset {
+        const preset: ModelPreset.Preset = {
             name: clientPreset.name,
             index: clientPreset.index,
             traits: clientPreset.traits,
@@ -76,7 +76,7 @@ export class PresetsClient {
     }
 }
 
-export default class Client {
+export class Client {
     private readonly typedRest: TypedRestClient.RestClient;
     
     public constructor(port: number) {

@@ -3,8 +3,8 @@ import { Collapse, Grid, Paper, Checkbox, IconButton, Typography } from "materia
 import { ExpandMore, ExpandLess } from "material-ui-icons";
 import { Flag, FlagOutline  } from "mdi-material-ui";
 
-import PresetListItemDetail from "./PresetListItemDetail";
-import Preset, { presetHasChanged, onlyIndexHasChanged } from "../client/Preset";
+import { PresetListItemDetail } from "./PresetListItemDetail";
+import { Preset, presetHasChanged, onlyIndexHasChanged } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
@@ -17,7 +17,7 @@ export interface PresetListItemState { }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
 
-export default class PresetListItem extends React.Component<PresetListItemAllProps, PresetListItemState> {
+export class PresetListItem extends React.Component<PresetListItemAllProps, PresetListItemState> {
     constructor(props: PresetListItemAllProps) {
         super(props);
         // bind event handlers

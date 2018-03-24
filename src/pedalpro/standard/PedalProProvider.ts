@@ -1,14 +1,14 @@
-import PedalProDevice from "../PedalProDevice";
-import PresetDeserializer from "./PresetDeserializer";
-import DeviceCommands from "../DeviceCommands";
+import { PedalProDevice } from "../PedalProDevice";
+import { PresetDeserializer } from "./PresetDeserializer";
+import { DeviceCommands } from "../DeviceCommands";
 import { DeviceStdProfile } from "./DeviceStdProfile";
-import CommonPresetProvider, { DeviceProfile } from "../CommonPresetProvider";
-import Preset from "../../model/Preset";
-import LogicalTransformer from "./LogicalTransformer";
-import PresetBuffer from "../PresetBuffer";
-import PresetSerializer from "./PresetSerializer";
+import { CommonPresetProvider, DeviceProfile } from "../CommonPresetProvider";
+import { Preset } from "../../model/Preset";
+import { LogicalTransformer } from "./LogicalTransformer";
+import { PresetBuffer } from "../PresetBuffer";
+import { PresetSerializer } from "./PresetSerializer";
 
-export default class PedalProProvider extends CommonPresetProvider {
+export class PedalProProvider extends CommonPresetProvider {
     protected readonly commands: DeviceCommands;
 
     public constructor(device: PedalProDevice, profile: DeviceProfile = DeviceStdProfile) {

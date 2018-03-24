@@ -1,10 +1,10 @@
-import CommonLogicalTransformer from "../CommonLogicalTransformer";
+import { CommonLogicalTransformer } from "../CommonLogicalTransformer";
 import { Effects } from "../../model/Effects";
-import Preset from "../../model/Preset";
-import Convert from "../Convert";
-import Distortion from "../../model/Distortion";
+import { Preset } from "../../model/Preset";
+import { Convert } from "../Convert";
+import { Distortion } from "../../model/Distortion";
 
-export default class LogicalTransformer {
+export class LogicalTransformer {
     public static presetToLogical(preset: Preset) {
         LogicalTransformer.effectsToLogical(<Effects> preset.effects);
     }

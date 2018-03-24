@@ -1,6 +1,6 @@
 import { ProtocolBuffer } from "./ProtocolBuffer";
 
-export default class CommandBufferBuilder {
+export class CommandBufferBuilder {
     private buffer: ProtocolBuffer;
 
     public constructor(buffer: ProtocolBuffer) {

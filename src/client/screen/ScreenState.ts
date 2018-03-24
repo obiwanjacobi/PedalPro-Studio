@@ -1,4 +1,4 @@
-export default class ScreenState {
+export class ScreenState {
     public readonly targetPresetDialogOpen?: boolean;
 
     public constructor(targetPresetDialogOpen?: boolean) {

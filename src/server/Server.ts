@@ -2,9 +2,9 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as morgan from "morgan";
 
-import DeviceApi from "./DeviceApi";
+import { DeviceApi } from "./DeviceApi";
 
-export default class Server {
+export class Server {
     private readonly expressApp: express.Application = express();
     private readonly deviceApi = new DeviceApi();
 

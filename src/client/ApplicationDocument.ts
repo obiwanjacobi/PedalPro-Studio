@@ -1,6 +1,6 @@
-import Preset from "./Preset";
-import Notification from "./notification/Notification";
-import ScreenState from "./screen/ScreenState";
+import { Preset } from "./Preset";
+import { Notification } from "./notification/Notification";
+import { ScreenState } from "./screen/ScreenState";
 
 export enum PresetCollectionType {
     device = "device",
@@ -8,13 +8,13 @@ export enum PresetCollectionType {
     factory = "factory",
 }
 
-export default class ApplicationDocument {
-    public readonly device: Preset[];
-    public readonly storage: Preset[];
-    public readonly factory: Preset[];
+export class ApplicationDocument {
+    public readonly device: Readonly<Preset>[];
+    public readonly storage: Readonly<Preset>[];
+    public readonly factory: Readonly<Preset>[];
 
-    public readonly screen: ScreenState;
-    public readonly notifications: Notification[];
+    public readonly screen: Readonly<ScreenState>;
+    public readonly notifications: Readonly<Notification>[];
 
     public constructor(device: Preset[] | null = null,
                        storage: Preset[] | null = null,

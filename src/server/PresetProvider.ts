@@ -1,6 +1,6 @@
-import Preset from "../model/Preset";
+import { Preset } from "../model/Preset";
 
-export default interface PresetProvider {
+export interface PresetProvider {
     presetCount: number;
     getPreset(_: number): Preset;
     getPresets(): Preset[];

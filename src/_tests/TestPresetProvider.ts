@@ -1,8 +1,8 @@
-import Preset from "../model/Preset";
+import { Preset } from "../model/Preset";
 
 const PresetCount: number = 400;
 
-export default class TestPresetProvider {
+export class TestPresetProvider {
     private static presets: Preset[];
 
     public constructor() {

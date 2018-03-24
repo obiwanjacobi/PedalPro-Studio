@@ -1,12 +1,12 @@
 import * as express from "express";
-import ApiHandler, { createFault } from "./ApiHandler";
-import FactoryApi from "./FactoryApi";
-import WritePresetsApi from "./WritePresetsApi";
-import PedalProDevice from "../pedalpro/PedalProDevice";
-import PedalProProviderFactory from "../pedalpro/PedalProProviderFactory";
+import { ApiHandler, createFault } from "./ApiHandler";
+import { FactoryApi } from "./FactoryApi";
+import { WritePresetsApi } from "./WritePresetsApi";
+import { PedalProDevice } from "../pedalpro/PedalProDevice";
+import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { DeviceResponse } from "../model/Messages";
 
-export default class DeviceApi implements ApiHandler {
+export class DeviceApi implements ApiHandler {
     public readonly uri: string = "/device";
     public readonly router: express.Router = express.Router();
 

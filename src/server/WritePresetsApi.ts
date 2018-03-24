@@ -1,9 +1,9 @@
 import * as express from "express";
-import ReadPresetsApi from "./ReadPresetsApi";
+import { ReadPresetsApi } from "./ReadPresetsApi";
 import { createFault } from "./ApiHandler";
 import { PresetResponse, PresetRequest } from "../model/Messages";
 
-export default class WritePresetsApi extends ReadPresetsApi {
+export class WritePresetsApi extends ReadPresetsApi {
     public constructor() {
         super();
         this.writePreset = this.writePreset.bind(this);

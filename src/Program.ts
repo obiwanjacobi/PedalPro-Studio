@@ -1,9 +1,9 @@
 import * as Electron from "electron";
 import * as Path from "path";
 import * as Url from "url";
-import Environment from "./Environment";
+import { Environment } from "./Environment";
 
-export default class Program {
+export class Program {
     private static electronApp: Electron.App;
     private static mainWindow: Electron.BrowserWindow | null;
     private static wndOptions: Electron.BrowserWindowConstructorOptions;

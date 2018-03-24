@@ -28,7 +28,7 @@ export enum CompressorReleaseTime {
     ms1800
 }
 
-export default interface Compressor {
+export interface Compressor {
     enabled: boolean;
     model: CompressorModelType;
     sensitivity: Percent;

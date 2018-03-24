@@ -1,6 +1,6 @@
 import * as PresetStateReducer from "../PresetStateReducer";
-import ApplicationDocument, { PresetCollectionType } from "../ApplicationDocument";
-import Preset from "../Preset";
+import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
+import { Preset } from "../Preset";
 import { SelectPresetsAction, createSelectPresetsAction } from "../SelectPresetsAction";
 import { LoadPresetsAction, LoadPresetsActionKey } from "../LoadPresetsAction";
 

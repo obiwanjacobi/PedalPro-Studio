@@ -1,11 +1,11 @@
-import PedalProDevice from "./PedalProDevice";
+import { PedalProDevice } from "./PedalProDevice";
 import { ProtocolBuffer } from "./ProtocolBuffer";
-import DataBuffer from "./DataBuffer";
-import CommandBufferBuilder from "./CommandBufferBuilder";
+import { DataBuffer } from "./DataBuffer";
+import { CommandBufferBuilder } from "./CommandBufferBuilder";
 
 const PartSize = 0x39;
 
-export default class DeviceCommands {
+export class DeviceCommands {
     protected readonly device: PedalProDevice;
 
     public constructor(device: PedalProDevice) {

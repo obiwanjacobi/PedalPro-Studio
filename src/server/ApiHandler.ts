@@ -1,7 +1,7 @@
 import * as express from "express";
-import Fault from "../model/Fault";
+import { Fault } from "../model/Fault";
 
-export default interface ApiHandler {
+export interface ApiHandler {
     readonly uri: string;
     readonly router: express.Router;
 }

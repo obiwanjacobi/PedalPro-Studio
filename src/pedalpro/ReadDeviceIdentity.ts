@@ -1,8 +1,8 @@
-import PedalProDevice from "./PedalProDevice";
-import PedalProDeviceIdentity, { PedalProDeviceModel } from "./PedalProDeviceIdentity";
+import { PedalProDevice } from "./PedalProDevice";
+import { PedalProDeviceIdentity, PedalProDeviceModel } from "./PedalProDeviceIdentity";
 import { ProtocolBuffer } from "./ProtocolBuffer";
 
-export default class ReadDeviceIdentity {
+export class ReadDeviceIdentity {
     private readonly device: PedalProDevice;
 
     public constructor(device: PedalProDevice) {

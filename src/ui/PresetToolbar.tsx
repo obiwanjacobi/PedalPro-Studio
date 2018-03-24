@@ -4,7 +4,7 @@ import ContentCopy from "material-ui-icons/ContentCopy";
 import FileDownload from "material-ui-icons/FileDownload";
 import FileUpload from "material-ui-icons/FileUpload";
 
-import ApplicationToolbar from "../client/controls/ApplicationToolbar";
+import { ApplicationToolbar } from "../client/controls/ApplicationToolbar";
 import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "../client/controls/SelectAllButton";
 
 export interface PresetToolbarProps {

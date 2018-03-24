@@ -1,4 +1,4 @@
-import CommonPresetBufferFieldIndex from "../CommonPresetBufferFieldIndex";
+import { CommonPresetBufferFieldIndex } from "../CommonPresetBufferFieldIndex";
 
 //
 // buffer indexes and values to preset fields for PP

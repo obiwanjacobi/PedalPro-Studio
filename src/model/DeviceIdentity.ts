@@ -1,4 +1,4 @@
-export default interface DeviceIdentity {
+export interface DeviceIdentity {
     vendor: string;
     device: string;
     version: string;

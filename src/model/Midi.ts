@@ -10,6 +10,6 @@ export class MidiRouting {
     aux: AuxRouting;
 }
 
-export default interface Midi {
+export interface Midi {
     routing: MidiRouting;
 }

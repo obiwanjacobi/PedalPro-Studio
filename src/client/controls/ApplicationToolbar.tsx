@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppBar, Toolbar } from "material-ui";
 
-export default class ApplicationToolbar extends React.Component {
+export class ApplicationToolbar extends React.Component {
     public render() {
         return (
             <AppBar position="static">

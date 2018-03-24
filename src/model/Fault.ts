@@ -1,6 +1,6 @@
 /**
  * Protocol error message. 
  */
-export default interface Fault {
+export interface Fault {
     message: string;
 }

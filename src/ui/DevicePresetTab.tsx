@@ -2,10 +2,10 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 
-import Preset from "../client/Preset";
+import { Preset } from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
-import ChangedView from "../client/controls/ChangedView";
-import ApplicationDocument, { PresetCollectionType } from "../client/ApplicationDocument";
+import { ChangedView }from "../client/controls/ChangedView";
+import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";

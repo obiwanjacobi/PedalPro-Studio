@@ -1,7 +1,7 @@
-import DataBuffer from "./DataBuffer";
+import { DataBuffer } from "./DataBuffer";
 import { nameMaxLength, ExpressionChar, StereoChar, SingleCoilChar, HumbuckerChar } from "./Common";
 
-export default class PresetBuffer extends DataBuffer {
+export class PresetBuffer extends DataBuffer {
     
     public constructor(bufferSize: number) {
         super(bufferSize);

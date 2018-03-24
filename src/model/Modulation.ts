@@ -50,7 +50,7 @@ export interface Flanger {
     wet: Percent;
 }
 
-export default interface Modulation {
+export interface Modulation {
     mode: ModulationMode;
 
     chorus: Chorus;

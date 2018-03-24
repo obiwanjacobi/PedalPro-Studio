@@ -1,16 +1,16 @@
-import Compressor from "../model/Compressor";
-import Boost from "../model/Boost";
-import VoltageControlledAmp from "../model/VoltageControlledAmp";
-import Phaser from "../model/Phaser";
-import NoiseGate from "../model/NoiseGate";
-import Filters from "../model/Filters";
-import Modulation from "../model/Modulation";
-import Delay, { DelayRange } from "../model/Delay";
-import Aux from "../model/SendReturn";
-import Volume from "../model/Volume";
-import Convert from "./Convert";
+import { Compressor } from "../model/Compressor";
+import { Boost } from "../model/Boost";
+import { VoltageControlledAmp } from "../model/VoltageControlledAmp";
+import { Phaser } from "../model/Phaser";
+import { NoiseGate } from "../model/NoiseGate";
+import { Filters } from "../model/Filters";
+import { Modulation } from "../model/Modulation";
+import { Delay, DelayRange } from "../model/Delay";
+import { Aux } from "../model/SendReturn";
+import { Volume } from "../model/Volume";
+import { Convert } from "./Convert";
 
-export default class CommonLogicalTransformer {
+export class CommonLogicalTransformer {
     public static compressorToLogical(compressor: Compressor) {
         compressor.level = Convert.toPercent(compressor.level);
         compressor.sensitivity = Convert.toPercent(compressor.sensitivity);

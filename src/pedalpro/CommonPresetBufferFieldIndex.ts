@@ -1,4 +1,4 @@
-export default interface CommonPresetBufferFieldIndex {
+export interface CommonPresetBufferFieldIndex {
 
     readonly PresetName: number;
     readonly BypassSlaveCmp1: number;

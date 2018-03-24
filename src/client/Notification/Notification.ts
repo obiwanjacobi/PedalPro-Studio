@@ -1,5 +1,5 @@
 
-export default interface Notification {
+export interface Notification {
     type: "info" | "warning" | "error" | "critical";
     message: string;
     context?: string;

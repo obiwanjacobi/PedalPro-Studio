@@ -1,3 +1,3 @@
-export default class DspConvert {
+export class DspConvert {
     
 }

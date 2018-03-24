@@ -1,12 +1,12 @@
-import Preset from "../model/Preset";
-import PresetProvider from "../server/PresetProvider";
+import { Preset } from "../model/Preset";
+import { PresetProvider } from "../server/PresetProvider";
 
 export interface DeviceProfile {
     presetCount: number;
     presetBufferSize: number;
 }
 
-export default class CommonPresetProvider implements PresetProvider {
+export class CommonPresetProvider implements PresetProvider {
     protected readonly profile: DeviceProfile;
 
     public constructor(profile: DeviceProfile) {

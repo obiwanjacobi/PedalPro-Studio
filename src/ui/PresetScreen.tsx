@@ -4,7 +4,7 @@ import { AppBar, Tabs, Tab } from "material-ui";
 // import { PresetCollectionType } from "../client/ApplicationDocument";
 
 import DevicePresetTab from "./DevicePresetTab";
-import StoragePresetTab from "./StoragePresetTab";
+import { StoragePresetTab } from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
 import UserNotification from "../client/notification/UserNotification";
 
@@ -19,7 +19,7 @@ const containerStyles: React.CSSProperties = {
     flexDirection: "column"
 };
 
-export default class PresetScreen extends React.PureComponent<PresetScreenProps, PresetScreenState> {
+export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetScreenState> {
     public constructor(props: PresetScreenProps) {
         super(props);
         // bind event handlers

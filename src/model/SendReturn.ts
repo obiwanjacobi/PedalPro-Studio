@@ -17,7 +17,7 @@ export interface AmpSwitches {
     switch4: boolean;
 }
 
-export default interface Aux {
+export interface Aux {
     routing: AuxRouting;
 
     mixGainSendL: Percent;

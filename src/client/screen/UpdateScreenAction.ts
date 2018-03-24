@@ -1,4 +1,4 @@
-import ScreenState  from "./ScreenState";
+import { ScreenState }  from "./ScreenState";
 
 const UpdateScreenActionKey = "U/screen/";
 

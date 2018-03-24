@@ -1,6 +1,6 @@
-import Fault from "./Fault";
-import Preset from "./Preset";
-import DeviceIdentity from "./DeviceIdentity";
+import { Fault } from "./Fault";
+import { Preset } from "./Preset";
+import { DeviceIdentity } from "./DeviceIdentity";
 
 export interface DeviceResponse {
     fault?: Fault;

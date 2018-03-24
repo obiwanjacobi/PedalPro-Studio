@@ -1,4 +1,3 @@
-
 export interface TextResources {
     PresetListItem_ToolTip_Index: string;
 }
@@ -7,7 +6,7 @@ export interface TextLookup {
     getText(resourceKey: string, condition: boolean): string;
 }
 
-export default class TextProvider<ResourceT> implements TextLookup {
+export class TextProvider<ResourceT> implements TextLookup {
     public static Default: TextLookup;
 
     private textResources: ResourceT;

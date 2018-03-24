@@ -1,5 +1,5 @@
 import { RemoveNotificationAction } from "./RemoveNotificationAction";
-import Notification from "./Notification";
+import { Notification } from "./Notification";
 
 // all actions this reducer handles
 export type NotificationAction = RemoveNotificationAction;

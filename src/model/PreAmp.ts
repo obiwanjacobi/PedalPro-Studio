@@ -69,7 +69,7 @@ export interface PreEqualizer {
     band8000Hz: AttenuationGain;
 }
 
-export default interface PreAmp {
+export interface PreAmp {
     enabled: boolean;
     routing: PreAmpRouting; // distortion/fuzz
 

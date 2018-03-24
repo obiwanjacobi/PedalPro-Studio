@@ -1,5 +1,5 @@
 import { UpdateScreenAction } from "./UpdateScreenAction";
-import ScreenState from "./ScreenState";
+import { ScreenState } from "./ScreenState";
 
 // all actions this reducer handles
 export type ScreenAction = UpdateScreenAction;

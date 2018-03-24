@@ -4,7 +4,7 @@ import Input, { InputAdornment } from "material-ui/Input";
 import Clear from "material-ui-icons/Clear";
 
 import { PresetList } from "./PresetList";
-import Preset from "../client/Preset";
+import { Preset } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";

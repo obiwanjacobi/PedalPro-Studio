@@ -17,7 +17,7 @@ export enum DelayRange {
 // Long: 61.4-614.3 ms step 2.1~2.2
 export type RelativeDelay = number;
 
-export default interface Delay {
+export interface Delay {
     routing: DelayRouting;
     range: DelayRange;
     time: RelativeDelay;

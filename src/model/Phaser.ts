@@ -1,6 +1,6 @@
 import { PhaseShift, Percent, TempoSpeed, WaveForm } from "./Types";
 
-export default interface Phaser {
+export interface Phaser {
     enabled: boolean;
     manual: Percent;
     tempo: TempoSpeed;

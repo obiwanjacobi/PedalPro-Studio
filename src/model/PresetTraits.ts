@@ -1,4 +1,4 @@
-export default interface PresetTraits {
+export interface PresetTraits {
     /** 
      * An indication if the preset is intended for a single-coil pickup.
      */

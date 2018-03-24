@@ -2,12 +2,12 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
-import ApplicationStore from "./client/ApplicationStore";
+import { ApplicationStore } from "./client/ApplicationStore";
 
-import ApplicationTheme from "./ui/ApplicationTheme";
-import PresetScreen from "./ui/PresetScreen";
+import { ApplicationTheme } from "./ui/ApplicationTheme";
+import { PresetScreen } from "./ui/PresetScreen";
 
-export default class Application extends React.PureComponent {
+export class Application extends React.PureComponent {
     private appStore: ApplicationStore = new ApplicationStore();
 
     public static run(appElementId: string) {

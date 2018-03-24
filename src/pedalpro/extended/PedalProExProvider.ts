@@ -1,15 +1,15 @@
-import PedalProDevice from "../PedalProDevice";
-import Preset from "../../model/Preset";
-import PresetDeserializerEx from "./PresetDeserializerEx";
-import PresetSerializerEx from "../extended/PresetSerializerEx";
-import PresetBuffer from "../PresetBuffer";
-import LogicalTransformerEx from "./LogicalTransformerEx";
+import { PedalProDevice } from "../PedalProDevice";
+import { Preset } from "../../model/Preset";
+import { PresetDeserializerEx } from "./PresetDeserializerEx";
+import { PresetSerializerEx } from "../extended/PresetSerializerEx";
+import { PresetBuffer } from "../PresetBuffer";
+import { LogicalTransformerEx } from "./LogicalTransformerEx";
 import { DeviceExProfile } from "./DeviceExProfile";
-import DeviceBuffer from "./DeviceBuffer";
-import DeviceBufferAccessor from "./DeviceBufferAccessor";
-import PedalProProvider from "../standard/PedalProProvider";
+import { DeviceBuffer } from "./DeviceBuffer";
+import { DeviceBufferAccessor } from "./DeviceBufferAccessor";
+import { PedalProProvider } from "../standard/PedalProProvider";
 
-export default class PedalProExProvider extends PedalProProvider {
+export class PedalProExProvider extends PedalProProvider {
     private readonly deviceBuffer: DeviceBuffer;
 
     public constructor(device: PedalProDevice) {

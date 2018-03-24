@@ -1,6 +1,6 @@
-import Convert from "./Convert";
+import { Convert } from "./Convert";
 
-export default class DataBuffer {
+export class DataBuffer {
     public data: number[];
 
     public constructor(byteCount: number) {

@@ -121,7 +121,7 @@ export enum FilterRouting {
     PostF2R
 }
 
-export default interface Filters {
+export interface Filters {
     routing: FilterRouting;
 
     // global option auto filter mode

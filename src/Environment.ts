@@ -1,5 +1,4 @@
-
-export default class Environment {
+export class Environment {
     public static get isMac(): boolean {
         return process.platform === "darwin";     // darwin=>mac
     }

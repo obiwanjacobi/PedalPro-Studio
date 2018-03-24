@@ -1,16 +1,16 @@
-import Preset from "../../model/Preset";
-import PresetBuffer from "../PresetBuffer";
+import { Preset } from "../../model/Preset";
+import { PresetBuffer } from "../PresetBuffer";
 import { EffectsEx } from "../../model/Effects";
-import CommonPresetSerializer from "../CommonPresetSerializer";
+import { CommonPresetSerializer } from "../CommonPresetSerializer";
 import { PresetBufferExFieldIndex, PresetBufferExFields } from "./PresetBufferExFields";
-import PreAmp from "../../model/PreAmp";
-import Dsp, { 
+import { PreAmp } from "../../model/PreAmp";
+import { Dsp, 
     DspType /*, DspDoubleDelay, DoubleDelay, DoubleDelay3, DoubleDelay4, DspCaveDelay, 
     CaveDelay1, CaveDelay2, CaveDelay3, CaveDelay4, 
     DspSingleTap, DspFourTapsDelay, DspTripleDelay, DspPlate, DspCustomSpring, DspHall, DspFreeVerb */
 } from "../../model/Dsp";
 
-export default class PresetSerializerEx extends CommonPresetSerializer<PresetBufferExFieldIndex> {
+export class PresetSerializerEx extends CommonPresetSerializer<PresetBufferExFieldIndex> {
     public constructor() {
         super(PresetBufferExFields);
     }

@@ -1,5 +1,5 @@
 import { nameMaxLength } from "../Common";
-import PresetBuffer from "../PresetBuffer";
+import { PresetBuffer } from "../PresetBuffer";
 import { PresetBufferSize } from "./DeviceExProfile";
 
 const emptyData = [
