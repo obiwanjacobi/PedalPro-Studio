@@ -1,15 +1,10 @@
 import Preset from "../../model/Preset";
 import VrFile from "../VrFile";
 import PresetDeserializerEx from "./PresetDeserializerEx";
-import { PresetCount, PresetBufferSize } from "./ConstantsEx";
+import { DeviceExProfile } from "./DeviceExProfile";
 import LogicalTransformerEx from "./LogicalTransformerEx";
-import CommonPresetProvider, { DeviceProfile } from "../CommonPresetProvider";
+import CommonPresetProvider from "../CommonPresetProvider";
 import PresetBuffer from "../PresetBuffer";
-
-const DeviceExProfile: DeviceProfile = {
-    presetCount: PresetCount,
-    presetBufferSize: PresetBufferSize,
-};
 
 export default class FactoryProviderEx extends CommonPresetProvider {
     private readonly presets: Preset[];
@@ -17,9 +12,9 @@ export default class FactoryProviderEx extends CommonPresetProvider {
     public constructor(path: string) {
         super(DeviceExProfile);
         
-        const file = VrFile.read(path, PresetBufferSize);
+        const file = VrFile.read(path, this.profile.presetBufferSize);
         this.presets = new Array<Preset>(file.presets.length);
-        const buffer = new PresetBuffer(PresetBufferSize);
+        const buffer = new PresetBuffer(this.profile.presetBufferSize);
         const deserializer = new PresetDeserializerEx();
 
         for (let i = 0; i < file.presets.length; i++) {

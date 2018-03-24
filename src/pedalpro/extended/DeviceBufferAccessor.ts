@@ -30,45 +30,35 @@ export default class DeviceBufferAccessor {
     public write(buffer: PresetBuffer, presetIndex: number): void {
         buffer.throwIfNotOfLength(this.deviceBuffer.presetLength);
 
-        this.prepare(presetIndex);
-        this.deviceBuffer.writePreset(presetIndex, buffer);
-    }
-
-    private prepare(presetIndex: number) {
-        const pages = this.getEpromPages(presetIndex);
-        // means everything is already in place
-        if (pages.length === 0) { return; }
-
-        const buffer = new PresetBuffer(this.deviceBuffer.presetLength);
+        const tempBuffer = new PresetBuffer(this.deviceBuffer.presetLength);
+        const prevIndex = presetIndex - 1;
+        const nextIndex = presetIndex + 1;
 
         // previous preset
         if (presetIndex > 0 &&
-            this.preparedPresets.indexOf(presetIndex - 1) === -1) {
-            this.commands.read(presetIndex - 1, buffer);
-            this.deviceBuffer.writePreset(presetIndex - 1, buffer);
-            this.preparedPresets.push(presetIndex - 1);
+            this.preparedPresets.indexOf(prevIndex) === -1) {
+            this.commands.read(prevIndex, tempBuffer);
+            this.deviceBuffer.writePreset(prevIndex, tempBuffer);
+            this.preparedPresets.push(prevIndex);
         }
 
         // request preset
+        this.deviceBuffer.writePreset(presetIndex, buffer);
         if (this.preparedPresets.indexOf(presetIndex) === -1) {
-            buffer.clear();
-            this.commands.read(presetIndex, buffer);
-            this.deviceBuffer.writePreset(presetIndex, buffer);
             this.preparedPresets.push(presetIndex);
         }
 
         // next preset
         if (presetIndex < this.deviceBuffer.presetCount &&
-            this.preparedPresets.indexOf(presetIndex + 1) === -1) {
-            buffer.clear();
-            this.commands.read(presetIndex + 1, buffer);
-            this.deviceBuffer.writePreset(presetIndex + 1, buffer);
-            this.preparedPresets.push(presetIndex + 1);
+            this.preparedPresets.indexOf(nextIndex) === -1) {
+            tempBuffer.clear();
+            this.commands.read(nextIndex, tempBuffer);
+            this.deviceBuffer.writePreset(nextIndex, tempBuffer);
+            this.preparedPresets.push(nextIndex);
         }
 
-        for (let i = 0; i < pages.length; i++) {
-            this.preparedPages.push(pages[i]);
-        }
+        const pages = this.getEpromPages(presetIndex);
+        this.preparedPages.push(...pages);
     }
 
     private getEpromPages(presetIndex: number): number[] {

@@ -1,6 +1,6 @@
 import { nameMaxLength } from "../Common";
 import PresetBuffer from "../PresetBuffer";
-import { PresetBufferSize } from "./ConstantsEx";
+import { PresetBufferSize } from "./DeviceExProfile";
 
 const emptyData = [
     0x7b, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x5f, 0x70, 

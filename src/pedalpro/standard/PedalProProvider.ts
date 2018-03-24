@@ -1,22 +1,17 @@
 import PedalProDevice from "../PedalProDevice";
 import PresetDeserializer from "./PresetDeserializer";
 import DeviceCommands from "../DeviceCommands";
-import { PresetCount, PresetBufferSize } from "./Constants";
+import { DeviceStdProfile } from "./DeviceStdProfile";
 import CommonPresetProvider, { DeviceProfile } from "../CommonPresetProvider";
 import Preset from "../../model/Preset";
 import LogicalTransformer from "./LogicalTransformer";
 import PresetBuffer from "../PresetBuffer";
 import PresetSerializer from "./PresetSerializer";
 
-const DeviceProfile: DeviceProfile = {
-    presetCount: PresetCount,
-    presetBufferSize: PresetBufferSize,
-};
-
 export default class PedalProProvider extends CommonPresetProvider {
     protected readonly commands: DeviceCommands;
 
-    public constructor(device: PedalProDevice, profile: DeviceProfile = DeviceProfile) {
+    public constructor(device: PedalProDevice, profile: DeviceProfile = DeviceStdProfile) {
         super(profile);
         this.commands = new DeviceCommands(device);
     }

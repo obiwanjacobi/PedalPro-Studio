@@ -1,19 +1,13 @@
 import PedalProDevice from "../PedalProDevice";
 import Preset from "../../model/Preset";
-import { PresetCount, PresetBufferSize } from "./ConstantsEx";
 import PresetDeserializerEx from "./PresetDeserializerEx";
 import PresetSerializerEx from "../extended/PresetSerializerEx";
 import PresetBuffer from "../PresetBuffer";
 import LogicalTransformerEx from "./LogicalTransformerEx";
-import { DeviceProfile } from "../CommonPresetProvider";
+import { DeviceExProfile } from "./DeviceExProfile";
 import DeviceBuffer from "./DeviceBuffer";
 import DeviceBufferAccessor from "./DeviceBufferAccessor";
 import PedalProProvider from "../standard/PedalProProvider";
-
-const DeviceExProfile: DeviceProfile = {
-    presetCount: PresetCount,
-    presetBufferSize: PresetBufferSize,
-};
 
 export default class PedalProExProvider extends PedalProProvider {
     private readonly deviceBuffer: DeviceBuffer;

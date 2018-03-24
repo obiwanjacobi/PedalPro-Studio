@@ -32,11 +32,11 @@ export default class DeviceBuffer extends DataBuffer {
         this.write(offset, buffer.data, 0, buffer.data.length);
     }
 
-    public readPreset(presetIndex: number, buffer: DataBuffer) {
-        buffer.throwIfNotOfLength(this.presetLength);
-        const offset = this.presetIndexToOffset(presetIndex);
-        this.read(offset, buffer.data, 0, buffer.data.length);
-    }
+    // public readPreset(presetIndex: number, buffer: DataBuffer) {
+    //     buffer.throwIfNotOfLength(this.presetLength);
+    //     const offset = this.presetIndexToOffset(presetIndex);
+    //     this.read(offset, buffer.data, 0, buffer.data.length);
+    // }
 
     public writePage(epromPage: number, buffer: DataBuffer) {
         buffer.throwIfNotOfLength(EpromPageSize);
@@ -50,17 +50,12 @@ export default class DeviceBuffer extends DataBuffer {
         this.read(offset, buffer.data, 0, buffer.data.length);
     }
 
-    public clearPage(epromPage: number) {
-        const offset = epromPage * EpromPageSize;
-        
-        for (let i = 0; i < EpromPageSize; i++) {
-            this.data[i + offset] = 0;
-        }
-    }
-
-    public epromPageToOffset(page: number): number {
-        return page * EpromPageSize;
-    }
+    // public clearPage(epromPage: number) {
+    //     const offset = epromPage * EpromPageSize;
+    //     for (let i = 0; i < EpromPageSize; i++) {
+    //         this.data[i + offset] = 0;
+    //     }
+    // }
 
     public presetIndexToOffset(presetIndex: number): number {
         return presetIndex * this.presetLength;
@@ -74,6 +69,10 @@ export default class DeviceBuffer extends DataBuffer {
 
         // remove duplicates and sort
         return pages.filter((v, i, a) => a.indexOf(v) === i).sort();
+    }
+
+    private epromPageToOffset(page: number): number {
+        return page * EpromPageSize;
     }
 
     private presetToEpromPagesInternal(pages: number[], presetIndex: number) {
