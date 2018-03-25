@@ -45,9 +45,9 @@ export class SelectAllButton extends React.PureComponent<SelectAllButtonAllProps
 
     private fireChanged() {
         let status = SelectAllButtonStatus.AllSelected;
-        if (this.props.statusSelectAll === SelectAllButtonStatus.AllSelected) {
+        if (this.props.statusSelectAll === SelectAllButtonStatus.NoneSelected) {
             status = SelectAllButtonStatus.AllChanged;
-        } else if (this.props.statusSelectAll === SelectAllButtonStatus.AllChanged) {
+        } else if (this.props.statusSelectAll === SelectAllButtonStatus.AllSelected) {
             status = SelectAllButtonStatus.NoneSelected;
         }
 

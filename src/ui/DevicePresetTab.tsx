@@ -101,10 +101,6 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
             return SelectAllButtonStatus.NoneSelected;
         }
 
-        if (selected === SelectAllButtonStatus.AllSelected) {
-            return SelectAllButtonStatus.AllSelected;
-        }
-
         if (this.changed.changed.length === this.selection.selected.length) {
             for (let i = 0; i < this.changed.changed.length; i++) {
                 if (this.changed.changed[i] !== this.selection.selected[i]) {
@@ -115,6 +111,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
             return SelectAllButtonStatus.AllChanged;
         }
 
+        if (selected === SelectAllButtonStatus.AllSelected) {
+            return SelectAllButtonStatus.AllSelected;
+        }
+        
         if (selected === SelectAllButtonStatus.SomeSelected) {
             return SelectAllButtonStatus.SomeSelected;
         }
