@@ -4,10 +4,10 @@ import { ScreenState } from "./screen/ScreenState";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 
 export enum PresetCollectionType {
-    device,
-    storage,
-    factory,
-    clipboard,
+    device = "device",
+    storage = "storage",
+    factory = "factory",
+    clipboard = "clipboard",
 }
 
 export class ApplicationDocument {

@@ -181,6 +181,8 @@ const replacePresets = (collection: Preset[], replacements: Preset[]): Preset[] 
         const index = collection.findIndex((p) => p.index === replacePreset.index);
         if (index !== -1) {
             newPresets[index] = replacePreset;
+        } else {
+            newPresets.push(replacePreset);
         }
     });
 
@@ -194,7 +196,7 @@ const reduceLoadPresets = (
     if (presets.length === 0) { return state; }
 
     return copyOverride(state, source, (oldPresets: Preset[]) => {
-        if (!oldPresets || oldPresets.length === 0 || oldPresets.length === presets.length) { return presets; }
+        if (!oldPresets || oldPresets.length === 0) { return presets; }
 
         return replacePresets(oldPresets, presets);
     });

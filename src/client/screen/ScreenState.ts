@@ -1,13 +1,18 @@
-export class ScreenState {
-    public readonly targetPresetDialogOpen?: boolean;
+export interface ProgressInfo {
+    title: string;
+    message: string;
+    percent: number;
+}
 
-    public constructor(targetPresetDialogOpen?: boolean) {
-        this.targetPresetDialogOpen = targetPresetDialogOpen ? targetPresetDialogOpen : false;
+export class ScreenState {
+    public readonly progress?: Readonly<ProgressInfo>;
+
+    public constructor(progress?: ProgressInfo) {
+        this.progress = progress;
     }
 
-    public copyOverride(targetPresetDialogOpen?: boolean): ScreenState {
-        return new ScreenState(
-            targetPresetDialogOpen !== undefined ? targetPresetDialogOpen : this.targetPresetDialogOpen
+    public copyOverride(progress: ProgressInfo): ScreenState {
+        return new ScreenState(progress
         );
     }
 }

@@ -1,4 +1,5 @@
-import { AnyAction, Store, createStore } from "redux";
+import { AnyAction, Store, createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
 
 import { ApplicationDocument } from "./ApplicationDocument";
 import * as PresetStateReducer from "./PresetStateReducer";
@@ -11,7 +12,8 @@ export class ApplicationStore {
     public constructor() {
         this.store = createStore(
             this.appReduce,
-            new ApplicationDocument()
+            new ApplicationDocument(),
+            applyMiddleware(ReduxThunk)
         );
     }
 

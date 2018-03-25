@@ -3,12 +3,14 @@ import * as TypedRestClient from "typed-rest-client/RestClient";
 import { PresetCollectionType } from "./ApplicationDocument";
 import { Preset } from "./Preset";
 import * as ModelPreset from "../model/Preset";
-import { PresetResponse, PresetRequest } from "../model/Messages";
+import { PresetResponse, PresetRequest, DeviceResponse } from "../model/Messages";
+import { DeviceIdentity } from "../model/DeviceIdentity";
 
 export class PresetsClient {
+    public readonly collection: PresetCollectionType;
+    
     private readonly typedRest: TypedRestClient.RestClient;
     private readonly baseUrl: string;
-    private readonly collection: PresetCollectionType;
 
     public constructor(typedRest: TypedRestClient.RestClient, collection: PresetCollectionType, baseUrl: string) {
         this.typedRest = typedRest;
@@ -40,6 +42,15 @@ export class PresetsClient {
         
         const modelPreset = response.result.presets[0];
         return this.extendPreset(modelPreset);
+    }
+
+    public async getDeviceInfo(): Promise<DeviceIdentity> {
+        const response = await this.typedRest.get<DeviceResponse>(this.baseUrl);
+        if (response.result.fault) {
+            throw response.result.fault;
+        }
+        
+        return response.result.device;
     }
 
     private extendPreset(preset: ModelPreset.Preset): Preset {
@@ -83,7 +94,7 @@ export class Client {
         this.typedRest = new TypedRestClient.RestClient("internal", `http://localhost:${port}`);
     }
 
-    public getSource(source: PresetCollectionType) {
+    public getSource(source: PresetCollectionType): PresetsClient {
         switch (source) {
             case PresetCollectionType.device:
                 return new PresetsClient(this.typedRest, source, "/device");
