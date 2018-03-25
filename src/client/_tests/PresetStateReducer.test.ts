@@ -36,8 +36,8 @@ describe("PresetStateReducer.ts", () => {
     it ("reducePresetSelected - storage - selected is true", () => {
         const collection = PresetCollectionType.storage;
         const expectedPreset = <Preset> { name: "test", index: 1, uiSelected: false, source: collection};
-        const testState = new ApplicationDocument(null, [expectedPreset]);
-        const loadPresetsAction = createSelectPresetsAction([expectedPreset], { selected: true});
+        const testState = new ApplicationDocument(undefined, null, [expectedPreset]);
+        const loadPresetsAction = createSelectPresetsAction([expectedPreset], { selected: true });
         const newState = PresetStateReducer.reduce(testState, loadPresetsAction);
         expect(newState).not.toMatchObject(testState);
         expect(newState.storage[0].uiSelected).toBe(true);

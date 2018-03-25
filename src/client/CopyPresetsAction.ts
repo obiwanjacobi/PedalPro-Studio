@@ -9,10 +9,10 @@ export interface CopyPresetsAction {
     readonly target: PresetCollectionType;
 }
 
-export const createCopyPresetsAction = (presets: Preset[], target: string): CopyPresetsAction => {
+export const createCopyPresetsAction = (presets: Preset[], target: PresetCollectionType): CopyPresetsAction => {
     return <CopyPresetsAction> { type: CopyPresetsActionKey, presets: presets, target: target };
 };
 
 export interface CopyPresets {
-    copyPresets(presets: Preset[], target: string): void;
+    copyPresets(presets: Preset[], target: PresetCollectionType): void;
 }

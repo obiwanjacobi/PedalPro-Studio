@@ -25,6 +25,7 @@ const copyOverride = (
     let device: Preset[] | null = null;
     let storage: Preset[] | null = null;
     let factory: Preset[] | null = null;
+    let clipboard: Preset[] | null = null;
 
     switch (collection) {
         case PresetCollectionType.device:
@@ -38,13 +39,17 @@ const copyOverride = (
         case PresetCollectionType.factory:
         factory = process(state.factory);
         break;
+
+        case PresetCollectionType.clipboard:
+        clipboard = process(state.clipboard);
+        break;
         
         default: 
         throw new RangeError(
             `Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
     }
 
-    return state.copyOverride(device, storage, factory);
+    return state.copyOverride(device, storage, factory, clipboard);
 };
 
 const reIndexPresets = (presetIndex: number, mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
