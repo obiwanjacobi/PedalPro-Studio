@@ -1,6 +1,8 @@
 import { PedalProDevice } from "./PedalProDevice";
 import { PedalProDeviceIdentity, PedalProDeviceModel } from "./PedalProDeviceIdentity";
 import { ProtocolBuffer } from "./ProtocolBuffer";
+import { DeviceStdProfile } from "./standard/DeviceStdProfile";
+import { DeviceExProfile } from "./extended/DeviceExProfile";
 
 export class ReadDeviceIdentity {
     private readonly device: PedalProDevice;
@@ -16,23 +18,26 @@ export class ReadDeviceIdentity {
             version: "",
             model: PedalProDeviceModel.Unspecified,
             supported: false,
+            presetCount: 0,
         };
 
         this.readVut(deviceId);
         this.readMasterVersion(deviceId);
-        this.setDeviceName(deviceId);
+        this.setDeviceInfo(deviceId);
 
         return deviceId;
     }
 
-    private setDeviceName(deviceId: PedalProDeviceIdentity): void {
+    private setDeviceInfo(deviceId: PedalProDeviceIdentity): void {
         switch (deviceId.model) {
             case PedalProDeviceModel.PedalPro:
             deviceId.device = "PedalPro";
+            deviceId.presetCount = DeviceStdProfile.presetCount;
             break;
 
             case PedalProDeviceModel.PedalProEx:
             deviceId.device = "PedalPro-Ex";
+            deviceId.presetCount = DeviceExProfile.presetCount;
             break;
 
             // case PedalProDeviceModel.Pedalino:

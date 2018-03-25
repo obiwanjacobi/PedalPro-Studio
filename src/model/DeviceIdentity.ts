@@ -3,4 +3,5 @@ export interface DeviceIdentity {
     device: string;
     version: string;
     supported: boolean;
+    presetCount: number;
 }

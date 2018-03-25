@@ -1,4 +1,4 @@
-import TextProvider, { TextResources } from "../TextProvider";
+import { TextProvider, TextResources } from "../TextProvider";
 
 describe("TextProvider.ts", () => {
     it ("Ctor - parses json resources", () => {

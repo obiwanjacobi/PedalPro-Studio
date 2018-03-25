@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import Application from "../Application";
+import { Application } from "../Application";
 
 describe("Application.tsx", () => {
     it("Application renders without crashing", () => {
