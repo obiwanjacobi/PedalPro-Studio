@@ -4,8 +4,9 @@ import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument
 import { Client, PresetsClient } from "./Client";
 import { Preset } from "./Preset";
 import { createDeviceInfoAction } from "./DevciceInfoAction";
-import { ProgressInfo } from "./screen/ScreenState";
+import { ProgressInfo, ScreenState } from "./screen/ScreenState";
 import { DeviceIdentity } from "../model/DeviceIdentity";
+import { createUpdateScreenAction } from "./screen/UpdateScreenAction";
 
 const client = new Client(0x04d8);
 
@@ -35,8 +36,8 @@ const loadAllPresets =
 const makeProgressInfo = (deviceInfo: DeviceIdentity, currentPreset: number): ProgressInfo => {
     return <ProgressInfo> { 
         title: deviceInfo.device, 
-        message: `Loading preset ${currentPreset} of ${deviceInfo.presetCount}.`,
-        percent: Math.round(currentPreset / (deviceInfo.presetCount * 100))
+        message: `Loading preset ${currentPreset + 1} of ${deviceInfo.presetCount}.`,
+        percent: Math.round(currentPreset * 100 / deviceInfo.presetCount)
     };
 };
 
@@ -55,6 +56,9 @@ async function loadPresets(
         const progress = makeProgressInfo(deviceInfo, index);
         await loadPreset(presetClient, index, dispatch, progress);
     }
+
+    // dismiss progress
+    dispatch(createUpdateScreenAction(new ScreenState()));
 }
 
 const progressLoadPresets = (

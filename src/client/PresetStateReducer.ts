@@ -8,6 +8,7 @@ import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
 import { SavePresetsAction } from "./SavePresetsAction";
+import { ScreenState } from "./screen/ScreenState";
 
 const PresetCount = 400;
 
@@ -217,6 +218,10 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
             return reduceFault(state, action.source, action.error);
         }
         if (action.presets) {
+            if (action.progress) {
+                const newState = state.copyOverrideScreen(new ScreenState(action.progress));
+                return reduceLoadPresets(newState, action.source, action.presets);
+            }
             return reduceLoadPresets(state, action.source, action.presets);
         }
         break;

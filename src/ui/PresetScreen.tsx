@@ -7,6 +7,7 @@ import DevicePresetTab from "./DevicePresetTab";
 import { StoragePresetTab } from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
 import UserNotification from "../client/notification/UserNotification";
+import ProgressBar from "../client/screen/ProgressBar";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {
@@ -42,6 +43,7 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
                     </Tabs>
                 </AppBar>
                 <UserNotification />
+                <ProgressBar />
             </div>
         );
     }

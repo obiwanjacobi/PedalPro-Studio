@@ -15,7 +15,7 @@ const appTheme = createMuiTheme({
             checked: {
                 color: "#FFC107"
             }
-        }
+        },
     }
 });
 

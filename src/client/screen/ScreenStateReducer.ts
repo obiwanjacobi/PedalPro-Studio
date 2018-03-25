@@ -14,7 +14,9 @@ export const reduce = (state: ScreenState = new ScreenState(), action: ScreenAct
         case "U/screen/progress":
         return reduceProgress(state, action.progress);
 
-        // case "U/screen/":
+        case "U/screen/":
+        return action.screenState;
+
         default:
         return state;
     }
