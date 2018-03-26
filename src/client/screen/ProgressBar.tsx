@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect, MapStateToProps } from "react-redux";
-
-import { LinearProgress, Typography, Snackbar } from "material-ui";
+import { LinearProgress, Popover, Typography } from "material-ui";
 
 import { ProgressInfo } from "./ScreenState";
 import { ApplicationDocument } from "../ApplicationDocument";
@@ -11,7 +10,6 @@ export interface ProgressBarStateProps {
     progress?: ProgressInfo;
 }
 export interface ProgressBarState { }
-
 export type ProgressBarAllProps = ProgressBarStateProps & ProgressBarProps & ProgressBarState;
 
 export class ProgressBar extends React.Component<ProgressBarAllProps, ProgressBarState> {
@@ -21,20 +19,22 @@ export class ProgressBar extends React.Component<ProgressBarAllProps, ProgressBa
 
     public render() {
         return (
-            <Snackbar
+            <Popover
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 open={!!this.props.progress}
-                message={this.renderMessage()}
-            />
+                marginThreshold={32}
+            >
+                {this.renderMessage()}
+            </Popover>
         );
     }
 
     private renderMessage() {
         if (!this.props.progress) { return <span />; }
         return (
-            <div>
-                <Typography>{this.props.progress.title}</Typography>
-                <Typography>{this.props.progress.message}</Typography>
+            <div style={{ padding: 16 }}>
+                <Typography align="center" gutterBottom={true} type="body2">{this.props.progress.title}</Typography>
+                <Typography align="center" color="secondary">{this.props.progress.message}</Typography>
                 <LinearProgress mode="determinate" value={this.props.progress.percent} />
             </div>
         );
