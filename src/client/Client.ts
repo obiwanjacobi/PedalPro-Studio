@@ -36,6 +36,13 @@ export class PresetsClient {
         return response.result.presets.map(this.extendPreset);
     }
 
+    public async getPresetsPaged(page: number, size: number): Promise<Preset[]> {
+        const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/?page=${page}&size=${size}`);
+        this.throwIfError(response);
+
+        return response.result.presets.map(this.extendPreset);
+    }
+
     public async getPreset(presetIndex: number): Promise<Preset> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/${presetIndex}`);
         this.throwIfError(response);

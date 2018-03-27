@@ -9,6 +9,7 @@ import { DeviceIdentity } from "../model/DeviceIdentity";
 import { createUpdateScreenAction } from "./screen/UpdateScreenAction";
 
 const client = new Client(0x04d8);
+const pageSize = 20;
 
 export const LoadPresetsActionKey: string = "R/*/presets/";
 
@@ -50,16 +51,36 @@ async function loadPreset(
     });
 }
 
+async function loadPresetsPaged(
+    presetClient: PresetsClient, page: number, dispatch: Dispatch<ApplicationDocument>, progress: ProgressInfo) {
+    const presets = await presetClient.getPresetsPaged(page, pageSize);
+    dispatch({ 
+        type: LoadPresetsActionKey, source: presetClient.collection, presets: presets, 
+        error: null, progress: progress
+    });
+}
+
 async function loadPresets(
     deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) {
-    for (let index = 0; index < deviceInfo.presetCount; index++) {
-        const progress = makeProgressInfo(deviceInfo, index);
-        await loadPreset(presetClient, index, dispatch, progress);
+    for (let page = 0; page < deviceInfo.presetCount / pageSize; page++) {
+        const progress = makeProgressInfo(deviceInfo, page * pageSize);
+        await loadPresetsPaged(presetClient, page, dispatch, progress);
     }
 
     // dismiss progress
     dispatch(createUpdateScreenAction(new ScreenState()));
 }
+
+// async function loadPresets(
+//     deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) {
+//     for (let index = 0; index < deviceInfo.presetCount; index++) {
+//         const progress = makeProgressInfo(deviceInfo, index);
+//         await loadPreset(presetClient, index, dispatch, progress);
+//     }
+
+//     // dismiss progress
+//     dispatch(createUpdateScreenAction(new ScreenState()));
+// }
 
 const progressLoadPresets = (
     presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) => {

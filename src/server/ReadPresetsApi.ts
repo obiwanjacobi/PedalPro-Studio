@@ -24,12 +24,18 @@ export class ReadPresetsApi implements ApiHandler {
         return PedalProProviderFactory.create();
     }
 
-    private getPresets(_: express.Request, response: express.Response) {
+    private getPresets(request: express.Request, response: express.Response) {
+        const page = request.query.page;
+        const size = request.query.size;
         const msg = <PresetResponse> { };
 
         try {
             const provider = this.createProvider();
-            msg.presets = provider.getPresets();
+            if (page && size) {
+                msg.presets = provider.getPresetsPaged(Number(page), Number(size));
+            } else {
+                msg.presets = provider.getPresets();
+            }
         } catch (error) {
             msg.fault = createFault(error.message);
         }

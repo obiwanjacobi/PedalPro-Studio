@@ -4,7 +4,7 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redu
 
 import { Preset } from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
-import { ChangedView }from "../client/controls/ChangedView";
+import { ChangedView } from "../client/controls/ChangedView";
 import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";

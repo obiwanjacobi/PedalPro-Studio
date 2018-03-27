@@ -35,6 +35,10 @@ export class CommonPresetProvider implements PresetProvider {
         throw new Error("Not Supported.");
     }
     
+    public getPresetsPaged(_: number, __: number): Preset[] {
+        throw new Error("Not Supported.");
+    }
+
     public putPreset(_: Preset): void {
         throw new Error("Not Supported.");
     }

@@ -39,6 +39,24 @@ export class PedalProProvider extends CommonPresetProvider {
         return this.onePreset(presetIndex);
     }
 
+    public getPresetsPaged(page: number, size: number): Preset[] {
+        if (page < 0 || size <= 0) { throw new RangeError("Page and Size must be possitive."); }
+
+        const presets = new Array<Preset>();
+        const start = page * size;
+
+        if (start < this.profile.presetCount) { 
+            let end = start + size;
+            if (end >= this.profile.presetCount) { end = this.profile.presetCount; }
+
+            for (let index = start; index < end; index++) {
+                presets.push(this.onePreset(index));
+            }
+        }
+
+        return presets;
+    }
+
     public getPresets(): Preset[] {
         const presets = this.allPresets();
         return presets.filter((p) => !p.traits.empty);
