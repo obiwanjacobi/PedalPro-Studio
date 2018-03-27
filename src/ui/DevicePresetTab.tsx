@@ -128,8 +128,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
 
         switch (status) {
             case SelectAllButtonStatus.AllChanged:
-            presets = this.changed.changed;
-            selectPresets = presets.length > 0;
+            selectPresets = true;
+            if (this.changed.anyChanged) {
+                presets = this.changed.changed;
+            }   // else fall back to select-all
             break;
             case SelectAllButtonStatus.AllSelected:
             selectPresets = true;

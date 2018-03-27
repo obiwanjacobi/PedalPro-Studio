@@ -49,17 +49,17 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                         style={{paddingLeft: 16}}
                         placeholder="Type to Filter Presets"
                         value={this.state.searchKey}
-                        disabled={this.props.presets.length === 0}
+                        disabled={!this.isEnabled}
                         onChange={this.searchHandler}
                         endAdornment={
                             <InputAdornment position="end">
-                                <IconButton onClick={this.clearSearch}>
+                                <IconButton onClick={this.clearSearch} disabled={!this.isEnabled}>
                                     <Clear/>
                                 </IconButton>
                             </InputAdornment>
                         }
                     />
-                    <IconButton onClick={this.toggleShowEmpty}>
+                    <IconButton onClick={this.toggleShowEmpty} disabled={!this.isEnabled}>
                         {this.state.showEmpty ? <Square/> : <SquareOutline/>}
                     </IconButton>
                 </div>
@@ -72,6 +72,10 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                 />
             </div>
         );
+    }
+
+    private get isEnabled(): boolean {
+        return this.props.presets.length > 0;
     }
 
     private filteredPresets(): Preset[] {
