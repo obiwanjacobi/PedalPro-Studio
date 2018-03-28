@@ -12,6 +12,7 @@ import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsActio
 import { EditPreset, createEditPresetAction } from "../client/EditPresetAction";
 import { MovePreset, createMovePresetAction } from "../client/MovePresetAction";
 import { SavePresets, createSavePresetsAction } from "../client/SavePresetsAction";
+import { PastePresets, createPastePresetsAction } from "../client/PastePresetsAction";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
@@ -20,9 +21,10 @@ import { SelectAllButtonStatus } from "../client/controls/SelectAllButton";
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
     presets: Preset[];
+    clipboard: Preset[];
 }
 export type DevicePresetTabActions = 
-    SelectPresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset;
+    SelectPresets & LoadPresets & SavePresets & CopyPresets & PastePresets & EditPreset & MovePreset;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 
@@ -43,6 +45,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
 
         // bind event handlers
         this.onCopySelected = this.onCopySelected.bind(this);
+        this.pasteClipboard = this.pasteClipboard.bind(this);
         this.download = this.download.bind(this);
         this.upload = this.upload.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
@@ -54,6 +57,8 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
+                    enablePaste={this.props.clipboard.length > 0}
+                    onPaste={this.pasteClipboard}
                     enableDownload={true}
                     onDownload={this.download}
                     enableSelectAll={!this.selection.isEmpty}
@@ -73,7 +78,8 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     }
 
     public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: {}): boolean {
-        return this.props.presets !== nextProps.presets;
+        return this.props.presets !== nextProps.presets ||
+               this.props.clipboard !== nextProps.clipboard;
     }
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
@@ -88,7 +94,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private onCopySelected() {
         const selectedPresets = this.selection.selected;
         if (selectedPresets.length > 0) {
-            this.actions.copyPresets(selectedPresets, PresetCollectionType.storage);
+            this.actions.copyPresets(selectedPresets, PresetCollectionType.clipboard);
         }
     }
 
@@ -146,6 +152,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
         }
     }
 
+    private pasteClipboard() {
+        this.props.pastePresets(this.props.clipboard, PresetCollectionType.device);
+    }
+
     private download() {
         this.actions.loadPresets(PresetCollectionType.device);
     }
@@ -159,7 +169,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
 const extractComponentPropsFromState: MapStateToProps<
         DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument
     > = (state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
-        return  { presets: state.device };
+        return  { presets: state.device, clipboard: state.clipboard };
 };
 
 const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps> =
@@ -176,6 +186,9 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
             },
             copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createCopyPresetsAction(presets, target));
+            },
+            pastePresets: (presets: Preset[], target: PresetCollectionType): void => {
+                dispatch(createPastePresetsAction(presets, target));
             },
             editPreset: (preset: Preset, update: Partial<Preset>): void => {
                 dispatch(createEditPresetAction(preset, update));

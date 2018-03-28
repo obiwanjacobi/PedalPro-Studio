@@ -9,13 +9,12 @@ import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
 import { SavePresetsAction } from "./SavePresetsAction";
 import { ScreenState } from "./screen/ScreenState";
-
-const PresetCount = 400;
+import { PastePresetsAction } from "./PastePresetsAction";
 
 // all actions this reducer handles
 export type PresetAction = 
     LoadPresetsAction | SavePresetsAction | 
-    SelectPresetsAction | CopyPresetsAction | 
+    SelectPresetsAction | CopyPresetsAction | PastePresetsAction |
     EditPresetAction | MovePresetAction;
 
 const copyOverride = (
@@ -70,9 +69,9 @@ const reduceMovePreset = (
     const replaceMovedPreset = (collection: Preset[]): Preset[] => {
         const indexPos = collection.indexOf(preset);
         if (indexPos === -1) { throw new Error("Invalid preset - not found in collection."); }
-        
+
         const targetIndex = preset.index + displacement;
-        if (targetIndex < 0 || targetIndex >= PresetCount) { return collection; }
+        if (targetIndex < 0 || targetIndex >= collection.length) { return collection; }
 
         const newCollection = collection.slice();
         const targetIndexPos = collection.findIndex((prst: Preset) => prst.index === targetIndex);
@@ -141,6 +140,49 @@ const reduceCopyPresets = (
     };
 
     return copyOverride(state, target, (oldPresets: Preset[]) => copyPresets(oldPresets));
+};
+
+const reducePastePresets = (
+    state: ApplicationDocument, 
+    presets: Preset[], 
+    target: PresetCollectionType): ApplicationDocument => {
+    if (presets.length === 0) { return state; }
+    if (target === PresetCollectionType.clipboard) { return state; }
+
+    const pastedPresets: Preset[] = new Array<Preset>();
+
+    // local helper function
+    const pastePresets = (collection: Preset[]): Preset[] => {
+        const newCollection = collection.slice();
+
+        presets.forEach(pastePreset => {
+            const emptyIndex = newCollection.findIndex((p) => p.traits.empty);
+            if (emptyIndex === -1 ) { return; }
+
+            newCollection[emptyIndex] = { ...pastePreset, index: emptyIndex, source: target};
+            pastedPresets.push(pastePreset);
+        });
+
+        return newCollection;
+    };
+
+    const newState = copyOverride(state, target, (oldPresets: Preset[]) => pastePresets(oldPresets));
+
+    const cleanupClipboard = (collection: Preset[]): Preset[]  => {
+        const newCollection = new Array<Preset>();
+
+        collection.forEach(clipboardPreset => {
+            const oldIndex = pastedPresets.findIndex((p) => clipboardPreset === p);
+            if (oldIndex === -1) {
+                newCollection.push(clipboardPreset);
+            }
+        });
+
+        return  newCollection;
+    };
+
+    return copyOverride(newState, PresetCollectionType.clipboard, 
+                        (oldPresets: Preset[]) => cleanupClipboard(oldPresets));
 };
 
 const reducePresetSelected = (
@@ -237,8 +279,11 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         case "U/*/presets/.selected":
         return reducePresetSelected(state, action.presets, action.selected, action.expanded);
 
-        case "C/*/presets/":
+        case "C/clipboard/presets/":
         return reduceCopyPresets(state, action.presets, action.target);
+
+        case "C/*/presets/":
+        return reducePastePresets(state, action.presets, action.target);
 
         case "U/*/presets/.*":
         return reduceEditPreset(state, action.preset, action.update);

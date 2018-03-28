@@ -1,7 +1,5 @@
 import * as React from "react";
-import { AppBar, Tabs, Tab } from "material-ui";
-
-// import { PresetCollectionType } from "../client/ApplicationDocument";
+import { AppBar, Grid, Tabs, Tab } from "material-ui";
 
 import DevicePresetTab from "./DevicePresetTab";
 import { StoragePresetTab } from "./StoragePresetTab";
@@ -36,11 +34,21 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
                     {this.selectedTab === 2 && <FactoryPresetTab />}
                 </div>
                 <AppBar position="static" style={{ flex: "0 1 auto" }}>
-                    <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
-                        <Tab label="Device" />
-                        <Tab label="Storage" />
-                        <Tab label="Factory" />
-                    </Tabs>
+                    <Grid container={true}>
+                        <Grid item={true} xs={12}>
+                            <Tabs fullWidth={true} value={this.selectedTab} onChange={this.changePageHandler}>
+                                <Tab label="Device" />
+                                <Tab label="Storage" />
+                                <Tab label="Factory" />
+                            </Tabs>
+                        </Grid>
+                    
+                        {/* <Grid item={true} xs={1}>
+                            <IconButton>
+                                <NotificationsNone />
+                            </IconButton>
+                        </Grid> */}
+                    </Grid>
                 </AppBar>
                 <UserNotification />
                 <ProgressBar />
@@ -60,16 +68,4 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
     private activatePage(index: number) {
         this.setState({ selectedTab: index });
     }
-
-    // private get activeCollection(): PresetCollectionType {
-    //     switch (this.selectedTab) {
-    //         default:
-    //         case 0:
-    //         return PresetCollectionType.device;
-    //         case 1:
-    //         return PresetCollectionType.storage;
-    //         case 2:
-    //         return PresetCollectionType.factory;
-    //     }
-    // }   
 }

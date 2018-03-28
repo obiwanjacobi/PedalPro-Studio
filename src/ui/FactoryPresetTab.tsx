@@ -76,7 +76,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
     private onCopySelected() {
         const selectedPresets = this.selection.selected;
         if (selectedPresets.length > 0) {
-            this.actions.copyPresets(selectedPresets, PresetCollectionType.storage);
+            this.actions.copyPresets(selectedPresets, PresetCollectionType.clipboard);
         }
     }
 
