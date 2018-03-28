@@ -1,11 +1,11 @@
 import * as React from "react";
 import { IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
-import Clear from "material-ui-icons/Clear";
-import { Square, SquareOutline } from "mdi-material-ui";
+import { Clear } from "material-ui-icons";
+import { CheckboxMultipleMarkedCircleOutline, CheckboxMultipleMarkedCircle, Flag, FlagOutline, Square, SquareOutline } from "mdi-material-ui";
 
 import { PresetList } from "./PresetList";
-import { Preset } from "../client/Preset";
+import { Preset, presetHasChanged } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
@@ -17,6 +17,8 @@ export interface PresetViewStateProps {
 export interface PresetViewState {
     searchKey: string;
     showEmpty: boolean;
+    showSelected: boolean;
+    showChanged: boolean;
 }
 
 export type PresetViewAllProps = PresetViewStateProps & SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
@@ -30,13 +32,15 @@ const containerStyles: React.CSSProperties = {
 export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
         super(props);
-        this.state = { searchKey: "", showEmpty: false };
+        this.state = { searchKey: "", showEmpty: false, showChanged: false, showSelected: false };
         // bind event handlers
         this.searchHandler = this.searchHandler.bind(this);
         this.clearSearch = this.clearSearch.bind(this);
         this.filteredPresets = this.filteredPresets.bind(this);
         this.isVisible = this.isVisible.bind(this);
         this.toggleShowEmpty = this.toggleShowEmpty.bind(this);
+        this.toggleShowSelected = this.toggleShowSelected.bind(this);
+        this.toggleShowChanged = this.toggleShowChanged.bind(this);
     }
 
     public render() {
@@ -62,13 +66,19 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                     <IconButton onClick={this.toggleShowEmpty} disabled={!this.isEnabled}>
                         {this.state.showEmpty ? <Square/> : <SquareOutline/>}
                     </IconButton>
+                    <IconButton onClick={this.toggleShowSelected} disabled={!this.isEnabled}>
+                        {this.state.showSelected ? 
+                            <CheckboxMultipleMarkedCircle/> : <CheckboxMultipleMarkedCircleOutline/>}
+                    </IconButton>
+                    <IconButton onClick={this.toggleShowChanged} disabled={!this.isEnabled}>
+                        {this.state.showChanged ? <Flag/> : <FlagOutline/>}
+                    </IconButton>
                 </div>
                 <PresetList
                     presets={this.filteredPresets()}
                     selectPresets={this.props.selectPresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
-                    filter={this.state.searchKey}
                 />
             </div>
         );
@@ -84,7 +94,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
 
     private isVisible(preset: Preset): boolean {
         if (!this.state.searchKey || this.state.searchKey.length === 0) {
-            return this.isShowEmpty(preset);
+            return this.isShown(preset);
         }
 
         let isMatch = preset.name.toUpperCase().search(this.state.searchKey.toUpperCase()) >= 0;
@@ -92,19 +102,38 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         if (!isNaN(searchForIndex)) {
             isMatch = preset.index.toString().search(this.state.searchKey) >= 0;
         }
-        return isMatch && this.isShowEmpty(preset);
+
+        return isMatch && this.isShown(preset);
     }
 
-    private isShowEmpty(preset: Preset): boolean {
-        if (this.state.showEmpty) {
-            return true;
-        }
+    private isShown(preset: Preset): boolean {
+        const isChanged = presetHasChanged(preset);
+        const isSelected = preset.uiSelected;
+        const isEmpty = preset.traits.empty;
 
-        return !preset.traits.empty;
+        let shown = this.state.showEmpty ? true : !isEmpty;
+
+        if (this.state.showSelected) {
+            shown = isSelected;
+            if (this.state.showChanged) {
+                shown = isChanged || shown;
+            }
+        } else if (this.state.showChanged) {
+            shown = isChanged;
+        }
+        return shown;
     }
 
     private toggleShowEmpty() {
-        this.setState({ searchKey: this.state.searchKey, showEmpty: !this.state.showEmpty });
+        this.setNewState({ showEmpty: !this.state.showEmpty });
+    }
+
+    private toggleShowSelected() {
+        this.setNewState({ showSelected: !this.state.showSelected });
+    }
+
+    private toggleShowChanged() {
+        this.setNewState({ showChanged: !this.state.showChanged });
     }
 
     private clearSearch() {
@@ -120,5 +149,9 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         if (this.state.searchKey !== value) {
             this.setState( { searchKey: value });
         }
+    }
+
+    private setNewState(newState: Partial<PresetViewState>) {
+        this.setState({ ...this.state, ...newState });
     }
 }

@@ -11,7 +11,6 @@ import { MovePreset } from "../client/MovePresetAction";
 
 export interface PresetListProps {
     presets: Preset[];
-    filter: string;
 }
 export type PresetListActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
 export interface PresetListState { }
@@ -92,8 +91,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     }
 
     public shouldComponentUpdate(nextProps: PresetListAllProps, _: PresetListState): boolean {
-        return this.props.presets !== nextProps.presets || 
-            this.props.filter !== nextProps.filter;
+        return this.props.presets !== nextProps.presets;
     }
 
     public render(): React.ReactNode {
@@ -185,7 +183,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
         return (
             <div style={{...containerStyles, textAlign: "center"}}>
                 <Typography>
-                    Press <FileDownload/> to retrieve the presets.
+                    Press <FileDownload/> to retrieve the presets or adjust the filters.
                 </Typography>
             </div>
         );
