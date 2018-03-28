@@ -2,7 +2,11 @@ import * as React from "react";
 import { IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import { Clear } from "material-ui-icons";
-import { CheckboxMultipleMarkedCircleOutline, CheckboxMultipleMarkedCircle, Flag, FlagOutline, Square, SquareOutline } from "mdi-material-ui";
+import { 
+    CheckboxMultipleMarkedCircleOutline, CheckboxMultipleMarkedCircle, 
+    Flag, FlagOutline, 
+    Square, SquareOutline 
+} from "mdi-material-ui";
 
 import { PresetList } from "./PresetList";
 import { Preset, presetHasChanged } from "../client/Preset";

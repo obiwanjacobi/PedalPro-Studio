@@ -37,7 +37,7 @@ const loadAllPresets =
 const makeProgressInfo = (deviceInfo: DeviceIdentity, currentPreset: number): ProgressInfo => {
     return <ProgressInfo> { 
         title: deviceInfo.device, 
-        message: `Loading preset ${currentPreset + 1} of ${deviceInfo.presetCount}.`,
+        message: `Loading preset ${currentPreset} of ${deviceInfo.presetCount}.`,
         percent: Math.round(currentPreset * 100 / deviceInfo.presetCount)
     };
 };
