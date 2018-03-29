@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Index, List, AutoSizer, ListRowProps } from "react-virtualized";
-import { Typography } from "material-ui";
-import { FileDownload } from "material-ui-icons";
 
 import { PresetListItem } from "./PresetListItem";
 import { Preset } from "../client/Preset";
@@ -11,6 +9,7 @@ import { MovePreset } from "../client/MovePresetAction";
 
 export interface PresetListProps {
     presets: Preset[];
+    empty: React.ReactNode;
 }
 export type PresetListActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
 export interface PresetListState { }
@@ -182,9 +181,10 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     private renderNoRows() {
         return (
             <div style={{...containerStyles, textAlign: "center"}}>
-                <Typography>
+                {this.props.empty}
+                {/* <Typography>
                     Press <FileDownload/> to retrieve the presets or adjust the filters.
-                </Typography>
+                </Typography> */}
             </div>
         );
     }

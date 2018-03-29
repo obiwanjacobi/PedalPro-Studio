@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Typography } from "material-ui";
+import { FileDownload } from "material-ui-icons";
 
 import { Preset } from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
@@ -69,9 +71,13 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                 />
                 <PresetView 
                     presets={this.props.presets}
+                    readonly={false}
                     selectPresets={this.actions.selectPresets}
                     editPreset={this.actions.editPreset}
                     movePreset={this.actions.movePreset}
+                    empty={<Typography>
+                        Press <FileDownload/> to retrieve the presets.
+                    </Typography>}
                 />
             </div>
         );

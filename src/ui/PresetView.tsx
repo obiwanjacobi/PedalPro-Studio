@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IconButton } from "material-ui";
+import { IconButton, Typography } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import { Clear } from "material-ui-icons";
 import { 
@@ -18,6 +18,8 @@ import { ChangedView } from "../client/controls/ChangedView";
 
 export interface PresetViewStateProps { 
     presets: Preset[];
+    readonly: boolean;
+    empty: React.ReactNode;
 }
 
 export interface PresetViewState {
@@ -69,22 +71,25 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                             </InputAdornment>
                         }
                     />
-                    <IconButton onClick={this.toggleShowEmpty} disabled={!this.isShowEmptyEnabled}>
-                        {this.state.showEmpty ? <Square/> : <SquareOutline/>}
-                    </IconButton>
                     <IconButton onClick={this.toggleShowSelected} disabled={!this.isShowSelectedEnabled}>
                         {this.state.showSelected ? 
                             <CheckboxMultipleMarkedCircle/> : <CheckboxMultipleMarkedCircleOutline/>}
                     </IconButton>
-                    <IconButton onClick={this.toggleShowChanged} disabled={!this.isShowChangedEnabled}>
-                        {this.state.showChanged ? <Flag/> : <FlagOutline/>}
-                    </IconButton>
+                    {!this.props.readonly &&
+                        <IconButton onClick={this.toggleShowChanged} disabled={!this.isShowChangedEnabled}>
+                            {this.state.showChanged ? <Flag/> : <FlagOutline/>}
+                        </IconButton>}
+                    {!this.props.readonly &&
+                        <IconButton onClick={this.toggleShowEmpty} disabled={!this.isShowEmptyEnabled}>
+                            {this.state.showEmpty ? <Square/> : <SquareOutline/>}
+                        </IconButton>}
                 </div>
                 <PresetList
                     presets={this.filteredPresets()}
                     selectPresets={this.props.selectPresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
+                    empty={this.hasNoSearchResult ? this.renderNoResults() : this.props.empty}
                 />
             </div>
         );
@@ -165,8 +170,19 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
     private search(value: string) {
         if (value.length > 10) { return; }
         if (this.state.searchKey !== value) {
-            this.setState( { searchKey: value });
+            this.setNewState({ searchKey: value });
         }
+    }
+
+    private renderNoResults() {
+        return (
+            <Typography>
+                No results, adjust filter.
+            </Typography>
+        );
+    }
+    private get hasNoSearchResult(): boolean {
+        return this.filteredPresets.length === 0 && this.props.presets.length > 0;
     }
 
     private setNewState(newState: Partial<PresetViewState>) {

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Typography } from "material-ui";
 
 import { Preset } from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
@@ -49,7 +50,11 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                 />
                 <PresetView 
                     presets={this.props.presets}
+                    readonly={true}
                     selectPresets={this.actions.selectPresets}
+                    empty={<Typography>
+                        No factory presets were found.
+                    </Typography>}
                 />
             </div>
         );
