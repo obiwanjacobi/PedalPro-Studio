@@ -13,6 +13,8 @@ import { Preset, presetHasChanged } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
+import { SelectedView } from "../client/controls/SelectedView";
+import { ChangedView } from "../client/controls/ChangedView";
 
 export interface PresetViewStateProps { 
     presets: Preset[];
@@ -67,14 +69,14 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                             </InputAdornment>
                         }
                     />
-                    <IconButton onClick={this.toggleShowEmpty} disabled={!this.isEnabled}>
+                    <IconButton onClick={this.toggleShowEmpty} disabled={!this.isShowEmptyEnabled}>
                         {this.state.showEmpty ? <Square/> : <SquareOutline/>}
                     </IconButton>
-                    <IconButton onClick={this.toggleShowSelected} disabled={!this.isEnabled}>
+                    <IconButton onClick={this.toggleShowSelected} disabled={!this.isShowSelectedEnabled}>
                         {this.state.showSelected ? 
                             <CheckboxMultipleMarkedCircle/> : <CheckboxMultipleMarkedCircleOutline/>}
                     </IconButton>
-                    <IconButton onClick={this.toggleShowChanged} disabled={!this.isEnabled}>
+                    <IconButton onClick={this.toggleShowChanged} disabled={!this.isShowChangedEnabled}>
                         {this.state.showChanged ? <Flag/> : <FlagOutline/>}
                     </IconButton>
                 </div>
@@ -90,6 +92,18 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
 
     private get isEnabled(): boolean {
         return this.props.presets.length > 0;
+    }
+
+    private get isShowEmptyEnabled(): boolean {
+        return this.isEnabled && !(this.state.showChanged || this.state.showSelected);
+    }
+
+    private get isShowSelectedEnabled(): boolean {
+        return this.isEnabled && SelectedView.areAnySelected(this.props.presets);
+    }
+
+    private get isShowChangedEnabled(): boolean {
+        return this.isEnabled && ChangedView.areAnyChanged(this.props.presets);
     }
 
     private filteredPresets(): Preset[] {

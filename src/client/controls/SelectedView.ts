@@ -10,6 +10,10 @@ export interface Selectable {
 export class SelectedView<T extends Selectable> {
     private readonly collection: T[];
 
+    public static areAnySelected(collection: Selectable[]): boolean {
+        return collection.some((item: Selectable) => item.uiSelected);
+    }
+
     public constructor(collection: T[]) {
         this.collection = collection;
     }

@@ -4,6 +4,10 @@ import { SelectAllButtonStatus } from "./SelectAllButton";
 export class ChangedView {
     private readonly collection: Preset[];
 
+    public static areAnyChanged(collection: Preset[]): boolean {
+        return collection.some((p) => presetHasChanged(p));
+    }
+    
     public constructor(collection: Preset[]) {
         this.collection = collection;
     }
