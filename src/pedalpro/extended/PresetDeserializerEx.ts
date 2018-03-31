@@ -2,9 +2,9 @@ import { Preset } from "../../model/Preset";
 import { EffectsEx } from "../../model/Effects";
 import { PreAmp, PreEmphasis, PreDistortionDiode, PreDistortionFet, PreFuzz, PreEqualizer } from "../../model/PreAmp";
 import { Dsp, 
-    DspType /*, DspDoubleDelay, DoubleDelay, DoubleDelay3, DoubleDelay4, DspCaveDelay, 
+    DspType, DspDoubleDelay, DoubleDelay, DoubleDelay3, DoubleDelay4, DspCaveDelay, 
     CaveDelay1, CaveDelay2, CaveDelay3, CaveDelay4, 
-    DspSingleTap, DspFourTapsDelay, DspTripleDelay, DspPlate, DspCustomSpring, DspHall, DspFreeVerb */
+    DspSingleTap, DspFourTapsDelay, DspTripleDelay, DspPlate, DspCustomSpring, DspHall, DspFreeVerb
 } from "../../model/Dsp";
 import { CommonPresetDeserializer } from "../CommonPresetDeserializer";
 import { EmptyPresetBufferEx } from "./EmptyPresetBufferEx";
@@ -102,110 +102,109 @@ export class PresetDeserializerEx extends CommonPresetDeserializer<PresetBufferE
         // params for customizable algorithms
         switch (dsp.type) {
             case DspType.DoubleDelay:
-            // dsp.doubleDelay = <DspDoubleDelay> { };
-            // dsp.doubleDelay.delay1 = <DoubleDelay> { };
-            // dsp.doubleDelay.delay1.delay = ;
-            // dsp.doubleDelay.delay1.feedback = ;
-            // dsp.doubleDelay.delay1.level = ;
-            // dsp.doubleDelay.delay2 = <DoubleDelay> { };
-            // dsp.doubleDelay.delay2.delay = ;
-            // dsp.doubleDelay.delay3.feedback = ;
-            // dsp.doubleDelay.delay2.level = ;
-            // dsp.doubleDelay.delay3 = <DoubleDelay3> { };
-            // dsp.doubleDelay.delay3.delay = ;
-            // dsp.doubleDelay.delay3.feedback = ;
-            // dsp.doubleDelay.delay4.level = ;
-            // dsp.doubleDelay.delay4 = <DoubleDelay4> { };
-            // dsp.doubleDelay.delay4.delay = ;
-            // dsp.doubleDelay.delay4.feedback = ;
-            // dsp.doubleDelay.delay4.level = ;
-            // dsp.doubleDelay.frequency1 = ;
-            // dsp.doubleDelay.frequency2 = ;
-            // dsp.doubleDelay.frequency3 = ;
-            // dsp.doubleDelay.frequency4 = ;
-            // dsp.doubleDelay.outL = ;
-            // dsp.doubleDelay.outR = ;
+            dsp.doubleDelay = <DspDoubleDelay> { };
+            dsp.doubleDelay.delay1 = <DoubleDelay> { };
+            dsp.doubleDelay.delay1.delay = buffer.getField(this.fields.Dsp.DoubleDelay.Delay1);
+            dsp.doubleDelay.delay1.feedback = buffer.getField(this.fields.Dsp.DoubleDelay.Feedback1);
+            dsp.doubleDelay.delay1.level = buffer.getField(this.fields.Dsp.DoubleDelay.Level1);
+            dsp.doubleDelay.delay2 = <DoubleDelay> { };
+            dsp.doubleDelay.delay2.delay = buffer.getField(this.fields.Dsp.DoubleDelay.Delay2);
+            dsp.doubleDelay.delay2.feedback = buffer.getField(this.fields.Dsp.DoubleDelay.Feedback2);
+            dsp.doubleDelay.delay2.level = buffer.getField(this.fields.Dsp.DoubleDelay.Level2);
+            dsp.doubleDelay.delay3 = <DoubleDelay3> { };
+            dsp.doubleDelay.delay3.delay = buffer.getField(this.fields.Dsp.DoubleDelay.Delay3);
+            dsp.doubleDelay.delay3.feedback = buffer.getField(this.fields.Dsp.DoubleDelay.Feedback3);
+            dsp.doubleDelay.delay3.level = buffer.getField(this.fields.Dsp.DoubleDelay.Level3);
+            dsp.doubleDelay.delay4 = <DoubleDelay4> { };
+            dsp.doubleDelay.delay4.delay = buffer.getField(this.fields.Dsp.DoubleDelay.Delay4);
+            dsp.doubleDelay.delay4.feedback = buffer.getField(this.fields.Dsp.DoubleDelay.Feedback4);
+            dsp.doubleDelay.delay4.level = buffer.getField(this.fields.Dsp.DoubleDelay.Level4);
+            dsp.doubleDelay.frequency1 = buffer.getField(this.fields.Dsp.DoubleDelay.Frequency1);
+            dsp.doubleDelay.frequency2 = buffer.getField(this.fields.Dsp.DoubleDelay.Frequency2);
+            dsp.doubleDelay.frequencyL = buffer.getField(this.fields.Dsp.DoubleDelay.FrequencyL);
+            dsp.doubleDelay.frequencyR = buffer.getField(this.fields.Dsp.DoubleDelay.FrequencyR);
+            dsp.doubleDelay.outL = buffer.getField(this.fields.Dsp.DoubleDelay.OutL);
+            dsp.doubleDelay.outR = buffer.getField(this.fields.Dsp.DoubleDelay.OutR);
             break;
             case DspType.CaveDelay:
-            // dsp.caveDelay = <DspCaveDelay> { };
-            // dsp.caveDelay.delay1 = <CaveDelay1> { };
-            // dsp.caveDelay.delay1.delay = ;
-            // dsp.caveDelay.delay1.feedback = ;
-            // dsp.caveDelay.delay1.level = ;
-            // dsp.caveDelay.delay2 = <CaveDelay2> { };
-            // dsp.caveDelay.delay2.delay = ;
-            // dsp.caveDelay.delay2.feedback = ;
-            // dsp.caveDelay.delay2.level = ;
-            // dsp.caveDelay.delay3 = <CaveDelay3> { };
-            // dsp.caveDelay.delay3.delay = ;
-            // dsp.caveDelay.delay3.feedback = ;
-            // dsp.caveDelay.delay3.level = ;
-            // dsp.caveDelay.delay4 = <CaveDelay4> { };
-            // dsp.caveDelay.delay4.delay = ;
-            // dsp.caveDelay.delay4.feedback = ;
-            // dsp.caveDelay.delay4.level = ;
-            // dsp.caveDelay.frequency1 = ;
-            // dsp.caveDelay.frequency2 = ;
-            // dsp.caveDelay.frequency3 = ;
-            // dsp.caveDelay.frequency4 = ;
-            // dsp.caveDelay.outL = ;
-            // dsp.caveDelay.outR = ;
+            dsp.caveDelay = <DspCaveDelay> { };
+            dsp.caveDelay.delay1 = <CaveDelay1> { };
+            dsp.caveDelay.delay1.delay = buffer.getField(this.fields.Dsp.CaveDelay.Delay1);
+            dsp.caveDelay.delay1.feedback = buffer.getField(this.fields.Dsp.CaveDelay.Feedback1);
+            dsp.caveDelay.delay1.level = buffer.getField(this.fields.Dsp.CaveDelay.Level1);
+            dsp.caveDelay.delay2 = <CaveDelay2> { };
+            dsp.caveDelay.delay2.delay = buffer.getField(this.fields.Dsp.CaveDelay.Delay2);
+            dsp.caveDelay.delay2.feedback = buffer.getField(this.fields.Dsp.CaveDelay.Feedback2);
+            dsp.caveDelay.delay2.level = buffer.getField(this.fields.Dsp.CaveDelay.Level2);
+            dsp.caveDelay.delay3 = <CaveDelay3> { };
+            dsp.caveDelay.delay3.delay = buffer.getField(this.fields.Dsp.CaveDelay.Delay3);
+            dsp.caveDelay.delay3.feedback = buffer.getField(this.fields.Dsp.CaveDelay.Feedback3);
+            dsp.caveDelay.delay3.level = buffer.getField(this.fields.Dsp.CaveDelay.Level3);
+            dsp.caveDelay.delay4 = <CaveDelay4> { };
+            dsp.caveDelay.delay4.delay = buffer.getField(this.fields.Dsp.CaveDelay.Delay4);
+            dsp.caveDelay.delay4.feedback = buffer.getField(this.fields.Dsp.CaveDelay.Feedback4);
+            dsp.caveDelay.delay4.level = buffer.getField(this.fields.Dsp.CaveDelay.Level4);
+            dsp.caveDelay.frequency1 = buffer.getField(this.fields.Dsp.CaveDelay.Frequency1);
+            dsp.caveDelay.frequency2 = buffer.getField(this.fields.Dsp.CaveDelay.Frequency2);
+            dsp.caveDelay.frequencyL = buffer.getField(this.fields.Dsp.CaveDelay.FrequencyL);
+            dsp.caveDelay.frequencyR = buffer.getField(this.fields.Dsp.CaveDelay.FrequencyR);
+            dsp.caveDelay.outL = buffer.getField(this.fields.Dsp.CaveDelay.OutL);
+            dsp.caveDelay.outR = buffer.getField(this.fields.Dsp.CaveDelay.OutR);
             break;
             case DspType.SingleTap:
-            // dsp.singleTap = <DspSingleTap> { };
-            // dsp.singleTap.feedback = ;
-            // dsp.singleTap.lowPassFrequency = ;
-            // dsp.singleTap.tempo = ;
+            dsp.singleTap = <DspSingleTap> { };
+            dsp.singleTap.feedback = buffer.getField(this.fields.Dsp.SingleTap.Feedback);
+            dsp.singleTap.lowPassFrequency = buffer.getField(this.fields.Dsp.SingleTap.LoPassFrequency);
+            dsp.singleTap.tempo = buffer.getField(this.fields.Dsp.SingleTap.Tempo);
             break;
             case DspType.FourTapsDelay:
-            // dsp.fourTapsDelay = <DspFourTapsDelay> { };
-            // dsp.fourTapsDelay.feedback = ;
-            // dsp.fourTapsDelay.frequency = ;
-            // dsp.fourTapsDelay.tap1 = ;
-            // dsp.fourTapsDelay.tap2 = ;
-            // dsp.fourTapsDelay.tap3 = ;
-            // dsp.fourTapsDelay.tap4 = ;
-            // dsp.fourTapsDelay.tempo = ;
+            dsp.fourTapsDelay = <DspFourTapsDelay> { };
+            dsp.fourTapsDelay.feedback = buffer.getField(this.fields.Dsp.FourTapDelay.Feedback);
+            dsp.fourTapsDelay.frequency = buffer.getField(this.fields.Dsp.FourTapDelay.Frequency);
+            dsp.fourTapsDelay.tap1 = buffer.getField(this.fields.Dsp.FourTapDelay.Tap1);
+            dsp.fourTapsDelay.tap2 = buffer.getField(this.fields.Dsp.FourTapDelay.Tap2);
+            dsp.fourTapsDelay.tap3 = buffer.getField(this.fields.Dsp.FourTapDelay.Tap3);
+            dsp.fourTapsDelay.tap4 = buffer.getField(this.fields.Dsp.FourTapDelay.Tap4);
+            dsp.fourTapsDelay.tempo = buffer.getField(this.fields.Dsp.FourTapDelay.Tempo);
             break;
             case DspType.TripleDelay:
-            // dsp.tripleDelay = <DspTripleDelay> { };
-            // dsp.tripleDelay.feedback = ;
-            // dsp.tripleDelay.frequency = ;
-            // dsp.tripleDelay.tap1 = ;
-            // dsp.tripleDelay.tap2 = ;
-            // dsp.tripleDelay.tap3 = ;
-            // dsp.tripleDelay.tap4 = ;
-            // dsp.tripleDelay.tempo = ;
+            dsp.tripleDelay = <DspTripleDelay> { };
+            dsp.tripleDelay.feedback = buffer.getField(this.fields.Dsp.TripleDelay.Feedback);
+            dsp.tripleDelay.frequency = buffer.getField(this.fields.Dsp.TripleDelay.Frequency);
+            dsp.tripleDelay.tap1 = buffer.getField(this.fields.Dsp.TripleDelay.Tap1);
+            dsp.tripleDelay.tap2 = buffer.getField(this.fields.Dsp.TripleDelay.Tap2);
+            dsp.tripleDelay.tap3 = buffer.getField(this.fields.Dsp.TripleDelay.Tap3);
+            dsp.tripleDelay.tempo = buffer.getField(this.fields.Dsp.TripleDelay.Tempo);
             break;
             case DspType.Plate:
-            // dsp.plate = <DspPlate> { };
-            // dsp.plate.hiPassFrequency = ;
-            // dsp.plate.lowPassFrequency = ;
-            // dsp.plate.size = ;
+            dsp.plate = <DspPlate> { };
+            dsp.plate.hiPassFrequency = buffer.getField(this.fields.Dsp.Plate.HiPassFrequency);
+            dsp.plate.lowPassFrequency = buffer.getField(this.fields.Dsp.Plate.LoPassFrequency);
+            dsp.plate.size = buffer.getField(this.fields.Dsp.Plate.Size);
             break;
             case DspType.CustomSpring:
-            // dsp.customSpring = <DspCustomSpring> { };
-            // dsp.customSpring.hiPassFrequency = ;
-            // dsp.customSpring.lowPassFrequency = ;
-            // dsp.customSpring.time = ;
+            dsp.customSpring = <DspCustomSpring> { };
+            dsp.customSpring.hiPassFrequency = buffer.getField(this.fields.Dsp.CustomeSpring.HiPassFrequency);
+            dsp.customSpring.lowPassFrequency = buffer.getField(this.fields.Dsp.CustomeSpring.LoPassFrequency);
+            dsp.customSpring.time = buffer.getField(this.fields.Dsp.CustomeSpring.Time);
             break;
             case DspType.Hall:
-            // dsp.hall = <DspHall> { };
-            // dsp.hall.hiPassFrequency = ;
-            // dsp.hall.lowPassFrequency = ;
-            // dsp.hall.preDelayTime = ;
-            // dsp.hall.reverbTime = ;
+            dsp.hall = <DspHall> { };
+            dsp.hall.hiPassFrequency = buffer.getField(this.fields.Dsp.Hall.HiPassFrequency);
+            dsp.hall.lowPassFrequency = buffer.getField(this.fields.Dsp.Hall.LoPassFrequency);
+            dsp.hall.preDelayTime = buffer.getField(this.fields.Dsp.Hall.PreDelayTime);
+            dsp.hall.reverbTime = buffer.getField(this.fields.Dsp.Hall.ReverbTime);
             break;
             case DspType.FreeVerb:
-            // dsp.freeVerb = <DspFreeVerb> { };
-            // dsp.freeVerb.hiPassFrequency = ;
-            // dsp.freeVerb.size = ;
+            dsp.freeVerb = <DspFreeVerb> { };
+            dsp.freeVerb.hiPassFrequency = buffer.getField(this.fields.Dsp.FreeVerb.HiPassFrequency);
+            dsp.freeVerb.size = buffer.getField(this.fields.Dsp.FreeVerb.Size);
             break;
             default:
             break;
         }
 
-        dsp.data = buffer.formatData(this.fields.DspDataStart, this.fields.DspDataEnd + 1);
+        // dsp.data = buffer.formatData(this.fields.DspDataStart, this.fields.DspDataEnd + 1);
 
         return  dsp;
     }

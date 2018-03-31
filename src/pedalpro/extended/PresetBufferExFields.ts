@@ -40,7 +40,102 @@ export interface PresetBufferExFieldIndex extends CommonPresetBufferFieldIndex {
     readonly DspAlgorithm: number;
     readonly DspDataStart: number;
     readonly DspDataEnd: number;
+
+    readonly Dsp: {
+        Plate: {
+            Size: number;
+            HiPassFrequency: number;
+            LoPassFrequency: number;
+        },
+        FreeVerb: {
+            Size: number,
+            HiPassFrequency: number;
+        },
+        CustomeSpring: {
+            Time: number,
+            HiPassFrequency: number;
+            LoPassFrequency: number;
+        },
+        SingleTap: {
+            Feedback: number;
+            Tempo: number;
+            LoPassFrequency: number;
+            Fixed0x50_1: number;
+            Fixed0x50_2: number;
+            Fixed0x50_3: number;
+            Fixed0x50_4: number;
+        },
+        Hall: {
+            PreDelayTime: number;
+            ReverbTime: number;
+            LoPassFrequency: number;
+            HiPassFrequency: number;
+            Fixed0x50_1: number;
+            Fixed0x50_2: number;
+            Fixed0x7B: number;
+        },
+        TripleDelay: {
+            Tempo: number;
+            Feedback: number;
+            Frequency: number;
+            Tap1: number;
+            Fixed0x50: number;
+            Tap2: number;
+            Tap3: number;
+        },
+        FourTapDelay: {
+            Tempo: number;
+            Feedback: number;
+            Frequency: number;
+            Tap1: number;
+            Tap2: number;
+            Tap3: number;
+            Tap4: number;
+        },
+        DoubleDelay: {
+            Delay1: number;
+            Level1: number;
+            Feedback1: number;
+            Delay2: number;
+            Level2: number;
+            Feedback2: number;
+            Delay3: number;
+            Level3: number;
+            Feedback3: number;
+            Delay4: number;
+            Level4: number;
+            Feedback4: number;
+            Frequency1: number;
+            Frequency2: number;
+            FrequencyL: number;
+            FrequencyR: number;
+            OutL: number;
+            OutR: number;
+        },
+        CaveDelay: {
+            Delay1: number;
+            Level1: number;
+            Feedback1: number;
+            Delay2: number;
+            Level2: number;
+            Feedback2: number;
+            Delay3: number;
+            Level3: number;
+            Feedback3: number;
+            Delay4: number;
+            Level4: number;
+            Feedback4: number;
+            Frequency1: number;
+            Frequency2: number;
+            FrequencyL: number;
+            FrequencyR: number;
+            OutL: number;
+            OutR: number;
+        }
+    };
 }
+
+const DspSettingsPos = 0x80;
 
 export const PresetBufferExFields: PresetBufferExFieldIndex = {
     PresetName: 0x00,
@@ -215,6 +310,99 @@ export const PresetBufferExFields: PresetBufferExFieldIndex = {
     // not used: 0x7F,
 
     // location 0x80-0x9F used for DSP parameters
-    DspDataStart: 0x80,
+    DspDataStart: 0x80, // DspSettingsPos
     DspDataEnd: 0x9F,
+
+    Dsp: {
+        Plate: {
+            Size: DspSettingsPos,
+            LoPassFrequency: DspSettingsPos + 1,
+            HiPassFrequency: DspSettingsPos + 2
+        },
+        FreeVerb: {
+            Size: DspSettingsPos + 1,
+            HiPassFrequency: DspSettingsPos,
+        },
+        CustomeSpring: {
+            Time: DspSettingsPos,
+            LoPassFrequency: DspSettingsPos + 1,
+            HiPassFrequency: DspSettingsPos + 2
+        },
+        SingleTap: {
+            Tempo: DspSettingsPos,
+            Feedback: DspSettingsPos + 1,
+            Fixed0x50_1: DspSettingsPos + 2,
+            Fixed0x50_2: DspSettingsPos + 3,
+            Fixed0x50_3: DspSettingsPos + 4,
+            Fixed0x50_4: DspSettingsPos + 5,
+            LoPassFrequency: DspSettingsPos + 6
+        },
+        Hall: {
+            PreDelayTime: DspSettingsPos,
+            ReverbTime: DspSettingsPos + 1,
+            LoPassFrequency: DspSettingsPos + 2,
+            HiPassFrequency: DspSettingsPos + 3,
+            Fixed0x50_1: DspSettingsPos + 4,
+            Fixed0x50_2: DspSettingsPos + 5,
+            Fixed0x7B: DspSettingsPos + 6
+        },
+        TripleDelay: {
+            Tempo: DspSettingsPos,
+            Feedback: DspSettingsPos + 1,
+            Tap1: DspSettingsPos + 2,
+            Fixed0x50: DspSettingsPos + 3,
+            Tap2: DspSettingsPos + 4,
+            Tap3: DspSettingsPos + 5,
+            Frequency: DspSettingsPos + 6
+        },
+        FourTapDelay: {
+            Tempo: DspSettingsPos,
+            Feedback: DspSettingsPos + 1,
+            Tap1: DspSettingsPos + 2,
+            Tap2: DspSettingsPos + 3,
+            Tap3: DspSettingsPos + 4,
+            Tap4: DspSettingsPos + 5,
+            Frequency: DspSettingsPos + 6
+        },
+        DoubleDelay: {
+            Delay1: DspSettingsPos,
+            Delay2: DspSettingsPos + 1,
+            Delay3: DspSettingsPos + 2,
+            Delay4: DspSettingsPos + 3,
+            Level1: DspSettingsPos + 4,
+            Level2: DspSettingsPos + 5,
+            Level3: DspSettingsPos + 6,
+            Level4: DspSettingsPos + 7,
+            Feedback1: DspSettingsPos + 8,
+            Feedback2: DspSettingsPos + 9,
+            Feedback3: DspSettingsPos + 10,
+            Feedback4: DspSettingsPos + 11,
+            Frequency1: DspSettingsPos + 12,
+            Frequency2: DspSettingsPos + 13,
+            FrequencyL: DspSettingsPos + 14,
+            FrequencyR: DspSettingsPos + 15,
+            OutL: DspSettingsPos + 16,
+            OutR: DspSettingsPos + 17,
+        },
+        CaveDelay: {
+            Delay1: DspSettingsPos,
+            Delay2: DspSettingsPos + 1,
+            Delay3: DspSettingsPos + 2,
+            Delay4: DspSettingsPos + 3,
+            Level1: DspSettingsPos + 4,
+            Level2: DspSettingsPos + 5,
+            Level3: DspSettingsPos + 6,
+            Level4: DspSettingsPos + 7,
+            Feedback1: DspSettingsPos + 8,
+            Feedback2: DspSettingsPos + 9,
+            Feedback3: DspSettingsPos + 10,
+            Feedback4: DspSettingsPos + 11,
+            Frequency1: DspSettingsPos + 12,
+            Frequency2: DspSettingsPos + 13,
+            FrequencyL: DspSettingsPos + 14,
+            FrequencyR: DspSettingsPos + 15,
+            OutL: DspSettingsPos + 16,
+            OutR: DspSettingsPos + 17,
+        }
+    }
 };

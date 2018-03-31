@@ -126,7 +126,6 @@ export interface DspTripleDelay {
     tap1: DspPrecent;
     tap2: DspPrecent;
     tap3: DspPrecent;
-    tap4: DspPrecent;
 }
 
 // 3 - 127 step 1
@@ -171,7 +170,7 @@ export interface Dsp {
     input: Percent;
     dry: Percent;
     wet: Percent;
-    data: string;
+    data?: string;
 
     // based on type
     doubleDelay?: DspDoubleDelay;

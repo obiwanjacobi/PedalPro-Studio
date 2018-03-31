@@ -1,5 +1,11 @@
 # TODO Task List
 
+- create paste dialog to let user pick where to paste the copied presets (overwrite, insert at, first empty, or append to end).
+- create storage tab, view and list. List is grouped by file name.
+- move factory preset file for ex and find std factory presets.
+- mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
+- reverse engineer DSP type settings
+
 ## Project Setup
 
 - Hot Reload in Electron
@@ -8,9 +14,16 @@
 ## PedalProDevice
 
 - [Done] Recreate HID object on write error - connection may have been interrupted.
-- [Done] Allow filtering on index (numerical input & ranges using - or :)
+- [Done] Allow filtering on index (numerical input & [TODO] ranges using - or :)
 - [Done] Change the way a preset is moved in the list to allow for index-gaps (where empty presets have been filtered out).
 - [Done] Reverse engineer .vrf binary files to be able to read in old PedalManager files (Java).
+
+## Pedal Pro Wishlist
+
+- retrieve version of master FW in non-FW mode (VUT).
+- upload a complete preset (160b for PPE) and make that active (load) - but not store into eprom.
+- PPE exit button exits USB Remote Terminal mode (PP does it - but that is also a little too sensitive - bug?)
+- DSP parameters: navigation should work the same as other settings (1/x) (don't use Exit)
 
 ## Code
 
