@@ -28,6 +28,11 @@ export class FactoryProviderEx extends CommonPresetProvider {
         }
     }
 
+    public getPresetsPaged(page: number, size: number): Preset[] {
+        const start = page * size;
+        return this.presets.slice(start, start + size);
+    }
+
     public getPreset(presetIndex: number): Preset {
         return this.presets[presetIndex];
     }
@@ -38,5 +43,9 @@ export class FactoryProviderEx extends CommonPresetProvider {
 
     public allPresets(): Preset[] {
         return this.presets;
+    }
+
+    protected setPreset(preset: Preset) {
+        this.presets[preset.index] = preset;
     }
 }

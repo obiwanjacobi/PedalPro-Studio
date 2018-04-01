@@ -26,7 +26,18 @@ export class DeviceApi implements ApiHandler {
 
         try {
             const device = new PedalProDevice();
-            msg.device = PedalProProviderFactory.getDeviceIdentity(device);
+            const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device);
+            if (deviceInfo) {
+                msg.device = deviceInfo;
+            } else {
+                msg.device = {
+                    vendor: "Offline",
+                    device: "PedalPro-Ex",
+                    version: "",
+                    supported: true,
+                    presetCount: 400
+                };
+            }
         } catch (error) {
             msg.fault = createFault(error.message);
         }

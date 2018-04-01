@@ -13,9 +13,13 @@ export class TestPresetProvider {
                 TestPresetProvider.presets[index] = {
                     index: index,
                     name: "Preset " + index,
-                    expression: false,
-                    stereo: false,
-                    empty: false,
+                    traits: {
+                        expression: false,
+                        stereo: false,
+                        singleCoil: false,
+                        humbucker: false,
+                        empty: false,
+                    }
                 };
             }
         }

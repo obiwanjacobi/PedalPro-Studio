@@ -42,14 +42,14 @@ const makeProgressInfo = (deviceInfo: DeviceIdentity, currentPreset: number): Pr
     };
 };
 
-async function loadPreset(
-    presetClient: PresetsClient, presetIndex: number, dispatch: Dispatch<ApplicationDocument>, progress: ProgressInfo) {
-    const preset = await presetClient.getPreset(presetIndex);
-    dispatch({ 
-        type: LoadPresetsActionKey, source: presetClient.collection, presets: [preset], 
-        error: null, progress: progress
-    });
-}
+// async function loadPreset(
+// presetClient: PresetsClient, presetIndex: number, dispatch: Dispatch<ApplicationDocument>, progress: ProgressInfo) {
+//     const preset = await presetClient.getPreset(presetIndex);
+//     dispatch({ 
+//         type: LoadPresetsActionKey, source: presetClient.collection, presets: [preset], 
+//         error: null, progress: progress
+//     });
+// }
 
 async function loadPresetsPaged(
     presetClient: PresetsClient, page: number, dispatch: Dispatch<ApplicationDocument>, progress: ProgressInfo) {
@@ -61,14 +61,19 @@ async function loadPresetsPaged(
 }
 
 async function loadPresets(
-    deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) {
-    for (let page = 0; page < deviceInfo.presetCount / pageSize; page++) {
-        const progress = makeProgressInfo(deviceInfo, page * pageSize);
-        await loadPresetsPaged(presetClient, page, dispatch, progress);
+        deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) {
+    try {
+        for (let page = 0; page < deviceInfo.presetCount / pageSize; page++) {
+            const progress = makeProgressInfo(deviceInfo, page * pageSize);
+            await loadPresetsPaged(presetClient, page, dispatch, progress);
+        }
+        // dismiss progress
+        dispatch(createUpdateScreenAction(new ScreenState()));
+    } catch (error) {
+        // dismiss progress
+        dispatch(createUpdateScreenAction(new ScreenState()));
+        throw error;
     }
-
-    // dismiss progress
-    dispatch(createUpdateScreenAction(new ScreenState()));
 }
 
 // async function loadPresets(
