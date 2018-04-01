@@ -24,8 +24,11 @@ export interface PresetViewStateProps {
 
 export interface PresetViewState {
     searchKey: string;
+    enableShowEmpty: boolean;
     showEmpty: boolean;
+    enableShowSelected: boolean;
     showSelected: boolean;
+    enableShowChanged: boolean;
     showChanged: boolean;
 }
 
@@ -40,7 +43,15 @@ const containerStyles: React.CSSProperties = {
 export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
         super(props);
-        this.state = { searchKey: "", showEmpty: false, showChanged: false, showSelected: false };
+        this.state = { 
+            searchKey: "", 
+            enableShowEmpty: false, 
+            showEmpty: false, 
+            enableShowChanged: false,
+            showChanged: false, 
+            enableShowSelected: false,
+            showSelected: false
+        };
         // bind event handlers
         this.searchHandler = this.searchHandler.bind(this);
         this.clearSearch = this.clearSearch.bind(this);
@@ -71,16 +82,16 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                             </InputAdornment>
                         }
                     />
-                    <IconButton onClick={this.toggleShowSelected} disabled={!this.isShowSelectedEnabled}>
+                    <IconButton onClick={this.toggleShowSelected} disabled={!this.state.enableShowSelected}>
                         {this.state.showSelected ? 
                             <CheckboxMultipleMarkedCircle/> : <CheckboxMultipleMarkedCircleOutline/>}
                     </IconButton>
                     {!this.props.readonly &&
-                        <IconButton onClick={this.toggleShowChanged} disabled={!this.isShowChangedEnabled}>
+                        <IconButton onClick={this.toggleShowChanged} disabled={!this.state.enableShowChanged}>
                             {this.state.showChanged ? <Flag/> : <FlagOutline/>}
                         </IconButton>}
                     {!this.props.readonly &&
-                        <IconButton onClick={this.toggleShowEmpty} disabled={!this.isShowEmptyEnabled}>
+                        <IconButton onClick={this.toggleShowEmpty} disabled={!this.state.enableShowEmpty}>
                             {this.state.showEmpty ? <Square/> : <SquareOutline/>}
                         </IconButton>}
                 </div>
@@ -95,20 +106,30 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         );
     }
 
+    public componentWillReceiveProps(props: PresetViewAllProps, newState: PresetViewState) {
+        const isEnabled = props.presets.length > 0;
+        const changedState = { ...newState };
+
+        changedState.enableShowChanged = isEnabled && ChangedView.areAnyChanged(props.presets);
+        if (!changedState.enableShowChanged) {
+            changedState.showChanged = false;
+        }
+        
+        changedState.enableShowSelected = isEnabled && SelectedView.areAnySelected(props.presets);
+        if (!changedState.enableShowSelected) {
+            changedState.showSelected = false;
+        }
+        
+        changedState.enableShowEmpty = isEnabled && !(changedState.showChanged || changedState.showSelected);
+        if (!changedState.enableShowEmpty) {
+            changedState.showEmpty = false;
+        }
+
+        this.setState(changedState);
+    }
+
     private get isEnabled(): boolean {
         return this.props.presets.length > 0;
-    }
-
-    private get isShowEmptyEnabled(): boolean {
-        return this.isEnabled && !(this.state.showChanged || this.state.showSelected);
-    }
-
-    private get isShowSelectedEnabled(): boolean {
-        return this.isEnabled && SelectedView.areAnySelected(this.props.presets);
-    }
-
-    private get isShowChangedEnabled(): boolean {
-        return this.isEnabled && ChangedView.areAnyChanged(this.props.presets);
     }
 
     private filteredPresets(): Preset[] {
