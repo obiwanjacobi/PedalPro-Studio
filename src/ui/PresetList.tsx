@@ -182,9 +182,6 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
         return (
             <div style={{...containerStyles, textAlign: "center"}}>
                 {this.props.empty}
-                {/* <Typography>
-                    Press <FileDownload/> to retrieve the presets or adjust the filters.
-                </Typography> */}
             </div>
         );
     }

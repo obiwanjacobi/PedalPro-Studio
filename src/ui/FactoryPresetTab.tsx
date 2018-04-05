@@ -81,12 +81,14 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
     private onCopySelected() {
         const selectedPresets = this.selection.selected;
         if (selectedPresets.length > 0) {
-            this.actions.copyPresets(selectedPresets, PresetCollectionType.clipboard);
+            this.actions.copyPresets(selectedPresets);
         }
     }
 
     private toggleSelectAll() {
-        this.actions.selectPresets(this.props.presets, {selected: !this.selection.allSelected});
+        this.actions.selectPresets(
+            this.props.presets, PresetCollectionType.factory, 
+            {selected: !this.selection.allSelected});
     }
 }
 
@@ -102,11 +104,12 @@ const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, Fa
             loadPresets: (source: PresetCollectionType): void  => {
                 createLoadPresetsAction(dispatch, source);
             },
-            selectPresets: (presets: Preset[], command: {selected?: boolean, expanded?: boolean}): void => {
-                dispatch(createSelectPresetsAction(presets, command));
+            selectPresets: (presets: Preset[], source: PresetCollectionType, command: 
+                {selected?: boolean, expanded?: boolean}): void => {
+                dispatch(createSelectPresetsAction(presets, source, command));
             },
-            copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
-                dispatch(createCopyPresetsAction(presets, target));
+            copyPresets: (presets: Preset[]): void => {
+                dispatch(createCopyPresetsAction(presets));
             }
         };
 };

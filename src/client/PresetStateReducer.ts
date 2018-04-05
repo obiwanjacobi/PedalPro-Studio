@@ -119,8 +119,7 @@ const reduceEditPreset = (
 
 const reduceCopyPresets = (
     state: ApplicationDocument, 
-    presets: Preset[], 
-    target: PresetCollectionType): ApplicationDocument => {
+    presets: Preset[]): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
     // local helper function
@@ -131,7 +130,6 @@ const reduceCopyPresets = (
             const p = presets[i];
             newCollection.push({ 
                 ...p, 
-                source: target,
                 index: newCollection.length
             });
         }
@@ -139,7 +137,7 @@ const reduceCopyPresets = (
         return newCollection;
     };
 
-    return copyOverride(state, target, (oldPresets: Preset[]) => copyPresets(oldPresets));
+    return copyOverride(state, PresetCollectionType.clipboard, copyPresets);
 };
 
 const reducePastePresets = (
@@ -166,7 +164,7 @@ const reducePastePresets = (
         return newCollection;
     };
 
-    const newState = copyOverride(state, target, (oldPresets: Preset[]) => pastePresets(oldPresets));
+    const newState = copyOverride(state, target, pastePresets);
 
     const cleanupClipboard = (collection: Preset[]): Preset[]  => {
         const newCollection = new Array<Preset>();
@@ -181,13 +179,13 @@ const reducePastePresets = (
         return  newCollection;
     };
 
-    return copyOverride(newState, PresetCollectionType.clipboard, 
-                        (oldPresets: Preset[]) => cleanupClipboard(oldPresets));
+    return copyOverride(newState, PresetCollectionType.clipboard, cleanupClipboard);
 };
 
 const reducePresetSelected = (
     state: ApplicationDocument, 
     presets: Preset[], 
+    source: PresetCollectionType,
     selected?: boolean,
     expanded?: boolean): ApplicationDocument => {
     if (presets.length === 0) { return state; }
@@ -214,7 +212,7 @@ const reducePresetSelected = (
         return newCollection;
     };
 
-    return copyOverride(state, presets[0].source, (oldPresets: Preset[]) => replaceSelectedPresets(oldPresets));
+    return copyOverride(state, source, replaceSelectedPresets);
 };
 
 const replacePresets = (collection: Preset[], replacements: Preset[]): Preset[] => {
@@ -277,10 +275,10 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         break;
         
         case "U/*/presets/.selected":
-        return reducePresetSelected(state, action.presets, action.selected, action.expanded);
+        return reducePresetSelected(state, action.presets, action.source, action.selected, action.expanded);
 
         case "C/clipboard/presets/":
-        return reduceCopyPresets(state, action.presets, action.target);
+        return reduceCopyPresets(state, action.presets);
 
         case "C/*/presets/":
         return reducePastePresets(state, action.presets, action.target);

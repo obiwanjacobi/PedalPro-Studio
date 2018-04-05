@@ -7,6 +7,7 @@ import { FileDownload } from "material-ui-icons";
 import { Preset } from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
 import { ChangedView } from "../client/controls/ChangedView";
+import { SelectAllButtonStatus } from "../client/controls/SelectAllButton";
 import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
@@ -14,11 +15,11 @@ import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsActio
 import { EditPreset, createEditPresetAction } from "../client/EditPresetAction";
 import { MovePreset, createMovePresetAction } from "../client/MovePresetAction";
 import { SavePresets, createSavePresetsAction } from "../client/SavePresetsAction";
-import { PastePresets, createPastePresetsAction } from "../client/PastePresetsAction";
-
+import { UpdateScreen, createUpdateScreenAction } from "../client/screen/UpdateScreenAction";
+import { ScreenState } from "../client/screen/ScreenState";
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
-import { SelectAllButtonStatus } from "../client/controls/SelectAllButton";
+import PastePage from "./PastePage";
 
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
@@ -26,9 +27,10 @@ export interface DevicePresetTabStateProps {
     clipboard: Preset[];
 }
 export type DevicePresetTabActions = 
-    SelectPresets & LoadPresets & SavePresets & CopyPresets & PastePresets & EditPreset & MovePreset;
+    SelectPresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
+export interface DevicePresetTabState {}
 
 const conatinerStyles: React.CSSProperties = {
     display: "flex",
@@ -36,7 +38,7 @@ const conatinerStyles: React.CSSProperties = {
     flexGrow: 1
 };
 
-export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
+export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, DevicePresetTabState> {
     private selection: SelectedView<Preset>;
     private changed: ChangedView;
 
@@ -79,13 +81,14 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
                         Press <FileDownload/> to retrieve the presets.
                     </Typography>}
                 />
+                <PastePage />
             </div>
         );
     }
 
-    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: {}): boolean {
-        return this.props.presets !== nextProps.presets ||
-               this.props.clipboard !== nextProps.clipboard;
+    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: DevicePresetTabState): boolean {
+        return (this.props.presets !== nextProps.presets ||
+               this.props.clipboard !== nextProps.clipboard);
     }
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
@@ -100,7 +103,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
     private onCopySelected() {
         const selectedPresets = this.selection.selected;
         if (selectedPresets.length > 0) {
-            this.actions.copyPresets(selectedPresets, PresetCollectionType.clipboard);
+            this.actions.copyPresets(selectedPresets);
         }
     }
 
@@ -152,14 +155,14 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps> {
             break;
         }
 
-        this.actions.selectPresets(this.props.presets, {selected: false});
+        this.actions.selectPresets(this.props.presets, PresetCollectionType.device, {selected: false});
         if (selectPresets) {
-            this.actions.selectPresets(presets, {selected: selectPresets});
+            this.actions.selectPresets(presets, PresetCollectionType.device, {selected: selectPresets});
         }
     }
 
     private pasteClipboard() {
-        this.props.pastePresets(this.props.clipboard, PresetCollectionType.device);
+        this.props.updateScreen(new ScreenState(undefined, true));
     }
 
     private download() {
@@ -187,20 +190,21 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 createSavePresetsAction(dispatch, source, presets);
             },
-            selectPresets: (presets: Preset[], command: {selected?: boolean, expanded?: boolean}): void => {
-                dispatch(createSelectPresetsAction(presets, command));
+            selectPresets: (presets: Preset[], source: PresetCollectionType, command: 
+                {selected?: boolean, expanded?: boolean}): void => {
+                dispatch(createSelectPresetsAction(presets, source, command));
             },
-            copyPresets: (presets: Preset[], target: PresetCollectionType): void => {
-                dispatch(createCopyPresetsAction(presets, target));
-            },
-            pastePresets: (presets: Preset[], target: PresetCollectionType): void => {
-                dispatch(createPastePresetsAction(presets, target));
+            copyPresets: (presets: Preset[]): void => {
+                dispatch(createCopyPresetsAction(presets));
             },
             editPreset: (preset: Preset, update: Partial<Preset>): void => {
                 dispatch(createEditPresetAction(preset, update));
             },
             movePreset: (preset: Preset, displacement: number): void => {
                 dispatch(createMovePresetAction(preset, displacement));
+            },
+            updateScreen: (state: ScreenState): void => {
+                dispatch(createUpdateScreenAction(state));
             }
         };
 };

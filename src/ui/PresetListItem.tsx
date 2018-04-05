@@ -92,11 +92,15 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
     }
     
     private toggleExpanded() {
-        this.props.selectPresets([this.props.preset], {expanded: !this.props.preset.uiExpanded});
+        this.props.selectPresets(
+            [this.props.preset], this.props.preset.source,
+            {expanded: !this.props.preset.uiExpanded});
     }
 
     private toggleSelected() {
-        this.props.selectPresets([this.props.preset], {selected: !this.props.preset.uiSelected});
+        this.props.selectPresets(
+            [this.props.preset], this.props.preset.source,
+            {selected: !this.props.preset.uiSelected});
     }
 
     private editPreset(preset: Preset, update: Partial<Preset>) {

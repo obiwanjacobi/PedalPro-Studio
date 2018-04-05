@@ -21,8 +21,10 @@ export class ApplicationStore {
         let actionType = <string> action.type;
         
         if (actionType.indexOf("screen") > 0) {
-            return state.copyOverrideScreen(
-                ScreenStateReducer.reduce(state.screen, <ScreenStateReducer.ScreenAction> action));
+            const screen = ScreenStateReducer.reduce(state.screen, <ScreenStateReducer.ScreenAction> action);
+            if (screen !== state.screen) {
+                return state.copyOverrideScreen(screen);
+            }
         }
         
         if (actionType.indexOf("presets") > 0) {
@@ -30,8 +32,11 @@ export class ApplicationStore {
         }
 
         if (actionType.indexOf("notification") > 0) {
-            return state.copyOverrideNotification(
-                NotificationReducer.reduce(state.notifications, <NotificationReducer.NotificationAction> action));
+            const notification = NotificationReducer.reduce(
+                state.notifications, <NotificationReducer.NotificationAction> action);
+            if (notification !== state.notifications) {
+                return state.copyOverrideNotification(notification);
+            }
         }
 
         return state;

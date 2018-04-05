@@ -3,7 +3,7 @@ import { IconButton, Typography } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import { Clear } from "material-ui-icons";
 import { 
-    CheckboxMultipleMarkedCircleOutline, CheckboxMultipleMarkedCircle, 
+    CheckboxMultipleMarkedOutline, CheckboxMultipleMarked, 
     Flag, FlagOutline, 
     Square, SquareOutline 
 } from "mdi-material-ui";
@@ -84,7 +84,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                     />
                     <IconButton onClick={this.toggleShowSelected} disabled={!this.state.enableShowSelected}>
                         {this.state.showSelected ? 
-                            <CheckboxMultipleMarkedCircle/> : <CheckboxMultipleMarkedCircleOutline/>}
+                            <CheckboxMultipleMarked/> : <CheckboxMultipleMarkedOutline/>}
                     </IconButton>
                     {!this.props.readonly &&
                         <IconButton onClick={this.toggleShowChanged} disabled={!this.state.enableShowChanged}>

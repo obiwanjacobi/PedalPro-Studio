@@ -6,9 +6,11 @@ export interface ProgressInfo {
 
 export class ScreenState {
     public readonly progress?: Readonly<ProgressInfo>;
+    public readonly pasteOpen: boolean;
 
-    public constructor(progress?: ProgressInfo) {
+    public constructor(progress?: ProgressInfo, pasteOpen?: boolean) {
         this.progress = progress;
+        this.pasteOpen = !!pasteOpen;
     }
 
     public copyOverride(progress: ProgressInfo): ScreenState {
