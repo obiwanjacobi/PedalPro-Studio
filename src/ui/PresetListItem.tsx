@@ -4,7 +4,7 @@ import { ExpandMore, ExpandLess } from "material-ui-icons";
 import { Flag, FlagOutline  } from "mdi-material-ui";
 
 import { PresetListItemDetail } from "./PresetListItemDetail";
-import { Preset, presetHasChanged, onlyIndexHasChanged } from "../client/Preset";
+import { Preset, presetHasChanged, onlyIndexHasChanged, formatPresetIndex } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
@@ -45,7 +45,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                             />
                         </Grid>
                         <Grid xs={7} item={true}>
-                            <Typography type="subheading">
+                            <Typography variant="subheading">
                                 {this.props.preset.name}
                             </Typography>
                         </Grid>
@@ -86,9 +86,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
         return this.props.editPreset;
     }
     private formatIndex(): string {
-        const value = this.props.preset.index;
-        // formats 3 digits with leading zeros
-        return (String(0).repeat(3) + String(value)).slice(String(value).length);
+        return formatPresetIndex(this.props.preset);
     }
     
     private toggleExpanded() {

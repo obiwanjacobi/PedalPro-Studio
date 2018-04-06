@@ -25,34 +25,37 @@ export class PresetsClient {
         const msg = <PresetRequest> { presets: presets.map(this.unextendPreset) };
         const response = await this.typedRest.replace<PresetRequest>(`${this.baseUrl}/presets/`, msg);
         this.throwIfError(response);
-
+        // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map(this.extendPreset);
     }
 
     public async getPresets(): Promise<Preset[]> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/`);
         this.throwIfError(response);
-
+        // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map(this.extendPreset);
     }
 
     public async getPresetsPaged(page: number, size: number): Promise<Preset[]> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/?page=${page}&size=${size}`);
         this.throwIfError(response);
-
+        // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map(this.extendPreset);
     }
 
     public async getPreset(presetIndex: number): Promise<Preset> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/${presetIndex}`);
         this.throwIfError(response);
-        
+        // @ts-ignore:[ts] Object is possibly 'null'.
         const modelPreset = response.result.presets[0];
         return this.extendPreset(modelPreset);
     }
 
     public async getDeviceInfo(): Promise<DeviceIdentity> {
         const response = await this.typedRest.get<DeviceResponse>(this.baseUrl);
+        if (!response.result) {
+            throw new Error("No Result.");
+        }
         if (response.result.fault) {
             throw response.result.fault;
         }
@@ -84,6 +87,9 @@ export class PresetsClient {
     private throwIfError(response: TypedRestClient.IRestResponse<PresetResponse>) {
         if (response.statusCode !== 200) {
             throw new Error(`Internal Error: ${response.statusCode}.`);
+        }
+        if (!response.result) {
+            throw new Error("No Result.");
         }
         if (response.result.fault) {
             throw response.result.fault;

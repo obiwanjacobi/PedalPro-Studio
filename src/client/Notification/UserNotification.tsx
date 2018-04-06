@@ -57,7 +57,7 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
                         justifyContent: "space-between",
                         padding: "16 0 0 12"}}
                 >
-                    <Typography type="title" align="left" gutterBottom={true}>
+                    <Typography variant="title" align="left" gutterBottom={true}>
                         Notifications
                     </Typography>
                     <IconButton onClick={this.close}>

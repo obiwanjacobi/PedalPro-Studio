@@ -125,16 +125,7 @@ const reduceCopyPresets = (
     // local helper function
     const copyPresets = (collection: Preset[]): Preset[] => {
         const newCollection = collection.slice();
-
-        for (let i: number = 0; i < presets.length; i++) {
-            const p = presets[i];
-            newCollection.push({ 
-                ...p, 
-                index: newCollection.length
-            });
-        }
-
-        return newCollection;
+        return newCollection.concat(presets);
     };
 
     return copyOverride(state, PresetCollectionType.clipboard, copyPresets);

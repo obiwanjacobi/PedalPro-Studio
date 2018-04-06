@@ -55,3 +55,9 @@ export function presetHasChanged(preset: Preset): boolean {
 
     return presetChanged || traitsChanged;
 }
+
+export function formatPresetIndex(preset: Preset): string {
+    const value = preset.index;
+    // formats 3 digits with leading zeros
+    return (String(0).repeat(3) + String(value)).slice(String(value).length);
+}
