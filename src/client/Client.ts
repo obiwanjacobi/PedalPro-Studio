@@ -80,6 +80,7 @@ export class PresetsClient {
             index: clientPreset.index,
             traits: clientPreset.traits,
             effects: clientPreset.effects,
+            meta: clientPreset.meta
         };
         return preset;
     }

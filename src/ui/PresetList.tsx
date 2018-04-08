@@ -17,7 +17,7 @@ export interface PresetListState { }
 export type PresetListAllProps = PresetListProps & PresetListActions;
 
 const itemHeightCollapsed = 48;
-const itemHeightExpanded = 116;
+const itemHeightExpanded = 96;
 const itemPadding = 2;
 
 const containerStyles: React.CSSProperties = {

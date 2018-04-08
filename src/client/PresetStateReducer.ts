@@ -1,5 +1,5 @@
 import { Fault } from "../model/Fault";
-import { Preset } from "./Preset";
+import { Preset, presetsAreEqual } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
@@ -50,6 +50,21 @@ const copyOverride = (
     }
 
     return state.copyOverride(device, storage, factory, clipboard);
+};
+
+const replacePresetsByIndex = (collection: Preset[], replacements: Preset[]): Preset[] => {
+    const newPresets = collection.slice();
+
+    replacements.forEach(replacement => {
+        const index = collection.findIndex((p) => p.index === replacement.index);
+        if (index !== -1) {
+            newPresets[index] = replacement;
+        } else {
+            newPresets.push(replacement);
+        }
+    });
+
+    return newPresets;
 };
 
 const reIndexPresets = (presetIndex: number, mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
@@ -138,38 +153,33 @@ const reducePastePresets = (
     if (presets.length === 0) { return state; }
     if (target === PresetCollectionType.clipboard) { return state; }
 
-    const pastedPresets: Preset[] = new Array<Preset>();
-
-    // local helper function
-    const pastePresets = (collection: Preset[]): Preset[] => {
+    const pastePresetsByIndex = (collection: Preset[]): Preset[]  => {
         const newCollection = collection.slice();
 
-        presets.forEach(pastePreset => {
-            const emptyIndex = newCollection.findIndex((p) => p.traits.empty);
-            if (emptyIndex === -1 ) { return; }
-
-            newCollection[emptyIndex] = { ...pastePreset, index: emptyIndex, source: target};
-            pastedPresets.push(pastePreset);
-        });
+        for (let i = 0; i < presets.length; i++) {
+            const pasted = presets[i];
+            const targetIndex = newCollection.findIndex((p: Preset) => p.index === pasted.index);
+            if (targetIndex !== -1) {
+                const overwritten = newCollection[targetIndex];
+                newCollection[targetIndex] = {...pasted, origin: overwritten, source: target, uiSelected: true};
+            }
+        }
 
         return newCollection;
     };
 
-    const newState = copyOverride(state, target, pastePresets);
+    const newState = copyOverride(state, target, pastePresetsByIndex);
 
     const cleanupClipboard = (collection: Preset[]): Preset[]  => {
         const newCollection = new Array<Preset>();
-
         collection.forEach(clipboardPreset => {
-            const oldIndex = pastedPresets.findIndex((p) => clipboardPreset === p);
+            const oldIndex = presets.findIndex((p) => presetsAreEqual(clipboardPreset, p));
             if (oldIndex === -1) {
                 newCollection.push(clipboardPreset);
             }
         });
-
         return  newCollection;
     };
-
     return copyOverride(newState, PresetCollectionType.clipboard, cleanupClipboard);
 };
 
@@ -206,21 +216,6 @@ const reducePresetSelected = (
     return copyOverride(state, source, replaceSelectedPresets);
 };
 
-const replacePresets = (collection: Preset[], replacements: Preset[]): Preset[] => {
-    const newPresets = collection.slice();
-
-    replacements.forEach(replacePreset => {
-        const index = collection.findIndex((p) => p.index === replacePreset.index);
-        if (index !== -1) {
-            newPresets[index] = replacePreset;
-        } else {
-            newPresets.push(replacePreset);
-        }
-    });
-
-    return newPresets;
-};
-
 const reduceLoadPresets = (
     state: ApplicationDocument, 
     source: PresetCollectionType, 
@@ -230,7 +225,7 @@ const reduceLoadPresets = (
     return copyOverride(state, source, (oldPresets: Preset[]) => {
         if (!oldPresets || oldPresets.length === 0) { return presets; }
 
-        return replacePresets(oldPresets, presets);
+        return replacePresetsByIndex(oldPresets, presets);
     });
 };
 

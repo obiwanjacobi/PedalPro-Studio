@@ -14,6 +14,7 @@
     "express": "^4.16.3",
     "fs": "0.0.1-security",
     "immutable": "^3.8.2",
+    "lodash": "^4.17.5",
     "material-ui": "^1.0.0-beta.40",
     "material-ui-icons": "^1.0.0-beta.36",
     "mdi-material-ui": "^3.2.0",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@types/express": "^4.11.1",
     "@types/jest": "^22.2.2",
+    "@types/lodash": "^4.14.106",
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.6.2",
     "@types/node-hid": "^0.5.2",

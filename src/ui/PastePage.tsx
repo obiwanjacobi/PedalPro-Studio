@@ -3,12 +3,11 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { 
     FormControl, FormControlLabel, RadioGroup, Radio,
-    Grid, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Checkbox, Dialog 
+    Grid, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Checkbox, Dialog, Typography, Button 
 } from "material-ui";
 import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
 import { Preset, formatPresetIndex } from "../client/Preset";
 import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
-import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
 import { PastePresets, createPastePresetsAction } from "../client/PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../client/screen/UpdateScreenAction";
 import { ApplicationToolbar } from "../client/controls/ApplicationToolbar";
@@ -59,7 +58,7 @@ class OverwrittenListItem extends React.Component<OverwrittenListItemProps> {
     public render() {
         return (
             <ListItem>
-                <ListItemText primary={this.title} secondary={this.props.preset.source.toUpperCase()} />
+                <ListItemText primary={this.title} secondary={this.props.preset.origin.name} />
             </ListItem>
         );
     }
@@ -69,7 +68,7 @@ class OverwrittenListItem extends React.Component<OverwrittenListItemProps> {
     }
 }
 
-export enum PasteType {
+enum PasteType {
     None = "none",
     Index = "index",
     Name = "name",
@@ -85,7 +84,7 @@ export interface PastePageStateProps {
     clipboard: Preset[];
     device: Preset[];
 }
-export type PastePageActions = SelectPresets & CopyPresets & PastePresets & UpdateScreen;
+export type PastePageActions = SelectPresets & PastePresets & UpdateScreen;
 export type PastePageAllProps = PastePageProps & PastePageStateProps & PastePageActions;
 
 export class PastePage extends React.Component<PastePageAllProps, PastePageState> {
@@ -96,6 +95,7 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
         this.state = { pasteType: PasteType.None };
         this.close = this.close.bind(this);
         this.onPasteTypeChange = this.onPasteTypeChange.bind(this);
+        this.overwrite = this.overwrite.bind(this);
     }
 
     public componentWillReceiveProps(newProps: PastePageAllProps) {
@@ -109,6 +109,10 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
+                    <Typography variant="title" style={{flex: 1}}>Paste Presets</Typography>
+                    <Button onClick={this.overwrite}>
+                        Overwrite
+                    </Button>
                 </ApplicationToolbar>
                 <Grid container={true}>
                     <Grid item={true} xs={4}>
@@ -127,21 +131,9 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
                     <Grid item={true} xs={4}>
                         <FormControl component="fieldset">
                             <RadioGroup value={this.state.pasteType} onChange={this.onPasteTypeChange}>
-                                <FormControlLabel 
-                                    value={PasteType.Index} 
-                                    label="Replace by Index"
-                                    control={<Radio/>} 
-                                />
-                                <FormControlLabel 
-                                    value={PasteType.Name} 
-                                    label="Replace by Name"
-                                    control={<Radio/>} 
-                                />
-                                <FormControlLabel 
-                                    value={PasteType.Empty} 
-                                    label="Replace empty."
-                                    control={<Radio/>} 
-                                />
+                                <FormControlLabel value={PasteType.Index} label="Replace by Index" control={<Radio/>} />
+                                <FormControlLabel value={PasteType.Name} label="Replace by Name" control={<Radio/>} />
+                                <FormControlLabel value={PasteType.Empty} label="Replace empty." control={<Radio/>} />
                             </RadioGroup>
                         </FormControl>
                     </Grid>
@@ -189,8 +181,24 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
         }
     }
 
+    private pastedPresets() {
+        const overwritten = this.overwrittenPresets();
+        const pasted = this.selection.selected.slice();
+
+        for (let i = 0; i < pasted.length; i++) {
+            pasted[i] = { ...pasted[i], index: overwritten[i].index };
+        }
+
+        return pasted;
+    }
+
     private close() {
         this.props.updateScreen(new ScreenState());
+    }
+
+    private overwrite() {
+        this.props.pastePresets(this.pastedPresets(), PresetCollectionType.device);
+        this.close();
     }
 }
 
@@ -206,9 +214,6 @@ const createActionObject: MapDispatchToPropsFunction<PastePageActions, PastePage
             selectPresets: (presets: Preset[], source: PresetCollectionType, command: 
                 {selected?: boolean, expanded?: boolean}): void => {
                 dispatch(createSelectPresetsAction(presets, source, command));
-            },
-            copyPresets: (presets: Preset[]): void => {
-                dispatch(createCopyPresetsAction(presets));
             },
             pastePresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createPastePresetsAction(presets, target));

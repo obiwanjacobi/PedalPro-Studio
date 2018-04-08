@@ -18,10 +18,10 @@ export class PedalProProviderFactory {
 
         switch (deviceId.model) {
             case PedalProDeviceModel.PedalPro:
-            return new PedalProProvider(device);
+            return new PedalProProvider(device, deviceId);
 
             case PedalProDeviceModel.PedalProEx:
-            return new PedalProExProvider(device);
+            return new PedalProExProvider(device, deviceId);
 
             default:
             throw new Error(`Device ${deviceId.device}, version ${deviceId.version} is not supported.`);

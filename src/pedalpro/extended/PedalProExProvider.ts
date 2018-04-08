@@ -8,12 +8,13 @@ import { DeviceExProfile } from "./DeviceExProfile";
 import { DeviceBuffer } from "./DeviceBuffer";
 import { DeviceBufferAccessor } from "./DeviceBufferAccessor";
 import { PedalProProvider } from "../standard/PedalProProvider";
+import { PedalProDeviceIdentity } from "../PedalProDeviceIdentity";
 
 export class PedalProExProvider extends PedalProProvider {
     private readonly deviceBuffer: DeviceBuffer;
 
-    public constructor(device: PedalProDevice) {
-        super(device, DeviceExProfile);
+    public constructor(device: PedalProDevice, identity: PedalProDeviceIdentity) {
+        super(device, identity, DeviceExProfile);
         this.deviceBuffer = new DeviceBuffer(this.profile.presetCount);
     }
 
@@ -53,6 +54,7 @@ export class PedalProExProvider extends PedalProProvider {
         const deserializer = new PresetDeserializerEx();
         const preset = deserializer.deserialize(buffer);
         LogicalTransformerEx.presetToLogical(preset);
+        preset.meta = this.createMeta();
         return preset;
     }
 }

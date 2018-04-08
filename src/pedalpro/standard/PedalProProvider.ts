@@ -7,13 +7,18 @@ import { Preset } from "../../model/Preset";
 import { LogicalTransformer } from "./LogicalTransformer";
 import { PresetBuffer } from "../PresetBuffer";
 import { PresetSerializer } from "./PresetSerializer";
+import { PresetMeta } from "../../model/PresetMeta";
+import { PedalProDeviceIdentity } from "../PedalProDeviceIdentity";
 
 export class PedalProProvider extends CommonPresetProvider {
     protected readonly commands: DeviceCommands;
+    protected readonly identity: PedalProDeviceIdentity;
 
-    public constructor(device: PedalProDevice, profile: DeviceProfile = DeviceStdProfile) {
+    public constructor(
+        device: PedalProDevice, identity: PedalProDeviceIdentity, profile: DeviceProfile = DeviceStdProfile) {
         super(profile);
         this.commands = new DeviceCommands(device);
+        this.identity = identity;
     }
 
     public putPreset(preset: Preset) {
@@ -72,6 +77,10 @@ export class PedalProProvider extends CommonPresetProvider {
         return presets;
     }
 
+    protected createMeta(): PresetMeta {
+        return { device: `${this.identity.model}` };
+    }
+
     protected serialize(buffer: PresetBuffer, preset: Preset): void {
         LogicalTransformer.presetFromLogical(preset);
         const serializer = new PresetSerializer();
@@ -82,6 +91,7 @@ export class PedalProProvider extends CommonPresetProvider {
         const deserializer = new PresetDeserializer();
         const preset = deserializer.deserialize(buffer);
         LogicalTransformer.presetToLogical(preset);
+        preset.meta = this.createMeta();
         return preset;
     }
 
