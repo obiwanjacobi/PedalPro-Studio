@@ -5,6 +5,7 @@ import { WritePresetsApi } from "./WritePresetsApi";
 import { PedalProDevice } from "../pedalpro/PedalProDevice";
 import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { DeviceResponse } from "../model/Messages";
+import { Environment } from "../Environment";
 
 export class DeviceApi implements ApiHandler {
     public readonly uri: string = "/device";
@@ -26,7 +27,7 @@ export class DeviceApi implements ApiHandler {
 
         try {
             const device = new PedalProDevice();
-            const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device);
+            const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device, Environment.isProduction);
             if (deviceInfo) {
                 msg.device = deviceInfo;
             } else {

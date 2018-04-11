@@ -2,8 +2,8 @@
 
 - create paste dialog to let user pick where to paste the copied presets (overwrite, insert at, first empty, or append to end).
 - create storage tab, view and list. List is grouped by file name.
-- move factory preset file for ex and find std factory presets.
-- create FactoryProvider for PedalPro (Std)
+- [Done] move factory preset file for ex and find std factory presets.
+- [Done] create FactoryProvider for PedalPro (Std)
 - mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
 - [Done] reverse engineer DSP type settings
 

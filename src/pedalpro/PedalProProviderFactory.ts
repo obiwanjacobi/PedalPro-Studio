@@ -4,13 +4,12 @@ import { ReadDeviceIdentity } from "./ReadDeviceIdentity";
 import { PedalProDeviceIdentity, PedalProDeviceModel } from "./PedalProDeviceIdentity";
 import { PedalProExProvider } from "./extended/PedalProExProvider";
 import { PresetProvider } from "../server/PresetProvider";
-import { Environment } from "../Environment";
 import { OfflinePresetProviderEx } from "./_tests/OfflinePresetProviderEx";
 
 export class PedalProProviderFactory {
-    public static create(): PresetProvider {
+    public static create(throwOnError: boolean): PresetProvider {
         const device = new PedalProDevice();
-        const deviceId = PedalProProviderFactory.getDeviceIdentity(device);
+        const deviceId = PedalProProviderFactory.getDeviceIdentity(device, throwOnError);
 
         if (!deviceId) {
             return new OfflinePresetProviderEx("./src/pedalpro/_tests/PPEPreset81.vrf");
@@ -28,12 +27,12 @@ export class PedalProProviderFactory {
         }
     }
 
-    public static getDeviceIdentity(device: PedalProDevice): PedalProDeviceIdentity | undefined {
+    public static getDeviceIdentity(device: PedalProDevice, throwOnError: boolean): PedalProDeviceIdentity | undefined {
         try {
             const reader = new ReadDeviceIdentity(device);
             return reader.read();
         } catch (error) {
-            if (!Environment.isProduction) {
+            if (!throwOnError) {
                 return undefined;
             }
             throw error;

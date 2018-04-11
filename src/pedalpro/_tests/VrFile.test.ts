@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { VrFile } from "../VrFile";
 import { FactoryProviderEx } from "../extended/FactoryProviderEx";
 
-const TestFilePath = "./src/pedalpro/_tests/PPEPreset81.vrf";
+const TestFilePath = "./assets/PedalProEx.81.vrf";
 
 describe("VrFile.ts", () => {
 

@@ -15,7 +15,7 @@ class VrFileReader {
     }
 
     getPresetIndex(): number {
-        this.skipUntil("0");
+        this.next();
         const index = this.readStringWhile(" ");
         this.skipSeparator();
         return Number(index);
@@ -61,7 +61,7 @@ class VrFileReader {
 
     private skipSeparator() {
         if (this.current !== 0x09) {
-            throw new Error("Parsing Error (favorite)");
+            throw new Error("Parsing Error.");
         }
         this.next();
     }

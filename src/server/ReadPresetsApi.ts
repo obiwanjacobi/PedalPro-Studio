@@ -3,6 +3,7 @@ import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetProvider } from "./PresetProvider";
 import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { PresetResponse } from "../model/Messages";
+import { Environment } from "../Environment";
 
 // test - no usb
 // import TestPresetProvider from "../_tests/TestPresetProvider";
@@ -21,7 +22,7 @@ export class ReadPresetsApi implements ApiHandler {
     }
 
     protected createProvider(): PresetProvider {
-        return PedalProProviderFactory.create();
+        return PedalProProviderFactory.create(Environment.isProduction);
     }
 
     private getPresets(request: express.Request, response: express.Response) {
