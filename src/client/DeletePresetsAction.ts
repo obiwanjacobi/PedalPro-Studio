@@ -4,28 +4,28 @@ import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument
 import { DefaultClient } from "./Client";
 import { Preset } from "./Preset";
 
-export const SavePresetsActionKey: string = "U/*/presets/";
+export const DeletePresetsActionKey: string = "D/*/presets/";
 
-export interface SavePresetsAction {
-    readonly type: "U/*/presets/";
+export interface DeletePresetsAction {
+    readonly type: "D/*/presets/";
     readonly source: PresetCollectionType;
     readonly presets: Preset[];
     readonly error: Error | null;
 }
 
-export const createSavePresetsAction = 
+export const createDeletePresetsAction = 
     (dispatch: Dispatch<ApplicationDocument>, 
      source: PresetCollectionType, presets: Preset[]): void => {
-        DefaultClient.getSource(source).replacePresets(presets)
+        DefaultClient.getSource(source).deletePresets(presets)
             .then((result) => {
             dispatch(
-                { type: SavePresetsActionKey, source: source, presets: result, error: null });
+                { type: DeletePresetsActionKey, source: source, presets: result, error: null });
         }).catch((error) => {
             dispatch(
-                { type: SavePresetsActionKey, source: source, presets: null, error: error });
+                { type: DeletePresetsActionKey, source: source, presets: null, error: error });
         });
 };
 
-export interface SavePresets {
-    savePresets(source: PresetCollectionType, presets: Preset[]): void;
+export interface DeletePresets {
+    deletePresets(source: PresetCollectionType, presets: Preset[]): void;
 }

@@ -9,6 +9,7 @@ import { DeviceBuffer } from "./DeviceBuffer";
 import { DeviceBufferAccessor } from "./DeviceBufferAccessor";
 import { PedalProProvider } from "../standard/PedalProProvider";
 import { PedalProDeviceIdentity } from "../PedalProDeviceIdentity";
+import { EmptyPresetBufferEx } from "./EmptyPresetBufferEx";
 
 export class PedalProExProvider extends PedalProProvider {
     private readonly deviceBuffer: DeviceBuffer;
@@ -18,15 +19,20 @@ export class PedalProExProvider extends PedalProProvider {
         this.deviceBuffer = new DeviceBuffer(this.profile.presetCount);
     }
 
+    public deletePreset(presetIndex: number): Preset {
+        this.throwIfNotValidPresetIndex(presetIndex);
+
+        this.writePresetBuffer(EmptyPresetBufferEx, presetIndex);
+        return this.deserialize(EmptyPresetBufferEx);
+    }
+
     public putPreset(preset: Preset) {
         this.throwIfNotValidPresetIndex(preset.index);
 
         const buffer = new PresetBuffer(this.profile.presetBufferSize);
         this.serialize(buffer, preset);
 
-        const accessor = new DeviceBufferAccessor(this.commands, this.deviceBuffer);
-        accessor.write(buffer, preset.index);
-        accessor.saveDirtyPages();
+        this.writePresetBuffer(buffer, preset.index);
     }
 
     public putPresets(presets: Preset[]) {
@@ -56,5 +62,11 @@ export class PedalProExProvider extends PedalProProvider {
         LogicalTransformerEx.presetToLogical(preset);
         preset.meta = this.createMeta();
         return preset;
+    }
+
+    private writePresetBuffer(buffer: PresetBuffer, index: number) {
+        const accessor = new DeviceBufferAccessor(this.commands, this.deviceBuffer);
+        accessor.write(buffer, index);
+        accessor.saveDirtyPages();
     }
 }

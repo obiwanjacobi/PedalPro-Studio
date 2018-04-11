@@ -16,6 +16,7 @@ import { EditPreset, createEditPresetAction } from "../client/EditPresetAction";
 import { MovePreset, createMovePresetAction } from "../client/MovePresetAction";
 import { SavePresets, createSavePresetsAction } from "../client/SavePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../client/screen/UpdateScreenAction";
+import { DeletePresets, createDeletePresetsAction } from "../client/DeletePresetsAction";
 import { ScreenState } from "../client/screen/ScreenState";
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
@@ -27,7 +28,7 @@ export interface DevicePresetTabStateProps {
     clipboard: Preset[];
 }
 export type DevicePresetTabActions = 
-    SelectPresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen;
+    SelectPresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen & DeletePresets;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 export interface DevicePresetTabState {}
@@ -77,6 +78,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     selectPresets={this.actions.selectPresets}
                     editPreset={this.actions.editPreset}
                     movePreset={this.actions.movePreset}
+                    deletePresets={this.actions.deletePresets}
                     empty={<Typography>
                         Press <FileDownload/> to retrieve the presets.
                     </Typography>}
@@ -96,7 +98,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
         this.changed = new ChangedView(newProps.presets);
     }
 
-    protected get actions(): DevicePresetTabActions {
+    protected get actions(): Readonly<DevicePresetTabActions> {
         return this.props;
     }
 
@@ -143,18 +145,19 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
         switch (status) {
             case SelectAllButtonStatus.AllChanged:
-            selectPresets = true;
-            if (this.changed.anyChanged) {
-                presets = this.changed.changed;
-            }   // else fall back to select-all
-            break;
+                selectPresets = true;
+                if (this.changed.anyChanged) {
+                    presets = this.changed.changed;
+                }   // else fall back to select-all
+                break;
             case SelectAllButtonStatus.AllSelected:
-            selectPresets = true;
-            break;
+                selectPresets = true;
+                break;
             default:
-            break;
+                break;
         }
 
+        // TODO: make this one call
         this.actions.selectPresets(this.props.presets, PresetCollectionType.device, {selected: false});
         if (selectPresets) {
             this.actions.selectPresets(presets, PresetCollectionType.device, {selected: selectPresets});
@@ -175,13 +178,14 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     }
 }
 
-const extractComponentPropsFromState: MapStateToProps<
-        DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument
-    > = (state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
+type ExtractStatePropFunc = MapStateToProps<DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument>;
+const extractComponentPropsFromState: ExtractStatePropFunc = (
+    state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
         return  { presets: state.device, clipboard: state.clipboard };
 };
 
-const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps> =
+type ActionDispatchFunc = MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps>;
+const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch<ApplicationDocument>, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
@@ -202,6 +206,9 @@ const createActionObject: MapDispatchToPropsFunction<DevicePresetTabActions, Dev
             },
             movePreset: (preset: Preset, displacement: number): void => {
                 dispatch(createMovePresetAction(preset, displacement));
+            },
+            deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
+                createDeletePresetsAction(dispatch, source, presets);
             },
             updateScreen: (state: ScreenState): void => {
                 dispatch(createUpdateScreenAction(state));

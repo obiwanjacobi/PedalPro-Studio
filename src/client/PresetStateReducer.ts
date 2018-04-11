@@ -10,10 +10,11 @@ import { MovePresetAction } from "./MovePresetAction";
 import { SavePresetsAction } from "./SavePresetsAction";
 import { ScreenState } from "./screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
+import { DeletePresetsAction } from "./DeletePresetsAction";
 
 // all actions this reducer handles
 export type PresetAction = 
-    LoadPresetsAction | SavePresetsAction | 
+    LoadPresetsAction | SavePresetsAction | DeletePresetsAction |
     SelectPresetsAction | CopyPresetsAction | PastePresetsAction |
     EditPresetAction | MovePresetAction;
 
@@ -199,7 +200,7 @@ const reducePresetSelected = (
         for (let i: number = 0; i < presets.length; i++) {
             const p = presets[i];
             // const index = newCollection.indexOf(p);
-            const index = newCollection.findIndex((prst) => p.index === prst.index);
+            const index = newCollection.findIndex((prst) => presetsAreEqual(p, prst));
             if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
 
             if (selected !== undefined) {
@@ -259,7 +260,15 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
             return reduceLoadPresets(state, action.source, action.presets);
         }
         break;
-        
+        case "D/*/presets/":
+        if (action.error) { 
+            return reduceFault(state, action.source, action.error);
+        }
+        if (action.presets) {
+            return reduceLoadPresets(state, action.source, action.presets);
+        }
+        break;
+
         case "U/*/presets/.selected":
         return reducePresetSelected(state, action.presets, action.source, action.selected, action.expanded);
 

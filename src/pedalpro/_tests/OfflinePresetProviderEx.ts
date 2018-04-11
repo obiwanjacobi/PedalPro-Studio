@@ -1,9 +1,22 @@
 import { FactoryProviderEx } from "../extended/FactoryProviderEx";
 import { Preset } from "../../model/Preset";
+import { EmptyPresetBufferEx } from "../extended/EmptyPresetBufferEx";
+import { PresetBuffer } from "../PresetBuffer";
+import { PresetDeserializerEx } from "../extended/PresetDeserializerEx";
+import { LogicalTransformerEx } from "../extended/LogicalTransformerEx";
+import { PresetMeta } from "../../model/PresetMeta";
 
 export class OfflinePresetProviderEx extends FactoryProviderEx {
     public constructor(path: string) {
         super(path);
+    }
+
+    public deletePreset(presetIndex: number): Preset {
+        this.throwIfNotValidPresetIndex(presetIndex);
+        const empty = this.deserialize(EmptyPresetBufferEx);
+        empty.index = presetIndex;
+        super.setPreset(empty);
+        return empty;
     }
 
     public putPreset(preset: Preset) {
@@ -18,5 +31,17 @@ export class OfflinePresetProviderEx extends FactoryProviderEx {
             this.throwIfNotValidPresetIndex(preset.index);
             super.setPreset(preset);
         }
+    }
+
+    protected deserialize(buffer: PresetBuffer): Preset {
+        const deserializer = new PresetDeserializerEx();
+        const preset = deserializer.deserialize(buffer);
+        LogicalTransformerEx.presetToLogical(preset);
+        preset.meta = this.createMeta();
+        return preset;
+    }
+
+    private createMeta(): PresetMeta {
+        return { device: "4" }; // Ex
     }
 }

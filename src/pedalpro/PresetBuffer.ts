@@ -13,7 +13,7 @@ export class PresetBuffer extends DataBuffer {
         humbucker: boolean, 
         expression: boolean, 
         stereo: boolean): void {
-        const name: number[] = new Array(nameMaxLength);
+        const name: number[] = new Array<number>(nameMaxLength);
 
         for (let i = 0; i < nameMaxLength; i++) {
             if (i < presetName.length) {
@@ -23,7 +23,16 @@ export class PresetBuffer extends DataBuffer {
             }
         }
 
-        // TODO: add special chars
+        const specials = new Array<number>();
+        if (singleCoil) { specials.push(SingleCoilChar); }
+        if (humbucker) { specials.push(HumbuckerChar); }
+        if (stereo) { specials.push(StereoChar); }
+        if (expression) { specials.push(ExpressionChar); }
+
+        for (let i = specials.length - 1; i >= 0; i--) {
+            const target = name.length - 1 - i;
+            name[target] = specials[i];
+        }
 
         super.write(0, name, 0, nameMaxLength);
     }

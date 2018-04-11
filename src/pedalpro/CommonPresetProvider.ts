@@ -46,4 +46,8 @@ export class CommonPresetProvider implements PresetProvider {
     public putPresets(_: Preset[]): void {
         throw new Error("Not Supported.");
     }
+
+    public deletePreset(_: number): Preset {
+        throw new Error("Not Supported.");
+    }
 }

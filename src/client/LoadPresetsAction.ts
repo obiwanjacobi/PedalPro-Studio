@@ -1,14 +1,13 @@
 import { Dispatch } from "redux";
 
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
-import { Client, PresetsClient } from "./Client";
+import { DefaultClient, PresetsClient } from "./Client";
 import { Preset } from "./Preset";
 import { createDeviceInfoAction } from "./DevciceInfoAction";
 import { ProgressInfo, ScreenState } from "./screen/ScreenState";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { createUpdateScreenAction } from "./screen/UpdateScreenAction";
 
-const client = new Client(0x04d8);
 const pageSize = 20;
 
 export const LoadPresetsActionKey: string = "R/*/presets/";
@@ -113,7 +112,7 @@ const progressLoadPresets = (
 export const createLoadPresetsAction = 
     (dispatch: Dispatch<ApplicationDocument>, 
      source: PresetCollectionType): void => {
-        const presetClient = client.getSource(source);
+        const presetClient = DefaultClient.getSource(source);
 
         try {
             switch (source) {

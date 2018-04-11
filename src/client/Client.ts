@@ -21,6 +21,18 @@ export class PresetsClient {
         this.unextendPreset = this.unextendPreset.bind(this);
     }
 
+    public async deletePresets(presets: Preset[]): Promise<Preset[]> {
+        const results = new Array<Preset>(presets.length);
+        for (let i = 0; i < presets.length; i++) {
+            const preset = presets[i];
+            const response = await this.typedRest.del<PresetRequest>(`${this.baseUrl}/presets/${preset.index}`);
+            this.throwIfError(response);
+            // @ts-ignore:[ts] Object is possibly 'null'.
+            results[i] = this.extendPreset(response.result.presets[0]);
+        }
+        return results;
+    }
+
     public async replacePresets(presets: Preset[]): Promise<Preset[]> {
         const msg = <PresetRequest> { presets: presets.map(this.unextendPreset) };
         const response = await this.typedRest.replace<PresetRequest>(`${this.baseUrl}/presets/`, msg);
@@ -121,3 +133,5 @@ export class Client {
         }
     }
 }
+
+export const DefaultClient = new Client(0x04d8);

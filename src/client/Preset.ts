@@ -63,11 +63,13 @@ function presetsExceptIndexEqual(preset1: ModelPreset.Preset, preset2: ModelPres
 }
 
 export function onlyIndexHasChanged(preset: Preset): boolean {
+    if (!preset.origin) { return false; }
     return preset.origin.index !== preset.index &&
            presetsExceptIndexEqual(preset, preset.origin);
 }
 
 export function presetHasChanged(preset: Preset): boolean {
+    if (!preset.origin) { return false; }
     return preset.origin.index !== preset.index ||
            !presetsExceptIndexEqual(preset, preset.origin);
 }

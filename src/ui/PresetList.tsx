@@ -6,12 +6,13 @@ import { Preset } from "../client/Preset";
 import { SelectPresets } from "../client/SelectPresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
+import { DeletePresets } from "../client/DeletePresetsAction";
 
 export interface PresetListProps {
     presets: Preset[];
     empty: React.ReactNode;
 }
-export type PresetListActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
+export type PresetListActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
 export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
@@ -173,6 +174,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
                     selectPresets={this.props.selectPresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
+                    deletePresets={this.props.deletePresets}
                 />
             </div>
         );

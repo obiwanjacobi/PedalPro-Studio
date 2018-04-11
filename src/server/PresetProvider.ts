@@ -7,4 +7,5 @@ export interface PresetProvider {
     getPresetsPaged(page: number, size: number): Preset[];
     putPreset(preset: Preset): void;
     putPresets(presets: Preset[]): void;
+    deletePreset(presetIndex: number): Preset;
 }

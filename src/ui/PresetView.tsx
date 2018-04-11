@@ -15,6 +15,7 @@ import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
 import { SelectedView } from "../client/controls/SelectedView";
 import { ChangedView } from "../client/controls/ChangedView";
+import { DeletePresets } from "../client/DeletePresetsAction";
 
 export interface PresetViewStateProps { 
     presets: Preset[];
@@ -32,7 +33,12 @@ export interface PresetViewState {
     showChanged: boolean;
 }
 
-export type PresetViewAllProps = PresetViewStateProps & SelectPresets & Partial<EditPreset> & Partial<MovePreset>;
+export type PresetViewAllProps = 
+    PresetViewStateProps & 
+    SelectPresets & 
+    Partial<EditPreset> & 
+    Partial<MovePreset> & 
+    Partial<DeletePresets>;
 
 const containerStyles: React.CSSProperties = {
     display: "flex",
@@ -100,6 +106,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                     selectPresets={this.props.selectPresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
+                    deletePresets={this.props.deletePresets}
                     empty={this.hasNoSearchResult ? this.renderNoResults() : this.props.empty}
                 />
             </div>

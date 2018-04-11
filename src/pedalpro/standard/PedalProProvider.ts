@@ -9,6 +9,7 @@ import { PresetBuffer } from "../PresetBuffer";
 import { PresetSerializer } from "./PresetSerializer";
 import { PresetMeta } from "../../model/PresetMeta";
 import { PedalProDeviceIdentity } from "../PedalProDeviceIdentity";
+import { EmptyPresetBuffer } from "./EmptyPresetBuffer";
 
 export class PedalProProvider extends CommonPresetProvider {
     protected readonly commands: DeviceCommands;
@@ -21,7 +22,14 @@ export class PedalProProvider extends CommonPresetProvider {
         this.identity = identity;
     }
 
+    public deletePreset(presetIndex: number): Preset {
+        this.throwIfNotValidPresetIndex(presetIndex);
+        this.commands.write(EmptyPresetBuffer, presetIndex);
+        return this.deserialize(EmptyPresetBuffer);
+    }
+
     public putPreset(preset: Preset) {
+        this.throwIfNotValidPresetIndex(preset.index);
         const buffer = new PresetBuffer(this.profile.presetBufferSize);
         this.serialize(buffer, preset);
         this.commands.write(buffer, preset.index);
@@ -32,7 +40,7 @@ export class PedalProProvider extends CommonPresetProvider {
 
         for (let i = 0; i < presets.length; i++) {
             const preset = presets[i];
-
+            this.throwIfNotValidPresetIndex(preset.index);
             buffer.clear();
             this.serialize(buffer, preset);
             this.commands.write(buffer, preset.index);
