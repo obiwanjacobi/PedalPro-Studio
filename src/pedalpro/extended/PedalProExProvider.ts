@@ -50,6 +50,10 @@ export class PedalProExProvider extends PedalProProvider {
         accessor.saveDirtyPages();
     }
 
+    public getEmptyPreset(): Preset {
+        return this.deserialize(EmptyPresetBufferEx);
+    }
+
     protected serialize(buffer: PresetBuffer, preset: Preset): void {
         LogicalTransformerEx.presetFromLogical(preset);
         const serializer = new PresetSerializerEx();

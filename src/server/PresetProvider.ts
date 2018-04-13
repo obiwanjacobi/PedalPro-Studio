@@ -2,6 +2,7 @@ import { Preset } from "../model/Preset";
 
 export interface PresetProvider {
     presetCount: number;
+    getEmptyPreset(): Preset;
     getPreset(_: number): Preset;
     getPresets(): Preset[];
     getPresetsPaged(page: number, size: number): Preset[];

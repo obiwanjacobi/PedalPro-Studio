@@ -4,18 +4,19 @@ import { PresetProvider } from "./PresetProvider";
 import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { PresetResponse } from "../model/Messages";
 import { Environment } from "../Environment";
-
-// test - no usb
-// import TestPresetProvider from "../_tests/TestPresetProvider";
-// const pedalProPresetsApi = new PresetsApi(new TestPresetProvider());
+import { EmptyApi } from "./EmptyApi";
 
 export class ReadPresetsApi implements ApiHandler {
     public readonly uri: string = "/presets";
     public readonly router: express.Router = express.Router();
 
+    private readonly emptyApi = new EmptyApi();
+
     public constructor() {
         this.getPresets = this.getPresets.bind(this);
         this.getPreset = this.getPreset.bind(this);
+
+        this.router.use(this.emptyApi.uri, this.emptyApi.router);
 
         this.router.get("/", this.getPresets);
         this.router.get("/:presetIndex", this.getPreset);
@@ -25,11 +26,12 @@ export class ReadPresetsApi implements ApiHandler {
         return PedalProProviderFactory.create(Environment.isProduction);
     }
 
-    protected throwIfNan(presetIndex: number) {
+    protected throwIfNaN(presetIndex: number) {
         if (isNaN(presetIndex)) {
             throw new Error("Expected Preset Index is not a number.");
         }
     }
+
     private getPresets(request: express.Request, response: express.Response) {
         const page = request.query.page;
         const size = request.query.size;
@@ -54,7 +56,7 @@ export class ReadPresetsApi implements ApiHandler {
         const presetIndex: number = Number(request.params.presetIndex);
 
         try {
-            this.throwIfNan(presetIndex);
+            this.throwIfNaN(presetIndex);
             const provider = this.createProvider();
             msg.presets = [provider.getPreset(presetIndex)];
         } catch (error) {

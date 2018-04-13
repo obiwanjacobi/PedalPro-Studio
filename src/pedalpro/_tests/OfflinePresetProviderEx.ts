@@ -33,6 +33,10 @@ export class OfflinePresetProviderEx extends FactoryProviderEx {
         }
     }
 
+    public getEmptyPreset(): Preset {
+        return this.deserialize(EmptyPresetBufferEx);
+    }
+
     protected deserialize(buffer: PresetBuffer): Preset {
         const deserializer = new PresetDeserializerEx();
         const preset = deserializer.deserialize(buffer);

@@ -4,17 +4,13 @@ import { ReadPresetsApi } from "./ReadPresetsApi";
 import { PresetProvider } from "./PresetProvider";
 import { FactoryProvider } from "../pedalpro/standard/FactoryProvider";
 import { FactoryProviderEx } from "../pedalpro/extended/FactoryProviderEx";
-import { PedalProDevice } from "../pedalpro/PedalProDevice";
-import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { PedalProDeviceModel } from "../pedalpro/PedalProDeviceIdentity";
-import { Environment } from "../Environment";
 import { Configuration } from "../Configuration";
+import { getDeviceInfo } from "./DeviceApi";
 
 export class FactoryPresetApi extends ReadPresetsApi {
     protected createProvider(): PresetProvider {
-        const device = new PedalProDevice();
-        const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device, Environment.isProduction);
-        if (!deviceInfo) { throw new Error("Device could not be determined."); }
+        const deviceInfo = getDeviceInfo();
 
         switch (deviceInfo.model) {
             case  PedalProDeviceModel.PedalPro:

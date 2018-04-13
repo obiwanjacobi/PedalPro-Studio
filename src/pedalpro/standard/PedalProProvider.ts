@@ -47,6 +47,10 @@ export class PedalProProvider extends CommonPresetProvider {
         }
     }
 
+    public getEmptyPreset(): Preset {
+        return this.deserialize(EmptyPresetBuffer);
+    }
+
     public getPreset(presetIndex: number): Preset {
         this.throwIfNotValidPresetIndex(presetIndex);
         return this.onePreset(presetIndex);

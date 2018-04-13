@@ -27,6 +27,10 @@ export class CommonPresetProvider implements PresetProvider {
         return this.profile.presetCount;
     }
 
+    public getEmptyPreset(): Preset {
+        throw new Error("Not Supported.");
+    }
+    
     public getPreset(_: number): Preset {
         throw new Error("Not Supported.");
     }

@@ -20,7 +20,7 @@ export class WritePresetsApi extends ReadPresetsApi {
         const presetIndex: number = Number(request.params.presetIndex);
 
         try {
-            this.throwIfNan(presetIndex);
+            this.throwIfNaN(presetIndex);
             const presetRequest = <PresetRequest> request.body;
             if (presetRequest.presets && presetRequest.presets.length === 1) {
                 const provider = this.createProvider();
@@ -65,7 +65,7 @@ export class WritePresetsApi extends ReadPresetsApi {
         const presetIndex: number = Number(request.params.presetIndex);
 
         try {
-            this.throwIfNan(presetIndex);
+            this.throwIfNaN(presetIndex);
             const provider = this.createProvider();
             msg.presets = [provider.deletePreset(presetIndex)];
         } catch (error) {
