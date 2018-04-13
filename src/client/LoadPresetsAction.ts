@@ -20,18 +20,14 @@ export interface LoadPresetsAction {
     readonly progress: ProgressInfo | null;
 }
 
-const loadAllPresets = 
-    (presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>): void => {
-        presetClient.getPresets()
-            .then((result) => {
-                dispatch({
-                    type: LoadPresetsActionKey, source: presetClient.collection, presets: result, 
-                    error: null, progress: null
-                });
-            }).catch((error) => {
-                throw error;
-            });
-};
+async function loadAllPresets(
+    presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>): Promise<void> {
+        const presets = await presetClient.getPresets();
+        dispatch({
+            type: LoadPresetsActionKey, source: presetClient.collection, presets: presets, 
+            error: null, progress: null
+        });
+}
 
 const makeProgressInfo = (deviceInfo: DeviceIdentity, currentPreset: number): ProgressInfo => {
     return <ProgressInfo> { 
@@ -40,15 +36,6 @@ const makeProgressInfo = (deviceInfo: DeviceIdentity, currentPreset: number): Pr
         percent: Math.round(currentPreset * 100 / deviceInfo.presetCount)
     };
 };
-
-// async function loadPreset(
-// presetClient: PresetsClient, presetIndex: number, dispatch: Dispatch<ApplicationDocument>, progress: ProgressInfo) {
-//     const preset = await presetClient.getPreset(presetIndex);
-//     dispatch({ 
-//         type: LoadPresetsActionKey, source: presetClient.collection, presets: [preset], 
-//         error: null, progress: progress
-//     });
-// }
 
 async function loadPresetsPaged(
     presetClient: PresetsClient, page: number, dispatch: Dispatch<ApplicationDocument>, progress: ProgressInfo) {
@@ -75,17 +62,6 @@ async function loadPresets(
     }
 }
 
-// async function loadPresets(
-//     deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) {
-//     for (let index = 0; index < deviceInfo.presetCount; index++) {
-//         const progress = makeProgressInfo(deviceInfo, index);
-//         await loadPreset(presetClient, index, dispatch, progress);
-//     }
-
-//     // dismiss progress
-//     dispatch(createUpdateScreenAction(new ScreenState()));
-// }
-
 const progressLoadPresets = (
     presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) => {
 
@@ -109,9 +85,8 @@ const progressLoadPresets = (
         });
 };
 
-export const createLoadPresetsAction = 
-    (dispatch: Dispatch<ApplicationDocument>, 
-     source: PresetCollectionType): void => {
+export async function createLoadPresetsAction(
+    dispatch: Dispatch<ApplicationDocument>, source: PresetCollectionType): Promise<void> {
         const presetClient = DefaultClient.getSource(source);
 
         try {
@@ -120,17 +95,16 @@ export const createLoadPresetsAction =
                 progressLoadPresets(presetClient, dispatch);
                 break;
                 default:
-                loadAllPresets(presetClient, dispatch);
+                await loadAllPresets(presetClient, dispatch);
                 break;
             }
-
         } catch (error) {
             dispatch({
                 type: LoadPresetsActionKey, source: presetClient.collection, presets: null, 
                 error: error, progress: null
             });
         }
-};
+}
 
 export interface LoadPresets {
     loadPresets(source: PresetCollectionType): void;

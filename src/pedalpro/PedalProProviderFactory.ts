@@ -5,6 +5,7 @@ import { PedalProDeviceIdentity, PedalProDeviceModel } from "./PedalProDeviceIde
 import { PedalProExProvider } from "./extended/PedalProExProvider";
 import { PresetProvider } from "../server/PresetProvider";
 import { OfflinePresetProviderEx } from "./_tests/OfflinePresetProviderEx";
+import { Configuration } from "../Configuration";
 
 export class PedalProProviderFactory {
     public static create(throwOnError: boolean): PresetProvider {
@@ -12,8 +13,8 @@ export class PedalProProviderFactory {
         const deviceId = PedalProProviderFactory.getDeviceIdentity(device, throwOnError);
 
         if (!deviceId) {
-            return new OfflinePresetProviderEx("./src/pedalpro/_tests/PPEPreset81.vrf");
-        }
+            return new OfflinePresetProviderEx(Configuration.pedalpro.factoryFileEx);
+        }   
 
         switch (deviceId.model) {
             case PedalProDeviceModel.PedalPro:

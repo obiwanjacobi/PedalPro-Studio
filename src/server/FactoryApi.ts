@@ -8,6 +8,7 @@ import { PedalProDevice } from "../pedalpro/PedalProDevice";
 import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { PedalProDeviceModel } from "../pedalpro/PedalProDeviceIdentity";
 import { Environment } from "../Environment";
+import { Configuration } from "../Configuration";
 
 export class FactoryPresetApi extends ReadPresetsApi {
     protected createProvider(): PresetProvider {
@@ -17,9 +18,9 @@ export class FactoryPresetApi extends ReadPresetsApi {
 
         switch (deviceInfo.model) {
             case  PedalProDeviceModel.PedalPro:
-                return new FactoryProvider("./assets/PedalPro.65.vrf");
+                return new FactoryProvider(Configuration.pedalpro.factoryFile);
             case  PedalProDeviceModel.PedalProEx:
-                return new FactoryProviderEx("./assets/PedalProEx.81.vrf");
+                return new FactoryProviderEx(Configuration.pedalpro.factoryFileEx);
             default:
                 throw new Error("Device has no Factory presets.");
         }

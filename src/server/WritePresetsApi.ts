@@ -17,16 +17,17 @@ export class WritePresetsApi extends ReadPresetsApi {
 
     private writePreset(request: express.Request, response: express.Response) {
         const msg = <PresetResponse> { };
-        const presetIndex: number = request.params.presetIndex;
+        const presetIndex: number = Number(request.params.presetIndex);
 
         try {
+            this.throwIfNan(presetIndex);
             const presetRequest = <PresetRequest> request.body;
             if (presetRequest.presets && presetRequest.presets.length === 1) {
                 const provider = this.createProvider();
                 const preset = presetRequest.presets[0];
-                preset.index = Number(presetIndex); // override preset index with url param value
+                preset.index = presetIndex; // override preset index with url param value
                 provider.putPreset(preset);
-                msg.presets = [provider.getPreset(preset.index)];
+                msg.presets = [provider.getPreset(presetIndex)];
             } else {
                 response.status(400); // invalid request
                 throw new Error("Expect exactly one preset.");
@@ -61,11 +62,12 @@ export class WritePresetsApi extends ReadPresetsApi {
 
     private deletePreset(request: express.Request, response: express.Response) {
         const msg = <PresetResponse> { };
-        const presetIndex: number = request.params.presetIndex;
+        const presetIndex: number = Number(request.params.presetIndex);
 
         try {
+            this.throwIfNan(presetIndex);
             const provider = this.createProvider();
-            msg.presets = [provider.deletePreset(Number(presetIndex))];
+            msg.presets = [provider.deletePreset(presetIndex)];
         } catch (error) {
             msg.fault = createFault(error.message);
         }

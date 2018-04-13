@@ -142,7 +142,7 @@ export class PresetListItemDetail extends
     }
 
     private get canDelete(): boolean {
-        return true;
+        return !this.props.preset.traits.empty;
     }
 
     private updateNameHandler(e: React.ChangeEvent<HTMLInputElement>) {

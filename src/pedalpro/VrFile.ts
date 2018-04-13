@@ -65,13 +65,6 @@ class VrFileReader {
         }
         this.next();
     }
-    private skipUntil(ascii: string) {
-        const char = this.oneCharOnly(ascii);
-
-        while (this.current < char) {
-            this.next();
-        }
-    }
     private read(count: number): number[] {
         const result = Array<number>(count);
         for (let i = 0; i < count; i++) {

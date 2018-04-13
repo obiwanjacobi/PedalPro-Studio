@@ -25,6 +25,11 @@ export class ReadPresetsApi implements ApiHandler {
         return PedalProProviderFactory.create(Environment.isProduction);
     }
 
+    protected throwIfNan(presetIndex: number) {
+        if (isNaN(presetIndex)) {
+            throw new Error("Expected Preset Index is not a number.");
+        }
+    }
     private getPresets(request: express.Request, response: express.Response) {
         const page = request.query.page;
         const size = request.query.size;
@@ -46,9 +51,10 @@ export class ReadPresetsApi implements ApiHandler {
 
     private getPreset(request: express.Request, response: express.Response) {
         const msg = <PresetResponse> { };
-        const presetIndex: number = request.params.presetIndex;
+        const presetIndex: number = Number(request.params.presetIndex);
 
         try {
+            this.throwIfNan(presetIndex);
             const provider = this.createProvider();
             msg.presets = [provider.getPreset(presetIndex)];
         } catch (error) {
