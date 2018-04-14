@@ -40,7 +40,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                 <Grid container={true} alignItems="center" spacing={8}>
                     <Grid xs={2} item={true}>
                         <Checkbox 
-                            checked={this.props.preset.uiSelected} 
+                            checked={this.props.preset.ui.selected} 
                             onClick={this.toggleSelected}
                             icon={this.formatIndex()}
                         />
@@ -56,13 +56,13 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                     <Grid xs={1} item={true}>
                         {this.hasDetails &&
                         <IconButton onClick={this.toggleExpanded} >
-                            {this.props.preset.uiExpanded ? <ExpandLess /> : <ExpandMore />}
+                            {this.props.preset.ui.expanded ? <ExpandLess /> : <ExpandMore />}
                         </IconButton>}
                     </Grid>
                 </Grid>
                 {this.hasDetails &&
-                <Collapse in={this.props.preset.uiExpanded}>
-                    {this.props.preset.uiExpanded ? 
+                <Collapse in={this.props.preset.ui.expanded}>
+                    {this.props.preset.ui.expanded ? 
                         <PresetListItemDetail
                             preset={this.props.preset}
                             editPreset={this.editPreset}
@@ -85,13 +85,13 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
     private toggleExpanded() {
         this.props.selectPresets(
             [this.props.preset], this.props.preset.source,
-            {expanded: !this.props.preset.uiExpanded});
+            {expanded: !this.props.preset.ui.expanded});
     }
 
     private toggleSelected() {
         this.props.selectPresets(
             [this.props.preset], this.props.preset.source,
-            {selected: !this.props.preset.uiSelected});
+            {selected: !this.props.preset.ui.selected});
     }
 
     private editPreset(preset: Preset, update: Partial<Preset>) {

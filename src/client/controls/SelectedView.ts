@@ -1,20 +1,17 @@
 import { SelectAllButtonStatus } from "./SelectAllButton";
-
-export interface Selectable {
-    uiSelected: boolean;
-}
+import { Preset } from "../Preset";
 
 /**
  * Provides common functs for a collection of selectable items.
  */
-export class SelectedView<T extends Selectable> {
-    private readonly collection: T[];
+export class SelectedView {
+    private readonly collection: Preset[];
 
-    public static areAnySelected(collection: Selectable[]): boolean {
-        return collection.some((item: Selectable) => item.uiSelected);
+    public static areAnySelected(collection: Preset[]): boolean {
+        return collection.some((item: Preset) => item.ui.selected);
     }
 
-    public constructor(collection: T[]) {
+    public constructor(collection: Preset[]) {
         this.collection = collection;
     }
 
@@ -23,19 +20,19 @@ export class SelectedView<T extends Selectable> {
         return this.collection.length === 0;
     }
     
-    public get selected(): T[] {
-        if (!this.collection) { return new Array<T>(); }
-        return this.collection.filter((item: Selectable) => item.uiSelected);
+    public get selected(): Preset[] {
+        if (!this.collection) { return new Array<Preset>(); }
+        return this.collection.filter((item: Preset) => item.ui.selected);
     }
 
     public get anySelected(): boolean {
         if (this.isEmpty) { return false; }
-        return this.collection.some((item: Selectable) => item.uiSelected);
+        return this.collection.some((item: Preset) => item.ui.selected);
     }
 
     public get allSelected(): boolean {
         if (this.isEmpty) { return false; }
-        return this.collection.every((item: Selectable) => item.uiSelected);
+        return this.collection.every((item: Preset) => item.ui.selected);
     }
 
     public get noneSelected(): boolean {

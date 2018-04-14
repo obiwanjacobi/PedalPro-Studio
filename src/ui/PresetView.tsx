@@ -159,7 +159,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
 
     private isShown(preset: Preset): boolean {
         const isChanged = presetHasChanged(preset);
-        const isSelected = preset.uiSelected;
+        const isSelected = preset.ui.selected;
         const isEmpty = preset.traits.empty;
 
         let shown = this.state.showEmpty ? true : !isEmpty;

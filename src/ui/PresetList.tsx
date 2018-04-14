@@ -159,7 +159,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
     private getRowHeight(rowIndex: Index): number {
         const cellData = this.getRowData(rowIndex.index);
         const nakedHeight = 
-            cellData.some((preset: Preset) => preset.uiExpanded) ? itemHeightExpanded : itemHeightCollapsed;
+            cellData.some((preset: Preset) => preset.ui.expanded) ? itemHeightExpanded : itemHeightCollapsed;
         return nakedHeight + itemPadding;
     }
 

@@ -5,6 +5,23 @@ import * as lodash from "lodash";
 import { Effects, EffectsEx } from "../model/Effects";
 import { PresetMeta } from "../model/PresetMeta";
 
+export interface PresetUI {
+    /**
+     * true when the preset is selected in the ui.
+     */
+    selected: boolean;
+
+    /**
+     * true when the preset is expanded in the ui.
+     */
+    expanded: boolean;
+
+    /**
+     * true when the preset was marked as deleted (empty).
+     */
+    markedDeleted: boolean;
+}
+
 // ui extensions
 export interface Preset extends ModelPreset.Preset {
     
@@ -14,14 +31,9 @@ export interface Preset extends ModelPreset.Preset {
     source: PresetCollectionType;
     
     /**
-     * true when the preset is selected in the ui.
+     * UI related preset settings
      */
-    uiSelected: boolean;
-
-    /**
-     * true when the preset is expanded in the ui.
-     */
-    uiExpanded: boolean;
+    ui: PresetUI;
 
     /**
      * the origin of this preset

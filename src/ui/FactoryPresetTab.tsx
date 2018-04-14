@@ -28,7 +28,7 @@ const conatinerStyles: React.CSSProperties = {
 };
 
 export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> {
-    private selection: SelectedView<Preset>;
+    private selection: SelectedView;
 
     public constructor(props: FactoryPresetTabAllProps) {
         super(props);

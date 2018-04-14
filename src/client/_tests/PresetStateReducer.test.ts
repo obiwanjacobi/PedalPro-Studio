@@ -16,9 +16,9 @@ describe("PresetStateReducer.ts", () => {
     it ("reduceLoadPresets - device - just loads in the specified presets", () => {
         const collection = PresetCollectionType.device;
         const testState = new ApplicationDocument();
-        const expectedPreset = <Preset> { name: "test", index: 1, uiSelected: true, source: collection};
-        const loadPresetsAction = createLoadPresetsAction(expectedPreset, collection);
-        const newState = PresetStateReducer.reduce(testState, loadPresetsAction);
+        const expectedPreset = <Preset> { name: "test", index: 1, ui: {selected: true}, source: collection};
+        const action = createLoadPresetsAction(expectedPreset, collection);
+        const newState = PresetStateReducer.reduce(testState, action);
         expect(newState).not.toMatchObject(testState);
         expect(newState.device).toContain(expectedPreset);
     });
@@ -26,20 +26,20 @@ describe("PresetStateReducer.ts", () => {
     it ("reduceLoadPresets - storage - just loads in the specified presets", () => {
         const collection = PresetCollectionType.storage;
         const testState = new ApplicationDocument();
-        const expectedPreset = <Preset> { name: "test", index: 1, uiSelected: true, source: collection};
-        const loadPresetsAction = createLoadPresetsAction(expectedPreset, collection);
-        const newState = PresetStateReducer.reduce(testState, loadPresetsAction);
+        const expectedPreset = <Preset> { name: "test", index: 1, ui: {selected: true}, source: collection};
+        const action = createLoadPresetsAction(expectedPreset, collection);
+        const newState = PresetStateReducer.reduce(testState, action);
         expect(newState).not.toMatchObject(testState);
         expect(newState.storage).toContain(expectedPreset);
     });
 
     it ("reducePresetSelected - storage - selected is true", () => {
         const collection = PresetCollectionType.storage;
-        const expectedPreset = <Preset> { name: "test", index: 1, uiSelected: false, source: collection};
+        const expectedPreset = <Preset> { name: "test", index: 1, ui: {selected: false}, source: collection};
         const testState = new ApplicationDocument(undefined, null, [expectedPreset]);
-        const loadPresetsAction = createSelectPresetsAction([expectedPreset], collection, { selected: true });
-        const newState = PresetStateReducer.reduce(testState, loadPresetsAction);
+        const action = createSelectPresetsAction([expectedPreset], collection, { selected: true });
+        const newState = PresetStateReducer.reduce(testState, action);
         expect(newState).not.toMatchObject(testState);
-        expect(newState.storage[0].uiSelected).toBe(true);
+        expect(newState.storage[0].ui.selected).toBe(true);
     });
 });

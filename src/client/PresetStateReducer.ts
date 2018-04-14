@@ -162,7 +162,12 @@ const reducePastePresets = (
             const targetIndex = newCollection.findIndex((p: Preset) => p.index === pasted.index);
             if (targetIndex !== -1) {
                 const overwritten = newCollection[targetIndex];
-                newCollection[targetIndex] = {...pasted, origin: overwritten, source: target, uiSelected: true};
+                newCollection[targetIndex] = {
+                    ...pasted, 
+                    origin: overwritten, 
+                    source: target, 
+                    ui: { ...pasted.ui, selected: true }
+                };
             }
         }
 
@@ -204,10 +209,10 @@ const reducePresetSelected = (
             if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
 
             if (selected !== undefined) {
-                newCollection[index] = { ...p, uiSelected: selected === true };
+                newCollection[index] = { ...p, ui: { ...p.ui, selected: selected === true}};
             }
             if (expanded !== undefined) {
-                newCollection[index] = { ...p, uiExpanded: expanded === true };
+                newCollection[index] = { ...p, ui: {...p.ui, expanded: expanded === true}};
             }
         }
 

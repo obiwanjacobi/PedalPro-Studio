@@ -80,8 +80,7 @@ export class PresetsClient {
             ...preset, 
             origin: preset,
             source: this.collection,
-            uiExpanded: false,
-            uiSelected: false
+            ui: { expanded: false, selected: false, markedDeleted: false }
         };
         return clientPreset;
     }

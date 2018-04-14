@@ -40,7 +40,7 @@ const conatinerStyles: React.CSSProperties = {
 };
 
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, DevicePresetTabState> {
-    private selection: SelectedView<Preset>;
+    private selection: SelectedView;
     private changed: ChangedView;
 
     public constructor(props: DevicePresetTabAllProps) {

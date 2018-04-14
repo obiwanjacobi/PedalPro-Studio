@@ -31,7 +31,7 @@ class ClipboardListItem extends React.Component<ClipboardListItemAllProps> {
     public render() {
         return (
             <ListItem button={true} onClick={this.onSelectPreset}>
-                <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.preset.uiSelected} />
+                <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.preset.ui.selected} />
                 <ListItemText primary={this.title} secondary={this.props.preset.source.toUpperCase()} />
                 <ListItemSecondaryAction />
             </ListItem>
@@ -44,7 +44,7 @@ class ClipboardListItem extends React.Component<ClipboardListItemAllProps> {
     private onSelectPreset(_: React.MouseEvent<HTMLElement>) {
         this.props.selectPresets(
             [this.props.preset], PresetCollectionType.clipboard, 
-            { selected: !this.props.preset.uiSelected });
+            { selected: !this.props.preset.ui.selected });
     }
 }
 
@@ -89,8 +89,7 @@ const NotFoundPreset: Preset = {
         meta: { device: "" },
         traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false},
     },
-    uiSelected: false,
-    uiExpanded: false,
+    ui: { selected: false, expanded: false, markedDeleted: false },
     meta: { device: "" },
     traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false},
 };
@@ -115,7 +114,7 @@ export type PastePageActions = SelectPresets & PastePresets & UpdateScreen;
 export type PastePageAllProps = PastePageProps & PastePageStateProps & PastePageActions;
 
 export class PastePage extends React.Component<PastePageAllProps, PastePageState> {
-    private selection: SelectedView<Preset>;
+    private selection: SelectedView;
 
     public constructor(props: PastePageAllProps) {
         super(props);
