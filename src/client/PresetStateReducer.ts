@@ -1,5 +1,5 @@
 import { Fault } from "../model/Fault";
-import { Preset, presetsExceptUIAreEqual, PresetUI } from "./Preset";
+import { Preset, presetsExceptUiAreEqual, PresetUI } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
@@ -179,7 +179,7 @@ const reducePastePresets = (
     const cleanupClipboard = (collection: Preset[]): Preset[]  => {
         const newCollection = new Array<Preset>();
         collection.forEach(clipboardPreset => {
-            const oldIndex = presets.findIndex((p) => presetsExceptUIAreEqual(clipboardPreset, p));
+            const oldIndex = presets.findIndex((p) => presetsExceptUiAreEqual(clipboardPreset, p));
             if (oldIndex === -1) {
                 newCollection.push(clipboardPreset);
             }
@@ -203,7 +203,7 @@ const reduceChangePresets = (
         for (let i: number = 0; i < presets.length; i++) {
             const p = presets[i];
             // const index = newCollection.indexOf(p);
-            const index = newCollection.findIndex((prst) => presetsExceptUIAreEqual(p, prst));
+            const index = newCollection.findIndex((prst) => presetsExceptUiAreEqual(p, prst));
             if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
 
             newCollection[index] = { ...p, ui: { ...p.ui, ...ui }};
@@ -226,6 +226,25 @@ const reduceLoadPresets = (
 
         return replacePresetsByIndex(oldPresets, presets);
     });
+};
+
+const reduceDeletePresets = (
+    state: ApplicationDocument, source: PresetCollectionType, presets: Preset[]): ApplicationDocument => {
+    
+    if (!state.empty) { return state; }
+
+    const markDeletePresets = (oldPresets: Preset[]): Preset[] => {
+        const newCollection = oldPresets.slice();
+
+        for (let i = 0; i < presets.length; i++) {
+            const p = presets[i];
+            newCollection[i] = { ...p, ...state.empty};
+        }
+
+        return newCollection;
+    };
+
+    return copyOverride(state, source, markDeletePresets);
 };
 
 const reduceFault = (state: ApplicationDocument, source: PresetCollectionType, fault: Fault): ApplicationDocument => {
@@ -259,13 +278,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         }
         break;
         case "D/*/presets/":
-        if (action.error) { 
-            return reduceFault(state, action.source, action.error);
-        }
-        if (action.presets) {
-            return reduceLoadPresets(state, action.source, action.presets);
-        }
-        break;
+        return reduceDeletePresets(state, action.source, action.presets);
 
         case "U/*/presets/ui":
         return reduceChangePresets(state, action.presets, action.source, action.ui);

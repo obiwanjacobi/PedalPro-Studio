@@ -2,6 +2,7 @@ import { AnyAction, Store, createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 
 import { ApplicationDocument } from "./ApplicationDocument";
+import * as DeviceStateReducer from "./DeviceStateReducer";
 import * as PresetStateReducer from "./PresetStateReducer";
 import * as ScreenStateReducer from "./screen/ScreenStateReducer";
 import * as NotificationReducer from "./notification/NotificationStateReduces";
@@ -20,6 +21,14 @@ export class ApplicationStore {
     private appReduce(state: ApplicationDocument, action: AnyAction): ApplicationDocument {
         let actionType = <string> action.type;
         
+        if (actionType.indexOf("presets") > 0) {
+            return PresetStateReducer.reduce(state, <PresetStateReducer.PresetAction> action);
+        }
+        // should come after 'presets'
+        if (actionType.indexOf("device") > 0) {
+            return DeviceStateReducer.reduce(state, <DeviceStateReducer.DeviceAction> action);
+        }
+
         if (actionType.indexOf("screen") > 0) {
             const screen = ScreenStateReducer.reduce(state.screen, <ScreenStateReducer.ScreenAction> action);
             if (screen !== state.screen) {
@@ -27,10 +36,6 @@ export class ApplicationStore {
             }
         }
         
-        if (actionType.indexOf("presets") > 0) {
-            return PresetStateReducer.reduce(state, <PresetStateReducer.PresetAction> action);
-        }
-
         if (actionType.indexOf("notification") > 0) {
             const notification = NotificationReducer.reduce(
                 state.notifications, <NotificationReducer.NotificationAction> action);

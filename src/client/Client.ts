@@ -75,6 +75,13 @@ export class PresetsClient {
         return response.result.device;
     }
 
+    public async getEmptyPreset(): Promise<ModelPreset.Preset> {
+        const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/empty`);
+        this.throwIfError(response);
+        // @ts-ignore:[ts] Object is possibly 'null'.
+        return response.result.presets[0];  // not extended!
+    }
+
     private extendPreset(preset: ModelPreset.Preset): Preset {
         const clientPreset: Preset = {
             ...preset, 

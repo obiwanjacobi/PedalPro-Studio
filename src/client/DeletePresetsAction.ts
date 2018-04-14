@@ -1,7 +1,4 @@
-import { Dispatch } from "redux";
-
-import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
-import { DefaultClient } from "./Client";
+import { PresetCollectionType } from "./ApplicationDocument";
 import { Preset } from "./Preset";
 
 export const DeletePresetsActionKey: string = "D/*/presets/";
@@ -10,20 +7,10 @@ export interface DeletePresetsAction {
     readonly type: "D/*/presets/";
     readonly source: PresetCollectionType;
     readonly presets: Preset[];
-    readonly error: Error | null;
 }
 
-export const createDeletePresetsAction = 
-    (dispatch: Dispatch<ApplicationDocument>, 
-     source: PresetCollectionType, presets: Preset[]): void => {
-        DefaultClient.getSource(source).deletePresets(presets)
-            .then((result) => {
-            dispatch(
-                { type: DeletePresetsActionKey, source: source, presets: result, error: null });
-        }).catch((error) => {
-            dispatch(
-                { type: DeletePresetsActionKey, source: source, presets: null, error: error });
-        });
+export const createDeletePresetsAction = (source: PresetCollectionType, presets: Preset[]): DeletePresetsAction => {
+    return <DeletePresetsAction> { type: DeletePresetsActionKey, presets: presets, source: source };
 };
 
 export interface DeletePresets {

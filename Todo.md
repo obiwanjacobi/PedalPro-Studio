@@ -6,6 +6,9 @@
 - [Done] create FactoryProvider for PedalPro (Std)
 - mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
 - [Done] reverse engineer DSP type settings
+- Place a badge on the upload button with a count of flagged presets (device)
+- drag & drop (react-sortable-hoc)
+- undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 
 ## Project Setup
 
@@ -37,11 +40,6 @@
 ## Bugs
 
 - [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
-
-## Preset List
-
-- drag & drop (react-sortable-hoc)
-- undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 
 Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
 Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).

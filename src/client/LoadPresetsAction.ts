@@ -72,7 +72,8 @@ const progressLoadPresets = (
             try {
                 if (!deviceInfo) {
                     deviceInfo = await presetClient.getDeviceInfo();
-                    disp(createDeviceInfoAction(deviceInfo));
+                    const empty = await presetClient.getEmptyPreset();
+                    disp(createDeviceInfoAction(deviceInfo, empty));
                 }
 
                 await loadPresets(deviceInfo, presetClient, disp);

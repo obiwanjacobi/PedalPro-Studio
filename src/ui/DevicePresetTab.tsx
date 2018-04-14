@@ -207,7 +207,7 @@ const createActionObject: ActionDispatchFunc =
                 dispatch(createMovePresetAction(preset, displacement));
             },
             deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
-                createDeletePresetsAction(dispatch, source, presets);
+                dispatch(createDeletePresetsAction(source, presets));
             },
             updateScreen: (state: ScreenState): void => {
                 dispatch(createUpdateScreenAction(state));
