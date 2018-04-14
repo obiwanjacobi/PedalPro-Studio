@@ -8,8 +8,8 @@ import {
 import { Clear } from "material-ui-icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
-import { Preset, formatPresetIndex } from "../client/Preset";
-import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
+import { Preset, formatPresetIndex, PresetUI } from "../client/Preset";
+import { ChangePresets, createChangePresetsAction } from "../client/ChangePresetsAction";
 import { PastePresets, createPastePresetsAction } from "../client/PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../client/screen/UpdateScreenAction";
 import { ApplicationToolbar } from "../client/controls/ApplicationToolbar";
@@ -20,7 +20,7 @@ import { PresetChangedFlag } from "./PresetChangedFlag";
 interface ClipboardListItemProps {
     preset: Preset;
 }
-type ClipboardListItemAllProps = ClipboardListItemProps & SelectPresets;
+type ClipboardListItemAllProps = ClipboardListItemProps & ChangePresets;
 
 class ClipboardListItem extends React.Component<ClipboardListItemAllProps> {
     public constructor(props: ClipboardListItemAllProps) {
@@ -42,7 +42,7 @@ class ClipboardListItem extends React.Component<ClipboardListItemAllProps> {
         return formatPresetIndex(this.props.preset) + "  -  " + this.props.preset.name;
     }
     private onSelectPreset(_: React.MouseEvent<HTMLElement>) {
-        this.props.selectPresets(
+        this.props.changePresets(
             [this.props.preset], PresetCollectionType.clipboard, 
             { selected: !this.props.preset.ui.selected });
     }
@@ -110,7 +110,7 @@ export interface PastePageStateProps {
     clipboard: Preset[];
     device: Preset[];
 }
-export type PastePageActions = SelectPresets & PastePresets & UpdateScreen;
+export type PastePageActions = ChangePresets & PastePresets & UpdateScreen;
 export type PastePageAllProps = PastePageProps & PastePageStateProps & PastePageActions;
 
 export class PastePage extends React.Component<PastePageAllProps, PastePageState> {
@@ -150,7 +150,7 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
                                         <ClipboardListItem 
                                             key={index} 
                                             preset={preset} 
-                                            selectPresets={this.props.selectPresets}
+                                            changePresets={this.props.changePresets}
                                         />
                                     );
                                 })}
@@ -253,9 +253,8 @@ const extractComponentPropsFromState: MapStateToProps<
 const createActionObject: MapDispatchToPropsFunction<PastePageActions, PastePageProps> =
     (dispatch: Dispatch<ApplicationDocument>, _: PastePageProps): PastePageActions => {
         return {
-            selectPresets: (presets: Preset[], source: PresetCollectionType, command: 
-                {selected?: boolean, expanded?: boolean}): void => {
-                dispatch(createSelectPresetsAction(presets, source, command));
+            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<PresetUI>): void => {
+                dispatch(createChangePresetsAction(presets, source, ui));
             },
             pastePresets: (presets: Preset[], target: PresetCollectionType): void => {
                 dispatch(createPastePresetsAction(presets, target));

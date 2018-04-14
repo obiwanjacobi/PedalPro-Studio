@@ -3,7 +3,7 @@ import { Index, List, AutoSizer, ListRowProps } from "react-virtualized";
 
 import { PresetListItem } from "./PresetListItem";
 import { Preset } from "../client/Preset";
-import { SelectPresets } from "../client/SelectPresetsAction";
+import { ChangePresets } from "../client/ChangePresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
 import { DeletePresets } from "../client/DeletePresetsAction";
@@ -12,7 +12,7 @@ export interface PresetListProps {
     presets: Preset[];
     empty: React.ReactNode;
 }
-export type PresetListActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
+export type PresetListActions = ChangePresets & Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
 export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
@@ -171,7 +171,7 @@ export class PresetList extends React.Component<PresetListAllProps, PresetListSt
             <div key={preset.index} style={style}>
                 <PresetListItem
                     preset={preset}
-                    selectPresets={this.props.selectPresets}
+                    changePresets={this.props.changePresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
                     deletePresets={this.props.deletePresets}

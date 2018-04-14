@@ -1,7 +1,7 @@
 import * as PresetStateReducer from "../PresetStateReducer";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { Preset } from "../Preset";
-import { SelectPresetsAction, createSelectPresetsAction } from "../SelectPresetsAction";
+import { ChangePresetsAction, createChangePresetsAction } from "../ChangePresetsAction";
 import { LoadPresetsAction, LoadPresetsActionKey } from "../LoadPresetsAction";
 
 const createLoadPresetsAction = (preset: Preset, collection: PresetCollectionType) => {
@@ -37,7 +37,7 @@ describe("PresetStateReducer.ts", () => {
         const collection = PresetCollectionType.storage;
         const expectedPreset = <Preset> { name: "test", index: 1, ui: {selected: false}, source: collection};
         const testState = new ApplicationDocument(undefined, null, [expectedPreset]);
-        const action = createSelectPresetsAction([expectedPreset], collection, { selected: true });
+        const action = createChangePresetsAction([expectedPreset], collection, { selected: true });
         const newState = PresetStateReducer.reduce(testState, action);
         expect(newState).not.toMatchObject(testState);
         expect(newState.storage[0].ui.selected).toBe(true);

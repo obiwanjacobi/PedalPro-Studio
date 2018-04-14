@@ -10,7 +10,7 @@ import {
 
 import { PresetList } from "./PresetList";
 import { Preset, presetHasChanged } from "../client/Preset";
-import { SelectPresets } from "../client/SelectPresetsAction";
+import { ChangePresets } from "../client/ChangePresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
 import { SelectedView } from "../client/controls/SelectedView";
@@ -34,11 +34,8 @@ export interface PresetViewState {
 }
 
 export type PresetViewAllProps = 
-    PresetViewStateProps & 
-    SelectPresets & 
-    Partial<EditPreset> & 
-    Partial<MovePreset> & 
-    Partial<DeletePresets>;
+    PresetViewStateProps & ChangePresets & 
+    Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
 
 const containerStyles: React.CSSProperties = {
     display: "flex",
@@ -103,7 +100,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                 </div>
                 <PresetList
                     presets={this.filteredPresets()}
-                    selectPresets={this.props.selectPresets}
+                    changePresets={this.props.changePresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}
                     deletePresets={this.props.deletePresets}

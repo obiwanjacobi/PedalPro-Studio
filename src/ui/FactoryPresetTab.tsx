@@ -3,11 +3,11 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "material-ui";
 
-import { Preset } from "../client/Preset";
+import { Preset, PresetUI } from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
 import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
-import { SelectPresets, createSelectPresetsAction } from "../client/SelectPresetsAction";
+import { ChangePresets, createChangePresetsAction } from "../client/ChangePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
 
 import { PresetToolbar } from "./PresetToolbar";
@@ -17,7 +17,7 @@ export interface FactoryPresetTabProps { }
 export interface FactoryPresetTabStateProps { 
     presets: Preset[];
 }
-export type FactoryPresetTabActions = SelectPresets & LoadPresets & CopyPresets;
+export type FactoryPresetTabActions = ChangePresets & LoadPresets & CopyPresets;
 export type FactoryPresetTabAllProps = 
     FactoryPresetTabProps & FactoryPresetTabStateProps & FactoryPresetTabActions;
 
@@ -51,7 +51,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                 <PresetView 
                     presets={this.props.presets}
                     readonly={true}
-                    selectPresets={this.actions.selectPresets}
+                    changePresets={this.actions.changePresets}
                     empty={<Typography>
                         No factory presets were found.
                     </Typography>}
@@ -86,7 +86,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
     }
 
     private toggleSelectAll() {
-        this.actions.selectPresets(
+        this.actions.changePresets(
             this.props.presets, PresetCollectionType.factory, 
             {selected: !this.selection.allSelected});
     }
@@ -104,9 +104,8 @@ const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, Fa
             loadPresets: (source: PresetCollectionType): void  => {
                 createLoadPresetsAction(dispatch, source);
             },
-            selectPresets: (presets: Preset[], source: PresetCollectionType, command: 
-                {selected?: boolean, expanded?: boolean}): void => {
-                dispatch(createSelectPresetsAction(presets, source, command));
+            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<PresetUI>): void => {
+                dispatch(createChangePresetsAction(presets, source, ui));
             },
             copyPresets: (presets: Preset[]): void => {
                 dispatch(createCopyPresetsAction(presets));

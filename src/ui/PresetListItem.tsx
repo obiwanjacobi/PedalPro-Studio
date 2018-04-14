@@ -5,7 +5,7 @@ import { ExpandMore, ExpandLess } from "material-ui-icons";
 import { PresetChangedFlag } from "./PresetChangedFlag";
 import { PresetListItemDetail } from "./PresetListItemDetail";
 import { Preset, formatPresetIndex } from "../client/Preset";
-import { SelectPresets } from "../client/SelectPresetsAction";
+import { ChangePresets } from "../client/ChangePresetsAction";
 import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
 import { DeletePresets } from "../client/DeletePresetsAction";
@@ -14,7 +14,7 @@ import { PresetCollectionType } from "../client/ApplicationDocument";
 export interface PresetListItemProps { 
     preset: Preset;
 }
-export type PresetListItemActions = SelectPresets & Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
+export type PresetListItemActions = ChangePresets & Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
 export interface PresetListItemState { }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
@@ -83,13 +83,13 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
     }
     
     private toggleExpanded() {
-        this.props.selectPresets(
+        this.props.changePresets(
             [this.props.preset], this.props.preset.source,
             {expanded: !this.props.preset.ui.expanded});
     }
 
     private toggleSelected() {
-        this.props.selectPresets(
+        this.props.changePresets(
             [this.props.preset], this.props.preset.source,
             {selected: !this.props.preset.ui.selected});
     }

@@ -92,6 +92,8 @@ export function formatPresetIndex(preset: Preset): string {
     return (String(0).repeat(3) + String(value)).slice(String(value).length);
 }
 
-export function presetsAreEqual(preset1: Preset, preset2: Preset): boolean {
-    return lodash.isEqual(preset1, preset2);
+export function presetsExceptUIAreEqual(preset1: Preset, preset2: Preset): boolean {
+    return preset1.index === preset2.index &&
+        preset1.source === preset2.source &&
+        presetsExceptIndexEqual(preset1, preset2);
 }

@@ -1,9 +1,9 @@
 import { Fault } from "../model/Fault";
-import { Preset, presetsAreEqual } from "./Preset";
+import { Preset, presetsExceptUIAreEqual, PresetUI } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
-import { SelectPresetsAction } from "./SelectPresetsAction";
+import { ChangePresetsAction } from "./ChangePresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
@@ -15,7 +15,7 @@ import { DeletePresetsAction } from "./DeletePresetsAction";
 // all actions this reducer handles
 export type PresetAction = 
     LoadPresetsAction | SavePresetsAction | DeletePresetsAction |
-    SelectPresetsAction | CopyPresetsAction | PastePresetsAction |
+    ChangePresetsAction | CopyPresetsAction | PastePresetsAction |
     EditPresetAction | MovePresetAction;
 
 const copyOverride = (
@@ -179,7 +179,7 @@ const reducePastePresets = (
     const cleanupClipboard = (collection: Preset[]): Preset[]  => {
         const newCollection = new Array<Preset>();
         collection.forEach(clipboardPreset => {
-            const oldIndex = presets.findIndex((p) => presetsAreEqual(clipboardPreset, p));
+            const oldIndex = presets.findIndex((p) => presetsExceptUIAreEqual(clipboardPreset, p));
             if (oldIndex === -1) {
                 newCollection.push(clipboardPreset);
             }
@@ -189,14 +189,12 @@ const reducePastePresets = (
     return copyOverride(newState, PresetCollectionType.clipboard, cleanupClipboard);
 };
 
-const reducePresetSelected = (
+const reduceChangePresets = (
     state: ApplicationDocument, 
     presets: Preset[], 
     source: PresetCollectionType,
-    selected?: boolean,
-    expanded?: boolean): ApplicationDocument => {
+    ui: Partial<PresetUI>): ApplicationDocument => {
     if (presets.length === 0) { return state; }
-    if (selected === undefined && expanded === undefined) { return state; }
 
     // local helper function
     const replaceSelectedPresets = (collection: Preset[]): Preset[] => {
@@ -205,15 +203,10 @@ const reducePresetSelected = (
         for (let i: number = 0; i < presets.length; i++) {
             const p = presets[i];
             // const index = newCollection.indexOf(p);
-            const index = newCollection.findIndex((prst) => presetsAreEqual(p, prst));
+            const index = newCollection.findIndex((prst) => presetsExceptUIAreEqual(p, prst));
             if (index === -1) { throw new Error("Invalid preset - not found in collection."); }
 
-            if (selected !== undefined) {
-                newCollection[index] = { ...p, ui: { ...p.ui, selected: selected === true}};
-            }
-            if (expanded !== undefined) {
-                newCollection[index] = { ...p, ui: {...p.ui, expanded: expanded === true}};
-            }
+            newCollection[index] = { ...p, ui: { ...p.ui, ...ui }};
         }
 
         return newCollection;
@@ -274,8 +267,8 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         }
         break;
 
-        case "U/*/presets/.selected":
-        return reducePresetSelected(state, action.presets, action.source, action.selected, action.expanded);
+        case "U/*/presets/ui":
+        return reduceChangePresets(state, action.presets, action.source, action.ui);
 
         case "C/clipboard/presets/":
         return reduceCopyPresets(state, action.presets);
