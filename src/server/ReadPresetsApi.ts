@@ -1,29 +1,30 @@
-import * as express from "express";
+import * as Express from "express";
 import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetProvider } from "./PresetProvider";
-import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { PresetResponse } from "../model/Messages";
-import { Environment } from "../Environment";
-import { EmptyApi } from "./EmptyApi";
+
+// tslint:disable-next-line:no-any
+export type PresetProviderFactory = (params: any) => PresetProvider;
 
 export class ReadPresetsApi implements ApiHandler {
     public readonly uri: string = "/presets";
-    public readonly router: express.Router = express.Router();
+    public readonly router: Express.Router = Express.Router({ mergeParams: true });
 
-    private readonly emptyApi = new EmptyApi();
+    private readonly providerFactory: PresetProviderFactory;
+    
+    public constructor(providerFactory: PresetProviderFactory) {
+        this.providerFactory = providerFactory;
 
-    public constructor() {
         this.getPresets = this.getPresets.bind(this);
         this.getPreset = this.getPreset.bind(this);
-
-        this.router.use(this.emptyApi.uri, this.emptyApi.router);
 
         this.router.get("/", this.getPresets);
         this.router.get("/:presetIndex", this.getPreset);
     }
 
-    protected createProvider(): PresetProvider {
-        return PedalProProviderFactory.create(Environment.isProduction);
+    // tslint:disable-next-line:no-any
+    protected createProvider(params: any): PresetProvider {
+        return this.providerFactory(params);
     }
 
     protected throwIfNaN(presetIndex: number) {
@@ -32,13 +33,13 @@ export class ReadPresetsApi implements ApiHandler {
         }
     }
 
-    private getPresets(request: express.Request, response: express.Response) {
+    private getPresets(request: Express.Request, response: Express.Response) {
         const page = request.query.page;
         const size = request.query.size;
         const msg = <PresetResponse> { };
 
         try {
-            const provider = this.createProvider();
+            const provider = this.createProvider(request.params);
             if (page && size) {
                 msg.presets = provider.getPresetsPaged(Number(page), Number(size));
             } else {
@@ -51,13 +52,13 @@ export class ReadPresetsApi implements ApiHandler {
         response.json(msg);
     }
 
-    private getPreset(request: express.Request, response: express.Response) {
+    private getPreset(request: Express.Request, response: Express.Response) {
         const msg = <PresetResponse> { };
         const presetIndex: number = Number(request.params.presetIndex);
 
         try {
             this.throwIfNaN(presetIndex);
-            const provider = this.createProvider();
+            const provider = this.createProvider(request.params);
             msg.presets = [provider.getPreset(presetIndex)];
         } catch (error) {
             msg.fault = createFault(error.message);

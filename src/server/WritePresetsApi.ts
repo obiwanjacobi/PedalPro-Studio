@@ -1,11 +1,11 @@
 import * as express from "express";
-import { ReadPresetsApi } from "./ReadPresetsApi";
+import { ReadPresetsApi, PresetProviderFactory } from "./ReadPresetsApi";
 import { createFault } from "./ApiHandler";
 import { PresetResponse, PresetRequest } from "../model/Messages";
 
 export class WritePresetsApi extends ReadPresetsApi {
-    public constructor() {
-        super();
+    public constructor(providerFactory: PresetProviderFactory) {
+        super(providerFactory);
         this.writePreset = this.writePreset.bind(this);
         this.writePresets = this.writePresets.bind(this);
         this.deletePreset = this.deletePreset.bind(this);
@@ -23,7 +23,7 @@ export class WritePresetsApi extends ReadPresetsApi {
             this.throwIfNaN(presetIndex);
             const presetRequest = <PresetRequest> request.body;
             if (presetRequest.presets && presetRequest.presets.length === 1) {
-                const provider = this.createProvider();
+                const provider = this.createProvider(request.params);
                 const preset = presetRequest.presets[0];
                 preset.index = presetIndex; // override preset index with url param value
                 provider.putPreset(preset);
@@ -45,7 +45,7 @@ export class WritePresetsApi extends ReadPresetsApi {
         try {
             const presetRequest = <PresetRequest> request.body;
             if (presetRequest.presets && presetRequest.presets.length > 0) {
-                const provider = this.createProvider();
+                const provider = this.createProvider(request.params);
                 provider.putPresets(presetRequest.presets);
 
                 msg.presets = presetRequest.presets;
@@ -66,7 +66,7 @@ export class WritePresetsApi extends ReadPresetsApi {
 
         try {
             this.throwIfNaN(presetIndex);
-            const provider = this.createProvider();
+            const provider = this.createProvider(request.params);
             msg.presets = [provider.deletePreset(presetIndex)];
         } catch (error) {
             msg.fault = createFault(error.message);

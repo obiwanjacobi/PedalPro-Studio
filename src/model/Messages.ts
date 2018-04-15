@@ -1,7 +1,7 @@
 import { Fault } from "./Fault";
 import { Preset } from "./Preset";
 import { DeviceIdentity } from "./DeviceIdentity";
-import { Bank } from "./Bank";
+import { Bank } from "./Storage";
 
 export interface DeviceResponse {
     fault?: Fault;
@@ -20,4 +20,10 @@ export interface PresetResponse {
 export interface BankResponse {
     fault?: Fault;
     banks: Bank[];
+}
+
+export interface StorageResponse {
+    fault?: Fault;
+    bank: string;
+    presets: Preset[];
 }

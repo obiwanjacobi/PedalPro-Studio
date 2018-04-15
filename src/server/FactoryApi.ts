@@ -8,8 +8,17 @@ import { PedalProDeviceModel } from "../pedalpro/PedalProDeviceIdentity";
 import { Configuration } from "../Configuration";
 import { getDeviceInfo } from "./DeviceApi";
 
-export class FactoryPresetApi extends ReadPresetsApi {
-    protected createProvider(): PresetProvider {
+export class FactoryApi implements ApiHandler {
+    public readonly uri: string = "/factory";
+    public readonly router: express.Router = express.Router();
+
+    private readonly presetApi = new ReadPresetsApi(() => this.createProvider());
+
+    public constructor() {
+        this.router.use(this.presetApi.uri, this.presetApi.router);
+    }
+
+    private createProvider(): PresetProvider {
         const deviceInfo = getDeviceInfo();
 
         switch (deviceInfo.model) {
@@ -20,16 +29,5 @@ export class FactoryPresetApi extends ReadPresetsApi {
             default:
                 throw new Error("Device has no Factory presets.");
         }
-    }
-}
-
-export class FactoryApi implements ApiHandler {
-    public readonly uri: string = "/factory";
-    public readonly router: express.Router = express.Router();
-
-    private readonly presetApi = new FactoryPresetApi();
-
-    public constructor() {
-        this.router.use(this.presetApi.uri, this.presetApi.router);
     }
 }

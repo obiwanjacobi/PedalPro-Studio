@@ -2,10 +2,10 @@ import * as FileSystem from "fs";
 import * as Path from "path";
 import * as mkdirp from "mkdirp";
 
-import { Bank } from "../../model/Bank";
+import { PresetFile } from "./PresetFile";
 
-export class Directory implements Bank {
-    private readonly path: FileSystem.PathLike;
+export class Directory {
+    public readonly path: string;
     private readonly stats: FileSystem.Stats;
 
     public static create(path: string): Directory {
@@ -23,23 +23,45 @@ export class Directory implements Bank {
     }
 
     public get name(): string {
-        return Path.dirname(this.path.toString());
+        return Path.basename(this.path);
     }
 
     public directories(): Directory[] {
-        const basePath = this.path.toString();
         const directories = new Array<Directory>();
+        const dirPath = this.path;
 
-        FileSystem.readdirSync(this.path)
-            .map(name => {
-                const path = Path.join(basePath, name);
+        FileSystem.readdirSync(dirPath)
+            .forEach(name => {
+                const path = Path.join(dirPath, name);
                 const stat = FileSystem.lstatSync(path);
                 if (stat.isDirectory) {
                     directories.push(new Directory(path));
                 }
-            })
-        ;
+            });
 
         return directories;
+    }
+
+    public files(): PresetFile[] {
+        const files = new Array<PresetFile>();
+        const dirPath = this.path;
+
+        FileSystem.readdirSync(dirPath)
+            .forEach(name => {
+                if (Path.extname(name) === PresetFile.FileExtension) {
+                    const path = Path.join(dirPath, name);
+                    const stat = FileSystem.lstatSync(path);
+                    if (stat.isFile) {
+                        files.push(new PresetFile(path));
+                    }
+                }
+            });
+
+        return files;
+    }
+
+    public getFile(name: string): PresetFile {
+        const filePath = Path.join(this.path, name);
+        return new PresetFile(filePath);
     }
 }
