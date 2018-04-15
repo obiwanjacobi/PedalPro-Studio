@@ -1,5 +1,6 @@
 # TODO Task List
 
+- change app name from 'PedalPro Editor' to 'PedalPro Studio'.
 - create paste dialog to let user pick where to paste the copied presets (overwrite, insert at, first empty, or append to end).
 - create storage tab, view and list. List is grouped by file name.
 - [Done] move factory preset file for ex and find std factory presets.

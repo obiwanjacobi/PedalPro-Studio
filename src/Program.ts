@@ -3,7 +3,23 @@ import * as Path from "path";
 import * as Url from "url";
 import { Environment } from "./Environment";
 
+export class ProgramLocations {
+    public readonly documents: string;
+    public readonly downloads: string;
+    public readonly temp: string;
+
+    public constructor(electronApp: Electron.App) {
+        const basePath = Path.join(electronApp.getPath("documents"), "PedalPro Studio");
+        
+        this.documents = Path.join(basePath, "storage");
+        this.downloads = Path.join(basePath, "community");
+        this.temp = electronApp.getPath("temp");
+    }
+}
+
 export class Program {
+    public static locations: ProgramLocations;
+
     private static electronApp: Electron.App;
     private static mainWindow: Electron.BrowserWindow | null;
     private static wndOptions: Electron.BrowserWindowConstructorOptions;
@@ -23,6 +39,8 @@ export class Program {
         if (Environment.isLinux) {
             Program.electronApp.disableHardwareAcceleration();
         }
+
+        Program.locations = new ProgramLocations(Program.electronApp);
     }
 
     private static createWindow() {
