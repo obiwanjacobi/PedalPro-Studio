@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IconButton } from "material-ui";
-import { ContentPaste, ContentCopy, FileDownload, FileUpload } from "material-ui-icons";
+import { Delete, ContentPaste, ContentCopy, FileDownload, FileUpload } from "material-ui-icons";
 
 import { ApplicationToolbar } from "../client/controls/ApplicationToolbar";
 import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "../client/controls/SelectAllButton";
@@ -8,12 +8,14 @@ import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "..
 export interface PresetToolbarProps {
     enableCopy?: boolean;
     enablePaste?: boolean;
+    enableDelete?: boolean;
     enableDownload?: boolean;
     enableUpload?: boolean;
 }
 export interface PresetToolbarEvents { 
     onCopy?(): void;
     onPaste?(): void;
+    onDelete?(): void;
     onDownload?(): void;
     onUpload?(): void;
 }
@@ -27,6 +29,7 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
         // bind event handlers
         this.fireCopy = this.fireCopy.bind(this);
         this.firePaste = this.firePaste.bind(this);
+        this.fireDelete = this.fireDelete.bind(this);
         this.fireDownload = this.fireDownload.bind(this);
         this.fireUpload = this.fireUpload.bind(this);
     }
@@ -45,6 +48,10 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
                 {this.props.onPaste &&
                 <IconButton disabled={!this.props.enablePaste} onClick={this.firePaste}>
                     <ContentPaste />
+                </IconButton>}
+                {this.props.onDelete &&
+                <IconButton disabled={!this.props.enableDelete} onClick={this.fireDelete}>
+                    <Delete />
                 </IconButton>}
                 {this.props.onDownload &&
                 <IconButton disabled={!this.props.enableDownload} onClick={this.fireDownload}>
@@ -68,6 +75,12 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
     private firePaste() {
         if (this.props.onPaste) {
             this.props.onPaste();
+        }
+    }
+
+    private fireDelete() {
+        if (this.props.onDelete) {
+            this.props.onDelete();
         }
     }
 

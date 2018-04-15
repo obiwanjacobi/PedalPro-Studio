@@ -51,6 +51,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
         // bind event handlers
         this.onCopySelected = this.onCopySelected.bind(this);
         this.pasteClipboard = this.pasteClipboard.bind(this);
+        this.onDeleteSelected = this.onDeleteSelected.bind(this);
         this.download = this.download.bind(this);
         this.upload = this.upload.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
@@ -64,6 +65,8 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     onCopy={this.onCopySelected}
                     enablePaste={this.props.clipboard.length > 0}
                     onPaste={this.pasteClipboard}
+                    enableDelete={this.selection.anySelected}
+                    onDelete={this.onDeleteSelected}
                     enableDownload={true}
                     onDownload={this.download}
                     enableSelectAll={!this.selection.isEmpty}
@@ -166,6 +169,13 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     private pasteClipboard() {
         this.props.updateScreen(new ScreenState(undefined, true));
+    }
+
+    private onDeleteSelected() {
+        const selectedPresets = this.selection.selected;
+        if (selectedPresets.length > 0) {
+            this.actions.deletePresets(PresetCollectionType.device, selectedPresets);
+        }
     }
 
     private download() {
