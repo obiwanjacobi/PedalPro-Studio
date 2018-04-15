@@ -7,7 +7,6 @@ import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
 import { DeviceResponse } from "../model/Messages";
 import { Environment } from "../Environment";
 import { PedalProDeviceIdentity, PedalProDeviceModel } from "../pedalpro/PedalProDeviceIdentity";
-import { EmptyApi } from "./EmptyApi";
 
 export const getDeviceInfo = (): PedalProDeviceIdentity => {
     const device = new PedalProDevice();
@@ -31,11 +30,9 @@ export class DeviceApi implements ApiHandler {
 
     private readonly factoryApi = new FactoryApi();
     private readonly presetsApi = new WritePresetsApi(() => PedalProProviderFactory.create(Environment.isProduction));
-    private readonly emptyApi = new EmptyApi();
+    
 
     public constructor() {
-        this.presetsApi.router.use(this.emptyApi.uri, this.emptyApi.router);
-
         this.router.use(this.factoryApi.uri, this.factoryApi.router);
         this.router.use(this.presetsApi.uri, this.presetsApi.router);
         

@@ -2,6 +2,7 @@ import * as Express from "express";
 import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetProvider } from "./PresetProvider";
 import { PresetResponse } from "../model/Messages";
+import { EmptyApi } from "./EmptyApi";
 
 // tslint:disable-next-line:no-any
 export type PresetProviderFactory = (params: any) => PresetProvider;
@@ -11,12 +12,15 @@ export class ReadPresetsApi implements ApiHandler {
     public readonly router: Express.Router = Express.Router({ mergeParams: true });
 
     private readonly providerFactory: PresetProviderFactory;
+    private readonly emptyApi = new EmptyApi();
     
     public constructor(providerFactory: PresetProviderFactory) {
         this.providerFactory = providerFactory;
 
         this.getPresets = this.getPresets.bind(this);
         this.getPreset = this.getPreset.bind(this);
+
+        this.router.use(this.emptyApi.uri, this.emptyApi.router);
 
         this.router.get("/", this.getPresets);
         this.router.get("/:presetIndex", this.getPreset);
