@@ -99,7 +99,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                         </IconButton>}
                 </div>
                 <PresetList
-                    presets={this.filteredPresets()}
+                    items={this.filteredPresets()}
                     changePresets={this.props.changePresets}
                     editPreset={this.props.editPreset}
                     movePreset={this.props.movePreset}

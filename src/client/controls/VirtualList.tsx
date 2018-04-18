@@ -77,11 +77,15 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends 
         this.renderEmpty = this.renderEmpty.bind(this);
     }
 
+    public shouldComponentUpdate(nextProps: VirtualListProps<T>, _: S): boolean {
+        return this.props.items !== nextProps.items;
+    }
+
     public render(): React.ReactNode {
-        // if (!this.props.presets) { return <React.Fragment />; }
+        if (!this.props.items) { return null; }
 
         return (
-            <div id="PresetList" style={containerStyles}>
+            <div id="VirtualList" style={containerStyles}>
                 <AutoSizer>
                     {({height, width}) => {
                         this.grid = new GridCalc(this.props.items.length, width);
@@ -117,8 +121,12 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends 
         return 60;
     }
 
-    protected renderItem(item: T) {
-        return item;
+    protected renderItem(item: T): React.ReactNode {
+        return (
+            <div>
+                {item}
+            </div>
+        );
     }
 
     protected renderEmpty() {
@@ -138,7 +146,8 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends 
         const cells = new Array<React.ReactNode>(cellData.length);
         
         for (let i = 0; i < cellData.length; i++) {
-            const cell = this.renderCell(cellData[i], listRowProps.index * i);
+            const key = (listRowProps.index * i) + listRowProps.index + i;
+            const cell = this.renderCell(cellData[i], key);
             if (cell) {
                 cells.push(cell);
             }
