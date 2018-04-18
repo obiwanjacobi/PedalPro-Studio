@@ -1,4 +1,4 @@
-import { DeviceIdentity } from "../model/DeviceIdentity";
+import { DeviceIdentity } from "../../model/DeviceIdentity";
 
 export enum PedalProDeviceModel {
     Unspecified,

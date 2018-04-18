@@ -1,7 +1,7 @@
 import { PresetSerializerEx } from "../extended/PresetSerializerEx";
 import { PresetDeserializerEx } from "../extended/PresetDeserializerEx";
 import { PresetBuffer } from "../PresetBuffer";
-import { EffectsEx } from "../../model/Effects";
+import { EffectsEx } from "../../../model/Effects";
 import { LogicalTransformerEx } from "../extended/LogicalTransformerEx";
 
 const PresetBufferSize = 160;

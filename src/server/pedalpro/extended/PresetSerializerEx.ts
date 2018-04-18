@@ -1,10 +1,10 @@
-import { Preset } from "../../model/Preset";
+import { Preset } from "../../../model/Preset";
 import { PresetBuffer } from "../PresetBuffer";
-import { EffectsEx } from "../../model/Effects";
+import { EffectsEx } from "../../../model/Effects";
 import { CommonPresetSerializer } from "../CommonPresetSerializer";
 import { PresetBufferExFieldIndex, PresetBufferExFields } from "./PresetBufferExFields";
-import { PreAmp } from "../../model/PreAmp";
-import { Dsp, DspType } from "../../model/Dsp";
+import { PreAmp } from "../../../model/PreAmp";
+import { Dsp, DspType } from "../../../model/Dsp";
 
 export class PresetSerializerEx extends CommonPresetSerializer<PresetBufferExFieldIndex> {
     public constructor() {

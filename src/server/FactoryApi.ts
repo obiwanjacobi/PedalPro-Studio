@@ -2,9 +2,9 @@ import * as express from "express";
 import { ApiHandler } from "./ApiHandler";
 import { ReadPresetsApi } from "./ReadPresetsApi";
 import { PresetProvider } from "./PresetProvider";
-import { FactoryProvider } from "../pedalpro/standard/FactoryProvider";
-import { FactoryProviderEx } from "../pedalpro/extended/FactoryProviderEx";
-import { PedalProDeviceModel } from "../pedalpro/PedalProDeviceIdentity";
+import { FactoryProvider } from "./pedalpro/standard/FactoryProvider";
+import { FactoryProviderEx } from "./pedalpro/extended/FactoryProviderEx";
+import { PedalProDeviceModel } from "./pedalpro/PedalProDeviceIdentity";
 import { Configuration } from "../Configuration";
 import { getDeviceInfo } from "./DeviceApi";
 

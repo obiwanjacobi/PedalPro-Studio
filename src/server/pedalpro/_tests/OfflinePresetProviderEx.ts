@@ -1,10 +1,10 @@
 import { FactoryProviderEx } from "../extended/FactoryProviderEx";
-import { Preset } from "../../model/Preset";
+import { Preset } from "../../../model/Preset";
 import { EmptyPresetBufferEx } from "../extended/EmptyPresetBufferEx";
 import { PresetBuffer } from "../PresetBuffer";
 import { PresetDeserializerEx } from "../extended/PresetDeserializerEx";
 import { LogicalTransformerEx } from "../extended/LogicalTransformerEx";
-import { PresetMeta } from "../../model/PresetMeta";
+import { PresetMeta } from "../../../model/PresetMeta";
 
 export class OfflinePresetProviderEx extends FactoryProviderEx {
     public constructor(path: string) {

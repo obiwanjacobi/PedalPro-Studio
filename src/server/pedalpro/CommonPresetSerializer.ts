@@ -1,19 +1,19 @@
 import { PresetBuffer } from "./PresetBuffer";
-import { Preset } from "../model/Preset";
-import { Compressor } from "../model/Compressor";
-import { Boost } from "../model/Boost";
-import { Phaser } from "../model/Phaser";
-import { NoiseGate } from "../model/NoiseGate";
-import { Volume } from "../model/Volume";
-import { Filters, Filter2Type } from "../model/Filters";
+import { Preset } from "../../model/Preset";
+import { Compressor } from "../../model/Compressor";
+import { Boost } from "../../model/Boost";
+import { Phaser } from "../../model/Phaser";
+import { NoiseGate } from "../../model/NoiseGate";
+import { Volume } from "../../model/Volume";
+import { Filters, Filter2Type } from "../../model/Filters";
 import { CommonPresetBufferFieldIndex } from "./CommonPresetBufferFieldIndex";
 import { Convert } from "./Convert";
-import { Modulation, Harmonics } from "../model/Modulation";
-import { Delay } from "../model/Delay";
-import { Aux } from "../model/SendReturn";
-import { VoltageControlledAmp } from "../model/VoltageControlledAmp";
-import { TapTempo } from "../model/TapTempo";
-import { Midi } from "../model/Midi";
+import { Modulation, Harmonics } from "../../model/Modulation";
+import { Delay } from "../../model/Delay";
+import { Aux } from "../../model/SendReturn";
+import { VoltageControlledAmp } from "../../model/VoltageControlledAmp";
+import { TapTempo } from "../../model/TapTempo";
+import { Midi } from "../../model/Midi";
 
 // tslint:disable:max-line-length
 

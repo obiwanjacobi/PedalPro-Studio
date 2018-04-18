@@ -1,9 +1,9 @@
-import { Preset } from "../../model/Preset";
+import { Preset } from "../../../model/Preset";
 import { PresetBuffer } from "../PresetBuffer";
-import { Effects } from "../../model/Effects";
+import { Effects } from "../../../model/Effects";
 import { CommonPresetSerializer } from "../CommonPresetSerializer";
 import { PresetBufferFieldIndex, PresetBufferFields } from "./PresetBufferFields";
-import { Distortion } from "../../model/Distortion";
+import { Distortion } from "../../../model/Distortion";
 
 export class PresetSerializer extends CommonPresetSerializer<PresetBufferFieldIndex> {
     public constructor() {

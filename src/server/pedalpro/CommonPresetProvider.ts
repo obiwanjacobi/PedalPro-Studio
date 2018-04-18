@@ -1,5 +1,5 @@
-import { Preset } from "../model/Preset";
-import { PresetProvider } from "../server/PresetProvider";
+import { Preset } from "../../model/Preset";
+import { PresetProvider } from "../PresetProvider";
 
 export interface DeviceProfile {
     presetCount: number;

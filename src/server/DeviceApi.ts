@@ -2,11 +2,11 @@ import * as express from "express";
 import { ApiHandler, createFault } from "./ApiHandler";
 import { FactoryApi } from "./FactoryApi";
 import { WritePresetsApi } from "./WritePresetsApi";
-import { PedalProDevice } from "../pedalpro/PedalProDevice";
-import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
+import { PedalProDevice } from "./pedalpro/PedalProDevice";
+import { PedalProProviderFactory } from "./pedalpro/PedalProProviderFactory";
 import { DeviceResponse } from "../model/Messages";
 import { Environment } from "../Environment";
-import { PedalProDeviceIdentity, PedalProDeviceModel } from "../pedalpro/PedalProDeviceIdentity";
+import { PedalProDeviceIdentity, PedalProDeviceModel } from "./pedalpro/PedalProDeviceIdentity";
 
 export const getDeviceInfo = (): PedalProDeviceIdentity => {
     const device = new PedalProDevice();

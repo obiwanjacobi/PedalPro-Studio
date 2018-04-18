@@ -1,9 +1,9 @@
 import { PresetBuffer } from "../PresetBuffer";
-import { Preset } from "../../model/Preset";
+import { Preset } from "../../../model/Preset";
 import { PresetBufferFieldIndex, PresetBufferFields } from "./PresetBufferFields";
-import { Distortion } from "../../model/Distortion";
+import { Distortion } from "../../../model/Distortion";
 import { CommonPresetDeserializer } from "../CommonPresetDeserializer";
-import { Effects } from "../../model/Effects";
+import { Effects } from "../../../model/Effects";
 import { EmptyPresetBuffer } from "./EmptyPresetBuffer";
 
 export class PresetDeserializer extends CommonPresetDeserializer<PresetBufferFieldIndex> {

@@ -3,9 +3,9 @@ import { PedalProDevice } from "./PedalProDevice";
 import { ReadDeviceIdentity } from "./ReadDeviceIdentity";
 import { PedalProDeviceIdentity, PedalProDeviceModel } from "./PedalProDeviceIdentity";
 import { PedalProExProvider } from "./extended/PedalProExProvider";
-import { PresetProvider } from "../server/PresetProvider";
+import { PresetProvider } from "../PresetProvider";
 import { OfflinePresetProviderEx } from "./_tests/OfflinePresetProviderEx";
-import { Configuration } from "../Configuration";
+import { Configuration } from "../../Configuration";
 
 export class PedalProProviderFactory {
     public static create(throwOnError: boolean): PresetProvider {

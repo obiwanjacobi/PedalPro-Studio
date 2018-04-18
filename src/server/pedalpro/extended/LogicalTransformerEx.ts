@@ -1,8 +1,8 @@
 import { CommonLogicalTransformer } from "../CommonLogicalTransformer";
-import { EffectsEx } from "../../model/Effects";
-import { Preset } from "../../model/Preset";
-import { PreAmp } from "../../model/PreAmp";
-import { Dsp, DspType } from "../../model/Dsp";
+import { EffectsEx } from "../../../model/Effects";
+import { Preset } from "../../../model/Preset";
+import { PreAmp } from "../../../model/PreAmp";
+import { Dsp, DspType } from "../../../model/Dsp";
 import { Convert } from "../Convert";
 import { DspConvert } from "./DspConvert";
 

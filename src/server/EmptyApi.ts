@@ -1,7 +1,7 @@
 import * as express from "express";
 import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetResponse } from "../model/Messages";
-import { PedalProProviderFactory } from "../pedalpro/PedalProProviderFactory";
+import { PedalProProviderFactory } from "./pedalpro/PedalProProviderFactory";
 import { Environment } from "../Environment";
 
 export class EmptyApi implements ApiHandler {

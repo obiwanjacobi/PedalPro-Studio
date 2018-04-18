@@ -3,11 +3,11 @@ import { PresetDeserializer } from "./PresetDeserializer";
 import { DeviceCommands } from "../DeviceCommands";
 import { DeviceStdProfile } from "./DeviceStdProfile";
 import { CommonPresetProvider, DeviceProfile } from "../CommonPresetProvider";
-import { Preset } from "../../model/Preset";
+import { Preset } from "../../../model/Preset";
 import { LogicalTransformer } from "./LogicalTransformer";
 import { PresetBuffer } from "../PresetBuffer";
 import { PresetSerializer } from "./PresetSerializer";
-import { PresetMeta } from "../../model/PresetMeta";
+import { PresetMeta } from "../../../model/PresetMeta";
 import { PedalProDeviceIdentity } from "../PedalProDeviceIdentity";
 import { EmptyPresetBuffer } from "./EmptyPresetBuffer";
 
