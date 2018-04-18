@@ -4,6 +4,7 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redu
 import { Typography } from "material-ui";
 
 import { Preset, PresetUI } from "../client/Preset";
+import { FlexContainer } from "../client/controls/FlexContainer";
 import { SelectedView } from "../client/controls/SelectedView";
 import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
@@ -21,12 +22,6 @@ export type FactoryPresetTabActions = ChangePresets & LoadPresets & CopyPresets;
 export type FactoryPresetTabAllProps = 
     FactoryPresetTabProps & FactoryPresetTabStateProps & FactoryPresetTabActions;
 
-const conatinerStyles: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1
-};
-
 export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> {
     private selection: SelectedView;
 
@@ -40,7 +35,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
 
     public render() {
         return (
-            <div id="FactoryPresetTab" style={conatinerStyles}>
+            <FlexContainer>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
@@ -56,7 +51,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                         No factory presets were found.
                     </Typography>}
                 />
-            </div>
+            </FlexContainer>
         );
     }
 

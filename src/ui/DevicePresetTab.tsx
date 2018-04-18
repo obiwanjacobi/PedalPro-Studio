@@ -7,6 +7,7 @@ import { FileDownload } from "material-ui-icons";
 import { Preset, PresetUI } from "../client/Preset";
 import { SelectedView } from "../client/controls/SelectedView";
 import { ChangedView } from "../client/controls/ChangedView";
+import { FlexContainer } from "../client/controls/FlexContainer";
 import { SelectAllButtonStatus } from "../client/controls/SelectAllButton";
 import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
 import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
@@ -33,12 +34,6 @@ export type DevicePresetTabAllProps =
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 export interface DevicePresetTabState {}
 
-const conatinerStyles: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1
-};
-
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, DevicePresetTabState> {
     private selection: SelectedView;
     private changed: ChangedView;
@@ -59,7 +54,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     public render() {
         return (
-            <div id="DevicePresetTab" style={conatinerStyles}>
+            <FlexContainer>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
@@ -87,7 +82,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     </Typography>}
                 />
                 <PastePage />
-            </div>
+            </FlexContainer>
         );
     }
 

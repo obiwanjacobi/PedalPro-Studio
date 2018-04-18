@@ -15,6 +15,7 @@ import { EditPreset } from "../client/EditPresetAction";
 import { MovePreset } from "../client/MovePresetAction";
 import { SelectedView } from "../client/controls/SelectedView";
 import { ChangedView } from "../client/controls/ChangedView";
+import { FlexContainer } from "../client/controls/FlexContainer";
 import { DeletePresets } from "../client/DeletePresetsAction";
 
 export interface PresetViewStateProps { 
@@ -36,12 +37,6 @@ export interface PresetViewState {
 export type PresetViewAllProps = 
     PresetViewStateProps & ChangePresets & 
     Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
-
-const containerStyles: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1
-};
 
 export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
@@ -66,10 +61,10 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
     }
 
     public render() {
-        if (!this.props.presets) { return <div className="loading" style={containerStyles}>Loading...</div>; }
+        if (!this.props.presets) { return <FlexContainer>Loading...</FlexContainer>; }
 
         return (
-            <div id="PresetView" style={containerStyles}>
+            <FlexContainer>
                 <div>
                     <Input 
                         style={{paddingLeft: 16}}
@@ -106,7 +101,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                     deletePresets={this.props.deletePresets}
                     empty={this.hasNoSearchResult ? this.renderNoResults() : this.props.empty}
                 />
-            </div>
+            </FlexContainer>
         );
     }
 
