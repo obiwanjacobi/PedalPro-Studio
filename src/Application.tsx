@@ -4,8 +4,8 @@ import { Provider } from "react-redux";
 
 import { ApplicationStore } from "./client/ApplicationStore";
 
-import { ApplicationTheme } from "./ui/ApplicationTheme";
-import { PresetScreen } from "./ui/PresetScreen";
+import { ApplicationTheme } from "./client/ui/ApplicationTheme";
+import { PresetScreen } from "./client/ui/PresetScreen";
 
 export class Application extends React.PureComponent {
     private appStore: ApplicationStore = new ApplicationStore();

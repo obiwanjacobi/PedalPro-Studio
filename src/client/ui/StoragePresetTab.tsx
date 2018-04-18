@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FlexContainer } from "../client/controls/FlexContainer";
+import { FlexContainer } from "../controls/FlexContainer";
 
 export class StoragePresetTab extends React.PureComponent {
     public render() {

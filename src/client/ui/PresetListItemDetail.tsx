@@ -3,10 +3,10 @@ import { Grid, IconButton } from "material-ui";
 import Input, { InputAdornment } from "material-ui/Input";
 import { Delete, Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
 
-import { Preset } from "../client/Preset";
-import { EditPreset } from "../client/EditPresetAction";
-import { MovePreset } from "../client/MovePresetAction";
-import { DeletePresets } from "../client/DeletePresetsAction";
+import { Preset } from "../Preset";
+import { EditPreset } from "../EditPresetAction";
+import { MovePreset } from "../MovePresetAction";
+import { DeletePresets } from "../DeletePresetsAction";
 
 export interface PresetListItemDetailProps { 
     preset: Preset;

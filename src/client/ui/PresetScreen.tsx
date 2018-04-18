@@ -4,8 +4,8 @@ import { AppBar, Grid, Tabs, Tab } from "material-ui";
 import DevicePresetTab from "./DevicePresetTab";
 import { StoragePresetTab } from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
-import UserNotification from "../client/notification/UserNotification";
-import ProgressBar from "../client/screen/ProgressBar";
+import UserNotification from "../notification/UserNotification";
+import ProgressBar from "../screen/ProgressBar";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {

@@ -3,13 +3,13 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "material-ui";
 
-import { Preset, PresetUI } from "../client/Preset";
-import { FlexContainer } from "../client/controls/FlexContainer";
-import { SelectedView } from "../client/controls/SelectedView";
-import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
-import { LoadPresets, createLoadPresetsAction } from "../client/LoadPresetsAction";
-import { ChangePresets, createChangePresetsAction } from "../client/ChangePresetsAction";
-import { CopyPresets, createCopyPresetsAction } from "../client/CopyPresetsAction";
+import { Preset, PresetUI } from "../Preset";
+import { FlexContainer } from "../controls/FlexContainer";
+import { SelectedView } from "../controls/SelectedView";
+import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
+import { LoadPresets, createLoadPresetsAction } from "../LoadPresetsAction";
+import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
+import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
 
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";

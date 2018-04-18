@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Flag, FlagOutline  } from "mdi-material-ui";
 
-import { Preset, presetHasChanged, onlyIndexHasChanged } from "../client/Preset";
+import { Preset, presetHasChanged, onlyIndexHasChanged } from "../Preset";
 
 export interface PresetChangedFlagProps {
     preset: Preset;

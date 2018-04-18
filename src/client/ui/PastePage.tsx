@@ -7,14 +7,14 @@ import {
 } from "material-ui";
 import { Clear } from "material-ui-icons";
 
-import { ApplicationDocument, PresetCollectionType } from "../client/ApplicationDocument";
-import { Preset, formatPresetIndex, PresetUI } from "../client/Preset";
-import { ChangePresets, createChangePresetsAction } from "../client/ChangePresetsAction";
-import { PastePresets, createPastePresetsAction } from "../client/PastePresetsAction";
-import { UpdateScreen, createUpdateScreenAction } from "../client/screen/UpdateScreenAction";
-import { ApplicationToolbar } from "../client/controls/ApplicationToolbar";
-import { ScreenState } from "../client/screen/ScreenState";
-import { SelectedView } from "../client/controls/SelectedView";
+import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
+import { Preset, formatPresetIndex, PresetUI } from "../Preset";
+import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
+import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
+import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
+import { ApplicationToolbar } from "../controls/ApplicationToolbar";
+import { ScreenState } from "../screen/ScreenState";
+import { SelectedView } from "../controls/SelectedView";
 import { PresetChangedFlag } from "./PresetChangedFlag";
 
 interface ClipboardListItemProps {

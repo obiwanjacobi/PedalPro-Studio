@@ -2,8 +2,8 @@ import * as React from "react";
 import { IconButton } from "material-ui";
 import { Delete, ContentPaste, ContentCopy, FileDownload, FileUpload } from "material-ui-icons";
 
-import { ApplicationToolbar } from "../client/controls/ApplicationToolbar";
-import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "../client/controls/SelectAllButton";
+import { ApplicationToolbar } from "../controls/ApplicationToolbar";
+import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "../controls/SelectAllButton";
 
 export interface PresetToolbarProps {
     enableCopy?: boolean;

@@ -1,12 +1,12 @@
 import * as React from "react";
 
 import { PresetListItem } from "./PresetListItem";
-import { Preset } from "../client/Preset";
-import { ChangePresets } from "../client/ChangePresetsAction";
-import { EditPreset } from "../client/EditPresetAction";
-import { MovePreset } from "../client/MovePresetAction";
-import { DeletePresets } from "../client/DeletePresetsAction";
-import { VirtualList, VirtualListProps } from "../client/controls/VirtualList";
+import { Preset } from "../Preset";
+import { ChangePresets } from "../ChangePresetsAction";
+import { EditPreset } from "../EditPresetAction";
+import { MovePreset } from "../MovePresetAction";
+import { DeletePresets } from "../DeletePresetsAction";
+import { VirtualList, VirtualListProps } from "../controls/VirtualList";
 
 export interface PresetListProps extends VirtualListProps<Preset> {
     empty: React.ReactNode;
