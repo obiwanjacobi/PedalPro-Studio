@@ -3,11 +3,11 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "material-ui";
 
-import { Preset, PresetUI } from "../Preset";
+import { Preset, ItemUI } from "../Preset";
 import { FlexContainer } from "../controls/FlexContainer";
 import { SelectedView } from "../controls/SelectedView";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { LoadPresets, createLoadPresetsAction } from "../LoadPresetsAction";
+import { LoadPresets, dispatchLoadPresetsAction } from "../LoadPresetsAction";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
 
@@ -97,9 +97,9 @@ const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, Fa
     (dispatch: Dispatch<ApplicationDocument>, _: FactoryPresetTabProps): FactoryPresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
-                createLoadPresetsAction(dispatch, source);
+                dispatchLoadPresetsAction(dispatch, source);
             },
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<PresetUI>): void => {
+            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
             },
             copyPresets: (presets: Preset[]): void => {

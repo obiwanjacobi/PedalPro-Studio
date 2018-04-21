@@ -2,7 +2,7 @@ import * as React from "react";
 import { AppBar, Grid, Tabs, Tab } from "material-ui";
 
 import DevicePresetTab from "./DevicePresetTab";
-import { StoragePresetTab } from "./StoragePresetTab";
+import StoragePresetTab from "./StoragePresetTab";
 import FactoryPresetTab from "./FactoryPresetTab";
 import UserNotification from "../notification/UserNotification";
 import ProgressBar from "../screen/ProgressBar";

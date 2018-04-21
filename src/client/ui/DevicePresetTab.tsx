@@ -4,13 +4,13 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redu
 import { Typography } from "material-ui";
 import { FileDownload } from "material-ui-icons";
 
-import { Preset, PresetUI } from "../Preset";
+import { Preset, ItemUI } from "../Preset";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
 import { FlexContainer } from "../controls/FlexContainer";
 import { SelectAllButtonStatus } from "../controls/SelectAllButton";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { LoadPresets, createLoadPresetsAction } from "../LoadPresetsAction";
+import { LoadPresets, dispatchLoadPresetsAction } from "../LoadPresetsAction";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../EditPresetAction";
@@ -194,12 +194,12 @@ const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch<ApplicationDocument>, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
-                createLoadPresetsAction(dispatch, source);
+                dispatchLoadPresetsAction(dispatch, source);
             },
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 createSavePresetsAction(dispatch, source, presets);
             },
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<PresetUI>): void => {
+            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
             },
             copyPresets: (presets: Preset[]): void => {

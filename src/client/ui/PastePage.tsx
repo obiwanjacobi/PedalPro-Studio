@@ -8,7 +8,7 @@ import {
 import { Clear } from "material-ui-icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { Preset, formatPresetIndex, PresetUI } from "../Preset";
+import { Preset, formatPresetIndex, ItemUI } from "../Preset";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
 import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
@@ -253,7 +253,7 @@ const extractComponentPropsFromState: MapStateToProps<
 const createActionObject: MapDispatchToPropsFunction<PastePageActions, PastePageProps> =
     (dispatch: Dispatch<ApplicationDocument>, _: PastePageProps): PastePageActions => {
         return {
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<PresetUI>): void => {
+            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
             },
             pastePresets: (presets: Preset[], target: PresetCollectionType): void => {

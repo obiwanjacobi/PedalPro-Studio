@@ -5,7 +5,14 @@ import * as lodash from "lodash";
 import { Effects, EffectsEx } from "../model/Effects";
 import { PresetMeta } from "../model/PresetMeta";
 
-export interface PresetUI {
+export interface PresetGroup {
+    /**
+     * the name of the group
+     */
+    name: string;
+}
+
+export interface ItemUI {
     /**
      * true when the preset is selected in the ui.
      */
@@ -33,7 +40,12 @@ export interface Preset extends ModelPreset.Preset {
     /**
      * UI related preset settings
      */
-    ui: PresetUI;
+    ui: ItemUI;
+
+    /**
+     * If set, marks this preset as part of a specific grouping
+     */
+    group?: PresetGroup;
 
     /**
      * the origin of this preset

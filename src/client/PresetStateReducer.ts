@@ -1,5 +1,5 @@
 import { Fault } from "../model/Fault";
-import { Preset, presetsExceptUiAreEqual, PresetUI } from "./Preset";
+import { Preset, presetsExceptUiAreEqual, ItemUI } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
@@ -193,7 +193,7 @@ const reduceChangePresets = (
     state: ApplicationDocument, 
     presets: Preset[], 
     source: PresetCollectionType,
-    ui: Partial<PresetUI>): ApplicationDocument => {
+    ui: Partial<ItemUI>): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
     // local helper function
