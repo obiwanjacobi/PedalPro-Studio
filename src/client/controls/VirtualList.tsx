@@ -26,11 +26,32 @@ const cellStyles: React.CSSProperties = {
 };
 
 export interface GridCalculator<T> {
+    /**
+     * Sets the items that are passed to the list.
+     * Use for total number of items and impl. of select
+     */
     items: T[];
+    /**
+     * Sets the width of the list during render.
+     * Use to calc number and width of columns
+     */
     width: number;
+    /**
+     * Gets number of columns
+     */
     columnCount: number;
+    /**
+     * Gets total number of rows
+     */
     rowCount: number;
+    /**
+     * Gets the width of a single column
+     */
     columnWidth: number;
+    /**
+     * Returns the list data items for a specific row
+     * @param rowIndex The index of the row.
+     */
     select(rowIndex: number): T[];
 }
 
