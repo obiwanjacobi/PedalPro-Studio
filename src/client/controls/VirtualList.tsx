@@ -25,47 +25,48 @@ const cellStyles: React.CSSProperties = {
     padding: itemPadding
 };
 
-class GridCalc {
-    private widthTotal: number;
-    private countTotal: number;
-    private numberOfCols: number;
-    private numberOfRows: number;
-    private col: number;
+export interface GridCalculator<T> {
+    items: T[];
+    width: number;
+    columnCount: number;
+    rowCount: number;
+    columnWidth: number;
+    select(rowIndex: number): T[];
+}
 
-    constructor(itemCount: number, width: number) {
-        this.countTotal = itemCount;
-        this.widthTotal = width;
+class GridCalc<T> implements GridCalculator<T> {
+    public items: T[];
+    public width: number;
 
-        this.numberOfCols =  Math.floor(this.widthTotal / 340);
-        if (this.numberOfCols <= 1) { this.numberOfCols = 1; }
-        this.col = Math.floor(this.widthTotal / this.numberOfCols);
-        this.numberOfRows = Math.ceil(this.countTotal / this.numberOfCols);
-    }
-
-    public get colCount(): number {
-        return this.numberOfCols;
+    public get columnCount(): number {
+        const numberOfCols =  Math.floor(this.width / 340);
+        if (numberOfCols < 1) { return 1; }
+        return numberOfCols;
     }
 
     public get rowCount(): number {
-        return this.numberOfRows;
+        return Math.ceil(this.items.length / this.columnCount);
     }
 
-    public get colWidth(): number {
-        return this.col;
+    public get columnWidth(): number {
+        return Math.floor(this.width / this.columnCount);
     }
 
-    public select<T>(items: T[], rowIndex: number): T[] {
-        const index = rowIndex * this.numberOfCols;
-        return items.slice(index, index + this.numberOfCols);
+    public select(rowIndex: number): T[] {
+        const cols = this.columnCount;
+        const index = rowIndex * cols;
+        return this.items.slice(index, index + cols);
     }
 }
 
 export interface VirtualListProps<T> {
     items: T[];
+    gridCalculator?: GridCalculator<T>;
 }
 
-export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends React.Component<P, S> {
-    private grid:  GridCalc;
+export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends React.Component<P, S> {
+
+    private grid: GridCalculator<T>;
     private virtualList: List;
 
     protected constructor(props: P) {
@@ -75,6 +76,8 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends 
         this.getRowHeight = this.getRowHeight.bind(this);
         this.refVirtualList = this.refVirtualList.bind(this);
         this.renderEmpty = this.renderEmpty.bind(this);
+
+        this.grid = props.gridCalculator ? props.gridCalculator : new GridCalc<T>();
     }
 
     public shouldComponentUpdate(nextProps: VirtualListProps<T>, _: S): boolean {
@@ -88,7 +91,9 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends 
             <div id="VirtualList" style={containerStyles}>
                 <AutoSizer>
                     {({height, width}) => {
-                        this.grid = new GridCalc(this.props.items.length, width);
+                        // this.grid = new GridCalc(this.props.items.length, width);
+                        this.grid.width = width;
+                        this.grid.items = this.props.items;
 
                         if (this.virtualList &&
                             this.virtualList.props.rowCount > 0 && 
@@ -161,7 +166,7 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends 
     }
 
     private getRowData(rowIndex: number): T[] {
-        return this.grid.select(this.props.items, rowIndex);
+        return this.grid.select(rowIndex);
     }
 
     private getRowHeight(rowIndex: Index): number {
@@ -173,7 +178,7 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S>  extends 
 
     private renderCell(item: T, key: number) {
         if (!item) { return null; }
-        const style = { ...cellStyles, width: this.grid.colWidth };
+        const style = { ...cellStyles, width: this.grid.columnWidth };
 
         return (
             <div key={key} style={style}>
