@@ -25,7 +25,7 @@ const cellStyles: React.CSSProperties = {
     padding: itemPadding
 };
 
-export interface GridCalculator<T> {
+interface GridCalculator<T> {
     /**
      * Sets the items that are passed to the list.
      * Use for total number of items and impl. of select
@@ -82,7 +82,6 @@ class GridCalc<T> implements GridCalculator<T> {
 
 export interface VirtualListProps<T> {
     items: T[];
-    gridCalculator?: GridCalculator<T>;
 }
 
 export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends React.Component<P, S> {
@@ -98,7 +97,7 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends R
         this.refVirtualList = this.refVirtualList.bind(this);
         this.renderEmpty = this.renderEmpty.bind(this);
 
-        this.grid = props.gridCalculator ? props.gridCalculator : new GridCalc<T>();
+        this.grid = new GridCalc<T>();
     }
 
     public shouldComponentUpdate(nextProps: VirtualListProps<T>, _: S): boolean {
@@ -112,7 +111,6 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends R
             <div id="VirtualList" style={containerStyles}>
                 <AutoSizer>
                     {({height, width}) => {
-                        // this.grid = new GridCalc(this.props.items.length, width);
                         this.grid.width = width;
                         this.grid.items = this.props.items;
 
@@ -193,7 +191,6 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends R
     private getRowHeight(rowIndex: Index): number {
         const cellData = this.getRowData(rowIndex.index);
         const nakedHeight = this.calcRowHeight(cellData);
-        // cellData.some((preset: T) => preset.ui.expanded) ? itemHeightExpanded : itemHeightCollapsed;
         return nakedHeight + itemPadding;
     }
 
