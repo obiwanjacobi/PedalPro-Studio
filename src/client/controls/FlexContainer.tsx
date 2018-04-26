@@ -1,15 +1,13 @@
 import * as React from "react";
 
-const containerStyles: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1
-};
+export interface FlexContainerProps {
+    vertical: boolean;
+}
 
-export class FlexContainer extends React.Component {
+export class FlexContainer extends React.Component<FlexContainerProps> {
     public render() {
         return (
-            <div style={containerStyles}>
+            <div style={{display: "flex", flexGrow: 1, flexDirection: this.props.vertical ? "column" : "row"}}>
                 {this.props.children}
             </div>
         );

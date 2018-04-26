@@ -1,9 +1,10 @@
 import { Fault } from "../model/Fault";
-import { Preset, presetsExceptUiAreEqual, ItemUI } from "./Preset";
+import { Preset, presetsExceptUiAreEqual } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { ChangePresetsAction } from "./ChangePresetsAction";
+import { ChangeBanksAction } from "./ChangeBanksAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
@@ -11,11 +12,13 @@ import { SavePresetsAction } from "./SavePresetsAction";
 import { ScreenState } from "./screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
 import { DeletePresetsAction } from "./DeletePresetsAction";
+import { ItemUI } from "./ItemUI";
+import { StorageBank } from "./StorageBank";
 
 // all actions this reducer handles
 export type PresetAction = 
     LoadPresetsAction | SavePresetsAction | DeletePresetsAction |
-    ChangePresetsAction | CopyPresetsAction | PastePresetsAction |
+    ChangePresetsAction | ChangeBanksAction | CopyPresetsAction | PastePresetsAction |
     EditPresetAction | MovePresetAction;
 
 const copyOverride = (
@@ -215,6 +218,25 @@ const reduceChangePresets = (
     return copyOverride(state, source, replaceSelectedPresets);
 };
 
+const reduceChangeBanks = (
+    state: ApplicationDocument, 
+    banks: StorageBank[], 
+    ui: Partial<ItemUI>): ApplicationDocument => {
+    if (banks.length === 0) { return state; }
+
+    const newCollection = state.banks.slice();
+
+    for (let i: number = 0; i < banks.length; i++) {
+        const b = banks[i];
+        const index = newCollection.indexOf(b);
+        if (index === -1) { throw new Error("Invalid bank - not found in collection."); }
+
+        newCollection[index] = { ...b, ui: { ...b.ui, ...ui }};
+    }
+
+    return state;
+};
+
 const reduceLoadPresets = (
     state: ApplicationDocument, 
     source: PresetCollectionType, 
@@ -282,6 +304,9 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
 
         case "U/*/presets/ui":
         return reduceChangePresets(state, action.presets, action.source, action.ui);
+
+        case "U/*/banks/ui":
+        return reduceChangeBanks(state, action.banks, action.ui);
 
         case "C/clipboard/presets/":
         return reduceCopyPresets(state, action.presets);

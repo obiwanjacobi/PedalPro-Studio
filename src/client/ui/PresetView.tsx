@@ -61,10 +61,10 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
     }
 
     public render() {
-        if (!this.props.presets) { return <FlexContainer>Loading...</FlexContainer>; }
+        if (!this.props.presets) { return <FlexContainer vertical={true}>Loading...</FlexContainer>; }
 
         return (
-            <FlexContainer>
+            <FlexContainer vertical={true}>
                 <div>
                     <Input 
                         style={{paddingLeft: 16}}

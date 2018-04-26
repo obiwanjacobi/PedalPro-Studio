@@ -1,4 +1,5 @@
-import { Preset, ItemUI } from "./Preset";
+import { Preset } from "./Preset";
+import { ItemUI } from "./ItemUI";
 import { PresetCollectionType } from "./ApplicationDocument";
 
 export const ChangePresetsActionKey: string = "U/*/presets/ui";

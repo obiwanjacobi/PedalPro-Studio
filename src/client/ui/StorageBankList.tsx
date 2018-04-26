@@ -3,13 +3,13 @@ import { Typography } from "material-ui";
 
 import { VirtualListProps, VirtualList } from "../controls/VirtualList";
 import { StorageBank } from "../StorageBank";
-import { StoragePresetListItem } from "./StoragePresetListItem";
+import { StorageBankListItem } from "./StorageBankListItem";
 
-export interface StoragePresetListProps extends VirtualListProps<StorageBank> {
+export interface StorageBankListProps extends VirtualListProps<StorageBank> {
 }
-export interface StoragePresetListState {}
+export interface StorageBankListState {}
 
-export class StoragePresetList extends VirtualList<StorageBank, StoragePresetListProps, StoragePresetListState> {
+export class StorageBankList extends VirtualList<StorageBank, StorageBankListProps, StorageBankListState> {
     protected calcRowHeight(banksOnRow: StorageBank[]): number {
         return banksOnRow.some((bank: StorageBank) => bank.ui.expanded) ? 40 : 80;
     }
@@ -18,7 +18,7 @@ export class StoragePresetList extends VirtualList<StorageBank, StoragePresetLis
         if (!bank) { return null; }
 
         return (
-            <StoragePresetListItem
+            <StorageBankListItem
                 bank={bank}
             />
         );

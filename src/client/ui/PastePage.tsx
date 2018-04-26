@@ -8,7 +8,8 @@ import {
 import { Clear } from "material-ui-icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { Preset, formatPresetIndex, ItemUI } from "../Preset";
+import { Preset, formatPresetIndex } from "../Preset";
+import { ItemUI } from "../ItemUI";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
 import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";

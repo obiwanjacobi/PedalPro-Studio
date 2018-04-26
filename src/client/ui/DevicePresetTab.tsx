@@ -4,7 +4,8 @@ import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redu
 import { Typography } from "material-ui";
 import { FileDownload } from "material-ui-icons";
 
-import { Preset, ItemUI } from "../Preset";
+import { Preset } from "../Preset";
+import { ItemUI } from "../ItemUI";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
 import { FlexContainer } from "../controls/FlexContainer";
@@ -54,7 +55,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     public render() {
         return (
-            <FlexContainer>
+            <FlexContainer vertical={true}>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}

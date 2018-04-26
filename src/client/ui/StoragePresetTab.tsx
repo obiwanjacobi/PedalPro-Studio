@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Typography } from "material-ui";
+import { FileDownload } from "material-ui-icons";
 
 import { SelectAllButtonStatus } from "../controls/SelectAllButton";
 import { FlexContainer } from "../controls/FlexContainer";
@@ -13,16 +15,12 @@ import { MovePreset, createMovePresetAction } from "../MovePresetAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../DeletePresetsAction";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { Preset, ItemUI } from "../Preset";
+import { Preset } from "../Preset";
+import { ItemUI } from "../ItemUI";
 import { ScreenState } from "../screen/ScreenState";
-import { StoragePresetList } from "./StoragePresetList";
-
-const testStorageItems = [
-    { bank: "bank 1", presets: [], ui: { selected: false, expanded: false, markedDeleted: false }},
-    { bank: "bank 2", presets: [], ui: { selected: false, expanded: false, markedDeleted: false }},
-    { bank: "bank 3", presets: [], ui: { selected: false, expanded: false, markedDeleted: false }},
-    { bank: "bank 4", presets: [], ui: { selected: false, expanded: false, markedDeleted: false }},
-];
+import { StorageBankList } from "./StorageBankList";
+import { PresetView } from "./PresetView";
+import { testStorageItems } from "./StorageTestData";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {}
@@ -34,7 +32,7 @@ export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabS
 export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, StoragePresetTabState> {
     public render() {
         return (
-            <FlexContainer>
+            <FlexContainer vertical={true}>
                 <PresetToolbar 
                     enableCopy={true}
                     onCopy={this.dummy}
@@ -50,14 +48,37 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     enableUpload={true}
                     onUpload={this.dummy}
                 />
-                <StoragePresetList 
-                    items={testStorageItems}
-                />
+                <FlexContainer  vertical={false}>
+                    <StorageBankList 
+                        items={testStorageItems}
+                    />
+                    <PresetView 
+                        presets={this.bankPresets}
+                        readonly={false}
+                        changePresets={this.actions.changePresets}
+                        // editPreset={this.actions.editPreset}
+                        // movePreset={this.actions.movePreset}
+                        deletePresets={this.actions.deletePresets}
+                        empty={<Typography>
+                            Press <FileDownload/> to retrieve the preset banks.
+                        </Typography>}                
+                    />
+                </FlexContainer>
             </FlexContainer>
         );
     }
 
-    private dummy(){}
+    protected get actions(): Readonly<StoragePresetTabActions> {
+        return this.props;
+    }
+
+    private get bankPresets(): Preset[] {
+        return testStorageItems[0].presets;
+    }
+
+    // tslint:disable-next-line:no-empty
+    private dummy() {
+    }
 }
 
 type ExtractStatePropFunc = MapStateToProps<StoragePresetTabStoreProps, StoragePresetTabProps, ApplicationDocument>;

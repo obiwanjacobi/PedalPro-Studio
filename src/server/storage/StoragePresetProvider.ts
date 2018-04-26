@@ -31,19 +31,19 @@ export class StoragePresetProvider implements PresetProvider {
         return this.cache;
     }
 
-    public getPresetsPaged(page: number, size: number): Preset[] {
+    public getPresetsPaged(_: number, __: number): Preset[] {
         throw new Error("Not Suppoered");
     }
 
-    public putPreset(preset: Preset): void {
+    public putPreset(_: Preset): void {
         throw new Error("Not Suppoered");
     }
 
-    public putPresets(presets: Preset[]): void {
+    public putPresets(_: Preset[]): void {
         throw new Error("Not Suppoered");
     }
 
-    public deletePreset(presetIndex: number): Preset {
+    public deletePreset(_: number): Preset {
         throw new Error("Not Suppoered");
     }
 }

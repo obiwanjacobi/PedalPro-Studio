@@ -1,7 +1,9 @@
+import * as lodash from "lodash";
+
 import { PresetCollectionType } from "./ApplicationDocument";
+import { ItemUI } from "./ItemUI";
 import * as ModelPreset from "../model/Preset";
 import { PresetTraits } from "../model/PresetTraits";
-import * as lodash from "lodash";
 import { Effects, EffectsEx } from "../model/Effects";
 import { PresetMeta } from "../model/PresetMeta";
 
@@ -10,23 +12,6 @@ export interface PresetGroup {
      * the name of the group
      */
     name: string;
-}
-
-export interface ItemUI {
-    /**
-     * true when the preset is selected in the ui.
-     */
-    selected: boolean;
-
-    /**
-     * true when the preset is expanded in the ui.
-     */
-    expanded: boolean;
-
-    /**
-     * true when the preset was marked as deleted (empty).
-     */
-    markedDeleted: boolean;
 }
 
 // ui extensions

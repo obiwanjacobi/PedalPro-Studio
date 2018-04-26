@@ -3,7 +3,8 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "material-ui";
 
-import { Preset, ItemUI } from "../Preset";
+import { Preset } from "../Preset";
+import { ItemUI } from "../ItemUI";
 import { FlexContainer } from "../controls/FlexContainer";
 import { SelectedView } from "../controls/SelectedView";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
@@ -35,7 +36,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
 
     public render() {
         return (
-            <FlexContainer>
+            <FlexContainer vertical={true}>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
