@@ -10,7 +10,7 @@ export class TestPresetProvider {
             TestPresetProvider.presets = new Array<Preset>(PresetCount);
 
             for (let index = 0; index < PresetCount; index++) {
-                TestPresetProvider.presets[index] = {
+                TestPresetProvider.presets[index] = <Preset> {
                     index: index,
                     name: "Preset " + index,
                     traits: {

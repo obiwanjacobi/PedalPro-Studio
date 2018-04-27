@@ -164,7 +164,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     }
 
     private pasteClipboard() {
-        this.props.updateScreen(new ScreenState(undefined, true));
+        this.props.updateScreen({pasteOpen: true});
     }
 
     private onDeleteSelected() {

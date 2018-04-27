@@ -209,7 +209,7 @@ describe("Integration deserializer and logic transform", () => {
                 if (buffer.data[i] >= testPreset[i] - 1 &&
                     buffer.data[i] <= testPreset[i] + 1) {
 
-                    console.warn(`value ${buffer.data[i]} at index ${i} deviates from ${test[i]}`);
+                    console.warn(`value ${buffer.data[i]} at index ${i} deviates from ${testPreset[i]}`);
                 } else {
                     console.warn(`invalid value in buffer at ${i}.`);
                 }

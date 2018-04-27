@@ -31,7 +31,6 @@
     "node_modules",
     "app",
     "dist",
-    "release",
-    "src/**/_tests/*"
+    "release"
   ],
 }

@@ -236,7 +236,7 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
     }
 
     private close() {
-        this.props.updateScreen(new ScreenState());
+        this.props.updateScreen({ pasteOpen: false });
     }
 
     private overwrite() {

@@ -5,8 +5,9 @@ import { ApplicationDocument } from "./ApplicationDocument";
 import { createDeviceInfoAction } from "./DevciceInfoAction";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { createUpdateScreenAction } from "./screen/UpdateScreenAction";
-import { ProgressInfo, ScreenState } from "./screen/ScreenState";
+import { ProgressInfo } from "./screen/ScreenState";
 import { createLoadPresetsAction, createLoadPresetsErrorAction } from "./LoadPresetsAction";
+import { ScreenBuilder } from "./screen/ScreenBuilder";
 
 const pageSize = 20;
 
@@ -41,7 +42,7 @@ async function loadPresets(
         throw error;
     } finally {
         // dismiss progress
-        dispatch(createUpdateScreenAction(new ScreenState()));
+        dispatch(createUpdateScreenAction(ScreenBuilder.default));
     }
 }
 

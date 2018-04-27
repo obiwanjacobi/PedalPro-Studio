@@ -9,11 +9,16 @@ import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
 import { SavePresetsAction } from "./SavePresetsAction";
-import { ScreenState } from "./screen/ScreenState";
+import { ProgressInfo } from "./screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
 import { DeletePresetsAction } from "./DeletePresetsAction";
 import { ItemUI } from "./ItemUI";
 import { StorageBank } from "./StorageBank";
+import { PresetArrayBuilder } from "./PresetBuilder";
+import { CopyOption } from "./StateBuilder";
+import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
+import { ScreenBuilder } from "./screen/ScreenBuilder";
+import { NotificationArrayBuilder } from "./notification/NotificationArrayBuilder";
 
 // all actions this reducer handles
 export type PresetAction = 
@@ -26,56 +31,63 @@ const copyOverride = (
     collection: PresetCollectionType, 
     process: (presets: Preset[]) => Preset[]): ApplicationDocument => {
 
-    let device: Preset[] | null = null;
-    let storage: Preset[] | null = null;
-    let factory: Preset[] | null = null;
-    let clipboard: Preset[] | null = null;
+    const builder = new ApplicationDocumentBuilder(state);
+    builder.transformPresets(collection, process);
+    return builder.detach();
 
-    switch (collection) {
-        case PresetCollectionType.device:
-        device = process(state.device);
-        break;
-        
-        case PresetCollectionType.storage:
-        storage = process(state.storage);
-        break;
-        
-        case PresetCollectionType.factory:
-        factory = process(state.factory);
-        break;
+    // let device: Preset[] | null = null;
+    // let storage: Preset[] | null = null;
+    // let factory: Preset[] | null = null;
+    // let clipboard: Preset[] | null = null;
 
-        case PresetCollectionType.clipboard:
-        clipboard = process(state.clipboard);
-        break;
+    // switch (collection) {
+    //     case PresetCollectionType.device:
+    //     device = process(state.device);
+    //     break;
         
-        default: 
-        throw new RangeError(
-            `Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
-    }
+    //     case PresetCollectionType.storage:
+    //     storage = process(state.storage);
+    //     break;
+        
+    //     case PresetCollectionType.factory:
+    //     factory = process(state.factory);
+    //     break;
 
-    return state.copyOverride(device, storage, factory, clipboard);
+    //     case PresetCollectionType.clipboard:
+    //     clipboard = process(state.clipboard);
+    //     break;
+        
+    //     default: 
+    //     throw new RangeError(
+    //         `Unknown collection (source): ${collection} in PresetSelectedAction-Reducer (copyOverride).`);
+    // }
+
+    // return state.copyOverride(device, storage, factory, clipboard);
 };
 
-const replacePresetsByIndex = (collection: Preset[], replacements: Preset[]): Preset[] => {
-    const newPresets = collection.slice();
+// const replacePresetsByIndex = (collection: Preset[], replacements: Preset[]): Readonly<Preset[]> => {
+    // const newPresets = collection.slice();
 
-    replacements.forEach(replacement => {
-        const index = collection.findIndex((p) => p.index === replacement.index);
-        if (index !== -1) {
-            newPresets[index] = replacement;
-        } else {
-            newPresets.push(replacement);
-        }
-    });
+    // replacements.forEach(replacement => {
+    //     const index = collection.findIndex((p) => p.index === replacement.index);
+    //     if (index !== -1) {
+    //         newPresets[index] = replacement;
+    //     } else {
+    //         newPresets.push(replacement);
+    //     }
+    // });
 
-    return newPresets;
-};
+    // return newPresets;
+// };
 
 const reIndexPresets = (presetIndex: number, mutableCollection: Preset[], beginIndex: number, endIndex: number) => {
-    for (let indexPos = beginIndex; indexPos <= endIndex; indexPos++) {
-        mutableCollection[indexPos] = { ...mutableCollection[indexPos], index: presetIndex };
-        presetIndex++;
-    }
+    const builder = new PresetArrayBuilder(mutableCollection, CopyOption.ByRef);
+    builder.reIndexPresets(presetIndex, beginIndex, endIndex);
+
+    // for (let indexPos = beginIndex; indexPos <= endIndex; indexPos++) {
+    //     mutableCollection[indexPos] = { ...mutableCollection[indexPos], index: presetIndex };
+    //     presetIndex++;
+    // }
 };
 
 const reduceMovePreset = (
@@ -240,14 +252,35 @@ const reduceChangeBanks = (
 const reduceLoadPresets = (
     state: ApplicationDocument, 
     source: PresetCollectionType, 
-    presets: Preset[]): ApplicationDocument => {
+    presets: Preset[],
+    progress?: ProgressInfo): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
-    return copyOverride(state, source, (oldPresets: Preset[]) => {
-        if (!oldPresets || oldPresets.length === 0) { return presets; }
+    const builder = new ApplicationDocumentBuilder(state);
+    if (progress) {
+        const screenBuilder = new ScreenBuilder(builder.mutable.screen);
+        screenBuilder.mutable.progress = progress;
+        builder.mutable.screen = screenBuilder.detach();
+    }
 
-        return replacePresetsByIndex(oldPresets, presets);
+    builder.transformPresets(source, (originalPresets: Preset[]) => {
+        if (originalPresets.length === 0) { return presets; }
+
+        const presetBuilder = new PresetArrayBuilder(originalPresets);
+        presetBuilder.replaceByPresetIndex(presets);
+        return presetBuilder.detach();
     });
+
+    return builder.detach();
+
+    // if (progress) {
+    //     const newState = state.copyOverrideScreen(new ScreenState(action.progress));
+    // }
+    // return copyOverride(state, source, (oldPresets: Readonly<Preset[]>) => {
+    //     if (!oldPresets || oldPresets.length === 0) { return presets; }
+
+    //     return replacePresetsByIndex(oldPresets, presets);
+    // });
 };
 
 const reduceDeletePresets = (
@@ -270,11 +303,22 @@ const reduceDeletePresets = (
 };
 
 const reduceFault = (state: ApplicationDocument, source: PresetCollectionType, fault: Fault): ApplicationDocument => {
-    return state.copyOverrideNotification([{
-            type: "warning", 
-            message: fault.message, 
-            context: source.toString().toUpperCase() },
-        ...state.notifications]);
+    const builder = new ApplicationDocumentBuilder(state);
+    const notificationBuilder = new NotificationArrayBuilder(builder.mutable.notifications);
+    
+    notificationBuilder.add({
+        type: "warning", 
+        message: fault.message, 
+        context: source.toString().toUpperCase() });
+    builder.mutable.notifications = notificationBuilder.detach();
+    
+    return builder.detach();
+
+    // return state.copyOverrideNotification([{
+    //         type: "warning", 
+    //         message: fault.message, 
+    //         context: source.toString().toUpperCase() },
+    //     ...state.notifications]);
 };
 
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
@@ -284,11 +328,12 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
             return reduceFault(state, action.source, action.error);
         }
         if (action.presets) {
-            if (action.progress) {
-                const newState = state.copyOverrideScreen(new ScreenState(action.progress));
-                return reduceLoadPresets(newState, action.source, action.presets);
-            }
-            return reduceLoadPresets(state, action.source, action.presets);
+            // if (action.progress) {
+            //     const newState = state.copyOverrideScreen(new ScreenState(action.progress));
+            //     return reduceLoadPresets(newState, action.source, action.presets);
+            // }
+            return reduceLoadPresets(
+                state, action.source, action.presets, action.progress ? action.progress : undefined);
         }
         break;
         case "U/*/presets/":
@@ -321,7 +366,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         return reduceMovePreset(state, action.preset, action.displacement);
 
         default:
-        return state;
+        break;
     }
 
     return state;
