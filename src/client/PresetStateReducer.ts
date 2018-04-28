@@ -2,7 +2,6 @@ import { Fault } from "../model/Fault";
 import * as ModelPreset from "../model/Preset";
 import { Preset } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
-
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { ChangePresetsAction } from "./ChangePresetsAction";
 import { ChangeBanksAction } from "./ChangeBanksAction";
@@ -13,12 +12,13 @@ import { SavePresetsAction } from "./SavePresetsAction";
 import { ProgressInfo } from "./screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
 import { DeletePresetsAction } from "./DeletePresetsAction";
-import { ItemUI } from "./ItemUI";
+import { ItemUI, ItemUiModify } from "./ItemUI";
 import { StorageBank } from "./StorageBank";
-import { PresetArrayBuilder, PresetBuilder, ItemUiModify } from "./PresetBuilder";
+import { PresetArrayBuilder, PresetBuilder } from "./PresetBuilder";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
 import { NotificationArrayBuilder } from "./notification/NotificationArrayBuilder";
+import { BankArrayBuilder, BankBuilder } from "./BankBuilder";
 
 // all actions this reducer handles
 export type PresetAction = 
@@ -150,17 +150,14 @@ const reduceChangeBanks = (
     ui: Partial<ItemUI>): ApplicationDocument => {
     if (banks.length === 0) { return state; }
 
-    const newCollection = state.banks.slice();
+    const builder = new ApplicationDocumentBuilder(state);
+    const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
+    bankBuilder.forRange(banks, (b: StorageBank, index: number) => {
+        bankBuilder.mutable[index] = BankBuilder.modify(b, { ui: ItemUiModify(b.ui, ui) });
+    });
+    builder.mutable.banks = bankBuilder.detach();
 
-    for (let i: number = 0; i < banks.length; i++) {
-        const b = banks[i];
-        const index = newCollection.indexOf(b);
-        if (index === -1) { throw new Error("Invalid bank - not found in collection."); }
-
-        newCollection[index] = { ...b, ui: { ...b.ui, ...ui }};
-    }
-
-    return state;
+    return builder.detach();
 };
 
 const reduceLoadPresets = (

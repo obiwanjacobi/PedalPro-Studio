@@ -1,11 +1,7 @@
 import { Preset, presetsExceptUiAreEqual } from "./Preset";
 import * as ModelPreset from "../model/Preset";
 import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "./StateBuilder";
-import { ItemUI } from "./ItemUI";
-
-export const ItemUiModify = (itemUi: ItemUI, update: Partial<ItemUI>): ItemUI => {
-    return { ...itemUi, ...update };
-};
+import { ItemUiModify } from "./ItemUI";
 
 export class PresetBuilder extends ItemBuilder<Preset> {
     public static modify(preset: Preset, update: Partial<Preset>): Preset {
