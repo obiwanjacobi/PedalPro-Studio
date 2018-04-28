@@ -1,18 +1,48 @@
-import { Preset } from "./Preset";
-import { ArrayBuilder, ItemBuilder } from "./StateBuilder";
+import { Preset, presetsExceptUiAreEqual } from "./Preset";
+import * as ModelPreset from "../model/Preset";
+import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "./StateBuilder";
+import { ItemUI } from "./ItemUI";
+
+export const ItemUiModify = (itemUi: ItemUI, update: Partial<ItemUI>): ItemUI => {
+    return { ...itemUi, ...update };
+};
 
 export class PresetBuilder extends ItemBuilder<Preset> {
     public static modify(preset: Preset, update: Partial<Preset>): Preset {
         return { ...preset, ...update };
     }
 
-    public constructor(state: Preset) {
+    public static delete(preset: Preset, empty: ModelPreset.Preset) {
+        return { ...preset, ...empty, ui: ItemUiModify(preset.ui, { markedDeleted: false })};
+    }
+
+    public static toModel(preset: Preset): ModelPreset.Preset {
+        return { 
+            effects: preset.effects, 
+            index: preset.index, 
+            name: preset.name, 
+            meta: preset.meta, 
+            traits: preset.traits };
+    }
+
+    public constructor(state: Preset, option: CopyOption = CopyOption.ByVal) {
         super();
-        this.state = { ...state };
+        this.state = option === CopyOption.ByVal ? { ...state } : state;
     }
 }
 
 export class PresetArrayBuilder extends ArrayBuilder<Preset> {
+
+    public forRange(these: Preset[], func: ItemFn<Preset>, matchFn: MatchItemFn<Preset> = presetsExceptUiAreEqual) {
+        super.forRange(these, func, matchFn);
+    }
+
+    public forEach(func: ItemFn<Preset>) {
+        for (let i = 0; i < this.mutable.length; i++) {
+            func(this.mutable[i], i);
+        }
+    }
+
     public replaceByPresetIndex(replacements: Preset[]) {
         replacements.forEach(replacement => {
             const index = this.mutable.findIndex((p) => p.index === replacement.index);
