@@ -22,7 +22,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemProp
         );
     }
 
-    private onSelectBank(): {
-
+    private onSelectBank() {
+        // add presets of this bank to the list
     }
 }

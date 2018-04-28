@@ -1,4 +1,4 @@
-import { ArrayBuilder } from "./StateBuilder";
+import { ArrayBuilder, ItemBuilder } from "./StateBuilder";
 import { StorageBank } from "./StorageBank";
 
 export class BankBuilder extends ItemBuilder<StorageBank> {
