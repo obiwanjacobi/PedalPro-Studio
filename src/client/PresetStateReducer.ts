@@ -1,10 +1,8 @@
-import { Fault } from "../model/Fault";
 import * as ModelPreset from "../model/Preset";
 import { Preset } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { ChangePresetsAction } from "./ChangePresetsAction";
-import { ChangeBanksAction } from "./ChangeBanksAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetAction } from "./MovePresetAction";
@@ -16,13 +14,12 @@ import { ItemUI, ItemUiModify } from "./ItemUI";
 import { PresetArrayBuilder, PresetBuilder } from "./PresetBuilder";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
-import { NotificationArrayBuilder } from "./notification/NotificationArrayBuilder";
-import { reduceChangeBanks } from "./StorageStateReducer";
+import { reduceFault } from "./FaultStateReducer";
 
 // all actions this reducer handles
 export type PresetAction = 
     LoadPresetsAction | SavePresetsAction | DeletePresetsAction |
-    ChangePresetsAction | ChangeBanksAction | CopyPresetsAction | PastePresetsAction |
+    ChangePresetsAction | CopyPresetsAction | PastePresetsAction |
     EditPresetAction | MovePresetAction;
 
 const reduceMovePreset = (
@@ -189,19 +186,6 @@ const reduceDeletePresets = (
     return builder.detach();
 };
 
-const reduceFault = (state: ApplicationDocument, source: PresetCollectionType, fault: Fault): ApplicationDocument => {
-    const builder = new ApplicationDocumentBuilder(state);
-    const notificationBuilder = new NotificationArrayBuilder(builder.mutable.notifications);
-    
-    notificationBuilder.add({
-        type: "warning", 
-        message: fault.message, 
-        context: source.toString().toUpperCase() });
-    builder.mutable.notifications = notificationBuilder.detach();
-    
-    return builder.detach();
-};
-
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
         case "R/*/presets/":
@@ -226,9 +210,6 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
 
         case "U/*/presets/ui":
         return reduceChangePresets(state, action.presets, action.source, action.ui);
-
-        case "U/*/banks/ui":
-        return reduceChangeBanks(state, action.banks, action.ui);
 
         case "C/clipboard/presets/":
         return reduceCopyPresets(state, action.presets);

@@ -36,8 +36,7 @@ export async function dispatchLoadPresetsAction(
     try {
         switch (source) {
             case PresetCollectionType.storage:
-            // loadStorageBanks(dispatch);
-            break;
+            throw new Error("Invalid Operation: Storage has separate Actions.");
 
             case PresetCollectionType.device:
             progressLoadPresets(presetClient, dispatch);
