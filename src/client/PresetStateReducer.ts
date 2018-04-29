@@ -13,12 +13,10 @@ import { ProgressInfo } from "./screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
 import { DeletePresetsAction } from "./DeletePresetsAction";
 import { ItemUI, ItemUiModify } from "./ItemUI";
-import { StorageBank } from "./StorageBank";
 import { PresetArrayBuilder, PresetBuilder } from "./PresetBuilder";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
 import { NotificationArrayBuilder } from "./notification/NotificationArrayBuilder";
-import { BankArrayBuilder, BankBuilder } from "./BankBuilder";
 import { reduceChangeBanks } from "./StorageStateReducer";
 
 // all actions this reducer handles
@@ -118,7 +116,7 @@ const reducePastePresets = (
         return presetBuilder.detach();
     });
     
-    builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] =>{
+    builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
         const presetBuilder = new PresetArrayBuilder(clipboardPresets);
         presetBuilder.removeRange(presets);
         return presetBuilder.detach();

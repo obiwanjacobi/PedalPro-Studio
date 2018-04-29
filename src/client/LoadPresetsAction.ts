@@ -11,22 +11,20 @@ export const LoadPresetsActionKey: string = "R/*/presets/";
 export interface LoadPresetsAction {
     readonly type: "R/*/presets/";
     readonly source: PresetCollectionType;
-    readonly presets: Preset[] | null;
-    readonly error: Error | null;
-    readonly progress: ProgressInfo | null;
+    readonly presets?: Preset[];
+    readonly error?: Error;
+    readonly progress?: ProgressInfo;
 }
 
-export const createLoadPresetsAction = (
-    source: PresetCollectionType, presets: Preset[], progress: ProgressInfo | null = null) => {
-
+export const createLoadPresetsAction = (source: PresetCollectionType, presets: Preset[], progress?: ProgressInfo) => {
     return {
-        type: LoadPresetsActionKey, source: source, presets: presets, error: null, progress: progress
+        type: LoadPresetsActionKey, source: source, presets: presets, progress: progress
     };
 };
 
 export const createLoadPresetsErrorAction = (source: PresetCollectionType, error: Error) => {
     return {
-        type: LoadPresetsActionKey, source: source, presets: null, error: error, progress: null
+        type: LoadPresetsActionKey, source: source, error: error
     };
 };
 

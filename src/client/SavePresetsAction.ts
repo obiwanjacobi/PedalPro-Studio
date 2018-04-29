@@ -9,8 +9,8 @@ export const SavePresetsActionKey: string = "U/*/presets/";
 export interface SavePresetsAction {
     readonly type: "U/*/presets/";
     readonly source: PresetCollectionType;
-    readonly presets: Preset[];
-    readonly error: Error | null;
+    readonly presets?: Preset[];
+    readonly error?: Error;
 }
 
 export const createSavePresetsAction = 
@@ -19,10 +19,10 @@ export const createSavePresetsAction =
         DefaultClient.getSource(source).replacePresets(presets)
             .then((result) => {
             dispatch(
-                { type: SavePresetsActionKey, source: source, presets: result, error: null });
+                { type: SavePresetsActionKey, source: source, presets: result });
         }).catch((error) => {
             dispatch(
-                { type: SavePresetsActionKey, source: source, presets: null, error: error });
+                { type: SavePresetsActionKey, source: source, error: error });
         });
 };
 
