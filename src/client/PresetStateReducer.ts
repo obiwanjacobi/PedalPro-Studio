@@ -19,6 +19,7 @@ import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
 import { NotificationArrayBuilder } from "./notification/NotificationArrayBuilder";
 import { BankArrayBuilder, BankBuilder } from "./BankBuilder";
+import { reduceChangeBanks } from "./StorageStateReducer";
 
 // all actions this reducer handles
 export type PresetAction = 
@@ -140,22 +141,6 @@ const reduceChangePresets = (
         });
         return presetBuilder.detach();
     });
-
-    return builder.detach();
-};
-
-const reduceChangeBanks = (
-    state: ApplicationDocument, 
-    banks: StorageBank[], 
-    ui: Partial<ItemUI>): ApplicationDocument => {
-    if (banks.length === 0) { return state; }
-
-    const builder = new ApplicationDocumentBuilder(state);
-    const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
-    bankBuilder.forRange(banks, (b: StorageBank, index: number) => {
-        bankBuilder.mutable[index] = BankBuilder.modify(b, { ui: ItemUiModify(b.ui, ui) });
-    });
-    builder.mutable.banks = bankBuilder.detach();
 
     return builder.detach();
 };

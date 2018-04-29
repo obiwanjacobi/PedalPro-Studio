@@ -19,5 +19,5 @@ export const createChangeBanksAction =
 };
 
 export interface ChangeBanks {
-    changePresets(banks: StorageBank[], command: Partial<ItemUI>): void;
+    changeBanks(banks: StorageBank[], command: Partial<ItemUI>): void;
 }

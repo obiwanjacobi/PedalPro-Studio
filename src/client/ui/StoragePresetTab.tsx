@@ -8,6 +8,7 @@ import { SelectAllButtonStatus } from "../controls/SelectAllButton";
 import { FlexContainer } from "../controls/FlexContainer";
 import { PresetToolbar } from "./PresetToolbar";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
+import { ChangeBanks, createChangeBanksAction } from "../ChangeBanksAction";
 import { LoadPresets, dispatchLoadPresetsAction } from "../LoadPresetsAction";
 import { SavePresets, createSavePresetsAction } from "../SavePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
@@ -21,15 +22,24 @@ import { ScreenState } from "../screen/ScreenState";
 import { StorageBankList } from "./StorageBankList";
 import { PresetView } from "./PresetView";
 import { testStorageItems } from "./StorageTestData";
+import { StorageBank } from "../StorageBank";
 
 export interface StoragePresetTabProps {}
-export interface StoragePresetTabStoreProps {}
+export interface StoragePresetTabStoreProps {
+    banks: StorageBank[];
+    presets: Preset[];    
+}
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
-    ChangePresets & LoadPresets & SavePresets & CopyPresets & MovePreset & UpdateScreen & DeletePresets;
+    ChangePresets & ChangeBanks & LoadPresets & SavePresets & CopyPresets & MovePreset & UpdateScreen & DeletePresets;
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
 
 export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, StoragePresetTabState> {
+    public constructor(props: StoragePresetTabAllProps) {
+        super(props);
+        this.download = this.download.bind(this);
+    }
+
     public render() {
         return (
             <FlexContainer vertical={true}>
@@ -41,7 +51,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     enableDelete={true}
                     onDelete={this.dummy}
                     enableDownload={true}
-                    onDownload={this.dummy}
+                    onDownload={this.download}
                     enableSelectAll={true}
                     statusSelectAll={SelectAllButtonStatus.NoneSelected}
                     onSelectAllChanged={this.dummy}
@@ -50,7 +60,8 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                 />
                 <FlexContainer  vertical={false}>
                     <StorageBankList 
-                        items={testStorageItems}
+                        items={this.props.banks}
+                        changeBanks={this.props.changeBanks}
                     />
                     <PresetView 
                         presets={this.bankPresets}
@@ -73,7 +84,11 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private get bankPresets(): Preset[] {
-        return testStorageItems[0].presets;
+        return this.props.presets;
+    }
+
+    private download() {
+        this.props.loadPresets(PresetCollectionType.storage);
     }
 
     // tslint:disable-next-line:no-empty
@@ -84,7 +99,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 type ExtractStatePropFunc = MapStateToProps<StoragePresetTabStoreProps, StoragePresetTabProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: StoragePresetTabProps): StoragePresetTabStoreProps => {
-        return  { presets: state.storage };
+        return  { banks: state.banks, presets: state.storage };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<StoragePresetTabActions, StoragePresetTabProps>;
@@ -99,6 +114,9 @@ const createActionObject: ActionDispatchFunc =
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
+            },
+            changeBanks: (banks: StorageBank[], ui: Partial<ItemUI>): void => {
+                dispatch(createChangeBanksAction(banks, ui));
             },
             copyPresets: (presets: Preset[]): void => {
                 dispatch(createCopyPresetsAction(presets));
