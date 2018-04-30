@@ -49,6 +49,8 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                         <Typography variant="subheading">
                             {this.props.preset.name}
                         </Typography>
+                        {this.props.preset.group && 
+                            <Typography variant="caption">{this.props.preset.group.name}</Typography>}
                     </Grid>
                     <Grid xs={1} item={true}>
                         <PresetChangedFlag preset={this.props.preset} />

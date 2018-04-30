@@ -8,5 +8,8 @@ export class BankBuilder extends ItemBuilder<StorageBank> {
 }
 
 export class BankArrayBuilder extends ArrayBuilder<StorageBank> {
-
+    public setLoaded(bankName: string) {
+        const index = this.mutable.findIndex(b => b.bank === bankName);
+        this.mutable[index] = BankBuilder.modify(this.mutable[index], { loaded: true });
+    }
 }

@@ -72,8 +72,9 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     onUpload={this.upload}
                 />
                 <PresetView 
-                    presets={this.props.presets}
+                    filterEmpty={true}
                     readonly={false}
+                    presets={this.props.presets}
                     changePresets={this.actions.changePresets}
                     editPreset={this.actions.editPreset}
                     movePreset={this.actions.movePreset}

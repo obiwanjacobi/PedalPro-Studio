@@ -22,6 +22,7 @@ import { ScreenState } from "../screen/ScreenState";
 import { StorageBankList } from "./StorageBankList";
 import { PresetView } from "./PresetView";
 import { dispatchLoadBanksAction, LoadStorageBanks } from "../LoadBanksAction";
+import { dispatchLoadBankPresetsAction, LoadBankPresets } from "../LoadBankPresetsAction";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -31,7 +32,7 @@ export interface StoragePresetTabStoreProps {
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
     ChangePresets & ChangeBanks & 
-    LoadStorageBanks & 
+    LoadStorageBanks & LoadBankPresets &
     SavePresets & CopyPresets & MovePreset & UpdateScreen & DeletePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
@@ -66,9 +67,11 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         <StorageBankList 
                             items={this.props.banks}
                             changeBanks={this.props.changeBanks}
+                            loadBankPresets={this.props.loadBankPresets}
                         />
                     </FlexContainer>
                     <PresetView 
+                        filterEmpty={false}
                         presets={this.bankPresets}
                         readonly={false}
                         changePresets={this.actions.changePresets}
@@ -127,6 +130,9 @@ const createActionObject: ActionDispatchFunc =
         return {
             loadStorageBanks: (): void  => {
                 dispatchLoadBanksAction(dispatch);
+            },
+            loadBankPresets: (bank: string): void => {
+                dispatchLoadBankPresetsAction(dispatch, bank);
             },
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 createSavePresetsAction(dispatch, source, presets);

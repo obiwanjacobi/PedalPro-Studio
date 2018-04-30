@@ -47,6 +47,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                 <PresetView 
                     presets={this.props.presets}
                     readonly={true}
+                    filterEmpty={false}
                     changePresets={this.actions.changePresets}
                     empty={<Typography>
                         No factory presets were found.

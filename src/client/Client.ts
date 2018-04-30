@@ -75,6 +75,17 @@ export class PresetsClient {
         return response.result.banks.map(this.extendBank);
     }
 
+    public async getBankPresets(bank: string): Promise<Preset[]> {
+        const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/${bank}/presets/`);
+        this.throwIfErrorPreset(response);
+        // @ts-ignore:[ts] Object is possibly 'null'.
+        return response.result.presets.map((p: ModelPreset.Preset) => {
+            const preset = this.extendPreset(p);
+            preset.group = { name: bank };
+            return preset;
+        });
+    }
+
     public async getDeviceInfo(): Promise<DeviceIdentity> {
         const response = await this.typedRest.get<DeviceResponse>(this.baseUrl);
         this.throwIfErrorMessage(response);
@@ -113,6 +124,7 @@ export class PresetsClient {
     private extendBank(bank: Storage.Bank): StorageBank {
         const clientBank: StorageBank = {
             bank: bank.name, 
+            loaded: false,
             ui: { expanded: false, selected: false, markedDeleted: false }
         };
         return clientBank;
