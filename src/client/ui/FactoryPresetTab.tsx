@@ -46,7 +46,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                 />
                 <PresetView 
                     presets={this.props.presets}
-                    readonly={true}
+                    filterFlagged={false}
                     filterEmpty={false}
                     changePresets={this.actions.changePresets}
                     empty={<Typography>

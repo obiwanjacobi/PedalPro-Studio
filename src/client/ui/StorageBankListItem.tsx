@@ -15,7 +15,6 @@ export type StorageBankListItemAllProps = StorageBankListItemProps & StorageBank
 export class StorageBankListItem extends React.Component<StorageBankListItemAllProps> {
     public constructor(props: StorageBankListItemAllProps) {
         super(props);
-        this.toggleSelected = this.toggleSelected.bind(this);
         this.loadPresets = this.loadPresets.bind(this);
     }
     
@@ -26,7 +25,6 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                     tabIndex={-1} 
                     disableRipple={true} 
                     checked={this.props.bank.ui.selected} 
-                    onClick={this.toggleSelected}
                 />
                 <ListItemText primary={this.props.bank.bank} />
             </ListItem>
@@ -37,6 +35,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
         if (!this.props.bank.loaded) {
             this.props.loadBankPresets(this.props.bank.bank);
         }
+        this.toggleSelected();
     }
 
     // private toggleExpanded() {

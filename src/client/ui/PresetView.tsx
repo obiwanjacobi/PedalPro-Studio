@@ -20,7 +20,7 @@ import { DeletePresets } from "../DeletePresetsAction";
 
 export interface PresetViewStateProps { 
     presets: Preset[];
-    readonly: boolean;
+    filterFlagged: boolean;
     filterEmpty: boolean;
     empty: React.ReactNode;
 }
@@ -85,11 +85,11 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                         {this.state.showSelected ? 
                             <CheckboxMultipleMarked/> : <CheckboxMultipleMarkedOutline/>}
                     </IconButton>
-                    {!this.props.readonly &&
+                    {this.props.filterFlagged &&
                         <IconButton onClick={this.toggleShowChanged} disabled={!this.state.enableShowChanged}>
                             {this.state.showChanged ? <Flag/> : <FlagOutline/>}
                         </IconButton>}
-                    {!this.props.readonly && this.props.filterEmpty &&
+                    {this.props.filterEmpty &&
                         <IconButton onClick={this.toggleShowEmpty} disabled={!this.state.enableShowEmpty}>
                             {this.state.showEmpty ? <Square/> : <SquareOutline/>}
                         </IconButton>}

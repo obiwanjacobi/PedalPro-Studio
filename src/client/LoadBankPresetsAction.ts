@@ -3,8 +3,6 @@ import { Dispatch } from "redux";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient, PresetsClient } from "./Client";
 import { Preset } from "./Preset";
-import { ProgressInfo } from "./screen/ScreenState";
-import { progressLoadPresets, loadAllPresets } from "./LoadPresetsOperation";
 
 export const LoadBankPresetsActionKey: string = "R/storage/*/presets/";
 

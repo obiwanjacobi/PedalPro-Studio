@@ -73,7 +73,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                 />
                 <PresetView 
                     filterEmpty={true}
-                    readonly={false}
+                    filterFlagged={true}
                     presets={this.props.presets}
                     changePresets={this.actions.changePresets}
                     editPreset={this.actions.editPreset}

@@ -72,8 +72,8 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     </FlexContainer>
                     <PresetView 
                         filterEmpty={false}
+                        filterFlagged={true}
                         presets={this.bankPresets}
-                        readonly={false}
                         changePresets={this.actions.changePresets}
                         // editPreset={this.actions.editPreset}
                         // movePreset={this.actions.movePreset}
@@ -90,7 +90,9 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private get bankPresets(): Preset[] {
-        return this.props.presets;
+        const selectedBanks = this.props.banks.filter(b => b.ui.selected);
+        // @ts-ignore: goup may not be set
+        return this.props.presets.filter(p => p.group && selectedBanks.findIndex(b => b.bank === p.group.name) !== -1);
     }
 
     private download() {

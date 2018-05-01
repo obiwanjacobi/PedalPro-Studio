@@ -27,9 +27,10 @@ const reduceChangeBanks = (state: ApplicationDocument, banks: StorageBank[], ui:
 
 const reduceLoadBanks = (state: ApplicationDocument, banks: StorageBank[]): ApplicationDocument => {
     if (banks.length === 0) { return state; }
-
+    
     const builder = new ApplicationDocumentBuilder(state);
     const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
+    bankBuilder.removeRange(banks, (b1, b2) => b1.bank === b2.bank);
     bankBuilder.addRange(banks);
     builder.mutable.banks = bankBuilder.detach();
 
