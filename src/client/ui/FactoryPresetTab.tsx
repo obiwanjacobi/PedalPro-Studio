@@ -41,7 +41,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
                     enableSelectAll={!this.selection.isEmpty}
-                    statusSelectAll={this.selection.toValue()}
+                    statusSelectAll={this.selection.status}
                     onSelectAllChanged={this.toggleSelectAll}
                 />
                 <PresetView 

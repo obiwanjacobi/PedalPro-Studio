@@ -23,6 +23,9 @@ import { StorageBankList } from "./StorageBankList";
 import { PresetView } from "./PresetView";
 import { dispatchLoadBanksAction, LoadStorageBanks } from "../LoadBanksAction";
 import { dispatchLoadBankPresetsAction, LoadBankPresets } from "../LoadBankPresetsAction";
+import { SelectedView } from "../controls/SelectedView";
+import { ChangedView } from "../controls/ChangedView";
+import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -38,27 +41,45 @@ export type StoragePresetTabActions =
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
 
 export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, StoragePresetTabState> {
+    private selection: SelectedView;
+    private changed: ChangedView;
+
     public constructor(props: StoragePresetTabAllProps) {
         super(props);
+        this.selection = new SelectedView(props.presets);
+        this.changed = new ChangedView(props.presets);
+
         this.download = this.download.bind(this);
+        this.toggleSelectAll = this.toggleSelectAll.bind(this);
+    }
+
+    public shouldComponentUpdate(nextProps: StoragePresetTabAllProps, _: StoragePresetTabState): boolean {
+        return (this.props.presets !== nextProps.presets ||
+               this.props.banks !== nextProps.banks);
+    }
+
+    public componentWillReceiveProps(newProps: StoragePresetTabAllProps) {
+        const activePresets = this.calcBankPresets(newProps.banks, newProps.presets);
+        this.selection = new SelectedView(activePresets);
+        this.changed = new ChangedView(activePresets);
     }
 
     public render() {
         return (
             <FlexContainer vertical={true}>
                 <PresetToolbar 
-                    enableCopy={true}
+                    enableCopy={this.selection.anySelected}
                     onCopy={this.dummy}
                     enablePaste={true}
                     onPaste={this.dummy}
-                    enableDelete={true}
+                    enableDelete={this.selection.anySelected}
                     onDelete={this.dummy}
                     enableDownload={true}
                     onDownload={this.download}
-                    enableSelectAll={true}
-                    statusSelectAll={SelectAllButtonStatus.NoneSelected}
-                    onSelectAllChanged={this.dummy}
-                    enableUpload={true}
+                    enableSelectAll={!this.selection.isEmpty}
+                    statusSelectAll={this.selectAllStatus}
+                    onSelectAllChanged={this.toggleSelectAll}
+                    enableUpload={false}
                     onUpload={this.dummy}
                 />
                 <FlexContainer vertical={false}>
@@ -66,8 +87,8 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         <Typography style={{padding: 8}} variant="subheading">Banks</Typography>
                         <StorageBankList 
                             items={this.props.banks}
-                            changeBanks={this.props.changeBanks}
-                            loadBankPresets={this.props.loadBankPresets}
+                            changeBanks={this.actions.changeBanks}
+                            loadBankPresets={this.actions.loadBankPresets}
                         />
                     </FlexContainer>
                     <PresetView 
@@ -90,9 +111,26 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private get bankPresets(): Preset[] {
-        const selectedBanks = this.props.banks.filter(b => b.ui.selected);
+        return this.calcBankPresets(this.props.banks, this.props.presets);
+    }
+
+    private calcBankPresets(banks: StorageBank[], presets: Preset[]): Preset[] {
+        const selectedBanks = banks.filter(b => b.ui.selected);
         // @ts-ignore: goup may not be set
-        return this.props.presets.filter(p => p.group && selectedBanks.findIndex(b => b.bank === p.group.name) !== -1);
+        return presets.filter(p => p.group && selectedBanks.findIndex(b => b.bank === p.group.name) !== -1);
+    }
+
+    private get selectAllStatus(): SelectAllButtonStatus {
+        return calcSelectAllStatus(this.selection, this.changed);
+    }
+
+    private toggleSelectAll(status: SelectAllButtonStatus) {
+        const presetsToSelect = getPresetsToSelect(this.changed, status);
+
+        this.actions.changePresets(this.bankPresets, PresetCollectionType.storage, {selected: false});
+        if (presetsToSelect.length) {
+            this.actions.changePresets(presetsToSelect, PresetCollectionType.storage, {selected: true});
+        }
     }
 
     private download() {

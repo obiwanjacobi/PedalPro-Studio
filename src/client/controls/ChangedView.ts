@@ -12,6 +12,10 @@ export class ChangedView {
         this.collection = collection;
     }
 
+    public get all(): Preset[] {
+        return this.collection;
+    }
+    
     public get isEmpty(): boolean {
         if (!this.collection) { return true; }
         return this.collection.length === 0;
@@ -40,7 +44,7 @@ export class ChangedView {
         return !this.allChanged;
     }
 
-    public toValue(): SelectAllButtonStatus {
+    public get status(): SelectAllButtonStatus {
         if (this.allChanged) { return SelectAllButtonStatus.AllChanged; }
         if (this.anyChanged) { return SelectAllButtonStatus.SomeChanged; }
         return SelectAllButtonStatus.NoneSelected;

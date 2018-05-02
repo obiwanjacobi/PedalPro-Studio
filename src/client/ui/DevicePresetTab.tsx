@@ -23,6 +23,7 @@ import { ScreenState } from "../screen/ScreenState";
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
 import PastePage from "./PastePage";
+import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
@@ -110,57 +111,15 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     }
 
     private get selectAllStatus(): SelectAllButtonStatus {
-        const changed = this.changed.toValue();
-        const selected = this.selection.toValue();
-
-        if (changed === SelectAllButtonStatus.NoneSelected &&
-            selected === SelectAllButtonStatus.NoneSelected) {
-            return SelectAllButtonStatus.NoneSelected;
-        }
-
-        if (this.changed.changed.length === this.selection.selected.length) {
-            for (let i = 0; i < this.changed.changed.length; i++) {
-                if (this.changed.changed[i] !== this.selection.selected[i]) {
-                    return SelectAllButtonStatus.SomeSelected;
-                }
-            }
-
-            return SelectAllButtonStatus.AllChanged;
-        }
-
-        if (selected === SelectAllButtonStatus.AllSelected) {
-            return SelectAllButtonStatus.AllSelected;
-        }
-        
-        if (selected === SelectAllButtonStatus.SomeSelected) {
-            return SelectAllButtonStatus.SomeSelected;
-        }
-
-        return SelectAllButtonStatus.NoneSelected;
+        return calcSelectAllStatus(this.selection, this.changed);
     }
 
     private toggleSelectAll(status: SelectAllButtonStatus) {
-        let presets = this.props.presets;
-        let selectPresets = false;
-
-        switch (status) {
-            case SelectAllButtonStatus.AllChanged:
-                selectPresets = true;
-                if (this.changed.anyChanged) {
-                    presets = this.changed.changed;
-                }   // else fall back to select-all
-                break;
-            case SelectAllButtonStatus.AllSelected:
-                selectPresets = true;
-                break;
-            default:
-                break;
-        }
-
-        // TODO: make this one call
+        const presetsToSelect = getPresetsToSelect(this.changed, status);
+        
         this.actions.changePresets(this.props.presets, PresetCollectionType.device, {selected: false});
-        if (selectPresets) {
-            this.actions.changePresets(presets, PresetCollectionType.device, {selected: selectPresets});
+        if (presetsToSelect.length) {
+            this.actions.changePresets(presetsToSelect, PresetCollectionType.device, {selected: true});
         }
     }
 
