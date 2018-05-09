@@ -38,12 +38,12 @@ export interface DevicePresetTabState {}
 
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, DevicePresetTabState> {
     private selection: SelectedView;
-    private changed: ChangedView;
+    private changes: ChangedView;
 
     public constructor(props: DevicePresetTabAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
-        this.changed = new ChangedView(props.presets);
+        this.changes = new ChangedView(props.presets);
 
         // bind event handlers
         this.onCopySelected = this.onCopySelected.bind(this);
@@ -69,7 +69,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     enableSelectAll={!this.selection.isEmpty}
                     statusSelectAll={this.selectAllStatus}
                     onSelectAllChanged={this.toggleSelectAll}
-                    enableUpload={this.changed.anyChanged}
+                    enableUpload={this.changes.anyChanged}
                     onUpload={this.upload}
                 />
                 <PresetView 
@@ -96,7 +96,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
         this.selection = new SelectedView(newProps.presets);
-        this.changed = new ChangedView(newProps.presets);
+        this.changes = new ChangedView(newProps.presets);
     }
 
     protected get actions(): Readonly<DevicePresetTabActions> {
@@ -111,11 +111,11 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     }
 
     private get selectAllStatus(): SelectAllButtonStatus {
-        return calcSelectAllStatus(this.selection, this.changed);
+        return calcSelectAllStatus(this.selection, this.changes);
     }
 
     private toggleSelectAll(status: SelectAllButtonStatus) {
-        const presetsToSelect = getPresetsToSelect(this.changed, status);
+        const presetsToSelect = getPresetsToSelect(this.changes, status);
         
         this.actions.changePresets(this.props.presets, PresetCollectionType.device, {selected: false});
         if (presetsToSelect.length) {
@@ -135,11 +135,14 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     }
 
     private download() {
+        if (this.changes.anyChanged) {
+            // prompt for confirmation losing changes
+        }
         this.actions.loadPresets(PresetCollectionType.device);
     }
 
     private upload() {
-        const changedPresets = this.changed.changed;
+        const changedPresets = this.changes.changed;
         this.actions.savePresets(PresetCollectionType.device, changedPresets);
     }
 }

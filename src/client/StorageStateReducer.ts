@@ -32,6 +32,8 @@ const reduceLoadBanks = (state: ApplicationDocument, banks: StorageBank[]): Appl
     const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
     bankBuilder.removeRange(banks, (b1, b2) => b1.bank === b2.bank);
     bankBuilder.addRange(banks);
+    // clear storage presets
+    builder.mutable.storage = new Array<Preset>();
     builder.mutable.banks = bankBuilder.detach();
 
     return builder.detach();

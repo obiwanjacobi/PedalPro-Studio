@@ -11,6 +11,7 @@ import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction
 import { ChangeBanks, createChangeBanksAction } from "../ChangeBanksAction";
 import { SavePresets, createSavePresetsAction } from "../SavePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
+import { EditPreset, createEditPresetAction } from "../EditPresetAction";
 import { MovePreset, createMovePresetAction } from "../MovePresetAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../DeletePresetsAction";
@@ -37,21 +38,23 @@ export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
     ChangePresets & ChangeBanks & 
     LoadStorageBanks & LoadBankPresets &
-    SavePresets & CopyPresets & MovePreset & UpdateScreen & DeletePresets;
+    SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen & DeletePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
 
 export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, StoragePresetTabState> {
     private selection: SelectedView;
-    private changed: ChangedView;
+    private changes: ChangedView;
 
     public constructor(props: StoragePresetTabAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
-        this.changed = new ChangedView(props.presets);
+        this.changes = new ChangedView(props.presets);
 
         this.download = this.download.bind(this);
+        this.upload = this.upload.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
+        this.deleteSelectedPresets = this.deleteSelectedPresets.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: StoragePresetTabAllProps, _: StoragePresetTabState): boolean {
@@ -63,7 +66,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     public componentWillReceiveProps(newProps: StoragePresetTabAllProps) {
         const activePresets = this.calcBankPresets(newProps.banks, newProps.presets);
         this.selection = new SelectedView(activePresets);
-        this.changed = new ChangedView(activePresets);
+        this.changes = new ChangedView(activePresets);
     }
 
     public render() {
@@ -73,16 +76,16 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
                     enablePaste={this.props.hasClipboard}
-                    onPaste={this.dummy}
+                    onPaste={this.pastePresets}
                     enableDelete={this.selection.anySelected}
-                    onDelete={this.dummy}
+                    onDelete={this.deleteSelectedPresets}
                     enableDownload={true}
                     onDownload={this.download}
                     enableSelectAll={!this.selection.isEmpty}
                     statusSelectAll={this.selectAllStatus}
                     onSelectAllChanged={this.toggleSelectAll}
-                    enableUpload={this.changed.anyChanged}
-                    onUpload={this.dummy}
+                    enableUpload={this.changes.anyChanged}
+                    onUpload={this.upload}
                 />
                 <FlexContainer vertical={false}>
                     <FlexContainer vertical={true}>
@@ -98,7 +101,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         filterFlagged={true}
                         presets={this.bankPresets}
                         changePresets={this.actions.changePresets}
-                        // editPreset={this.actions.editPreset}
+                        editPreset={this.actions.editPreset}
                         movePreset={this.actions.movePreset}
                         deletePresets={this.actions.deletePresets}
                         empty={this.renderEmpty()}                
@@ -123,11 +126,11 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private get selectAllStatus(): SelectAllButtonStatus {
-        return calcSelectAllStatus(this.selection, this.changed);
+        return calcSelectAllStatus(this.selection, this.changes);
     }
 
     private toggleSelectAll(status: SelectAllButtonStatus) {
-        const presetsToSelect = getPresetsToSelect(this.changed, status);
+        const presetsToSelect = getPresetsToSelect(this.changes, status);
 
         this.actions.changePresets(this.bankPresets, PresetCollectionType.storage, {selected: false});
         if (presetsToSelect.length) {
@@ -142,12 +145,24 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         }
     }
     
+    private deleteSelectedPresets() {
+        this.actions.deletePresets(PresetCollectionType.storage, this.selection.selected);
+    }
     private download() {
+        const changed = new ChangedView(this.props.presets);
+        if (changed.anyChanged) {
+            // prompt for confirmation losing changes
+        }
         this.props.loadStorageBanks();
     }
 
     // tslint:disable-next-line:no-empty
-    private dummy() {
+    private upload() {
+        this.actions.savePresets(PresetCollectionType.storage, this.changes.changed);
+    }
+
+    // tslint:disable-next-line:no-empty
+    private pastePresets() {
     }
 
     private renderEmpty(): React.ReactNode {
@@ -194,6 +209,9 @@ const createActionObject: ActionDispatchFunc =
             },
             copyPresets: (presets: Preset[]): void => {
                 dispatch(createCopyPresetsAction(presets));
+            },
+            editPreset: (preset: Preset, update: Partial<Preset>): void => {
+                dispatch(createEditPresetAction(preset, update));
             },
             movePreset: (preset: Preset, displacement: number): void => {
                 dispatch(createMovePresetAction(preset, displacement));
