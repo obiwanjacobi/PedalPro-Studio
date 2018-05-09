@@ -5,7 +5,7 @@ import { WritePresetsApi } from "./WritePresetsApi";
 import { StoragePresetProvider } from "./storage/StoragePresetProvider";
 import { StorageManager } from "./storage/StorageManager";
 
-export class BankApi implements ApiHandler {
+export class StorageBankApi implements ApiHandler {
     public readonly uri: string = "/:bank";
     public readonly router: Express.Router = Express.Router({ mergeParams: true });
 

@@ -4,17 +4,17 @@ import { Program } from "../Program";
 import { ApiHandler, createFault } from "./ApiHandler";
 import { StorageManager } from "./storage/StorageManager";
 import { BankResponse } from "../model/Messages";
-import { BankApi } from "./BankApi";
+import { StorageBankApi } from "./StorageBankApi";
 
 export class StorageApi implements ApiHandler {
     public readonly uri: string = "/storage";
     public readonly router: express.Router = express.Router();
 
-    private readonly bankApi: BankApi;
+    private readonly bankApi: StorageBankApi;
     private readonly manager: StorageManager = new StorageManager(Program.locations.documents);
 
     public constructor() {
-        this.bankApi = new BankApi(this.manager);
+        this.bankApi = new StorageBankApi(this.manager);
         
         this.getBanks = this.getBanks.bind(this);
         
