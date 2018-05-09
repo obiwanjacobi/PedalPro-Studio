@@ -3,6 +3,7 @@ import * as Path from "path";
 import * as mkdirp from "mkdirp";
 
 import { PresetFile } from "./PresetFile";
+import { PresetFileName } from "./PresetFileName";
 
 export class Directory {
     public readonly path: string;
@@ -48,7 +49,7 @@ export class Directory {
 
         FileSystem.readdirSync(dirPath)
             .forEach(name => {
-                if (Path.extname(name) === PresetFile.FileExtension) {
+                if (Path.extname(name) === PresetFileName.FileExtension) {
                     const path = Path.join(dirPath, name);
                     const stat = FileSystem.lstatSync(path);
                     if (stat.isFile) {

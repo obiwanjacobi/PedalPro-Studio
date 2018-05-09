@@ -17,7 +17,7 @@ export class StoragePresetProvider implements PresetProvider {
     }
 
     public getEmptyPreset(): Preset {
-        throw new Error("Not Suppoered");
+        throw new Error("Not Supported");
     }
 
     public getPreset(presetIndex: number): Preset {
@@ -31,19 +31,28 @@ export class StoragePresetProvider implements PresetProvider {
         return this.cache;
     }
 
-    public getPresetsPaged(_: number, __: number): Preset[] {
-        throw new Error("Not Suppoered");
+    public getPresetsPaged(page: number, size: number): Preset[] {
+        const start = page * size;
+        return this.getPresets().slice(start, start + size);
     }
 
-    public putPreset(_: Preset): void {
-        throw new Error("Not Suppoered");
+    public putPreset(preset: Preset): void {
+        this.storageMgr.writePreset(this.bank, preset);
+        this.cache = undefined;
     }
 
-    public putPresets(_: Preset[]): void {
-        throw new Error("Not Suppoered");
+    public putPresets(presets: Preset[]): void {
+        for (let i = 0; i < presets.length; i++) {
+            const preset = presets[i];
+            this.storageMgr.writePreset(this.bank, preset);
+        }
+        this.cache = undefined;
     }
 
-    public deletePreset(_: number): Preset {
-        throw new Error("Not Suppoered");
+    public deletePreset(presetIndex: number): Preset {
+        const preset = this.getPresets()[presetIndex];
+        this.storageMgr.deletePreset(this.bank, presetIndex);
+        this.cache = undefined;
+        return preset;
     }
 }

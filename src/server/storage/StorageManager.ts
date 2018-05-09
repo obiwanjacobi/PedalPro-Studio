@@ -4,6 +4,7 @@ import { Bank } from "../../model/Storage";
 import { Directory } from "./Directory";
 import { PresetFile } from "./PresetFile";
 import { Preset } from "../../model/Preset";
+import { PresetFileName } from "./PresetFileName";
 
 export class StorageManager {
     private readonly dir: Directory;
@@ -34,10 +35,30 @@ export class StorageManager {
         return presets;
     }
 
+    public writePreset(bank: string, preset: Preset) {
+        const file = this.getPresetFile(bank, preset.index);
+        file.write(preset);
+    }
+
+    public deletePreset(bank: string, presetIndex: number) {
+        const file = this.getPresetFile(bank, presetIndex);
+        file.delete();
+    }
+
     private getFiles(bank: string): PresetFile[] {
-        const path = Path.join(this.dir.path, bank);
-        const dir = new Directory(path);
+        const dir = this.getBankDirectory(bank);
         return dir.files();
+    }
+
+    private getPresetFile(bank: string, index: number) {
+        const dir = this.getBankDirectory(bank);
+        const fileName = new PresetFileName(index);
+        return new PresetFile(fileName.toFilePath(dir.path));
+    }
+
+    private getBankDirectory(bank: string): Directory {
+        const path = Path.join(this.dir.path, bank);
+        return new Directory(path);
     }
 
     // private getFile(file: FileInfo): PresetFile {

@@ -30,7 +30,8 @@ import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedCha
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
     banks: StorageBank[];
-    presets: Preset[];    
+    presets: Preset[];
+    hasClipboard: boolean;
 }
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
@@ -55,7 +56,8 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 
     public shouldComponentUpdate(nextProps: StoragePresetTabAllProps, _: StoragePresetTabState): boolean {
         return (this.props.presets !== nextProps.presets ||
-               this.props.banks !== nextProps.banks);
+               this.props.banks !== nextProps.banks) ||
+               this.props.hasClipboard !== nextProps.hasClipboard;
     }
 
     public componentWillReceiveProps(newProps: StoragePresetTabAllProps) {
@@ -69,8 +71,8 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
             <FlexContainer vertical={true}>
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
-                    onCopy={this.dummy}
-                    enablePaste={true}
+                    onCopy={this.onCopySelected}
+                    enablePaste={this.props.hasClipboard}
                     onPaste={this.dummy}
                     enableDelete={this.selection.anySelected}
                     onDelete={this.dummy}
@@ -79,7 +81,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     enableSelectAll={!this.selection.isEmpty}
                     statusSelectAll={this.selectAllStatus}
                     onSelectAllChanged={this.toggleSelectAll}
-                    enableUpload={false}
+                    enableUpload={this.changed.anyChanged}
                     onUpload={this.dummy}
                 />
                 <FlexContainer vertical={false}>
@@ -97,7 +99,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         presets={this.bankPresets}
                         changePresets={this.actions.changePresets}
                         // editPreset={this.actions.editPreset}
-                        // movePreset={this.actions.movePreset}
+                        movePreset={this.actions.movePreset}
                         deletePresets={this.actions.deletePresets}
                         empty={this.renderEmpty()}                
                     />
@@ -133,6 +135,13 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         }
     }
 
+    private onCopySelected() {
+        const selectedPresets = this.selection.selected;
+        if (selectedPresets.length > 0) {
+            this.actions.copyPresets(selectedPresets);
+        }
+    }
+    
     private download() {
         this.props.loadStorageBanks();
     }
@@ -161,7 +170,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 type ExtractStatePropFunc = MapStateToProps<StoragePresetTabStoreProps, StoragePresetTabProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: StoragePresetTabProps): StoragePresetTabStoreProps => {
-        return  { banks: state.banks, presets: state.storage };
+        return  { banks: state.banks, presets: state.storage, hasClipboard: state.clipboard.length > 0 };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<StoragePresetTabActions, StoragePresetTabProps>;

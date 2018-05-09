@@ -6,6 +6,7 @@ import * as ModelPreset from "../model/Preset";
 import { PresetTraits } from "../model/PresetTraits";
 import { Effects, EffectsEx } from "../model/Effects";
 import { PresetMeta } from "../model/PresetMeta";
+import { numberToString } from "../StringExtensions";
 
 export interface PresetGroup {
     /**
@@ -93,7 +94,7 @@ export function presetHasChanged(preset: Preset): boolean {
 export function formatPresetIndex(preset: Preset): string {
     const value = preset.index;
     // formats 3 digits with leading zeros
-    return (String(0).repeat(3) + String(value)).slice(String(value).length);
+    return numberToString(value, 3);
 }
 
 export function presetsExceptUiAreEqual(preset1: Preset, preset2: Preset): boolean {

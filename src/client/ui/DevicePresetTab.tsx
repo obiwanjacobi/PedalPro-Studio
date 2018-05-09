@@ -28,7 +28,7 @@ import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedCha
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
     presets: Preset[];
-    clipboard: Preset[];
+    hasClipboard: boolean;
 }
 export type DevicePresetTabActions = 
     ChangePresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen & DeletePresets;
@@ -60,7 +60,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                 <PresetToolbar 
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
-                    enablePaste={this.props.clipboard.length > 0}
+                    enablePaste={this.props.hasClipboard}
                     onPaste={this.pasteClipboard}
                     enableDelete={this.selection.anySelected}
                     onDelete={this.onDeleteSelected}
@@ -91,7 +91,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: DevicePresetTabState): boolean {
         return (this.props.presets !== nextProps.presets ||
-               this.props.clipboard !== nextProps.clipboard);
+               this.props.hasClipboard !== nextProps.hasClipboard);
     }
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
@@ -147,7 +147,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 type ExtractStatePropFunc = MapStateToProps<DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
-        return  { presets: state.device, clipboard: state.clipboard };
+        return  { presets: state.device, hasClipboard: state.clipboard.length > 0 };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps>;
