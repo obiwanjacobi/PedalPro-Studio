@@ -2,7 +2,7 @@ import * as React from "react";
 import { Collapse, Grid, Paper, Checkbox, IconButton, Typography } from "material-ui";
 import { ExpandMore, ExpandLess } from "material-ui-icons";
 
-import { PresetChangedFlag } from "./PresetChangedFlag";
+import { PresetChangedFlag } from "../controls/PresetChangedFlag";
 import { PresetListItemDetail } from "./PresetListItemDetail";
 import { Preset, formatPresetIndex } from "../Preset";
 import { ChangePresets } from "../ChangePresetsAction";

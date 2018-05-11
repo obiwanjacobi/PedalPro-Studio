@@ -16,7 +16,7 @@ import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAc
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
-import { PresetChangedFlag } from "./PresetChangedFlag";
+import { PresetChangedFlag } from "../controls/PresetChangedFlag";
 
 interface ClipboardListItemProps {
     preset: Preset;
