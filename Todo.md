@@ -41,6 +41,8 @@
 ## Bugs
 
 - [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
+- Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
+- Paste Empty shows garbage-can (x) target in the overwritten list.
 
 Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
 Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).
