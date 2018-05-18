@@ -20,13 +20,15 @@ import { StorageBank } from "../StorageBank";
 import { Preset } from "../Preset";
 import { ItemUI } from "../ItemUI";
 import { ScreenState } from "../screen/ScreenState";
-import { StorageBankList } from "./StorageBankList";
 import { PresetView } from "./PresetView";
 import { dispatchLoadBanksAction, LoadStorageBanks } from "../LoadBanksAction";
 import { dispatchLoadBankPresetsAction, LoadBankPresets } from "../LoadBankPresetsAction";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
+import { StorageBankView } from "./StorageBankView";
+import { createAddBankAction, AddBank } from "../AddBankAction";
+import PastePage from "./PastePage";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -36,7 +38,7 @@ export interface StoragePresetTabStoreProps {
 }
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
-    ChangePresets & ChangeBanks & 
+    ChangePresets & ChangeBanks & AddBank &
     LoadStorageBanks & LoadBankPresets &
     SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen & DeletePresets;
 
@@ -53,6 +55,8 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 
         this.download = this.download.bind(this);
         this.upload = this.upload.bind(this);
+        this.onCopySelected = this.onCopySelected.bind(this);
+        this.pastePresets = this.pastePresets.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
         this.deleteSelectedPresets = this.deleteSelectedPresets.bind(this);
     }
@@ -88,14 +92,12 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     onUpload={this.upload}
                 />
                 <FlexContainer vertical={false}>
-                    <FlexContainer vertical={true}>
-                        <Typography style={{padding: 8}} variant="subheading">Banks</Typography>
-                        <StorageBankList 
-                            items={this.props.banks}
-                            changeBanks={this.actions.changeBanks}
-                            loadBankPresets={this.actions.loadBankPresets}
-                        />
-                    </FlexContainer>
+                    <StorageBankView 
+                        banks={this.props.banks}
+                        addBank={this.actions.addBank}
+                        changeBanks={this.actions.changeBanks}
+                        loadBankPresets={this.actions.loadBankPresets}
+                    />
                     <PresetView 
                         filterEmpty={false}
                         filterFlagged={true}
@@ -107,6 +109,11 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         empty={this.renderEmpty()}                
                     />
                 </FlexContainer>
+                <PastePage 
+                    targetCollection={PresetCollectionType.storage} 
+                    presets={this.props.presets} 
+                    banks={this.props.banks}
+                />
             </FlexContainer>
         );
     }
@@ -148,6 +155,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     private deleteSelectedPresets() {
         this.actions.deletePresets(PresetCollectionType.storage, this.selection.selected);
     }
+
     private download() {
         const changed = new ChangedView(this.props.presets);
         if (changed.anyChanged) {
@@ -163,6 +171,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 
     // tslint:disable-next-line:no-empty
     private pastePresets() {
+        this.props.updateScreen({pasteOpen: true});
     }
 
     private renderEmpty(): React.ReactNode {
@@ -197,6 +206,9 @@ const createActionObject: ActionDispatchFunc =
             },
             loadBankPresets: (bank: string): void => {
                 dispatchLoadBankPresetsAction(dispatch, bank);
+            },
+            addBank: (): void => {
+                dispatch(createAddBankAction());
             },
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 createSavePresetsAction(dispatch, source, presets);

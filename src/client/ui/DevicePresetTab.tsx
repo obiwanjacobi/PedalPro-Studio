@@ -84,7 +84,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                         Press <FileDownload/> to retrieve the presets.
                     </Typography>}
                 />
-                <PastePage />
+                <PastePage 
+                    targetCollection={PresetCollectionType.device} 
+                    presets={this.props.presets}
+                />
             </FlexContainer>
         );
     }

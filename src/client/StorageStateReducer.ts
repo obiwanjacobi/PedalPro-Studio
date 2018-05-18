@@ -9,6 +9,7 @@ import { reduceFault } from "./FaultStateReducer";
 import { LoadBankPresetsAction } from "./LoadBankPresetsAction";
 import { PresetArrayBuilder } from "./PresetBuilder";
 import { Preset } from "./Preset";
+import { AddBankAction } from "./AddBankAction";
 
 const reduceChangeBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
     ApplicationDocument => {
@@ -57,7 +58,23 @@ const reduceLoadBankPresets = (state: ApplicationDocument, presets: Preset[]): A
     return builder.detach();
 };
 
-export type StorageAction = LoadBanksAction | LoadBankPresetsAction | ChangeBanksAction;
+const reduceAddBank = (state: ApplicationDocument): ApplicationDocument => {
+    const builder = new ApplicationDocumentBuilder(state);
+    const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
+    bankBuilder.add({ 
+        bank: "new", 
+        loaded: false, 
+        ui: { 
+            selected: false, 
+            expanded: true, 
+            markedDeleted: false
+        }
+    });
+    builder.mutable.banks = bankBuilder.detach();
+    return builder.detach();
+};
+
+export type StorageAction = AddBankAction | LoadBanksAction | LoadBankPresetsAction | ChangeBanksAction;
 
 export const reduce = (state: ApplicationDocument, action: StorageAction): ApplicationDocument => {
     switch (action.type) {
@@ -78,6 +95,9 @@ export const reduce = (state: ApplicationDocument, action: StorageAction): Appli
             return reduceLoadBankPresets(state, action.presets);
         }
         break;
+
+        case "C/storage/*":
+        return reduceAddBank(state);
 
         case "U/storage/*/ui":
         return reduceChangeBanks(state, action.banks, action.ui);

@@ -92,7 +92,8 @@ const reduceCopyPresets = (
 const reducePastePresets = (
     state: ApplicationDocument, 
     presets: Preset[], 
-    target: PresetCollectionType): ApplicationDocument => {
+    target: PresetCollectionType,
+    deleteAfterPaste: boolean): ApplicationDocument => {
     if (presets.length === 0) { return state; }
     if (target === PresetCollectionType.clipboard) { return state; }
 
@@ -113,11 +114,14 @@ const reducePastePresets = (
         return presetBuilder.detach();
     });
     
-    builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
-        const presetBuilder = new PresetArrayBuilder(clipboardPresets);
-        presetBuilder.removeRange(presets);
-        return presetBuilder.detach();
-    });
+    if (deleteAfterPaste) {
+        builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
+            const presetBuilder = new PresetArrayBuilder(clipboardPresets);
+            presetBuilder.removeRange(presets);
+            return presetBuilder.detach();
+        });
+    }
+
     return builder.detach();
 };
 
@@ -215,7 +219,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         return reduceCopyPresets(state, action.presets);
 
         case "C/*/presets/":
-        return reducePastePresets(state, action.presets, action.target);
+        return reducePastePresets(state, action.presets, action.target, action.deleteAfterPaste);
 
         case "U/*/presets/.*":
         return reduceEditPreset(state, action.preset, action.update);

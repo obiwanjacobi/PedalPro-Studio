@@ -7,12 +7,16 @@ export interface PastePresetsAction {
     readonly type: "C/*/presets/";
     readonly presets: Preset[];
     readonly target: PresetCollectionType;
+    readonly deleteAfterPaste: boolean;
 }
 
-export const createPastePresetsAction = (presets: Preset[], target: PresetCollectionType): PastePresetsAction => {
-    return <PastePresetsAction> { type: PastePresetsActionKey, presets: presets, target: target };
+export const createPastePresetsAction = 
+    (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean = true): PastePresetsAction => {
+    return <PastePresetsAction> { 
+        type: PastePresetsActionKey, presets: presets, target: target, deleteAfterPaste: deleteAfterPaste 
+    };
 };
 
 export interface PastePresets {
-    pastePresets(presets: Preset[], target: PresetCollectionType): void;
+    pastePresets(presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void;
 }
