@@ -28,7 +28,7 @@ import { ChangedView } from "../controls/ChangedView";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 import { StorageBankView } from "./StorageBankView";
 import { createAddBankAction, AddBank } from "../AddBankAction";
-import PastePage from "./PastePage";
+import StoragePastePage from "./StoragePastePage";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -109,11 +109,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         empty={this.renderEmpty()}                
                     />
                 </FlexContainer>
-                <PastePage 
-                    targetCollection={PresetCollectionType.storage} 
-                    presets={this.props.presets} 
-                    banks={this.props.banks}
-                />
+                <StoragePastePage />
             </FlexContainer>
         );
     }

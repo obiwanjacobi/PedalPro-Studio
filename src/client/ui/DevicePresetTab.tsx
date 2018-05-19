@@ -22,7 +22,7 @@ import { DeletePresets, createDeletePresetsAction } from "../DeletePresetsAction
 import { ScreenState } from "../screen/ScreenState";
 import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
-import PastePage from "./PastePage";
+import DevicePastePage from "./DevicePastePage";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 
 export interface DevicePresetTabProps { }
@@ -84,10 +84,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                         Press <FileDownload/> to retrieve the presets.
                     </Typography>}
                 />
-                <PastePage 
-                    targetCollection={PresetCollectionType.device} 
-                    presets={this.props.presets}
-                />
+                <DevicePastePage />
             </FlexContainer>
         );
     }

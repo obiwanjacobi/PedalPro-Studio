@@ -2,13 +2,13 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { 
-    FormControl, FormControlLabel, RadioGroup, Radio, Select, MenuItem,
-    Grid, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Checkbox, Dialog, Typography, Button 
+    FormControl, FormControlLabel, RadioGroup, Radio, 
+    Grid, IconButton, List, Checkbox, Dialog, Typography, Button 
 } from "material-ui";
 import { Clear } from "material-ui-icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { Preset, formatPresetIndex } from "../Preset";
+import { Preset } from "../Preset";
 import { ItemUI } from "../ItemUI";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
 import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
@@ -16,85 +16,8 @@ import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAc
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
-import { PresetChangedFlag } from "../controls/PresetChangedFlag";
-import { StorageBank } from "../StorageBank";
-
-interface ClipboardListItemProps {
-    preset: Preset;
-}
-type ClipboardListItemAllProps = ClipboardListItemProps & ChangePresets;
-
-class ClipboardListItem extends React.Component<ClipboardListItemAllProps> {
-    public constructor(props: ClipboardListItemAllProps) {
-        super(props);
-        this.onSelectPreset = this.onSelectPreset.bind(this);
-    }
-
-    public render() {
-        return (
-            <ListItem button={true} onClick={this.onSelectPreset}>
-                <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.preset.ui.selected} />
-                <ListItemText primary={this.title} secondary={this.props.preset.source.toUpperCase()} />
-                <ListItemSecondaryAction />
-            </ListItem>
-        );
-    }
-
-    private get title() {
-        return formatPresetIndex(this.props.preset) + "  -  " + this.props.preset.name;
-    }
-    private onSelectPreset(_: React.MouseEvent<HTMLElement>) {
-        this.props.changePresets(
-            [this.props.preset], PresetCollectionType.clipboard, 
-            { selected: !this.props.preset.ui.selected });
-    }
-}
-
-interface OverwrittenListItemProps {
-    preset: Preset;
-}
-
-class OverwrittenListItem extends React.Component<OverwrittenListItemProps> {
-    public constructor(props: OverwrittenListItemProps) {
-        super(props);
-    }
-
-    public render() {
-        return (
-            <ListItem>
-                <ListItemText primary={this.title} secondary={this.props.preset.origin.name} />
-                <ListItemSecondaryAction>
-                    {!this.notFound &&
-                    <PresetChangedFlag preset={this.props.preset} />}
-                </ListItemSecondaryAction>
-            </ListItem>
-        );
-    }
-
-    private get title() {
-        if (this.notFound) { return this.props.preset.name; }
-        return formatPresetIndex(this.props.preset) + "  -  " + this.props.preset.name;
-    }
-
-    private get notFound(): boolean {
-        return this.props.preset === NotFoundPreset;
-    }
-}
-
-const NotFoundPreset: Preset = {
-    name: "<No Match>",
-    index: -1,
-    source: PresetCollectionType.device,
-    origin: {
-        name: "",
-        index: -1,
-        meta: { device: "" },
-        traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false},
-    },
-    ui: { selected: false, expanded: false, markedDeleted: false },
-    meta: { device: "" },
-    traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false},
-};
+import { ClipboardListItem } from "./ClipboardListItem";
+import { OverwrittenListItem, NotFoundPreset } from "./OverwrittenListItem";
 
 enum PasteType {
     None = "none",
@@ -103,27 +26,26 @@ enum PasteType {
     Empty = "empty"
 }
 
-export interface PastePageProps {
-    targetCollection: PresetCollectionType;
-    presets: Preset[];
-    banks?: StorageBank[];
-}
-export interface PastePageState {
+export interface DevicePastePageProps {}
+export interface DevicePastePageState {
     pasteType: string;
     removeSelected: boolean;
 }
-export interface PastePageStateProps {
+export interface DevicePastePageStateProps {
     open: boolean;
     clipboard: Preset[];
+    presets: Preset[];
 }
-export type PastePageActions = ChangePresets & PastePresets & UpdateScreen;
-export type PastePageAllProps = PastePageProps & PastePageStateProps & PastePageActions;
+export type DevicePastePageActions = ChangePresets & PastePresets & UpdateScreen;
+export type DevicePastePageAllProps = DevicePastePageProps & DevicePastePageStateProps & DevicePastePageActions;
 
-export class PastePage extends React.Component<PastePageAllProps, PastePageState> {
+export class DevicePastePage extends React.Component<DevicePastePageAllProps, DevicePastePageState> {
     private selection: SelectedView;
 
-    public constructor(props: PastePageAllProps) {
+    public constructor(props: DevicePastePageAllProps) {
         super(props);
+        this.selection = new SelectedView(props.clipboard);
+        
         this.state = { pasteType: PasteType.None, removeSelected: false };
         this.close = this.close.bind(this);
         this.onPasteTypeChange = this.onPasteTypeChange.bind(this);
@@ -131,7 +53,7 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
         this.overwrite = this.overwrite.bind(this);
     }
 
-    public componentWillReceiveProps(newProps: PastePageAllProps) {
+    public componentWillReceiveProps(newProps: DevicePastePageAllProps) {
         this.selection = new SelectedView(newProps.clipboard);
     }
 
@@ -142,10 +64,8 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
+                    <Typography variant="subheading" style={{flex: 1}}>DEVICE</Typography>
                     <Typography variant="title" style={{flex: 1}}>Paste Presets</Typography>
-                    <Typography variant="subheading" style={{flex: 1}}>
-                        {this.props.targetCollection.toUpperCase()}
-                    </Typography>
                     <Button onClick={this.overwrite} disabled={this.hasResult}>
                         Overwrite
                     </Button>
@@ -179,24 +99,8 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
                                 <RadioGroup value={this.state.pasteType} onChange={this.onPasteTypeChange}>
                         <FormControlLabel value={PasteType.Index} label="Replace by Index" control={<Radio/>} />
                         <FormControlLabel value={PasteType.Name} label="Replace by Name" control={<Radio/>} />
-                        {this.props.targetCollection !== PresetCollectionType.storage &&
                         <FormControlLabel value={PasteType.Empty} label="Replace empty." control={<Radio/>} />}
                                 </RadioGroup>
-                            
-                                {this.props.banks && this.props.banks.length > 0 &&
-                                <React.Fragment>
-                                    <Typography variant="body2">Storage Bank</Typography>
-                                    <Select value={this.props.banks[0].bank}>
-                                        {this.props.banks.map((bank: StorageBank, index: number) => {
-                                            return (
-                                                <MenuItem key={index} value={bank.bank}>
-                                                    <Typography>{bank.bank}</Typography>
-                                                </MenuItem>
-                                            );
-                                        })}
-                                    </Select>
-                                </React.Fragment>}
-
                             </FormControl>
                         </Grid>
                         <Grid item={true} xs={4}>
@@ -225,11 +129,12 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
     private onRemoveSelectedChange() {
         this.modifyState({removeSelected: !this.state.removeSelected});
     }
+    
     private onPasteTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
         this.modifyState({pasteType: event.target.value});
     }
 
-    private modifyState(state: Partial<PastePageState>) {
+    private modifyState(state: Partial<DevicePastePageState>) {
         this.setState({ ...this.state, ...state });
     }
 
@@ -275,19 +180,19 @@ export class PastePage extends React.Component<PastePageAllProps, PastePageState
     }
 
     private overwrite() {
-        this.props.pastePresets(this.pastedPresets(), this.props.targetCollection, this.state.removeSelected);
+        this.props.pastePresets(this.pastedPresets(), PresetCollectionType.device, this.state.removeSelected);
         this.close();
     }
 }
 
 const extractComponentPropsFromState: MapStateToProps<
-        PastePageStateProps, PastePageProps, ApplicationDocument
-    > = (state: ApplicationDocument, _: PastePageProps): PastePageStateProps => {
-        return  { clipboard: state.clipboard, open: state.screen.pasteOpen };
+        DevicePastePageStateProps, DevicePastePageProps, ApplicationDocument
+    > = (state: ApplicationDocument, _: DevicePastePageProps): DevicePastePageStateProps => {
+        return  { presets: state.device, clipboard: state.clipboard, open: state.screen.pasteOpen };
 };
 
-const createActionObject: MapDispatchToPropsFunction<PastePageActions, PastePageProps> =
-    (dispatch: Dispatch<ApplicationDocument>, _: PastePageProps): PastePageActions => {
+const createActionObject: MapDispatchToPropsFunction<DevicePastePageActions, DevicePastePageProps> =
+    (dispatch: Dispatch<ApplicationDocument>, _: DevicePastePageProps): DevicePastePageActions => {
         return {
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
@@ -301,4 +206,4 @@ const createActionObject: MapDispatchToPropsFunction<PastePageActions, PastePage
         };
 };
 
-export default connect(extractComponentPropsFromState, createActionObject)(PastePage);
+export default connect(extractComponentPropsFromState, createActionObject)(DevicePastePage);

@@ -108,3 +108,24 @@ export const reduce = (state: ApplicationDocument, action: StorageAction): Appli
 
     return state;
 };
+
+export const reducePasteStoragePresets = 
+    (state: ApplicationDocument, presets: Preset[], deleteAfterPaste: boolean): ApplicationDocument => {
+
+    if (presets.length === 0) { return state; }
+
+    var builder = new ApplicationDocumentBuilder(state);
+    var storageBuilder = new PresetArrayBuilder(builder.mutable.storage);
+
+    storageBuilder.addRange(presets);
+    builder.mutable.storage = storageBuilder.detach();
+
+    if (deleteAfterPaste) {
+        builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
+            const presetBuilder = new PresetArrayBuilder(clipboardPresets);
+            presetBuilder.removeRange(presets);
+            return presetBuilder.detach();
+        });
+    }
+    return builder.detach();
+}
