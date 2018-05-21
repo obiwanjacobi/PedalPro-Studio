@@ -1,5 +1,5 @@
 import * as ModelPreset from "../model/Preset";
-import { Preset } from "./Preset";
+import { Preset, presetsExceptIndexUiEqual } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { ChangePresetsAction } from "./ChangePresetsAction";
@@ -119,7 +119,7 @@ const reducePastePresets = (
     if (deleteAfterPaste) {
         builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
             const presetBuilder = new PresetArrayBuilder(clipboardPresets);
-            presetBuilder.removeRange(presets);
+            presetBuilder.removeRange(presets, presetsExceptIndexUiEqual);
             return presetBuilder.detach();
         });
     }

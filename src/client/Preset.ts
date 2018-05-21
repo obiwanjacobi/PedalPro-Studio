@@ -65,13 +65,6 @@ function effectsEqual(
     return false;
 }
 
-function presetsExceptIndexEqual(preset1: ModelPreset.Preset, preset2: ModelPreset.Preset): boolean {
-    return lodash.isEqual(preset1.name, preset2.name) &&
-           metaEqual(preset1.meta, preset2.meta) &&
-           traitsEqual(preset1.traits, preset2.traits) &&
-           effectsEqual(preset1.effects, preset2.effects);
-}
-
 function presetGroupAreEqual(preset1: Preset, preset2: Preset): boolean {
     if (preset1.group && preset2.group) {
         return preset1.group.name === preset2.group.name;
@@ -79,16 +72,23 @@ function presetGroupAreEqual(preset1: Preset, preset2: Preset): boolean {
     return preset1.group === preset2.group;
 }
 
+export function presetsExceptIndexUiEqual(preset1: ModelPreset.Preset, preset2: ModelPreset.Preset): boolean {
+    return lodash.isEqual(preset1.name, preset2.name) &&
+           metaEqual(preset1.meta, preset2.meta) &&
+           traitsEqual(preset1.traits, preset2.traits) &&
+           effectsEqual(preset1.effects, preset2.effects);
+}
+
 export function onlyIndexHasChanged(preset: Preset): boolean {
     if (!preset.origin) { return false; }
     return preset.origin.index !== preset.index &&
-           presetsExceptIndexEqual(preset, preset.origin);
+           presetsExceptIndexUiEqual(preset, preset.origin);
 }
 
 export function presetHasChanged(preset: Preset): boolean {
     if (!preset.origin) { return false; }
     return preset.origin.index !== preset.index ||
-           !presetsExceptIndexEqual(preset, preset.origin);
+           !presetsExceptIndexUiEqual(preset, preset.origin);
 }
 
 export function formatPresetIndex(preset: Preset): string {
@@ -101,5 +101,5 @@ export function presetsExceptUiAreEqual(preset1: Preset, preset2: Preset): boole
     return preset1.index === preset2.index &&
         preset1.source === preset2.source &&
         presetGroupAreEqual(preset1, preset2) &&
-        presetsExceptIndexEqual(preset1, preset2);
+        presetsExceptIndexUiEqual(preset1, preset2);
 }
