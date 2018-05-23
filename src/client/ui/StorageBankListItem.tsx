@@ -32,7 +32,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
     }
 
     private loadPresets() {
-        if (!this.props.bank.loaded) {
+        if (!this.props.bank.loaded && this.props.bank.created) {
             this.props.loadBankPresets(this.props.bank.bank);
         }
         this.toggleSelected();

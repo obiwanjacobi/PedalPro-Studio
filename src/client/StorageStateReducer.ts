@@ -64,6 +64,7 @@ const reduceAddBank = (state: ApplicationDocument): ApplicationDocument => {
     bankBuilder.add({ 
         bank: "new", 
         loaded: false, 
+        created: false,
         ui: { 
             selected: false, 
             expanded: true, 
