@@ -1,6 +1,6 @@
-import { Dispatch } from "redux";
+import { Dispatch } from "react-redux";
 
-import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
+import { PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient, PresetsClient } from "./Client";
 import { Preset } from "./Preset";
 
@@ -20,13 +20,15 @@ export const createLoadBankPresetsErrorAction = (error: Error) => {
     return { type: LoadBankPresetsActionKey, error: error };
 };
 
-const loadBankPresets = async (presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>, bank: string) => {
+const loadBankPresets = 
+    async (presetClient: PresetsClient, dispatch: Dispatch<LoadBankPresetsAction>, bank: string) => {
+
     const presets = await presetClient.getBankPresets(bank);
     dispatch(createLoadBankPresetsAction(presets));
 };
 
 export async function dispatchLoadBankPresetsAction(
-    dispatch: Dispatch<ApplicationDocument>, bank: string): Promise<void> {
+    dispatch: Dispatch<LoadBankPresetsAction>, bank: string): Promise<void> {
 
     const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect, MapStateToProps } from "react-redux";
-import { LinearProgress, Popover, Typography } from "material-ui";
+import { LinearProgress, Popover, Typography } from "@material-ui/core";
 
 import { ProgressInfo } from "./ScreenState";
 import { ApplicationDocument } from "../ApplicationDocument";

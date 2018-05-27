@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Grid, IconButton } from "material-ui";
-import Input, { InputAdornment } from "material-ui/Input";
-import { Delete, Save, Undo, ArrowUpward, ArrowDownward } from "material-ui-icons";
+import { Grid, IconButton, Input, InputAdornment } from "@material-ui/core";
+import { Delete, Save, Undo, ArrowUpward, ArrowDownward } from "@material-ui/icons";
 
 import { Preset } from "../Preset";
 import { EditPreset } from "../EditPresetAction";

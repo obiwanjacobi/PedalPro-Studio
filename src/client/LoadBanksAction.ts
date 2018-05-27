@@ -1,5 +1,5 @@
 import { StorageBank } from "./StorageBank";
-import { PresetCollectionType, ApplicationDocument } from "./ApplicationDocument";
+import { PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient, PresetsClient } from "./Client";
 import { Dispatch } from "react-redux";
 
@@ -19,12 +19,12 @@ export const createLoadBanksErrorAction = (error: Error) => {
     return { type: LoadBanksActionKey, error: error };
 };
 
-const loadStorageBanks = async (presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) => {
+const loadStorageBanks = async (presetClient: PresetsClient, dispatch: Dispatch<LoadBanksAction>) => {
     const banks = await presetClient.getBanks();
     dispatch(createLoadBanksAction(banks));
 };
 
-export async function dispatchLoadBanksAction(dispatch: Dispatch<ApplicationDocument>): Promise<void> {
+export async function dispatchLoadBanksAction(dispatch: Dispatch<LoadBanksAction>): Promise<void> {
     const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
 
     try {

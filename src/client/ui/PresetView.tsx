@@ -1,7 +1,6 @@
 import * as React from "react";
-import { IconButton, Typography } from "material-ui";
-import Input, { InputAdornment } from "material-ui/Input";
-import { Clear } from "material-ui-icons";
+import { IconButton, Input, InputAdornment, Typography } from "@material-ui/core";
+import { Clear } from "@material-ui/icons";
 import { 
     CheckboxMultipleMarkedOutline, CheckboxMultipleMarked, 
     Flag, FlagOutline, 

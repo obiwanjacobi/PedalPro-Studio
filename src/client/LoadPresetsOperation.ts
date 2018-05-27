@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import { Dispatch } from "react-redux";
 
 import { PresetsClient } from "./Client";
 import { ApplicationDocument } from "./ApplicationDocument";
@@ -6,13 +6,13 @@ import { createDeviceInfoAction } from "./DevciceInfoAction";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { createUpdateScreenAction } from "./screen/UpdateScreenAction";
 import { ProgressInfo } from "./screen/ScreenState";
-import { createLoadPresetsAction, createLoadPresetsErrorAction } from "./LoadPresetsAction";
+import { createLoadPresetsAction, createLoadPresetsErrorAction, LoadPresetsAction } from "./LoadPresetsAction";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
 
 const pageSize = 20;
 
 export async function loadAllPresets(
-    presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>): Promise<void> {
+    presetClient: PresetsClient, dispatch: Dispatch<LoadPresetsAction>): Promise<void> {
         const presets = await presetClient.getPresets();
         dispatch(createLoadPresetsAction(presetClient.collection, presets));
 }
@@ -26,13 +26,13 @@ const makeProgressInfo = (deviceInfo: DeviceIdentity, currentPreset: number): Pr
 };
 
 async function loadPresetsPaged(
-    presetClient: PresetsClient, page: number, dispatch: Dispatch<ApplicationDocument>, progress: ProgressInfo) {
+    presetClient: PresetsClient, page: number, dispatch: Dispatch<LoadPresetsAction>, progress: ProgressInfo) {
     const presets = await presetClient.getPresetsPaged(page, pageSize);
     dispatch(createLoadPresetsAction(presetClient.collection, presets, progress));
 }
 
 async function loadPresets(
-        deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) {
+        deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<LoadPresetsAction>) {
     try {
         for (let page = 0; page < deviceInfo.presetCount / pageSize; page++) {
             const progress = makeProgressInfo(deviceInfo, page * pageSize);
@@ -47,9 +47,13 @@ async function loadPresets(
 }
 
 export const progressLoadPresets = (
-    presetClient: PresetsClient, dispatch: Dispatch<ApplicationDocument>) => {
+    presetClient: PresetsClient, dispatch: Dispatch) => {
 
-        dispatch(async (disp: Dispatch<ApplicationDocument>, getState: () => ApplicationDocument) => {
+        // since updating (redux/thunk/TS) this errors out: 
+        //   the thunk extension on Dispatch is not recognized.
+        // At runtime it still works though...
+        // @ts-ignore
+        dispatch(async (disp: Dispatch, getState: () => ApplicationDocument) => {
             const appDoc = getState();
             let deviceInfo = appDoc.deviceInfo;
         
@@ -62,7 +66,7 @@ export const progressLoadPresets = (
 
                 await loadPresets(deviceInfo, presetClient, disp);
             } catch (error) {
-                dispatch(createLoadPresetsErrorAction(presetClient.collection, error));
+                disp(createLoadPresetsErrorAction(presetClient.collection, error));
             }
         });
 };

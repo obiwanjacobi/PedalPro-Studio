@@ -1,6 +1,6 @@
-import { Dispatch } from "redux";
+import { Dispatch } from "react-redux";
 
-import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
+import { PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient } from "./Client";
 import { Preset } from "./Preset";
 
@@ -14,7 +14,7 @@ export interface SavePresetsAction {
 }
 
 export const createSavePresetsAction = 
-    (dispatch: Dispatch<ApplicationDocument>, 
+    (dispatch: Dispatch<SavePresetsAction>, 
      source: PresetCollectionType, presets: Preset[]): void => {
         DefaultClient.getSource(source).replacePresets(presets)
             .then((result) => {

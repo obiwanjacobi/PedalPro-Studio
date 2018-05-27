@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { 
     FormControlLabel, Select, MenuItem,
     Grid, IconButton, List, Checkbox, Dialog, Typography, Button 
-} from "material-ui";
-import { Clear } from "material-ui-icons";
+} from "@material-ui/core";
+import { Clear } from "@material-ui/icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { Preset } from "../Preset";
@@ -130,7 +129,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
         this.modifyState({removeSelected: !this.state.removeSelected});
     }
 
-    private onBankChange(event: React.ChangeEvent<HTMLInputElement>) {
+    private onBankChange(event: React.ChangeEvent<HTMLSelectElement>) {
         const name = event.target.value;
         this.modifyState({targetBank: name});
         
@@ -185,7 +184,7 @@ const extractComponentPropsFromState: MapStateToProps<
 };
 
 const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, StoragePastePageProps> =
-    (dispatch: Dispatch<ApplicationDocument>, _: StoragePastePageProps): StoragePastePageActions => {
+    (dispatch: Dispatch, _: StoragePastePageProps): StoragePastePageActions => {
         return {
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

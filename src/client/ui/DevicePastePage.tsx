@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { 
     FormControl, FormControlLabel, RadioGroup, Radio, 
     Grid, IconButton, List, Checkbox, Dialog, Typography, Button 
-} from "material-ui";
-import { Clear } from "material-ui-icons";
+} from "@material-ui/core";
+import { Clear } from "@material-ui/icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { Preset } from "../Preset";
@@ -192,7 +191,7 @@ const extractComponentPropsFromState: MapStateToProps<
 };
 
 const createActionObject: MapDispatchToPropsFunction<DevicePastePageActions, DevicePastePageProps> =
-    (dispatch: Dispatch<ApplicationDocument>, _: DevicePastePageProps): DevicePastePageActions => {
+    (dispatch: Dispatch, _: DevicePastePageProps): DevicePastePageActions => {
         return {
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

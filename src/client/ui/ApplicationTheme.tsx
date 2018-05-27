@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Theme, MuiThemeProvider, createMuiTheme, withStyles } from "material-ui/styles";
-import { indigo, amber, orange } from "material-ui/colors";
+import { Theme, MuiThemeProvider, createMuiTheme, withStyles } from "@material-ui/core/styles";
+import { indigo, amber, orange } from "@material-ui/core/colors";
 
 // TODO: load Application.theme.json
 const appTheme = createMuiTheme({

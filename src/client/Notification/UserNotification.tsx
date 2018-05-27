@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
-import { Drawer, Divider, IconButton, Typography } from "material-ui";
-import { ExpandMore } from "material-ui-icons";
+import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Drawer, Divider, IconButton, Typography } from "@material-ui/core";
+import { ExpandMore } from "@material-ui/icons";
 
 import { ApplicationDocument } from "../ApplicationDocument";
 
 import { Notification } from "./Notification";
 import { UserNotificationItem } from "./UserNotificationItem";
-import { RemoveNotification, createRemoveNotificationAction } from "./RemoveNotificationAction";
+import { RemoveNotificationAction, RemoveNotification, createRemoveNotificationAction } 
+    from "./RemoveNotificationAction";
 
 export interface UserNotificationProps {}
 export interface UserNotificationStateProps {
@@ -97,7 +97,7 @@ const extractComponentPropsFromState: MapStateToProps<
 };
 
 const createActionObject: MapDispatchToPropsFunction<UserNotificationActions, UserNotificationProps> =
-    (dispatch: Dispatch<ApplicationDocument>, _: UserNotificationProps): UserNotificationActions => {
+    (dispatch: Dispatch<RemoveNotificationAction>, _: UserNotificationProps): UserNotificationActions => {
         return {
             removeNotification: (notification: Notification): void => {
                 dispatch(createRemoveNotificationAction(notification));

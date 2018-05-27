@@ -1,7 +1,7 @@
 import * as React from "react";
 import { 
     ListItem, ListItemText, ListItemSecondaryAction, Checkbox
-} from "material-ui";
+} from "@material-ui/core";
 
 import { Preset, formatPresetIndex } from "../Preset";
 import { ChangePresets } from "../ChangePresetsAction";

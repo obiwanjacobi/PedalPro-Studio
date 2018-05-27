@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppBar, Grid, Tabs, Tab } from "material-ui";
+import { AppBar, Grid, Tabs, Tab } from "@material-ui/core";
 
 import DevicePresetTab from "./DevicePresetTab";
 import StoragePresetTab from "./StoragePresetTab";

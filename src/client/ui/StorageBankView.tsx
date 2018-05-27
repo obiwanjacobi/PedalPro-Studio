@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Typography, Toolbar, IconButton } from "material-ui";
-import { Add } from "material-ui-icons";
+import { Typography, Toolbar, IconButton } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
 import { StorageBankList } from "./StorageBankList";
 import { StorageBank } from "../StorageBank";
 import { ChangeBanks } from "../ChangeBanksAction";

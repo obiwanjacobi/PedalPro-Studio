@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
-import { Typography } from "material-ui";
-import { FileDownload } from "material-ui-icons";
+import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Typography } from "@material-ui/core";
+import { FileDownload } from "@material-ui/icons";
 
 import { SelectAllButtonStatus } from "../controls/SelectAllButton";
 import { FlexContainer } from "../controls/FlexContainer";
@@ -195,7 +194,7 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<StoragePresetTabActions, StoragePresetTabProps>;
 const createActionObject: ActionDispatchFunc =
-    (dispatch: Dispatch<ApplicationDocument>, _: StoragePresetTabProps): StoragePresetTabActions => {
+    (dispatch: Dispatch, _: StoragePresetTabProps): StoragePresetTabActions => {
         return {
             loadStorageBanks: (): void  => {
                 dispatchLoadBanksAction(dispatch);

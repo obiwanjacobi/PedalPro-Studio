@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppBar, Toolbar } from "material-ui";
+import { AppBar, Toolbar } from "@material-ui/core";
 
 export class ApplicationToolbar extends React.Component {
     public render() {

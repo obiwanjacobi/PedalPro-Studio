@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Checkbox, ListItem, ListItemText } from "material-ui";
+import { Checkbox, ListItem, ListItemText } from "@material-ui/core";
 
 import { StorageBank } from "../StorageBank";
 import { ChangeBanks } from "../ChangeBanksAction";

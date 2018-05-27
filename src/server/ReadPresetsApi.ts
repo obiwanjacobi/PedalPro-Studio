@@ -3,6 +3,7 @@ import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetProvider } from "./PresetProvider";
 import { PresetResponse } from "../model/Messages";
 import { EmptyApi } from "./EmptyApi";
+// import { PedalProProviderFactory } from "./pedalpro/PedalProProviderFactory";
 
 // tslint:disable-next-line:no-any
 export type PresetProviderFactory = (params: any) => PresetProvider;
@@ -29,6 +30,7 @@ export class ReadPresetsApi implements ApiHandler {
     // tslint:disable-next-line:no-any
     protected createProvider(params: any): PresetProvider {
         return this.providerFactory(params);
+        // return PedalProProviderFactory.offlineProvider;
     }
 
     protected throwIfNaN(presetIndex: number) {

@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
-import { Typography } from "material-ui";
+import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Typography } from "@material-ui/core";
 
 import { Preset } from "../Preset";
 import { ItemUI } from "../ItemUI";
@@ -96,7 +95,7 @@ const extractComponentPropsFromState: MapStateToProps<
 };
 
 const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, FactoryPresetTabProps> =
-    (dispatch: Dispatch<ApplicationDocument>, _: FactoryPresetTabProps): FactoryPresetTabActions => {
+    (dispatch: Dispatch, _: FactoryPresetTabProps): FactoryPresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
                 dispatchLoadPresetsAction(dispatch, source);

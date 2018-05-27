@@ -1,6 +1,6 @@
 import * as React from "react";
-import { IconButton, Typography } from "material-ui";
-import { Clear, Error, ErrorOutline, Warning, Info, Healing } from "material-ui-icons";
+import { IconButton, Typography } from "@material-ui/core";
+import { Clear, Error, ErrorOutline, Warning, Info, Healing } from "@material-ui/icons";
 
 import { Notification } from "./Notification";
 import { RemoveNotification } from "./RemoveNotificationAction";

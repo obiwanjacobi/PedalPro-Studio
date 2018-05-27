@@ -1,6 +1,6 @@
-import { Dispatch } from "redux";
+import { Dispatch } from "react-redux";
 
-import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
+import { PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient } from "./Client";
 import { Preset } from "./Preset";
 import { ProgressInfo } from "./screen/ScreenState";
@@ -29,7 +29,7 @@ export const createLoadPresetsErrorAction = (source: PresetCollectionType, error
 };
 
 export async function dispatchLoadPresetsAction(
-    dispatch: Dispatch<ApplicationDocument>, source: PresetCollectionType): Promise<void> {
+    dispatch: Dispatch<LoadPresetsAction>, source: PresetCollectionType): Promise<void> {
 
     const presetClient = DefaultClient.getSource(source);
 

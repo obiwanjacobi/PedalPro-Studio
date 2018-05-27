@@ -1,6 +1,6 @@
 import * as React from "react";
-import Checkbox from "material-ui/Checkbox/Checkbox";
-import { IndeterminateCheckBox, CheckBox } from "material-ui-icons";
+import { Checkbox } from "@material-ui/core";
+import { IndeterminateCheckBox, CheckBox } from "@material-ui/icons";
 import { Flag, FlagOutline  } from "mdi-material-ui";
 
 export enum SelectAllButtonStatus {
