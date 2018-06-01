@@ -15,8 +15,8 @@ import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAc
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
-import { ClipboardListItem } from "./ClipboardListItem";
 import { OverwrittenListItem, NotFoundPreset } from "./OverwrittenListItem";
+import { SourcePresetListItem } from "./SourcePresetListItem";
 
 enum PasteType {
     None = "none",
@@ -45,7 +45,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
         super(props);
         this.selection = new SelectedView(props.clipboard);
         
-        this.state = { pasteType: PasteType.None, removeSelected: false };
+        this.state = { pasteType: PasteType.None, removeSelected: true };
         this.close = this.close.bind(this);
         this.onPasteTypeChange = this.onPasteTypeChange.bind(this);
         this.onRemoveSelectedChange = this.onRemoveSelectedChange.bind(this);
@@ -76,7 +76,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                             <List id="ClipboardList">
                                 {this.props.clipboard.map((preset: Preset, index: number) => {
                                     return (
-                                        <ClipboardListItem 
+                                        <SourcePresetListItem
                                             key={index} 
                                             preset={preset} 
                                             changePresets={this.props.changePresets}
@@ -98,7 +98,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                                 <RadioGroup value={this.state.pasteType} onChange={this.onPasteTypeChange}>
                         <FormControlLabel value={PasteType.Index} label="Replace by Index" control={<Radio/>} />
                         <FormControlLabel value={PasteType.Name} label="Replace by Name" control={<Radio/>} />
-                        <FormControlLabel value={PasteType.Empty} label="Replace empty." control={<Radio/>} />}
+                        <FormControlLabel value={PasteType.Empty} label="Replace empty" control={<Radio/>} />}
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
@@ -199,7 +199,7 @@ const createActionObject: MapDispatchToPropsFunction<DevicePastePageActions, Dev
             pastePresets: (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void => {
                 dispatch(createPastePresetsAction(presets, target, deleteAfterPaste));
             },
-            updateScreen: (state: ScreenState): void => {
+            updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
             }
         };

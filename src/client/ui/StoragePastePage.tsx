@@ -16,7 +16,7 @@ import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
 import { StorageBank } from "../StorageBank";
-import { ClipboardListItem } from "./ClipboardListItem";
+import { SourcePresetListItem } from "./SourcePresetListItem";
 import { OverwrittenListItem, NotFoundPreset } from "./OverwrittenListItem";
 import { LoadBankPresets, dispatchLoadBankPresetsAction } from "../LoadBankPresetsAction";
 
@@ -74,7 +74,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                             <List id="ClipboardList">
                                 {this.props.clipboard.map((preset: Preset, index: number) => {
                                     return (
-                                        <ClipboardListItem 
+                                        <SourcePresetListItem
                                             key={index} 
                                             preset={preset} 
                                             changePresets={this.props.changePresets}
@@ -192,7 +192,7 @@ const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, St
             pastePresets: (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void => {
                 dispatch(createPastePresetsAction(presets, target, deleteAfterPaste));
             },
-            updateScreen: (state: ScreenState): void => {
+            updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
             },
             loadBankPresets: (bank: string): void => {

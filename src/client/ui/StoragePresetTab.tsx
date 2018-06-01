@@ -226,7 +226,7 @@ const createActionObject: ActionDispatchFunc =
             deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 dispatch(createDeletePresetsAction(source, presets));
             },
-            updateScreen: (state: ScreenState): void => {
+            updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
             }
         };

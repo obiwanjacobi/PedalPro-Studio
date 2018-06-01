@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IconButton } from "@material-ui/core";
-import { Delete, ContentPaste, ContentCopy, FileDownload, FileUpload } from "@material-ui/icons";
+import { Delete, ContentPaste, ContentCopy, FileDownload, FileUpload, ImportExport } from "@material-ui/icons";
 
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "../controls/SelectAllButton";
@@ -11,6 +11,7 @@ export interface PresetToolbarProps {
     enableDelete?: boolean;
     enableDownload?: boolean;
     enableUpload?: boolean;
+    enableMove?: boolean;
 }
 export interface PresetToolbarEvents { 
     onCopy?(): void;
@@ -18,6 +19,7 @@ export interface PresetToolbarEvents {
     onDelete?(): void;
     onDownload?(): void;
     onUpload?(): void;
+    onMove?(): void;
 }
 
 export type PresetToolbarAllProps = 
@@ -32,6 +34,7 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
         this.fireDelete = this.fireDelete.bind(this);
         this.fireDownload = this.fireDownload.bind(this);
         this.fireUpload = this.fireUpload.bind(this);
+        this.fireMove = this.fireMove.bind(this);
     }
     public render() {
         return (
@@ -48,6 +51,10 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
                 {this.props.onPaste &&
                 <IconButton disabled={!this.props.enablePaste} onClick={this.firePaste}>
                     <ContentPaste />
+                </IconButton>}
+                {this.props.onMove &&
+                <IconButton disabled={!this.props.enableMove} onClick={this.fireMove}>
+                    <ImportExport />
                 </IconButton>}
                 {this.props.onDelete &&
                 <IconButton disabled={!this.props.enableDelete} onClick={this.fireDelete}>
@@ -93,6 +100,12 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
     private fireUpload() {
         if (this.props.onUpload) {
             this.props.onUpload();
+        }
+    }
+
+    private fireMove() {
+        if (this.props.onMove) {
+            this.props.onMove();
         }
     }
 }

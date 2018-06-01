@@ -5,10 +5,10 @@ export interface UpdateScreenAction {
     readonly screenState: ScreenState;
 }
 
-export const createUpdateScreenAction = (screenState: ScreenState): UpdateScreenAction => {
-    return { type: "U/screen/", screenState: screenState };
+export const createUpdateScreenAction = (screenState: Partial<ScreenState>): UpdateScreenAction => {
+    return { type: "U/screen/", screenState: { pasteOpen: false, moveOpen: false, ...screenState } };
 };
 
 export interface UpdateScreen {
-    updateScreen(state: ScreenState): void;
+    updateScreen(state: Partial<ScreenState>): void;
 }

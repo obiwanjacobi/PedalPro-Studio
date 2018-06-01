@@ -7,4 +7,5 @@ export interface ProgressInfo {
 export interface ScreenState {
     progress?: Readonly<ProgressInfo>;
     pasteOpen: boolean;
+    moveOpen: boolean;
 }

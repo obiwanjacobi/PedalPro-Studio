@@ -23,6 +23,7 @@ import { PresetToolbar } from "./PresetToolbar";
 import { PresetView } from "./PresetView";
 import DevicePastePage from "./DevicePastePage";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
+import DeviceMovePage from "./DeviceMovePage";
 
 export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
@@ -47,6 +48,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
         // bind event handlers
         this.onCopySelected = this.onCopySelected.bind(this);
         this.pasteClipboard = this.pasteClipboard.bind(this);
+        this.onMoveSelected = this.onMoveSelected.bind(this);
         this.onDeleteSelected = this.onDeleteSelected.bind(this);
         this.download = this.download.bind(this);
         this.upload = this.upload.bind(this);
@@ -61,6 +63,8 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     onCopy={this.onCopySelected}
                     enablePaste={this.props.hasClipboard}
                     onPaste={this.pasteClipboard}
+                    enableMove={this.selection.anySelected}
+                    onMove={this.onMoveSelected}
                     enableDelete={this.selection.anySelected}
                     onDelete={this.onDeleteSelected}
                     enableDownload={true}
@@ -83,6 +87,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                         Press <FileDownload/> to retrieve the presets.
                     </Typography>}
                 />
+                <DeviceMovePage />
                 <DevicePastePage />
             </FlexContainer>
         );
@@ -124,6 +129,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     private pasteClipboard() {
         this.props.updateScreen({pasteOpen: true});
+    }
+
+    private onMoveSelected() {
+        this.props.updateScreen({moveOpen: true});
     }
 
     private onDeleteSelected() {
@@ -177,7 +186,7 @@ const createActionObject: ActionDispatchFunc =
             deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 dispatch(createDeletePresetsAction(source, presets));
             },
-            updateScreen: (state: ScreenState): void => {
+            updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
             }
         };

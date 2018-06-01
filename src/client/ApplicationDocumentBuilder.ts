@@ -10,7 +10,7 @@ export class ApplicationDocumentBuilder extends ItemBuilder<ApplicationDocument>
         factory: [],
         storage: [],
         notifications: [],
-        screen: { pasteOpen: false },
+        screen: { pasteOpen: false, moveOpen: false },
     };
 
     public constructor(state: ApplicationDocument, option: CopyOption = CopyOption.ByVal) {
