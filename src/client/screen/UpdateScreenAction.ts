@@ -1,14 +1,12 @@
 import { ScreenState }  from "./ScreenState";
 
-const UpdateScreenActionKey = "U/screen/";
-
 export interface UpdateScreenAction {
     readonly type: "U/screen/";
     readonly screenState: ScreenState;
 }
 
 export const createUpdateScreenAction = (screenState: ScreenState): UpdateScreenAction => {
-    return <UpdateScreenAction> { type: UpdateScreenActionKey, screenState: screenState };
+    return { type: "U/screen/", screenState: screenState };
 };
 
 export interface UpdateScreen {

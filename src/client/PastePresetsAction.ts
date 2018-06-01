@@ -1,8 +1,6 @@
 import { PresetCollectionType } from "./ApplicationDocument";
 import { Preset } from "./Preset";
 
-const PastePresetsActionKey = "C/*/presets/";
-
 export interface PastePresetsAction {
     readonly type: "C/*/presets/";
     readonly presets: Preset[];
@@ -12,8 +10,8 @@ export interface PastePresetsAction {
 
 export const createPastePresetsAction = 
     (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean = true): PastePresetsAction => {
-    return <PastePresetsAction> { 
-        type: PastePresetsActionKey, presets: presets, target: target, deleteAfterPaste: deleteAfterPaste 
+    return { 
+        type: "C/*/presets/", presets: presets, target: target, deleteAfterPaste: deleteAfterPaste 
     };
 };
 

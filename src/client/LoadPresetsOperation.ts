@@ -32,7 +32,7 @@ async function loadPresetsPaged(
 }
 
 async function loadPresets(
-        deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch<LoadPresetsAction>) {
+        deviceInfo: DeviceIdentity, presetClient: PresetsClient, dispatch: Dispatch) {
     try {
         for (let page = 0; page < deviceInfo.presetCount / pageSize; page++) {
             const progress = makeProgressInfo(deviceInfo, page * pageSize);

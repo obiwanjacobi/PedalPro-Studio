@@ -2,23 +2,15 @@ import * as PresetStateReducer from "../PresetStateReducer";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
 import { createChangePresetsAction } from "../ChangePresetsAction";
-import { LoadPresetsAction, LoadPresetsActionKey } from "../LoadPresetsAction";
+import { createLoadPresetsAction } from "../LoadPresetsAction";
 import { Preset } from "../Preset";
-
-const createLoadPresetsAction = (preset: Preset, collection: PresetCollectionType) => {
-    return <LoadPresetsAction> { 
-        type: LoadPresetsActionKey, 
-        presets: [ preset ], 
-        source: collection
-    };
-};
 
 describe("PresetStateReducer.ts", () => {
     it ("reduceLoadPresets - device - just loads in the specified presets", () => {
         const collection = PresetCollectionType.device;
         const testState = ApplicationDocumentBuilder.default;
         const expectedPreset = <Preset> { name: "test", index: 1, ui: {selected: true}, source: collection};
-        const action = createLoadPresetsAction(expectedPreset, collection);
+        const action = createLoadPresetsAction(collection, [expectedPreset]);
         const newState = PresetStateReducer.reduce(testState, action);
         expect(newState).not.toMatchObject(testState);
         expect(newState.device).toContain(expectedPreset);
@@ -28,7 +20,7 @@ describe("PresetStateReducer.ts", () => {
         const collection = PresetCollectionType.storage;
         const testState = ApplicationDocumentBuilder.default;
         const expectedPreset = <Preset> { name: "test", index: 1, ui: {selected: true}, source: collection};
-        const action = createLoadPresetsAction(expectedPreset, collection);
+        const action = createLoadPresetsAction(collection, [expectedPreset]);
         const newState = PresetStateReducer.reduce(testState, action);
         expect(newState).not.toMatchObject(testState);
         expect(newState.storage).toContain(expectedPreset);

@@ -4,8 +4,6 @@ import { PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient } from "./Client";
 import { Preset } from "./Preset";
 
-export const SavePresetsActionKey: string = "U/*/presets/";
-
 export interface SavePresetsAction {
     readonly type: "U/*/presets/";
     readonly source: PresetCollectionType;
@@ -19,10 +17,10 @@ export const createSavePresetsAction =
         DefaultClient.getSource(source).replacePresets(presets)
             .then((result) => {
             dispatch(
-                { type: SavePresetsActionKey, source: source, presets: result });
+                { type: "U/*/presets/", source: source, presets: result });
         }).catch((error) => {
             dispatch(
-                { type: SavePresetsActionKey, source: source, error: error });
+                { type: "U/*/presets/", source: source, error: error });
         });
 };
 

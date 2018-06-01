@@ -1,8 +1,6 @@
 import { ItemUI } from "./ItemUI";
 import { StorageBank } from "./StorageBank";
 
-export const ChangeBanksActionKey: string = "U/storage/*/ui";
-
 export interface ChangeBanksAction {
     readonly type: "U/storage/*/ui";
     readonly banks: StorageBank[];
@@ -11,8 +9,8 @@ export interface ChangeBanksAction {
 
 export const createChangeBanksAction = 
     (banks: StorageBank[], command: Partial<ItemUI>): ChangeBanksAction => {
-    return <ChangeBanksAction> { 
-        type: ChangeBanksActionKey, 
+    return { 
+        type: "U/storage/*/ui", 
         banks: banks, 
         ui: command
     };

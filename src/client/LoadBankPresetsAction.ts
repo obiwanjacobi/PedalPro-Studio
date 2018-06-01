@@ -4,20 +4,18 @@ import { PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient, PresetsClient } from "./Client";
 import { Preset } from "./Preset";
 
-export const LoadBankPresetsActionKey: string = "R/storage/*/presets/";
-
 export interface LoadBankPresetsAction {
     readonly type: "R/storage/*/presets/";
     readonly presets?: Preset[];
     readonly error?: Error;
 }
 
-export const createLoadBankPresetsAction = (presets: Preset[]) => {
-    return { type: LoadBankPresetsActionKey, presets: presets };
+export const createLoadBankPresetsAction = (presets: Preset[]): LoadBankPresetsAction => {
+    return { type: "R/storage/*/presets/", presets: presets };
 };
 
-export const createLoadBankPresetsErrorAction = (error: Error) => {
-    return { type: LoadBankPresetsActionKey, error: error };
+export const createLoadBankPresetsErrorAction = (error: Error): LoadBankPresetsAction => {
+    return { type: "R/storage/*/presets/", error: error };
 };
 
 const loadBankPresets = 

@@ -3,20 +3,18 @@ import { PresetCollectionType } from "./ApplicationDocument";
 import { DefaultClient, PresetsClient } from "./Client";
 import { Dispatch } from "react-redux";
 
-export const LoadBanksActionKey: string = "R/storage/*";
-
 export interface LoadBanksAction {
     readonly type: "R/storage/*";
     readonly banks?: StorageBank[];
     readonly error?: Error;
 }
 
-export const createLoadBanksAction = (banks: StorageBank[]) => {
-    return { type: LoadBanksActionKey, banks: banks };
+export const createLoadBanksAction = (banks: StorageBank[]): LoadBanksAction => {
+    return { type: "R/storage/*", banks: banks };
 };
 
-export const createLoadBanksErrorAction = (error: Error) => {
-    return { type: LoadBanksActionKey, error: error };
+export const createLoadBanksErrorAction = (error: Error): LoadBanksAction => {
+    return { type: "R/storage/*", error: error };
 };
 
 const loadStorageBanks = async (presetClient: PresetsClient, dispatch: Dispatch<LoadBanksAction>) => {

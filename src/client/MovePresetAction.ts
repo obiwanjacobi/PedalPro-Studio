@@ -1,7 +1,5 @@
 import { Preset } from "./Preset";
 
-export const MovePresetActionKey: string = "U/*/presets/[]";
-
 export interface MovePresetAction {
     readonly type: "U/*/presets/[]";
     readonly preset: Preset;
@@ -9,7 +7,7 @@ export interface MovePresetAction {
 }
 
 export const createMovePresetAction = (preset: Preset, displacement: number): MovePresetAction => {
-    return <MovePresetAction> { type: MovePresetActionKey, preset: preset, displacement: displacement };
+    return { type: "U/*/presets/[]", preset: preset, displacement: displacement };
 };
 
 export interface MovePreset {

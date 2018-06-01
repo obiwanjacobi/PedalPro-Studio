@@ -2,8 +2,6 @@ import { Preset } from "./Preset";
 import { ItemUI } from "./ItemUI";
 import { PresetCollectionType } from "./ApplicationDocument";
 
-export const ChangePresetsActionKey: string = "U/*/presets/ui";
-
 export interface ChangePresetsAction {
     readonly type: "U/*/presets/ui";
     readonly presets: Preset[];
@@ -13,8 +11,8 @@ export interface ChangePresetsAction {
 
 export const createChangePresetsAction = 
     (presets: Preset[], source: PresetCollectionType, command: Partial<ItemUI>): ChangePresetsAction => {
-    return <ChangePresetsAction> { 
-        type: ChangePresetsActionKey, 
+    return { 
+        type: "U/*/presets/ui", 
         presets: presets, 
         source: source,
         ui: command

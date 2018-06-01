@@ -6,8 +6,6 @@ import { Preset } from "./Preset";
 import { ProgressInfo } from "./screen/ScreenState";
 import { progressLoadPresets, loadAllPresets } from "./LoadPresetsOperation";
 
-export const LoadPresetsActionKey: string = "R/*/presets/";
-
 export interface LoadPresetsAction {
     readonly type: "R/*/presets/";
     readonly source: PresetCollectionType;
@@ -16,15 +14,17 @@ export interface LoadPresetsAction {
     readonly progress?: ProgressInfo;
 }
 
-export const createLoadPresetsAction = (source: PresetCollectionType, presets: Preset[], progress?: ProgressInfo) => {
+export const createLoadPresetsAction = 
+    (source: PresetCollectionType, presets: Preset[], progress?: ProgressInfo): LoadPresetsAction => {
+
     return {
-        type: LoadPresetsActionKey, source: source, presets: presets, progress: progress
+        type: "R/*/presets/", source: source, presets: presets, progress: progress
     };
 };
 
-export const createLoadPresetsErrorAction = (source: PresetCollectionType, error: Error) => {
+export const createLoadPresetsErrorAction = (source: PresetCollectionType, error: Error): LoadPresetsAction => {
     return {
-        type: LoadPresetsActionKey, source: source, error: error
+        type: "R/*/presets/", source: source, error: error
     };
 };
 

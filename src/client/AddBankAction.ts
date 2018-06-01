@@ -1,13 +1,9 @@
-export const AddBankActionKey: string = "C/storage/*";
-
 export interface AddBankAction {
     readonly type: "C/storage/*";
 }
 
 export const createAddBankAction = (): AddBankAction => {
-    return <AddBankAction> { 
-        type: AddBankActionKey, 
-    };
+    return { type: "C/storage/*" };
 };
 
 export interface AddBank {
