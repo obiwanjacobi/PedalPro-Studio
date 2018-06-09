@@ -5,23 +5,18 @@ export interface MovePresetsAction {
 
     readonly presets: Preset[];
     readonly targetIndex: number;
-
-    // readonly preset: Preset;
-    // readonly displacement: number;
+    readonly swap: boolean;
 }
 
-// export const createMovePresetAction = (preset: Preset, displacement: number): MovePresetAction => {
-//     return { type: "U/*/presets/[]", preset: preset, displacement: displacement };
-// };
-
-export const createMovePresetsAction = (presets: Preset[], targetIndex: number): MovePresetsAction => {
-    return { type: "U/*/presets/[]", presets: presets, targetIndex: targetIndex };
+export const createMovePresetsAction = (presets: Preset[], targetIndex: number, swap?: boolean): MovePresetsAction => {
+    return { 
+        type: "U/*/presets/[]", 
+        presets: presets, 
+        targetIndex: targetIndex,
+        swap: !!swap 
+    };
 };
 
 export interface MovePresets {
-    movePresets(presets: Preset[], targetIndex: number): void;
+    movePresets(presets: Preset[], targetIndex: number, swap?: boolean): void;
 }
-
-// export interface MovePreset {
-//     movePreset(preset: Preset, displacement: number): void;
-// }

@@ -20,12 +20,12 @@ import { SelectedView } from "../controls/SelectedView";
 import { SourcePresetListItem } from "./SourcePresetListItem";
 import { PresetArrayBuilder } from "../PresetBuilder";
 import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
+import { FlexContainer } from "../controls/FlexContainer";
 
 enum MoveType {
     None = "none",
     Insert = "insert",
     Swap = "swap",
-    Empty = "empty"
 }
 
 export interface DeviceMovePageProps {}
@@ -41,7 +41,8 @@ export type DeviceMovePageActions = ChangePresets & PastePresets & UpdateScreen 
 export type DeviceMovePageAllProps = DeviceMovePageProps & DeviceMovePageStateProps & DeviceMovePageActions;
 
 const style = {
-    padding: 12
+    padding: 12,
+    height: "100%"
 };
 
 export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, DeviceMovePageState> {
@@ -101,7 +102,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                                 <RadioGroup value={this.state.moveType} onChange={this.onMoveTypeChange}>
                         <FormControlLabel value={MoveType.Insert} label="Insert (before)" control={<Radio/>} />
                         <FormControlLabel value={MoveType.Swap} label="Swap / Exchange" control={<Radio/>} />
-                        <FormControl disabled={this.state.moveType === MoveType.Empty}>
+                        <FormControl>
                             <InputLabel htmlFor="target-input">Target</InputLabel>
                             <Select 
                                 value={this.state.targetIndex}
@@ -111,24 +112,25 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                                 {this.renderTargetList()}
                             </Select>
                         </FormControl>
-                        <FormControlLabel value={MoveType.Empty} label="Move to empty" control={<Radio/>} />}
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
                         <Grid item={true} xs={4}>
                             <Paper elevation={2} style={style}>
                                 <Typography variant="body2">Moved preview</Typography>
-                                <List id="DeviceList">
-                                    {this.movedPresets().map((preset: Preset, index: number) => {
-                                        return (
-                                            <OverwrittenListItem
-                                                key={index} 
-                                                preset={preset}
-                                                match={this.isMatch(preset)}
-                                            />
-                                        );
-                                    })}
-                                </List>
+                                <FlexContainer vertical={true}>
+                                    <List id="DeviceList">
+                                        {this.movedPresets().map((preset: Preset, index: number) => {
+                                            return (
+                                                <OverwrittenListItem
+                                                    key={index} 
+                                                    preset={preset}
+                                                    match={this.isMatch(preset)}
+                                                />
+                                            );
+                                        })}
+                                    </List>
+                                </FlexContainer>
                             </Paper>
                         </Grid>
                     </Grid>
@@ -139,7 +141,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
 
     private renderTargetList() {
         return this.props.presets
-            .filter(p => !p.traits.empty && !this.isMatch(p))
+            .filter(p => !this.isMatch(p))
             .map((p, i) => 
                 <MenuItem key={i} value={p.index}>{formatPresetFullName(p)}</MenuItem>);
     }
@@ -153,15 +155,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
     }
 
     private onMoveTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const type = event.target.value;
-        switch (type) {
-            case MoveType.Empty:
-            this.setState({targetIndex: -1, moveType: type});
-            break;
-            default:
-            this.setState({moveType: type});
-            break;
-        }
+        this.setState({moveType: event.target.value});
     }
 
     private isMatch(preset: Preset): boolean {
@@ -170,14 +164,12 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
 
     private movedPresets(): Preset[] {
         switch (this.state.moveType) {
-            case MoveType.Empty:
-            return this.props.presets
-                    .filter((p: Preset) => p.traits.empty)
-                    .slice(0, this.selection.selected.length);
             case MoveType.Insert:
             return this.movedPresetsInsert();
+
             case MoveType.Swap:
             return this.movedPresetsSwap();
+            
             default:
                 return [];
         }
@@ -206,7 +198,18 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
     }
 
     private move() {
-        this.props.movePresets(this.selection.selected, this.state.targetIndex);
+        switch (this.state.moveType) {            
+            case MoveType.Insert:
+            this.props.movePresets(this.selection.selected, this.state.targetIndex);
+            break;
+            
+            case MoveType.Swap:
+            this.props.movePresets(this.selection.selected, this.state.targetIndex, true);
+            break;
+            
+            default:
+            break;
+        }
     }
 
     private moveAndClose() {
@@ -233,8 +236,8 @@ const createActionObject: MapDispatchToPropsFunction<DeviceMovePageActions, Devi
             updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
             },
-            movePresets: (presets: Preset[], targetIndex: number): void => {
-                dispatch(createMovePresetsAction(presets, targetIndex));
+            movePresets: (presets: Preset[], targetIndex: number, swap?: boolean): void => {
+                dispatch(createMovePresetsAction(presets, targetIndex, swap));
             }
         };
 };

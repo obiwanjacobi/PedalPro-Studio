@@ -27,36 +27,22 @@ export type PresetAction =
 const reduceMovePresets = (
     state: ApplicationDocument, 
     presets: Preset[], 
-    targetIndex: number): ApplicationDocument => {
+    targetIndex: number,
+    swap: boolean): ApplicationDocument => {
     if (presets.length === 0) { return state; }
 
     const collection = presets[0].source;
     const builder = new ApplicationDocumentBuilder(state);
     builder.transformPresets(collection, (originalPresets: Preset[]): Preset[] => {
         const presetBuilder = new PresetArrayBuilder(originalPresets);
-        presetBuilder.movePresets(presets, targetIndex);
+        if (swap) {
+            presetBuilder.swapPresets(presets, targetIndex);
+        } else {
+            presetBuilder.movePresets(presets, targetIndex);
+        }
         return presetBuilder.detach();
     });
     return builder.detach();
-
-    // const builder = new ApplicationDocumentBuilder(state);
-    // builder.transformPresets(preset.source, (originalPresets: Preset[]): Preset[] => {
-    //     const presetBuilder = new PresetArrayBuilder(originalPresets);
-    //     const srcIndexPos = presetBuilder.mutable.indexOf(preset);
-    //     if (srcIndexPos === -1) { throw new Error("Invalid preset - not found in collection."); }
-    //     const targetIndex = preset.index + displacement;
-    //     if (targetIndex < 0 || targetIndex >= originalPresets.length) { return originalPresets; }
-    //     const targetIndexPos = presetBuilder.mutable.findIndex((prst: Preset) => prst.index === targetIndex);
-    //     if (targetIndexPos === -1) {
-    //         // no preset has the new target index
-    //         // just copy the preset with the new index
-    //         presetBuilder.mutable[srcIndexPos] = { ...preset, index: targetIndex };
-    //     } else {
-    //         presetBuilder.movePresets([preset], targetIndexPos);
-    //     }
-    //     return presetBuilder.detach();
-    // });
-    // return builder.detach();
 };
 
 const reduceEditPreset = (
@@ -228,7 +214,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         return reduceEditPreset(state, action.preset, action.update);
 
         case "U/*/presets/[]":
-        return reduceMovePresets(state, action.presets, action.targetIndex);
+        return reduceMovePresets(state, action.presets, action.targetIndex, action.swap);
 
         default:
         break;
