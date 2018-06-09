@@ -11,7 +11,7 @@ import { ChangeBanks, createChangeBanksAction } from "../ChangeBanksAction";
 import { SavePresets, createSavePresetsAction } from "../SavePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../EditPresetAction";
-import { MovePreset, createMovePresetAction } from "../MovePresetAction";
+import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../DeletePresetsAction";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
@@ -34,12 +34,13 @@ export interface StoragePresetTabStoreProps {
     banks: StorageBank[];
     presets: Preset[];
     hasClipboard: boolean;
+    maxPresetCount: number;
 }
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
     ChangePresets & ChangeBanks & AddBank &
     LoadStorageBanks & LoadBankPresets &
-    SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen & DeletePresets;
+    SavePresets & CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
 
@@ -103,8 +104,9 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         presets={this.bankPresets}
                         changePresets={this.actions.changePresets}
                         editPreset={this.actions.editPreset}
-                        movePreset={this.actions.movePreset}
+                        movePresets={this.actions.movePresets}
                         deletePresets={this.actions.deletePresets}
+                        maxPresetCount={this.props.maxPresetCount}
                         empty={this.renderEmpty()}                
                     />
                 </FlexContainer>
@@ -189,7 +191,12 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 type ExtractStatePropFunc = MapStateToProps<StoragePresetTabStoreProps, StoragePresetTabProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: StoragePresetTabProps): StoragePresetTabStoreProps => {
-        return  { banks: state.banks, presets: state.storage, hasClipboard: state.clipboard.length > 0 };
+        return  { 
+            banks: state.banks, 
+            presets: state.storage, 
+            hasClipboard: state.clipboard.length > 0,
+            maxPresetCount: state.deviceInfo ? state.deviceInfo.presetCount : 0
+        };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<StoragePresetTabActions, StoragePresetTabProps>;
@@ -220,8 +227,8 @@ const createActionObject: ActionDispatchFunc =
             editPreset: (preset: Preset, update: Partial<Preset>): void => {
                 dispatch(createEditPresetAction(preset, update));
             },
-            movePreset: (preset: Preset, displacement: number): void => {
-                dispatch(createMovePresetAction(preset, displacement));
+            movePresets: (presets: Preset[], targetIndex: number): void => {
+                dispatch(createMovePresetsAction(presets, targetIndex));
             },
             deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 dispatch(createDeletePresetsAction(source, presets));

@@ -4,14 +4,15 @@ import { PresetListItem } from "./PresetListItem";
 import { Preset } from "../Preset";
 import { ChangePresets } from "../ChangePresetsAction";
 import { EditPreset } from "../EditPresetAction";
-import { MovePreset } from "../MovePresetAction";
+import { MovePresets } from "../MovePresetsAction";
 import { DeletePresets } from "../DeletePresetsAction";
 import { VirtualList, VirtualListProps } from "../controls/VirtualList";
 
 export interface PresetListProps extends VirtualListProps<Preset> {
     empty: React.ReactNode;
+    maxPresetCount: number;
 }
-export type PresetListActions = ChangePresets & Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
+export type PresetListActions = ChangePresets & Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets>;
 export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
@@ -32,8 +33,9 @@ export class PresetList extends VirtualList<Preset, PresetListAllProps, PresetLi
                 preset={preset}
                 changePresets={this.props.changePresets}
                 editPreset={this.props.editPreset}
-                movePreset={this.props.movePreset}
+                movePresets={this.props.movePresets}
                 deletePresets={this.props.deletePresets}
+                maxPresetCount={this.props.maxPresetCount}
             />
         );
     }

@@ -5,7 +5,7 @@ import { LoadPresetsAction } from "./LoadPresetsAction";
 import { ChangePresetsAction } from "./ChangePresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
-import { MovePresetAction } from "./MovePresetAction";
+import { MovePresetsAction } from "./MovePresetsAction";
 import { SavePresetsAction } from "./SavePresetsAction";
 import { ProgressInfo } from "./screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
@@ -22,37 +22,41 @@ import { presetsExceptIndexUiAreEqual } from "./PresetOperations";
 export type PresetAction = 
     LoadPresetsAction | SavePresetsAction | DeletePresetsAction |
     ChangePresetsAction | CopyPresetsAction | PastePresetsAction |
-    EditPresetAction | MovePresetAction;
+    EditPresetAction | MovePresetsAction;
 
-const reduceMovePreset = (
+const reduceMovePresets = (
     state: ApplicationDocument, 
-    preset: Preset, 
-    displacement: number): ApplicationDocument => {
-    if (displacement === 0) { return state; }
+    presets: Preset[], 
+    targetIndex: number): ApplicationDocument => {
+    if (presets.length === 0) { return state; }
 
+    const collection = presets[0].source;
     const builder = new ApplicationDocumentBuilder(state);
-    builder.transformPresets(preset.source, (originalPresets: Preset[]): Preset[] => {
+    builder.transformPresets(collection, (originalPresets: Preset[]): Preset[] => {
         const presetBuilder = new PresetArrayBuilder(originalPresets);
-        const srcIndexPos = presetBuilder.mutable.indexOf(preset);
-        if (srcIndexPos === -1) { throw new Error("Invalid preset - not found in collection."); }
-        
-        const targetIndex = preset.index + displacement;
-        if (targetIndex < 0 || targetIndex >= originalPresets.length) { return originalPresets; }
-
-        const targetIndexPos = presetBuilder.mutable.findIndex((prst: Preset) => prst.index === targetIndex);
-
-        if (targetIndexPos === -1) {
-            // no preset has the new target index
-            // just copy the preset with the new index
-            presetBuilder.mutable[srcIndexPos] = { ...preset, index: targetIndex };
-        } else {
-            presetBuilder.movePresets([preset], targetIndexPos);
-        }
-
+        presetBuilder.movePresets(presets, targetIndex);
         return presetBuilder.detach();
     });
-
     return builder.detach();
+
+    // const builder = new ApplicationDocumentBuilder(state);
+    // builder.transformPresets(preset.source, (originalPresets: Preset[]): Preset[] => {
+    //     const presetBuilder = new PresetArrayBuilder(originalPresets);
+    //     const srcIndexPos = presetBuilder.mutable.indexOf(preset);
+    //     if (srcIndexPos === -1) { throw new Error("Invalid preset - not found in collection."); }
+    //     const targetIndex = preset.index + displacement;
+    //     if (targetIndex < 0 || targetIndex >= originalPresets.length) { return originalPresets; }
+    //     const targetIndexPos = presetBuilder.mutable.findIndex((prst: Preset) => prst.index === targetIndex);
+    //     if (targetIndexPos === -1) {
+    //         // no preset has the new target index
+    //         // just copy the preset with the new index
+    //         presetBuilder.mutable[srcIndexPos] = { ...preset, index: targetIndex };
+    //     } else {
+    //         presetBuilder.movePresets([preset], targetIndexPos);
+    //     }
+    //     return presetBuilder.detach();
+    // });
+    // return builder.detach();
 };
 
 const reduceEditPreset = (
@@ -224,7 +228,7 @@ export const reduce = (state: ApplicationDocument, action: PresetAction): Applic
         return reduceEditPreset(state, action.preset, action.update);
 
         case "U/*/presets/[]":
-        return reduceMovePreset(state, action.preset, action.displacement);
+        return reduceMovePresets(state, action.presets, action.targetIndex);
 
         default:
         break;

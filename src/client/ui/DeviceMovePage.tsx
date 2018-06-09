@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { 
     FormControl, FormControlLabel, RadioGroup, Radio, Select,
-    Grid, IconButton, List, Dialog, Typography, Button, Checkbox, Paper, MenuItem, InputLabel, Input 
+    Grid, IconButton, List, Dialog, Typography, Button, Paper, MenuItem, InputLabel, Input 
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
@@ -15,10 +15,11 @@ import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
-import { OverwrittenListItem, NotFoundPreset } from "./OverwrittenListItem";
+import { OverwrittenListItem } from "./OverwrittenListItem";
 import { SelectedView } from "../controls/SelectedView";
 import { SourcePresetListItem } from "./SourcePresetListItem";
 import { PresetArrayBuilder } from "../PresetBuilder";
+import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
 
 enum MoveType {
     None = "none",
@@ -31,13 +32,12 @@ export interface DeviceMovePageProps {}
 export interface DeviceMovePageState {
     moveType: string;
     targetIndex: number;
-    reorder: boolean;
 }
 export interface DeviceMovePageStateProps {
     open: boolean;
     presets: Preset[];
 }
-export type DeviceMovePageActions = ChangePresets & PastePresets & UpdateScreen;
+export type DeviceMovePageActions = ChangePresets & PastePresets & UpdateScreen & MovePresets;
 export type DeviceMovePageAllProps = DeviceMovePageProps & DeviceMovePageStateProps & DeviceMovePageActions;
 
 const style = {
@@ -50,12 +50,11 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
     public constructor(props: DeviceMovePageAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
-        this.state = { targetIndex: -1, moveType: MoveType.None, reorder: true };
+        this.state = { targetIndex: -1, moveType: MoveType.None };
 
         this.close = this.close.bind(this);
         this.onMoveTypeChange = this.onMoveTypeChange.bind(this);
         this.onTargetIndexChange = this.onTargetIndexChange.bind(this);
-        this.onReorderChange = this.onReorderChange.bind(this);
         this.moveAndClose = this.moveAndClose.bind(this);
     }
 
@@ -74,13 +73,13 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                         <Typography variant="subheading" style={{flex: 1}}>DEVICE - </Typography>
                         <Typography variant="title" style={{flex: 1}}>Move Presets</Typography>
                     </div>
-                    <Button onClick={this.moveAndClose} disabled={this.hasResult}>
+                    <Button onClick={this.moveAndClose} disabled={!this.hasResult}>
                         Move
                     </Button>
                 </ApplicationToolbar>
                 <div style={style}>
                     <Grid container={true} spacing={8}>
-                        <Grid item={true} xs={3}>
+                        <Grid item={true} xs={4}>
                             <Paper elevation={2} style={style}>
                                 <Typography variant="body2">Selected</Typography>
                                 <List id="SelectedList">
@@ -115,15 +114,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                         <FormControlLabel value={MoveType.Empty} label="Move to empty" control={<Radio/>} />}
                                 </RadioGroup>
                             </FormControl>
-                            <FormControlLabel
-                                control={<Checkbox 
-                                    checked={this.state.reorder} 
-                                    onChange={this.onReorderChange}
-                                />}
-                                label="Reorder"
-                            />
                         </Grid>
-                        <Grid item={true} xs={1} />
                         <Grid item={true} xs={4}>
                             <Paper elevation={2} style={style}>
                                 <Typography variant="body2">Moved preview</Typography>
@@ -154,15 +145,11 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
     }
 
     private get hasResult(): boolean {
-        return this.movedPresets().filter((p: Preset) => p !== NotFoundPreset).length === 0;
+        return this.movedPresets().length > 0;
     }
     
     private onTargetIndexChange(event: React.ChangeEvent<HTMLSelectElement>) {
         this.setState({targetIndex: Number(event.target.value)});
-    }
-
-    private onReorderChange() {
-        this.setState({reorder: !this.state.reorder});
     }
 
     private onMoveTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -200,6 +187,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
         if (this.state.targetIndex === -1) { return []; }
 
         const builder = new PresetArrayBuilder(this.props.presets);
+        builder.acceptChanges();
         builder.movePresets(this.selection.selected, this.state.targetIndex);
         return builder.detach().filter(p => presetHasChanged(p) || p.ui.selected);
     }
@@ -208,6 +196,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
         if (this.state.targetIndex === -1) { return []; }
 
         const builder = new PresetArrayBuilder(this.props.presets);
+        builder.acceptChanges();
         builder.swapPresets(this.selection.selected, this.state.targetIndex);
         return builder.detach().filter(p => presetHasChanged(p) || p.ui.selected);
     }
@@ -217,7 +206,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
     }
 
     private move() {
-        // this.props.movePresets();
+        this.props.movePresets(this.selection.selected, this.state.targetIndex);
     }
 
     private moveAndClose() {
@@ -243,6 +232,9 @@ const createActionObject: MapDispatchToPropsFunction<DeviceMovePageActions, Devi
             },
             updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
+            },
+            movePresets: (presets: Preset[], targetIndex: number): void => {
+                dispatch(createMovePresetsAction(presets, targetIndex));
             }
         };
 };

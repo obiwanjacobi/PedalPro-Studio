@@ -14,7 +14,7 @@ import { LoadPresets, dispatchLoadPresetsAction } from "../LoadPresetsAction";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../EditPresetAction";
-import { MovePreset, createMovePresetAction } from "../MovePresetAction";
+import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
 import { SavePresets, createSavePresetsAction } from "../SavePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../DeletePresetsAction";
@@ -29,9 +29,12 @@ export interface DevicePresetTabProps { }
 export interface DevicePresetTabStateProps { 
     presets: Preset[];
     hasClipboard: boolean;
+    maxPresetCount: number;
+    moveOpen: boolean;
+    pasteOpen: boolean;
 }
 export type DevicePresetTabActions = 
-    ChangePresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePreset & UpdateScreen & DeletePresets;
+    ChangePresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 export interface DevicePresetTabState {}
@@ -81,21 +84,25 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     presets={this.props.presets}
                     changePresets={this.actions.changePresets}
                     editPreset={this.actions.editPreset}
-                    movePreset={this.actions.movePreset}
+                    movePresets={this.actions.movePresets}
                     deletePresets={this.actions.deletePresets}
+                    maxPresetCount={this.props.maxPresetCount}
                     empty={<Typography>
                         Press <FileDownload/> to retrieve the presets.
                     </Typography>}
                 />
-                <DeviceMovePage />
-                <DevicePastePage />
+                {this.props.moveOpen && <DeviceMovePage />}
+                {this.props.pasteOpen && <DevicePastePage />}
             </FlexContainer>
         );
     }
 
     public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: DevicePresetTabState): boolean {
         return (this.props.presets !== nextProps.presets ||
-               this.props.hasClipboard !== nextProps.hasClipboard);
+                this.props.hasClipboard !== nextProps.hasClipboard ||
+                this.props.pasteOpen !== nextProps.pasteOpen ||
+                this.props.moveOpen !== nextProps.moveOpen
+            );
     }
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
@@ -158,7 +165,13 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 type ExtractStatePropFunc = MapStateToProps<DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
-        return  { presets: state.device, hasClipboard: state.clipboard.length > 0 };
+        return  { 
+            presets: state.device, 
+            hasClipboard: state.clipboard.length > 0,
+            maxPresetCount: state.deviceInfo ? state.deviceInfo.presetCount : 0,
+            moveOpen: state.screen.moveOpen,
+            pasteOpen: state.screen.pasteOpen
+        };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps>;
@@ -180,8 +193,8 @@ const createActionObject: ActionDispatchFunc =
             editPreset: (preset: Preset, update: Partial<Preset>): void => {
                 dispatch(createEditPresetAction(preset, update));
             },
-            movePreset: (preset: Preset, displacement: number): void => {
-                dispatch(createMovePresetAction(preset, displacement));
+            movePresets: (presets: Preset[], targetIndex: number): void => {
+                dispatch(createMovePresetsAction(presets, targetIndex));
             },
             deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
                 dispatch(createDeletePresetsAction(source, presets));

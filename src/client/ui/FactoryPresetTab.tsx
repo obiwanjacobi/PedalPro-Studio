@@ -48,6 +48,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                     filterFlagged={false}
                     filterEmpty={false}
                     changePresets={this.actions.changePresets}
+                    maxPresetCount={0}
                     empty={<Typography>
                         No factory presets were found.
                     </Typography>}

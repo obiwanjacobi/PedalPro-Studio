@@ -4,13 +4,14 @@ import { Delete, Save, Undo, ArrowUpward, ArrowDownward } from "@material-ui/ico
 
 import { Preset } from "../Preset";
 import { EditPreset } from "../EditPresetAction";
-import { MovePreset } from "../MovePresetAction";
+import { MovePresets } from "../MovePresetsAction";
 import { DeletePresets } from "../DeletePresetsAction";
 
 export interface PresetListItemDetailProps { 
     preset: Preset;
+    maxPresetCount: number;
 }
-export type PresetListItemDetailActions = EditPreset & MovePreset & DeletePresets;
+export type PresetListItemDetailActions = EditPreset & MovePresets & DeletePresets;
 export interface PresetListItemDetailState {
     name: string;
 }
@@ -119,16 +120,16 @@ export class PresetListItemDetail extends
     }
 
     private movePresetUp() {
-        this.props.movePreset(this.props.preset, -1);
+        this.props.movePresets([this.props.preset], this.props.preset.index - 1);
     }
 
     private movePresetDown() {
-        this.props.movePreset(this.props.preset, 1);
+        // 'insert before' requires one extra => that is why +2 and not +1
+        this.props.movePresets([this.props.preset], this.props.preset.index + 2);
     }
 
     private get canMoveDown(): boolean {
-        // TODO: use actual number of presets!
-        return this.props.preset.index < 400;
+        return this.props.preset.index < this.props.maxPresetCount - 1;
     }
 
     private get canSave(): boolean {

@@ -65,15 +65,24 @@ export abstract class ArrayBuilder<T extends {}> extends ItemBuilder<T[]> {
     }
 
     public removeAt(index: number): T {
+        this.throwIfIndexNotValid(index);
         const removed = this.mutable.splice(index, 1);
         return removed[0];
     }
 
     public insertAt(index: number, item: T) {
+        this.throwIfIndexNotValid(index);
         this.mutable.splice(index, 0, item);
     }
 
     public insertRange(index: number, items: T[]) {
+        this.throwIfIndexNotValid(index);
         this.mutable.splice(index, 0, ...items);
+    }
+
+    protected throwIfIndexNotValid(index: number) {
+        if (index < 0 || index >= this.mutable.length) {
+            throw new RangeError(`Index ${index} is not within range.`);
+        }
     }
 }

@@ -7,15 +7,16 @@ import { PresetListItemDetail } from "./PresetListItemDetail";
 import { Preset } from "../Preset";
 import { ChangePresets } from "../ChangePresetsAction";
 import { EditPreset } from "../EditPresetAction";
-import { MovePreset } from "../MovePresetAction";
+import { MovePresets } from "../MovePresetsAction";
 import { DeletePresets } from "../DeletePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { formatPresetIndex } from "../PresetOperations";
 
 export interface PresetListItemProps { 
     preset: Preset;
+    maxPresetCount: number;
 }
-export type PresetListItemActions = ChangePresets & Partial<EditPreset> & Partial<MovePreset> & Partial<DeletePresets>;
+export type PresetListItemActions = ChangePresets & Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets>;
 export interface PresetListItemState { }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
@@ -27,7 +28,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
         this.toggleExpanded = this.toggleExpanded.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
         this.editPreset = this.editPreset.bind(this);
-        this.movePreset = this.movePreset.bind(this);
+        this.movePresets = this.movePresets.bind(this);
         this.deletePresets = this.deletePresets.bind(this);
     }
 
@@ -69,8 +70,9 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                         <PresetListItemDetail
                             preset={this.props.preset}
                             editPreset={this.editPreset}
-                            movePreset={this.movePreset}
+                            movePresets={this.movePresets}
                             deletePresets={this.deletePresets}
+                            maxPresetCount={this.props.maxPresetCount}
                         /> : null
                     }
                 </Collapse>}
@@ -103,9 +105,9 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
         }
     }
 
-    private movePreset(preset: Preset, displacement: number) {
-        if (this.props.movePreset) {
-            this.props.movePreset(preset, displacement);
+    private movePresets(presets: Preset[], targetIndex: number) {
+        if (this.props.movePresets) {
+            this.props.movePresets(presets, targetIndex);
         }
     }
 
