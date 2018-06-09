@@ -1,5 +1,5 @@
 import * as ModelPreset from "../model/Preset";
-import { Preset, presetsExceptIndexUiEqual } from "./Preset";
+import { Preset } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { ChangePresetsAction } from "./ChangePresetsAction";
@@ -16,6 +16,7 @@ import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
 import { reduceFault } from "./FaultStateReducer";
 import { reducePasteStoragePresets } from "./StorageStateReducer";
+import { presetsExceptIndexUiAreEqual } from "./PresetOperations";
 
 // all actions this reducer handles
 export type PresetAction = 
@@ -45,14 +46,7 @@ const reduceMovePreset = (
             // just copy the preset with the new index
             presetBuilder.mutable[srcIndexPos] = { ...preset, index: targetIndex };
         } else {
-            const reindex = Math.min(preset.index, presetBuilder.mutable[targetIndex].index);
-            presetBuilder.removeAt(srcIndexPos);
-            presetBuilder.insertAt(targetIndexPos, preset);
-            presetBuilder.reIndexPresets(
-                reindex, 
-                Math.min(srcIndexPos, targetIndexPos), 
-                Math.max(srcIndexPos, targetIndexPos)
-            );
+            presetBuilder.movePresets([preset], targetIndexPos);
         }
 
         return presetBuilder.detach();
@@ -119,7 +113,7 @@ const reducePastePresets = (
     if (deleteAfterPaste) {
         builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
             const presetBuilder = new PresetArrayBuilder(clipboardPresets);
-            presetBuilder.removeRange(presets, presetsExceptIndexUiEqual);
+            presetBuilder.removeRange(presets, presetsExceptIndexUiAreEqual);
             return presetBuilder.detach();
         });
     }

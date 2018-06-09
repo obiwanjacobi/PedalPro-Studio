@@ -72,4 +72,8 @@ export abstract class ArrayBuilder<T extends {}> extends ItemBuilder<T[]> {
     public insertAt(index: number, item: T) {
         this.mutable.splice(index, 0, item);
     }
+
+    public insertRange(index: number, items: T[]) {
+        this.mutable.splice(index, 0, ...items);
+    }
 }

@@ -110,6 +110,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                                         <OverwrittenListItem
                                             key={index} 
                                             preset={preset}
+                                            match={false}
                                         />
                                     );
                                 })}
@@ -126,21 +127,17 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
     }
 
     private onRemoveSelectedChange() {
-        this.modifyState({removeSelected: !this.state.removeSelected});
+        this.setState({removeSelected: !this.state.removeSelected});
     }
 
     private onBankChange(event: React.ChangeEvent<HTMLSelectElement>) {
         const name = event.target.value;
-        this.modifyState({targetBank: name});
+        this.setState({targetBank: name});
         
         const bank = this.props.banks.find(b => b.bank === name);
         if (bank && !bank.loaded) {
             this.props.loadBankPresets(name);
         }
-    }
-
-    private modifyState(state: Partial<StoragePastePageState>) {
-        this.setState({ ...this.state, ...state });
     }
 
     private pastedPresets() {

@@ -3,9 +3,10 @@ import {
     ListItem, ListItemText, Checkbox
 } from "@material-ui/core";
 
-import { Preset, formatPresetIndex } from "../Preset";
+import { Preset } from "../Preset";
 import { ChangePresets } from "../ChangePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
+import { formatPresetFullName } from "../PresetOperations";
 
 export interface SourcePresetListItemProps {
     preset: Preset;
@@ -29,7 +30,7 @@ export class SourcePresetListItem extends React.Component<SourcePresetListItemAl
     }
 
     private get title() {
-        return formatPresetIndex(this.props.preset) + "  -  " + this.props.preset.name;
+        return formatPresetFullName(this.props.preset);
     }
 
     private onSelectPreset(_: React.MouseEvent<HTMLElement>) {

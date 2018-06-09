@@ -4,12 +4,13 @@ import { ExpandMore, ExpandLess } from "@material-ui/icons";
 
 import { PresetChangedFlag } from "../controls/PresetChangedFlag";
 import { PresetListItemDetail } from "./PresetListItemDetail";
-import { Preset, formatPresetIndex } from "../Preset";
+import { Preset } from "../Preset";
 import { ChangePresets } from "../ChangePresetsAction";
 import { EditPreset } from "../EditPresetAction";
 import { MovePreset } from "../MovePresetAction";
 import { DeletePresets } from "../DeletePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
+import { formatPresetIndex } from "../PresetOperations";
 
 export interface PresetListItemProps { 
     preset: Preset;

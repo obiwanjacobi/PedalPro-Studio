@@ -1,7 +1,8 @@
-import { Preset, presetsExceptUiAreEqual } from "./Preset";
+import { Preset } from "./Preset";
 import * as ModelPreset from "../model/Preset";
 import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "./StateBuilder";
 import { ItemUiModify } from "./ItemUI";
+import { presetsExceptUiAreEqual } from "./PresetOperations";
 
 export class PresetBuilder extends ItemBuilder<Preset> {
     public static modify(preset: Preset, update: Partial<Preset>): Preset {
@@ -50,10 +51,37 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         });
     }
 
-    public reIndexPresets(presetIndex: number, startArrayIndex: number, endArrayIndex: number) {
-        for (let indexPos = startArrayIndex; indexPos <= endArrayIndex; indexPos++) {
-            this.mutable[indexPos] = PresetBuilder.modify(this.mutable[indexPos], { index: presetIndex });
-            presetIndex++;
-        }    
+    public reIndexPresets(startIndex: number, endIndex: number) {
+        const min = Math.min(startIndex, endIndex);
+        const max = Math.max(startIndex, endIndex);
+
+        for (let index = min; index <= max; index++) {
+            this.mutable[index] = PresetBuilder.modify(this.mutable[index], { index: index });
+        }
+    }
+
+    public movePresets(presetsToMove: Preset[], targetIndex: number) {
+        this.removeRange(presetsToMove, presetsExceptUiAreEqual);
+
+        const sourceIndex = presetsToMove.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
+        const arrayTargetIndex = this.findArrayIndex(targetIndex);
+
+        this.insertRange(arrayTargetIndex, presetsToMove);
+        this.reIndexPresets(sourceIndex, targetIndex + presetsToMove.length - 1);
+    }
+
+    public swapPresets(presetsToSwap: Preset[], targetIndex: number) {
+        this.removeRange(presetsToSwap, presetsExceptUiAreEqual);
+        
+        const sourceIndex = presetsToSwap.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
+        const arrayTargetIndex = this.findArrayIndex(targetIndex);
+
+        const swappedPresets = this.mutable.splice(arrayTargetIndex, presetsToSwap.length, ...presetsToSwap);
+        this.insertRange(sourceIndex, swappedPresets);
+        this.reIndexPresets(sourceIndex, targetIndex + presetsToSwap.length - 1);
+    }
+
+    private findArrayIndex(presetIndex: number): number {
+        return this.mutable.findIndex(p => p.index === presetIndex);
     }
 }

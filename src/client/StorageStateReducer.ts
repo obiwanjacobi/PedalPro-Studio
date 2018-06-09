@@ -8,8 +8,9 @@ import { ChangeBanksAction } from "./ChangeBanksAction";
 import { reduceFault } from "./FaultStateReducer";
 import { LoadBankPresetsAction } from "./LoadBankPresetsAction";
 import { PresetArrayBuilder } from "./PresetBuilder";
-import { Preset, presetsExceptIndexUiEqual } from "./Preset";
+import { Preset } from "./Preset";
 import { AddBankAction } from "./AddBankAction";
+import { presetsExceptIndexUiAreEqual } from "./PresetOperations";
 
 const reduceChangeBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
     ApplicationDocument => {
@@ -124,7 +125,7 @@ export const reducePasteStoragePresets =
     if (deleteAfterPaste) {
         builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
             const presetBuilder = new PresetArrayBuilder(clipboardPresets);
-            presetBuilder.removeRange(presets, presetsExceptIndexUiEqual);
+            presetBuilder.removeRange(presets, presetsExceptIndexUiAreEqual);
             return presetBuilder.detach();
         });
     }

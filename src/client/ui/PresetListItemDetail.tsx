@@ -56,7 +56,7 @@ export class PresetListItemDetail extends
                 <Grid item={true} xs={1}/>
                 <Grid item={true} xs={6}>
                     <Input
-                        style={{width: 140}}
+                        style={{width: 150}}
                         placeholder="Preset Name"
                         margin="dense"
                         value={this.state.name}
@@ -74,35 +74,39 @@ export class PresetListItemDetail extends
                     />
                 </Grid>
                 <Grid item={true} xs={3}>
-                    <IconButton 
-                        color="secondary"
-                        disabled={!this.canSave}
-                        onClick={this.save}
-                    >
-                        <Save />
-                    </IconButton>
-                    <IconButton 
-                        disabled={!this.canDelete}
-                        onClick={this.delete}
-                    >
-                        <Delete />
-                    </IconButton>
+                    <div style={{width: 100}}>
+                        <IconButton 
+                            color="secondary"
+                            disabled={!this.canSave}
+                            onClick={this.save}
+                        >
+                            <Save />
+                        </IconButton>
+                        <IconButton 
+                            disabled={!this.canDelete}
+                            onClick={this.delete}
+                        >
+                            <Delete />
+                        </IconButton>
+                    </div>
                 </Grid>
                 <Grid item={true} xs={1}>
-                    <IconButton 
-                        style={styles.smallIcon}
-                        disabled={!this.canMoveUp}
-                        onClick={this.movePresetUp}
-                    >
-                        <ArrowUpward style={styles.smallIcon}/>
-                    </IconButton>
-                    <IconButton 
-                        style={styles.smallIcon}
-                        disabled={!this.canMoveDown}
-                        onClick={this.movePresetDown}
-                    >
-                        <ArrowDownward style={styles.smallIcon}/>
-                    </IconButton>
+                    <div style={{width: 30}}>
+                        <IconButton 
+                            style={styles.smallIcon}
+                            disabled={!this.canMoveUp}
+                            onClick={this.movePresetUp}
+                        >
+                            <ArrowUpward style={styles.smallIcon}/>
+                        </IconButton>
+                        <IconButton 
+                            style={styles.smallIcon}
+                            disabled={!this.canMoveDown}
+                            onClick={this.movePresetDown}
+                        >
+                            <ArrowDownward style={styles.smallIcon}/>
+                        </IconButton>
+                    </div>
                 </Grid>
                 <Grid item={true} xs={1} />
                 <Grid item={true} xs={12} />
