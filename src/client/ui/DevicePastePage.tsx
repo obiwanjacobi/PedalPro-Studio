@@ -15,8 +15,9 @@ import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAc
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
-import { OverwrittenListItem, NotFoundPreset } from "./OverwrittenListItem";
+import { PreviewListItem, NotFoundPreset } from "./PreviewListItem";
 import { SourcePresetListItem } from "./SourcePresetListItem";
+import { Title } from "../controls/Title";
 
 enum PasteType {
     None = "none",
@@ -67,8 +68,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
-                    <Typography variant="subheading" style={{flex: 1}}>DEVICE</Typography>
-                    <Typography variant="title" style={{flex: 1}}>Paste Presets</Typography>
+                    <Title caption="Paste Presets" prelude="DEVICE - " />
                     <Button onClick={this.overwrite} disabled={this.hasResult}>
                         Overwrite
                     </Button>
@@ -115,7 +115,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                                 <List id="DeviceList">
                                     {this.overwrittenPresets().map((preset: Preset, index: number) => {
                                         return (
-                                            <OverwrittenListItem
+                                            <PreviewListItem
                                                 key={index} 
                                                 preset={preset}
                                                 match={false}

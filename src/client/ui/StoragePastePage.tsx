@@ -17,8 +17,9 @@ import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
 import { StorageBank } from "../StorageBank";
 import { SourcePresetListItem } from "./SourcePresetListItem";
-import { OverwrittenListItem, NotFoundPreset } from "./OverwrittenListItem";
+import { PreviewListItem, NotFoundPreset } from "./PreviewListItem";
 import { LoadBankPresets, dispatchLoadBankPresetsAction } from "../LoadBankPresetsAction";
+import { Title } from "../controls/Title";
 
 export interface StoragePastePageProps {
 }
@@ -61,8 +62,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
-                    <Typography variant="subheading" style={{flex: 1}}>STORAGE</Typography>
-                    <Typography variant="title" style={{flex: 1}}>Paste Presets</Typography>
+                    <Title caption="Paste Presets" prelude="STORAGE - " />
                     <Button onClick={this.overwrite} disabled={this.hasResult}>
                         Paste
                     </Button>
@@ -107,7 +107,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                             <List id="DeviceList">
                                 {this.pastedPresets().map((preset: Preset, index: number) => {
                                     return (
-                                        <OverwrittenListItem
+                                        <PreviewListItem
                                             key={index} 
                                             preset={preset}
                                             match={false}

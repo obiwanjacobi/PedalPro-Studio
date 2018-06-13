@@ -1,3 +1,5 @@
+import { clone, cloneDeep } from "lodash";
+
 import { Preset } from "./Preset";
 import * as ModelPreset from "../model/Preset";
 import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "./StateBuilder";
@@ -28,11 +30,13 @@ export class PresetBuilder extends ItemBuilder<Preset> {
     }
 
     public acceptChanges() {
-        this.mutable.origin.effects = this.mutable.effects;
-        this.mutable.origin.index = this.mutable.index;
-        this.mutable.origin.meta = this.mutable.meta;
-        this.mutable.origin.name = this.mutable.name;
-        this.mutable.origin.traits = this.mutable.traits;
+        this.mutable.origin = {
+            effects: cloneDeep(this.mutable.effects),
+            index: this.mutable.index,
+            meta: cloneDeep(this.mutable.meta),
+            name: clone(this.mutable.name),
+            traits: cloneDeep(this.mutable.traits),
+        };
     }
 
     public toModel(): ModelPreset.Preset {

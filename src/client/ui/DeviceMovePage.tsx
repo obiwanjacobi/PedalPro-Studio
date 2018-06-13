@@ -9,18 +9,19 @@ import { Clear } from "@material-ui/icons";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { Preset } from "../Preset";
 import { ItemUI } from "../ItemUI";
+import { PresetArrayBuilder } from "../PresetBuilder";
+import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
 import { presetHasChanged, formatPresetFullName } from "../PresetOperations";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
 import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
-import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
-import { ScreenState } from "../screen/ScreenState";
-import { OverwrittenListItem } from "./OverwrittenListItem";
 import { SelectedView } from "../controls/SelectedView";
+import { Title } from "../controls/Title";
+import { ScreenState } from "../screen/ScreenState";
+import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
+import { PreviewListItem } from "./PreviewListItem";
 import { SourcePresetListItem } from "./SourcePresetListItem";
-import { PresetArrayBuilder } from "../PresetBuilder";
-import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
-import { FlexContainer } from "../controls/FlexContainer";
+import { PresetChangedFlag } from "../controls/PresetChangedFlag";
 
 enum MoveType {
     None = "none",
@@ -39,11 +40,6 @@ export interface DeviceMovePageStateProps {
 }
 export type DeviceMovePageActions = ChangePresets & PastePresets & UpdateScreen & MovePresets;
 export type DeviceMovePageAllProps = DeviceMovePageProps & DeviceMovePageStateProps & DeviceMovePageActions;
-
-const style = {
-    padding: 12,
-    height: "100%"
-};
 
 export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, DeviceMovePageState> {
     private selection: SelectedView;
@@ -70,71 +66,63 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
-                    <div style={{margin: "0 auto"}}>
-                        <Typography variant="subheading" style={{flex: 1}}>DEVICE - </Typography>
-                        <Typography variant="title" style={{flex: 1}}>Move Presets</Typography>
-                    </div>
+                    <Title caption="Move Presets" prelude="DEVICE - " />
                     <Button onClick={this.moveAndClose} disabled={!this.hasResult}>
                         Move
                     </Button>
                 </ApplicationToolbar>
-                <div style={style}>
-                    <Grid container={true} spacing={8}>
-                        <Grid item={true} xs={4}>
-                            <Paper elevation={2} style={style}>
-                                <Typography variant="body2">Selected</Typography>
-                                <List id="SelectedList">
-                                    {this.selection.selected.map((preset: Preset, index: number) => {
-                                        return (
-                                            <SourcePresetListItem
-                                                key={index} 
-                                                preset={preset} 
-                                            />
-                                        );
-                                    })}
-                                </List>
-                            </Paper>
-                        </Grid>
-                        <Grid item={true} xs={1} />
-                        <Grid item={true} xs={3}>
-                            <Typography variant="body2">Operation</Typography>
-                            <FormControl component="fieldset">
-                                <RadioGroup value={this.state.moveType} onChange={this.onMoveTypeChange}>
-                        <FormControlLabel value={MoveType.Insert} label="Insert (before)" control={<Radio/>} />
-                        <FormControlLabel value={MoveType.Swap} label="Swap / Exchange" control={<Radio/>} />
-                        <FormControl>
-                            <InputLabel htmlFor="target-input">Target</InputLabel>
-                            <Select 
-                                value={this.state.targetIndex}
-                                onChange={this.onTargetIndexChange}
-                                input={<Input id="target-input"/>}
-                            >
-                                {this.renderTargetList()}
-                            </Select>
-                        </FormControl>
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
-                        <Grid item={true} xs={4}>
-                            <Paper elevation={2} style={style}>
-                                <Typography variant="body2">Moved preview</Typography>
-                                <FlexContainer vertical={true}>
-                                    <List id="DeviceList">
-                                        {this.movedPresets().map((preset: Preset, index: number) => {
-                                            return (
-                                                <OverwrittenListItem
-                                                    key={index} 
-                                                    preset={preset}
-                                                    match={this.isMatch(preset)}
-                                                />
-                                            );
-                                        })}
-                                    </List>
-                                </FlexContainer>
-                            </Paper>
-                        </Grid>
+                <Grid container={true} spacing={8} alignItems="stretch" justify="flex-start" style={{flexGrow: 1}}>
+                    <Grid item={true} xs={4}>
+                        <Paper elevation={2}>
+                            <Typography variant="body2">Selected</Typography>
+                            <List id="SelectedList">
+                                {this.selection.selected.map((preset: Preset, index: number) => {
+                                    return (
+                                        <SourcePresetListItem
+                                            key={index} 
+                                            preset={preset} 
+                                        />
+                                    );
+                                })}
+                            </List>
+                        </Paper>
                     </Grid>
-                </div>
+                    <Grid item={true} xs={4}>
+                        <Typography variant="body2">Operation</Typography>
+                        <FormControl component="fieldset">
+                            <RadioGroup value={this.state.moveType} onChange={this.onMoveTypeChange}>
+                    <FormControlLabel value={MoveType.Insert} label="Insert (before)" control={<Radio/>} />
+                    <FormControlLabel value={MoveType.Swap} label="Swap / Exchange" control={<Radio/>} />
+                    <FormControl>
+                        <InputLabel htmlFor="target-input">Target</InputLabel>
+                        <Select 
+                            value={this.state.targetIndex}
+                            onChange={this.onTargetIndexChange}
+                            input={<Input id="target-input"/>}
+                        >
+                            {this.renderTargetList()}
+                        </Select>
+                    </FormControl>
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item={true} xs={4}>
+                        <Paper elevation={2}>
+                            <Typography variant="body2">Moved preview</Typography>
+                            <List id="DeviceList">
+                                {this.movedPresets().map((preset: Preset, index: number) => {
+                                    return (
+                                        <PreviewListItem
+                                            key={index} 
+                                            preset={preset}
+                                            match={this.isMatch(preset)}
+                                        />
+                                    );
+                                })}
+                            </List>
+                        </Paper>
+                    </Grid>
+                </Grid>
             </Dialog>
         );
     }
@@ -143,7 +131,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
         return this.props.presets
             .filter(p => !this.isMatch(p))
             .map((p, i) => 
-                <MenuItem key={i} value={p.index}>{formatPresetFullName(p)}</MenuItem>);
+                <MenuItem key={i} value={p.index}>{formatPresetFullName(p)}<PresetChangedFlag preset={p} /></MenuItem>);
     }
 
     private get hasResult(): boolean {

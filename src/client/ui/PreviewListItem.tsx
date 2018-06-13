@@ -17,20 +17,20 @@ const NotFoundPreset: Preset = {
         name: "",
         index: -1,
         meta: { device: "" },
-        traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false},
+        traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false },
     },
     ui: { selected: false, expanded: false, markedDeleted: false },
     meta: { device: "" },
-    traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false},
+    traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false },
 };
 
-export interface OverwrittenListItemProps {
+export interface PreviewListItemProps {
     preset: Preset;
     match: boolean;
 }
 
-export class OverwrittenListItem extends React.Component<OverwrittenListItemProps> {
-    public constructor(props: OverwrittenListItemProps) {
+export class PreviewListItem extends React.Component<PreviewListItemProps> {
+    public constructor(props: PreviewListItemProps) {
         super(props);
     }
 
