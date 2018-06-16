@@ -151,22 +151,30 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                     .slice(0, this.selection.selected.length);
                 return empties.fill(NotFoundPreset, empties.length, this.props.clipboard.length);
             case PasteType.Index:
-                const byIndex = new Array<Preset>(this.selection.selected.length);
-                this.selection.selected.forEach((p: Preset, index: number) => {
-                    const found = this.props.presets.find((d: Preset) => d.index === p.index);
-                    if (found) { byIndex[index] = found; } else { byIndex[index] = NotFoundPreset; }
-                });
-                return byIndex;
+                return this.overwrittenPresetsByIndex();
             case PasteType.Name:
-                const byName = new Array<Preset>(this.selection.selected.length);
-                this.selection.selected.forEach((p: Preset, index: number) => {
-                    const found = this.props.presets.find((d: Preset) => d.name === p.name);
-                    if (found) { byName[index] = found; } else { byName[index] = NotFoundPreset; }
-                });
-                return byName;
+                return this.overwrittenPresetsByName();
             default:
                 return [];
         }
+    }
+
+    private overwrittenPresetsByIndex(): Preset[] {
+        const byIndex = new Array<Preset>(this.selection.selected.length);
+        this.selection.selected.forEach((p: Preset, index: number) => {
+            const found = this.props.presets.find((d: Preset) => d.index === p.index);
+            byIndex[index] = found || NotFoundPreset;
+        });
+        return byIndex;
+    }
+
+    private overwrittenPresetsByName(): Preset[] {
+        const byName = new Array<Preset>(this.selection.selected.length);
+        this.selection.selected.forEach((p: Preset, index: number) => {
+            const found = this.props.presets.find((d: Preset) => d.name === p.name);
+            byName[index] = found || NotFoundPreset;
+        });
+        return byName;
     }
 
     private pastedPresets() {
