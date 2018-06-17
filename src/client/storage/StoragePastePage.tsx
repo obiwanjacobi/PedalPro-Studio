@@ -15,8 +15,8 @@ import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAc
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectedView } from "../controls/SelectedView";
 import { Title } from "../controls/Title";
-import { SourcePresetListItem } from "../ui/SourcePresetListItem";
-import { PreviewListItem, NotFoundPreset } from "../ui/PreviewListItem";
+import { SourcePresetListItem } from "../preset/SourcePresetListItem";
+import { PreviewListItem, NotFoundPreset } from "../preset/PreviewListItem";
 import { ScreenState } from "../screen/ScreenState";
 import { StorageBank } from "./StorageBank";
 import { LoadBankPresets, dispatchLoadBankPresetsAction } from "./LoadBankPresetsAction";

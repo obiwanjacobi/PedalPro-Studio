@@ -19,8 +19,8 @@ import { SelectedView } from "../controls/SelectedView";
 import { Title } from "../controls/Title";
 import { ScreenState } from "../screen/ScreenState";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
-import { PreviewListItem } from "../ui/PreviewListItem";
-import { SourcePresetListItem } from "../ui/SourcePresetListItem";
+import { PreviewListItem } from "../preset/PreviewListItem";
+import { SourcePresetListItem } from "../preset/SourcePresetListItem";
 import { PresetChangedFlag } from "../controls/PresetChangedFlag";
 
 enum MoveType {

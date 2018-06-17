@@ -11,8 +11,8 @@ import { LoadPresets, dispatchLoadPresetsAction } from "../preset/LoadPresetsAct
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
 
-import { PresetToolbar } from "../ui/PresetToolbar";
-import { PresetView } from "../ui/PresetView";
+import { PresetToolbar } from "../preset/PresetToolbar";
+import { PresetView } from "../preset/PresetView";
 
 export interface FactoryPresetTabProps { }
 export interface FactoryPresetTabStateProps { 

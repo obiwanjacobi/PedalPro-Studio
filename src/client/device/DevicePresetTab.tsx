@@ -19,8 +19,8 @@ import { SavePresets, createSavePresetsAction } from "../preset/SavePresetsActio
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../preset/DeletePresetsAction";
 import { ScreenState } from "../screen/ScreenState";
-import { PresetToolbar } from "../ui/PresetToolbar";
-import { PresetView } from "../ui/PresetView";
+import { PresetToolbar } from "../preset/PresetToolbar";
+import { PresetView } from "../preset/PresetView";
 import DevicePastePage from "./DevicePastePage";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 import DeviceMovePage from "./DeviceMovePage";

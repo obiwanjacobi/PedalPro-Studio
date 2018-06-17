@@ -5,8 +5,8 @@ import { FileDownload } from "@material-ui/icons";
 
 import { SelectAllButtonStatus } from "../controls/SelectAllButton";
 import { FlexContainer } from "../controls/FlexContainer";
-import { PresetToolbar } from "../ui/PresetToolbar";
-import { PresetView } from "../ui/PresetView";
+import { PresetToolbar } from "../preset/PresetToolbar";
+import { PresetView } from "../preset/PresetView";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
 import { ChangeBanks, createChangeBanksAction } from "./ChangeBanksAction";
 import { SavePresets, createSavePresetsAction } from "../preset/SavePresetsAction";
