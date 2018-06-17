@@ -5,7 +5,7 @@ import UserNotification from "../notification/UserNotification";
 import ProgressBar from "../screen/ProgressBar";
 import StoragePresetTab from "../storage/StoragePresetTab";
 import DevicePresetTab from "../device/DevicePresetTab";
-import FactoryPresetTab from "./FactoryPresetTab";
+import FactoryPresetTab from "../factory/FactoryPresetTab";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {
