@@ -2,10 +2,10 @@ import * as React from "react";
 import { Typography } from "@material-ui/core";
 
 import { VirtualListProps, VirtualList } from "../controls/VirtualList";
-import { StorageBank } from "../StorageBank";
+import { StorageBank } from "./StorageBank";
 import { StorageBankListItem } from "./StorageBankListItem";
-import { ChangeBanks } from "../ChangeBanksAction";
-import { LoadBankPresets } from "../LoadBankPresetsAction";
+import { ChangeBanks } from "./ChangeBanksAction";
+import { LoadBankPresets } from "./LoadBankPresetsAction";
 
 export interface StorageBankListProps extends VirtualListProps<StorageBank> {
 }

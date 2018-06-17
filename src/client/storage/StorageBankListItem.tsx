@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Checkbox, ListItem, ListItemText, Collapse, IconButton, Grid, Paper } from "@material-ui/core";
 
-import { StorageBank } from "../StorageBank";
-import { ChangeBanks } from "../ChangeBanksAction";
-import { LoadBankPresets } from "../LoadBankPresetsAction";
+import { StorageBank } from "./StorageBank";
+import { ChangeBanks } from "./ChangeBanksAction";
+import { LoadBankPresets } from "./LoadBankPresetsAction";
 import { StorageBankListItemDetail } from "./StorageBankListItemDetail";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 

@@ -6,7 +6,7 @@ import * as ModelPreset from "../model/Preset";
 import * as Storage from "../model/Storage";
 import { PresetResponse, PresetRequest, DeviceResponse, BankResponse, ResponseMessage } from "../model/Messages";
 import { DeviceIdentity } from "../model/DeviceIdentity";
-import { StorageBank } from "./StorageBank";
+import { StorageBank } from "./storage/StorageBank";
 
 export class PresetsClient {
     public readonly collection: PresetCollectionType;

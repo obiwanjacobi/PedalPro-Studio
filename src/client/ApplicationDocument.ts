@@ -3,7 +3,7 @@ import * as ModelPreset from "../model/Preset";
 import { Notification } from "./notification/Notification";
 import { ScreenState } from "./screen/ScreenState";
 import { DeviceIdentity } from "../model/DeviceIdentity";
-import { StorageBank } from "./StorageBank";
+import { StorageBank } from "./storage/StorageBank";
 
 export enum PresetCollectionType {
     device = "device",

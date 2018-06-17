@@ -1,7 +1,8 @@
-import { StorageBank } from "./StorageBank";
-import { PresetCollectionType } from "./ApplicationDocument";
-import { DefaultClient, PresetsClient } from "./Client";
 import { Dispatch } from "react-redux";
+
+import { StorageBank } from "./StorageBank";
+import { PresetCollectionType } from "../ApplicationDocument";
+import { DefaultClient, PresetsClient } from "../Client";
 
 export interface LoadBanksAction {
     readonly type: "R/storage/*";

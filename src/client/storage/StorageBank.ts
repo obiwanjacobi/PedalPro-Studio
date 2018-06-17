@@ -1,5 +1,5 @@
-import { ItemWithUI } from "./ItemUI";
-import * as ModelStorage from "../model/Storage";
+import { ItemWithUI } from "../ItemUI";
+import * as ModelStorage from "../../model/Storage";
 
 export interface StorageBank extends ItemWithUI {
     name: string;

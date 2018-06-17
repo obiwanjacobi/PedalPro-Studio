@@ -15,7 +15,7 @@ import { PresetArrayBuilder, PresetBuilder } from "./PresetBuilder";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
 import { reduceFault } from "./FaultStateReducer";
-import { reducePasteStoragePresets } from "./StorageStateReducer";
+import { reducePasteStoragePresets } from "./storage/StorageStateReducer";
 import { presetsExceptIndexUiAreEqual } from "./PresetOperations";
 
 // all actions this reducer handles

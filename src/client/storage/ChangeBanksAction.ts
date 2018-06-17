@@ -1,4 +1,4 @@
-import { ItemUI } from "./ItemUI";
+import { ItemUI } from "../ItemUI";
 import { StorageBank } from "./StorageBank";
 
 export interface ChangeBanksAction {

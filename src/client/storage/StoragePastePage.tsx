@@ -13,13 +13,13 @@ import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction
 import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
-import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
-import { StorageBank } from "../StorageBank";
-import { SourcePresetListItem } from "./SourcePresetListItem";
-import { PreviewListItem, NotFoundPreset } from "./PreviewListItem";
-import { LoadBankPresets, dispatchLoadBankPresetsAction } from "../LoadBankPresetsAction";
 import { Title } from "../controls/Title";
+import { SourcePresetListItem } from "../ui/SourcePresetListItem";
+import { PreviewListItem, NotFoundPreset } from "../ui/PreviewListItem";
+import { ScreenState } from "../screen/ScreenState";
+import { StorageBank } from "./StorageBank";
+import { LoadBankPresets, dispatchLoadBankPresetsAction } from "./LoadBankPresetsAction";
 
 export interface StoragePastePageProps {
 }

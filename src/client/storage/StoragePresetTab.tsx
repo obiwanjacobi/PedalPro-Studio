@@ -5,9 +5,10 @@ import { FileDownload } from "@material-ui/icons";
 
 import { SelectAllButtonStatus } from "../controls/SelectAllButton";
 import { FlexContainer } from "../controls/FlexContainer";
-import { PresetToolbar } from "./PresetToolbar";
+import { PresetToolbar } from "../ui/PresetToolbar";
+import { PresetView } from "../ui/PresetView";
 import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
-import { ChangeBanks, createChangeBanksAction } from "../ChangeBanksAction";
+import { ChangeBanks, createChangeBanksAction } from "./ChangeBanksAction";
 import { SavePresets, createSavePresetsAction } from "../SavePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../EditPresetAction";
@@ -15,18 +16,17 @@ import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../DeletePresetsAction";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { StorageBank } from "../StorageBank";
-import { Preset } from "../Preset";
-import { ItemUI } from "../ItemUI";
-import { ScreenState } from "../screen/ScreenState";
-import { PresetView } from "./PresetView";
-import { dispatchLoadBanksAction, LoadStorageBanks } from "../LoadBanksAction";
-import { dispatchLoadBankPresetsAction, LoadBankPresets } from "../LoadBankPresetsAction";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
+import { ScreenState } from "../screen/ScreenState";
+import { Preset } from "../Preset";
+import { ItemUI } from "../ItemUI";
+import { StorageBank } from "./StorageBank";
+import { dispatchLoadBanksAction, LoadStorageBanks } from "./LoadBanksAction";
+import { dispatchLoadBankPresetsAction, LoadBankPresets } from "./LoadBankPresetsAction";
 import { StorageBankView } from "./StorageBankView";
-import { createAddBankAction, AddBank } from "../AddBankAction";
+import { createAddBankAction, AddBank } from "./AddBankAction";
 import StoragePastePage from "./StoragePastePage";
 
 export interface StoragePresetTabProps {}

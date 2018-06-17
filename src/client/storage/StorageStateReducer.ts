@@ -1,16 +1,16 @@
-import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
+import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
+import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
+import { Preset } from "../Preset";
+import { PresetArrayBuilder } from "../PresetBuilder";
+import { presetsExceptIndexUiAreEqual } from "../PresetOperations";
 import { StorageBank } from "./StorageBank";
-import { ItemUI, itemUiModify } from "./ItemUI";
-import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
-import { BankArrayBuilder, BankBuilder } from "./BankBuilder";
+import { ItemUI, itemUiModify } from "../ItemUI";
+import { reduceFault } from "../FaultStateReducer";
 import { LoadBanksAction } from "./LoadBanksAction";
 import { ChangeBanksAction } from "./ChangeBanksAction";
-import { reduceFault } from "./FaultStateReducer";
 import { LoadBankPresetsAction } from "./LoadBankPresetsAction";
-import { PresetArrayBuilder } from "./PresetBuilder";
-import { Preset } from "./Preset";
 import { AddBankAction } from "./AddBankAction";
-import { presetsExceptIndexUiAreEqual } from "./PresetOperations";
+import { BankArrayBuilder, BankBuilder } from "./BankBuilder";
 
 const reduceChangeBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
     ApplicationDocument => {

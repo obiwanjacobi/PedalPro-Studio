@@ -2,7 +2,7 @@ import * as React from "react";
 import { Grid, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { Delete, Save, Undo } from "@material-ui/icons";
 
-import { StorageBank } from "../StorageBank";
+import { StorageBank } from "./StorageBank";
 
 export interface StorageBankListItemDetailProps { 
     bank: StorageBank;

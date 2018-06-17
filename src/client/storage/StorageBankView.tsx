@@ -2,12 +2,11 @@ import * as React from "react";
 import { Typography, Toolbar, IconButton } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { StorageBankList } from "./StorageBankList";
-import { StorageBank } from "../StorageBank";
-import { ChangeBanks } from "../ChangeBanksAction";
-import { LoadBankPresets } from "../LoadBankPresetsAction";
+import { StorageBank } from "./StorageBank";
+import { ChangeBanks } from "./ChangeBanksAction";
+import { LoadBankPresets } from "./LoadBankPresetsAction";
 import { FlexContainer } from "../controls/FlexContainer";
-import { AddBank } from "../AddBankAction";
-
+import { AddBank } from "./AddBankAction";
 
 export interface StorageBankViewProps {
     banks: StorageBank[];
