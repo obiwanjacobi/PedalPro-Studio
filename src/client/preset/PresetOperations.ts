@@ -1,10 +1,10 @@
 import * as lodash from "lodash";
 
-import { numberToString } from "../StringExtensions";
-import * as ModelPreset from "../model/Preset";
-import { PresetTraits } from "../model/PresetTraits";
-import { Effects, EffectsEx } from "../model/Effects";
-import { PresetMeta } from "../model/PresetMeta";
+import { numberToString } from "../../StringExtensions";
+import * as ModelPreset from "../../model/Preset";
+import { PresetTraits } from "../../model/PresetTraits";
+import { Effects, EffectsEx } from "../../model/Effects";
+import { PresetMeta } from "../../model/PresetMeta";
 import { Preset } from "./Preset";
 
 function traitsEqual(traits1: PresetTraits, traits2: PresetTraits): boolean {

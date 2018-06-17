@@ -1,21 +1,21 @@
-import * as ModelPreset from "../model/Preset";
+import * as ModelPreset from "../../model/Preset";
 import { Preset } from "./Preset";
-import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
+import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { LoadPresetsAction } from "./LoadPresetsAction";
 import { ChangePresetsAction } from "./ChangePresetsAction";
 import { CopyPresetsAction } from "./CopyPresetsAction";
 import { EditPresetAction } from "./EditPresetAction";
 import { MovePresetsAction } from "./MovePresetsAction";
 import { SavePresetsAction } from "./SavePresetsAction";
-import { ProgressInfo } from "./screen/ScreenState";
+import { ProgressInfo } from "../screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
 import { DeletePresetsAction } from "./DeletePresetsAction";
-import { ItemUI, itemUiModify } from "./ItemUI";
+import { ItemUI, itemUiModify } from "../ItemUI";
 import { PresetArrayBuilder, PresetBuilder } from "./PresetBuilder";
-import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
-import { ScreenBuilder } from "./screen/ScreenBuilder";
-import { reduceFault } from "./FaultStateReducer";
-import { reducePasteStoragePresets } from "./storage/StorageStateReducer";
+import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
+import { ScreenBuilder } from "../screen/ScreenBuilder";
+import { reduceFault } from "../FaultStateReducer";
+import { reducePasteStoragePresets } from "../storage/StorageStateReducer";
 import { presetsExceptIndexUiAreEqual } from "./PresetOperations";
 
 // all actions this reducer handles

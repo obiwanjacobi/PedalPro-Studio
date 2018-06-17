@@ -1,4 +1,4 @@
-import { Preset } from "./Preset";
+import { Preset } from "./preset/Preset";
 import * as ModelPreset from "../model/Preset";
 import { Notification } from "./notification/Notification";
 import { ScreenState } from "./screen/ScreenState";

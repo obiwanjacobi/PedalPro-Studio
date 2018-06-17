@@ -1,8 +1,8 @@
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
-import { Preset } from "../Preset";
-import { PresetArrayBuilder } from "../PresetBuilder";
-import { presetsExceptIndexUiAreEqual } from "../PresetOperations";
+import { Preset } from "../preset/Preset";
+import { PresetArrayBuilder } from "../preset/PresetBuilder";
+import { presetsExceptIndexUiAreEqual } from "../preset/PresetOperations";
 import { StorageBank } from "./StorageBank";
 import { ItemUI, itemUiModify } from "../ItemUI";
 import { reduceFault } from "../FaultStateReducer";

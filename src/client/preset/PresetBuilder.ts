@@ -1,9 +1,9 @@
 import { clone, cloneDeep } from "lodash";
 
 import { Preset } from "./Preset";
-import * as ModelPreset from "../model/Preset";
-import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "./StateBuilder";
-import { itemUiModify } from "./ItemUI";
+import * as ModelPreset from "../../model/Preset";
+import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "../StateBuilder";
+import { itemUiModify } from "../ItemUI";
 import { presetsExceptUiAreEqual, presetHasChanged } from "./PresetOperations";
 
 export class PresetBuilder extends ItemBuilder<Preset> {

@@ -1,5 +1,5 @@
 import { SelectAllButtonStatus } from "./SelectAllButton";
-import { Preset } from "../Preset";
+import { Preset } from "../preset/Preset";
 
 /**
  * Provides common functs for a collection of selectable items.

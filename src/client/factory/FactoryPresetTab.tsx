@@ -2,14 +2,14 @@ import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "@material-ui/core";
 
-import { Preset } from "../Preset";
+import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
 import { FlexContainer } from "../controls/FlexContainer";
 import { SelectedView } from "../controls/SelectedView";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { LoadPresets, dispatchLoadPresetsAction } from "../LoadPresetsAction";
-import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
-import { CopyPresets, createCopyPresetsAction } from "../CopyPresetsAction";
+import { LoadPresets, dispatchLoadPresetsAction } from "../preset/LoadPresetsAction";
+import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
+import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
 
 import { PresetToolbar } from "../ui/PresetToolbar";
 import { PresetView } from "../ui/PresetView";

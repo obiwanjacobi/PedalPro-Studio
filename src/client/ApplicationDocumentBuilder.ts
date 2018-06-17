@@ -1,5 +1,5 @@
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
-import { Preset } from "./Preset";
+import { Preset } from "./preset/Preset";
 import { ItemBuilder, CopyOption } from "./StateBuilder";
 
 export class ApplicationDocumentBuilder extends ItemBuilder<ApplicationDocument> {

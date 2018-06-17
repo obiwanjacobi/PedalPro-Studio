@@ -1,7 +1,7 @@
 import { Dispatch } from "react-redux";
 
-import { PresetCollectionType } from "./ApplicationDocument";
-import { DefaultClient } from "./Client";
+import { PresetCollectionType } from "../ApplicationDocument";
+import { DefaultClient } from "../Client";
 import { Preset } from "./Preset";
 
 export interface SavePresetsAction {

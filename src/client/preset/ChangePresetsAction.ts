@@ -1,6 +1,6 @@
 import { Preset } from "./Preset";
-import { ItemUI } from "./ItemUI";
-import { PresetCollectionType } from "./ApplicationDocument";
+import { ItemUI } from "../ItemUI";
+import { PresetCollectionType } from "../ApplicationDocument";
 
 export interface ChangePresetsAction {
     readonly type: "U/*/presets/ui";

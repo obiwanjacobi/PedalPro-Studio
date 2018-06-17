@@ -1,13 +1,13 @@
 import { Dispatch } from "react-redux";
 
-import { PresetsClient } from "./Client";
-import { ApplicationDocument } from "./ApplicationDocument";
-import { createDeviceInfoAction } from "./device/DevciceInfoAction";
-import { DeviceIdentity } from "../model/DeviceIdentity";
-import { createUpdateScreenAction } from "./screen/UpdateScreenAction";
-import { ProgressInfo } from "./screen/ScreenState";
+import { DeviceIdentity } from "../../model/DeviceIdentity";
+import { PresetsClient } from "../Client";
+import { ApplicationDocument } from "../ApplicationDocument";
+import { createDeviceInfoAction } from "../device/DevciceInfoAction";
+import { createUpdateScreenAction } from "../screen/UpdateScreenAction";
+import { ProgressInfo } from "../screen/ScreenState";
+import { ScreenBuilder } from "../screen/ScreenBuilder";
 import { createLoadPresetsAction, createLoadPresetsErrorAction, LoadPresetsAction } from "./LoadPresetsAction";
-import { ScreenBuilder } from "./screen/ScreenBuilder";
 
 const pageSize = 20;
 

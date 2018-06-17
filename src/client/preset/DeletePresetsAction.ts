@@ -1,4 +1,4 @@
-import { PresetCollectionType } from "./ApplicationDocument";
+import { PresetCollectionType } from "../ApplicationDocument";
 import { Preset } from "./Preset";
 
 export interface DeletePresetsAction {

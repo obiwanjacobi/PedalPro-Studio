@@ -1,7 +1,7 @@
 import * as TypedRestClient from "typed-rest-client/RestClient";
 
 import { PresetCollectionType } from "./ApplicationDocument";
-import { Preset } from "./Preset";
+import { Preset } from "./preset/Preset";
 import * as ModelPreset from "../model/Preset";
 import * as Storage from "../model/Storage";
 import { PresetResponse, PresetRequest, DeviceResponse, BankResponse, ResponseMessage } from "../model/Messages";

@@ -7,13 +7,13 @@ import {
 import { Clear } from "@material-ui/icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { Preset } from "../Preset";
+import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
-import { PresetArrayBuilder } from "../PresetBuilder";
-import { MovePresets, createMovePresetsAction } from "../MovePresetsAction";
-import { presetHasChanged, formatPresetFullName } from "../PresetOperations";
-import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
-import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
+import { PresetArrayBuilder } from "../preset/PresetBuilder";
+import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
+import { presetHasChanged, formatPresetFullName } from "../preset/PresetOperations";
+import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
+import { PastePresets, createPastePresetsAction } from "../preset/PastePresetsAction";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectedView } from "../controls/SelectedView";
 import { Title } from "../controls/Title";

@@ -2,7 +2,7 @@ import { Dispatch } from "react-redux";
 
 import { PresetCollectionType } from "../ApplicationDocument";
 import { DefaultClient, PresetsClient } from "../Client";
-import { Preset } from "../Preset";
+import { Preset } from "../preset/Preset";
 
 export interface LoadBankPresetsAction {
     readonly type: "R/storage/*/presets/";

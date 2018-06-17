@@ -3,10 +3,10 @@ import {
     ListItem, ListItemText, ListItemSecondaryAction
 } from "@material-ui/core";
 
-import { Preset } from "../Preset";
+import { Preset } from "../preset/Preset";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { PresetChangedFlag } from "../controls/PresetChangedFlag";
-import { formatPresetFullName } from "../PresetOperations";
+import { formatPresetFullName } from "../preset/PresetOperations";
 
 export 
 const NotFoundPreset: Preset = {

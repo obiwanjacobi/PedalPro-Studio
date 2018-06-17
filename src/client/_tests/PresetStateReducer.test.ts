@@ -1,9 +1,9 @@
-import * as PresetStateReducer from "../PresetStateReducer";
+import * as PresetStateReducer from "../preset/PresetStateReducer";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
-import { createChangePresetsAction } from "../ChangePresetsAction";
-import { createLoadPresetsAction } from "../LoadPresetsAction";
-import { Preset } from "../Preset";
+import { createChangePresetsAction } from "../preset/ChangePresetsAction";
+import { createLoadPresetsAction } from "../preset/LoadPresetsAction";
+import { Preset } from "../preset/Preset";
 
 describe("PresetStateReducer.ts", () => {
     it ("reduceLoadPresets - device - just loads in the specified presets", () => {

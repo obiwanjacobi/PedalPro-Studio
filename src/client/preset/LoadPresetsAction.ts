@@ -1,9 +1,9 @@
 import { Dispatch } from "react-redux";
 
-import { PresetCollectionType } from "./ApplicationDocument";
-import { DefaultClient } from "./Client";
+import { PresetCollectionType } from "../ApplicationDocument";
+import { DefaultClient } from "../Client";
 import { Preset } from "./Preset";
-import { ProgressInfo } from "./screen/ScreenState";
+import { ProgressInfo } from "../screen/ScreenState";
 import { progressLoadPresets, loadAllPresets } from "./LoadPresetsOperation";
 
 export interface LoadPresetsAction {

@@ -1,6 +1,6 @@
-import { PresetCollectionType } from "./ApplicationDocument";
-import { ItemUI } from "./ItemUI";
-import * as ModelPreset from "../model/Preset";
+import { PresetCollectionType } from "../ApplicationDocument";
+import { ItemUI } from "../ItemUI";
+import * as ModelPreset from "../../model/Preset";
 
 export interface PresetGroup {
     /**

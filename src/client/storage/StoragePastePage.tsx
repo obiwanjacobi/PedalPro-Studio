@@ -7,10 +7,10 @@ import {
 import { Clear } from "@material-ui/icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { Preset } from "../Preset";
+import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
-import { ChangePresets, createChangePresetsAction } from "../ChangePresetsAction";
-import { PastePresets, createPastePresetsAction } from "../PastePresetsAction";
+import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
+import { PastePresets, createPastePresetsAction } from "../preset/PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectedView } from "../controls/SelectedView";

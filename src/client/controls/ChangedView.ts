@@ -1,6 +1,6 @@
-import { Preset } from "../Preset";
+import { Preset } from "../preset/Preset";
 import { SelectAllButtonStatus } from "./SelectAllButton";
-import { presetHasChanged, onlyIndexHasChanged } from "../PresetOperations";
+import { presetHasChanged, onlyIndexHasChanged } from "../preset/PresetOperations";
 
 export class ChangedView {
     private readonly collection: Preset[];
