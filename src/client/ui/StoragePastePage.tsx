@@ -95,8 +95,8 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                             <Select value={this.state.targetBank} onChange={this.onBankChange}>
                                 {this.props.banks.map((bank: StorageBank, index: number) => {
                                     return (
-                                        <MenuItem key={index} value={bank.bank}>
-                                            <Typography>{bank.bank}</Typography>
+                                        <MenuItem key={index} value={bank.name}>
+                                            <Typography>{bank.name}</Typography>
                                         </MenuItem>
                                     );
                                 })}
@@ -134,7 +134,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
         const name = event.target.value;
         this.setState({targetBank: name});
         
-        const bank = this.props.banks.find(b => b.bank === name);
+        const bank = this.props.banks.find(b => b.name === name);
         if (bank && !bank.loaded) {
             this.props.loadBankPresets(name);
         }
@@ -146,9 +146,8 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
         const bankPreset = this.props.presets
             .filter(p => p.group && p.group.name === this.state.targetBank)
             .sort((p1, p2) => p1.index - p2.index);
-        if (bankPreset.length === 0) { return []; }
 
-        const index = bankPreset[bankPreset.length - 1].index + 1;
+        const index = bankPreset.length ? bankPreset[bankPreset.length - 1].index + 1 : 0;
         return this.selection.selected.map(
             (cp, i) => { return {
                 ...cp, 

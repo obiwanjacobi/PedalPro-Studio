@@ -10,7 +10,7 @@ import { SavePresetsAction } from "./SavePresetsAction";
 import { ProgressInfo } from "./screen/ScreenState";
 import { PastePresetsAction } from "./PastePresetsAction";
 import { DeletePresetsAction } from "./DeletePresetsAction";
-import { ItemUI, ItemUiModify } from "./ItemUI";
+import { ItemUI, itemUiModify } from "./ItemUI";
 import { PresetArrayBuilder, PresetBuilder } from "./PresetBuilder";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { ScreenBuilder } from "./screen/ScreenBuilder";
@@ -93,7 +93,7 @@ const reducePastePresets = (
                 presetBuilder.mutable[index] = PresetBuilder.modify(pasted, { 
                     origin: PresetBuilder.toModel(overwritten),
                     source: target, 
-                    ui: ItemUiModify(pasted.ui, {selected: true})});
+                    ui: itemUiModify(pasted.ui, {selected: true})});
             },
             (p1: Preset, p2: Preset): boolean => p1.index === p2.index);
 
@@ -122,7 +122,7 @@ const reduceChangePresets = (
     builder.transformPresets(source, (originalPresets: Preset[]): Preset[] => {
         const presetBuilder = new PresetArrayBuilder(originalPresets);
         presetBuilder.forRange(presets, (p: Preset, index: number) => {
-            presetBuilder.mutable[index] = PresetBuilder.modify(p, { ui: ItemUiModify(p.ui, ui) });
+            presetBuilder.mutable[index] = PresetBuilder.modify(p, { ui: itemUiModify(p.ui, ui) });
         });
         return presetBuilder.detach();
     });

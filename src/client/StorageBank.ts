@@ -1,8 +1,9 @@
-import { ItemUI, ItemWithUI } from "./ItemUI";
+import { ItemWithUI } from "./ItemUI";
+import * as ModelStorage from "../model/Storage";
 
 export interface StorageBank extends ItemWithUI {
-    bank: string;
+    name: string;
     loaded: boolean;
     created: boolean;
-    ui: ItemUI;
+    origin: ModelStorage.Bank;
 }

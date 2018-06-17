@@ -19,6 +19,6 @@ export interface ItemUI {
     markedDeleted: boolean;
 }
 
-export const ItemUiModify = (itemUi: ItemUI, update: Partial<ItemUI>): ItemUI => {
+export const itemUiModify = (itemUi: ItemUI, update: Partial<ItemUI>): ItemUI => {
     return { ...itemUi, ...update };
 };

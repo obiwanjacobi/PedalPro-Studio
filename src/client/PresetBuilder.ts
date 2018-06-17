@@ -3,7 +3,7 @@ import { clone, cloneDeep } from "lodash";
 import { Preset } from "./Preset";
 import * as ModelPreset from "../model/Preset";
 import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "./StateBuilder";
-import { ItemUiModify } from "./ItemUI";
+import { itemUiModify } from "./ItemUI";
 import { presetsExceptUiAreEqual, presetHasChanged } from "./PresetOperations";
 
 export class PresetBuilder extends ItemBuilder<Preset> {
@@ -12,7 +12,7 @@ export class PresetBuilder extends ItemBuilder<Preset> {
     }
 
     public static delete(preset: Preset, empty: ModelPreset.Preset) {
-        return { ...preset, ...empty, ui: ItemUiModify(preset.ui, { markedDeleted: false })};
+        return { ...preset, ...empty, ui: itemUiModify(preset.ui, { markedDeleted: false })};
     }
 
     public static toModel(preset: Preset): ModelPreset.Preset {

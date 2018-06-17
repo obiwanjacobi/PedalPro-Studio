@@ -15,7 +15,7 @@ export type StorageBankListAllProps = StorageBankListProps & StorageBankListActi
 
 export class StorageBankList extends VirtualList<StorageBank, StorageBankListAllProps, StorageBankListState> {
     protected calcRowHeight(banksOnRow: StorageBank[]): number {
-        return banksOnRow.some((bank: StorageBank) => bank.ui.expanded) ? 32 : 60;
+        return banksOnRow.some((bank: StorageBank) => bank.ui.expanded) ? 142 : 48;
     }
 
     protected renderItem(bank: StorageBank) {

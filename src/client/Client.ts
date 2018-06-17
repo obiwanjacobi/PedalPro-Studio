@@ -123,9 +123,10 @@ export class PresetsClient {
 
     private extendBank(bank: Storage.Bank): StorageBank {
         const clientBank: StorageBank = {
-            bank: bank.name, 
+            name: bank.name, 
             loaded: false,
             created: true,
+            origin: bank,
             ui: { expanded: false, selected: false, markedDeleted: false }
         };
         return clientBank;

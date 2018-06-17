@@ -1,6 +1,6 @@
 import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument";
 import { StorageBank } from "./StorageBank";
-import { ItemUI, ItemUiModify } from "./ItemUI";
+import { ItemUI, itemUiModify } from "./ItemUI";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { BankArrayBuilder, BankBuilder } from "./BankBuilder";
 import { LoadBanksAction } from "./LoadBanksAction";
@@ -20,7 +20,7 @@ const reduceChangeBanks = (state: ApplicationDocument, banks: StorageBank[], ui:
     const builder = new ApplicationDocumentBuilder(state);
     const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
     bankBuilder.forRange(banks, (b: StorageBank, index: number) => {
-        bankBuilder.mutable[index] = BankBuilder.modify(b, { ui: ItemUiModify(b.ui, ui) });
+        bankBuilder.mutable[index] = BankBuilder.modify(b, { ui: itemUiModify(b.ui, ui) });
     });
     builder.mutable.banks = bankBuilder.detach();
 
@@ -32,7 +32,7 @@ const reduceLoadBanks = (state: ApplicationDocument, banks: StorageBank[]): Appl
     
     const builder = new ApplicationDocumentBuilder(state);
     const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
-    bankBuilder.removeRange(banks, (b1, b2) => b1.bank === b2.bank);
+    bankBuilder.removeRange(banks, (b1, b2) => b1.name === b2.name);
     bankBuilder.addRange(banks);
     // clear storage presets
     builder.mutable.storage = new Array<Preset>();
@@ -63,9 +63,10 @@ const reduceAddBank = (state: ApplicationDocument): ApplicationDocument => {
     const builder = new ApplicationDocumentBuilder(state);
     const bankBuilder = new BankArrayBuilder(builder.mutable.banks);
     bankBuilder.add({ 
-        bank: "new", 
+        name: "new", 
         loaded: false, 
         created: false,
+        origin: { name: "", files: [] },
         ui: { 
             selected: false, 
             expanded: true, 

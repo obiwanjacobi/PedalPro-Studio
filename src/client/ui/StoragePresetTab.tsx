@@ -92,7 +92,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     onUpload={this.upload}
                 />
                 <FlexContainer vertical={false}>
-                    <StorageBankView 
+                    <StorageBankView
                         banks={this.props.banks}
                         addBank={this.actions.addBank}
                         changeBanks={this.actions.changeBanks}
@@ -126,7 +126,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     private calcBankPresets(banks: StorageBank[], presets: Preset[]): Preset[] {
         const selectedBanks = banks.filter(b => b.ui.selected);
         // @ts-ignore: goup may not be set
-        return presets.filter(p => p.group && selectedBanks.findIndex(b => b.bank === p.group.name) !== -1);
+        return presets.filter(p => p.group && selectedBanks.findIndex(b => b.name === p.group.name) !== -1);
     }
 
     private get selectAllStatus(): SelectAllButtonStatus {
