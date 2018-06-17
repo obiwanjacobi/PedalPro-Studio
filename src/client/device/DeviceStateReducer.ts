@@ -1,8 +1,8 @@
-import { ApplicationDocument } from "./ApplicationDocument";
-import { DeviceIdentity } from "../model/DeviceIdentity";
-import * as ModelPreset from "../model/Preset";
+import { ApplicationDocument } from "../ApplicationDocument";
+import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
+import { DeviceIdentity } from "../../model/DeviceIdentity";
+import * as ModelPreset from "../../model/Preset";
 import { DeviceInfoAction } from "./DevciceInfoAction";
-import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 
 // all actions this reducer handles
 export type DeviceAction = DeviceInfoAction;

@@ -2,7 +2,7 @@ import { Dispatch } from "react-redux";
 
 import { PresetsClient } from "./Client";
 import { ApplicationDocument } from "./ApplicationDocument";
-import { createDeviceInfoAction } from "./DevciceInfoAction";
+import { createDeviceInfoAction } from "./device/DevciceInfoAction";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { createUpdateScreenAction } from "./screen/UpdateScreenAction";
 import { ProgressInfo } from "./screen/ScreenState";

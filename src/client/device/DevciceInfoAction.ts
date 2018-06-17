@@ -1,5 +1,5 @@
-import { DeviceIdentity } from "../model/DeviceIdentity";
-import * as ModelPreset from "../model/Preset";
+import { DeviceIdentity } from "../../model/DeviceIdentity";
+import * as ModelPreset from "../../model/Preset";
 
 export interface DeviceInfoAction {
     readonly type: "R/device";

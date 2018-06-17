@@ -3,7 +3,7 @@ import ReduxThunk from "redux-thunk";
 
 import { ApplicationDocument } from "./ApplicationDocument";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
-import * as DeviceStateReducer from "./DeviceStateReducer";
+import * as DeviceStateReducer from "./device/DeviceStateReducer";
 import * as PresetStateReducer from "./PresetStateReducer";
 import * as StorageStateReducer from "./storage/StorageStateReducer";
 import * as ScreenStateReducer from "./screen/ScreenStateReducer";

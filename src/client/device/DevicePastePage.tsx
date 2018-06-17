@@ -15,8 +15,8 @@ import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAc
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
-import { PreviewListItem, NotFoundPreset } from "./PreviewListItem";
-import { SourcePresetListItem } from "./SourcePresetListItem";
+import { PreviewListItem, NotFoundPreset } from "../ui/PreviewListItem";
+import { SourcePresetListItem } from "../ui/SourcePresetListItem";
 import { Title } from "../controls/Title";
 
 enum PasteType {
