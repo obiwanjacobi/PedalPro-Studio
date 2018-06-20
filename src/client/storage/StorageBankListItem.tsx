@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Checkbox, ListItem, ListItemText, Collapse, IconButton, Grid, Paper } from "@material-ui/core";
+import { Checkbox, Collapse, IconButton, Grid, Paper, Typography } from "@material-ui/core";
 
 import { StorageBank } from "./StorageBank";
 import { ChangeBanks } from "./ChangeBanksAction";
@@ -23,38 +23,38 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
     
     public render() {
         return (
-            <ListItem>
-                <Paper elevation={2} style={{width: "100%"}}>
-                    <Grid container={true} alignItems="center" spacing={8}>
-                        <Grid xs={2} item={true}>
-                            <Checkbox 
-                                tabIndex={-1} 
-                                disableRipple={true} 
-                                checked={this.props.bank.ui.selected}
-                                onClick={this.loadPresets}
-                            />
-                        </Grid>
-                        <Grid xs={7} item={true}>
-                            <ListItemText primary={this.props.bank.name} />
-                        </Grid>
-                        <Grid xs={1} item={true}>
-                            {/* <PresetChangedFlag preset={this.props.preset} /> */}
-                        </Grid>
-                        <Grid xs={1} item={true}>
-                            <IconButton onClick={this.toggleExpanded} >
-                                {this.props.bank.ui.expanded ? <ExpandLess /> : <ExpandMore />}
-                            </IconButton>
-                        </Grid>
-                        <Collapse in={this.props.bank.ui.expanded}>
-                            {this.props.bank.ui.expanded &&
-                                <StorageBankListItemDetail
-                                    bank={this.props.bank}
-                                />
-                            }
-                        </Collapse>
+            <Paper elevation={2} style={{width: "100%"}}>
+                <Grid container={true} alignItems="center" spacing={8}>
+                    <Grid xs={2} item={true}>
+                        <Checkbox 
+                            disableRipple={true} 
+                            checked={this.props.bank.ui.selected}
+                            onClick={this.loadPresets}
+                        />
                     </Grid>
-                </Paper>
-            </ListItem>
+                    <Grid xs={7} item={true}>
+                        <Typography variant="subheading">
+                            {this.props.bank.name}
+                        </Typography>
+
+                    </Grid>
+                    <Grid xs={1} item={true}>
+                        {/* <PresetChangedFlag preset={this.props.preset} /> */}
+                    </Grid>
+                    <Grid xs={1} item={true}>
+                        <IconButton onClick={this.toggleExpanded} >
+                            {this.props.bank.ui.expanded ? <ExpandLess /> : <ExpandMore />}
+                        </IconButton>
+                    </Grid>
+                    <Collapse in={this.props.bank.ui.expanded}>
+                        {this.props.bank.ui.expanded &&
+                            <StorageBankListItemDetail
+                                bank={this.props.bank}
+                            />
+                        }
+                    </Collapse>
+                </Grid>
+            </Paper>
         );
     }
 

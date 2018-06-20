@@ -44,6 +44,7 @@ export class StorageBankListItemDetail extends
                 <Grid item={true} xs={1}/>
                 <Grid item={true} xs={6}>
                     <Input
+                        style={{width: 150}}
                         placeholder="Bank Name"
                         margin="dense"
                         value={this.state.name}
@@ -60,7 +61,8 @@ export class StorageBankListItemDetail extends
                         }
                     />
                 </Grid>
-                <Grid item={true} xs={5}>
+                <Grid item={true} xs={1}/>
+                <Grid item={true} xs={3}>
                     <div style={{width: 100}}>
                         <IconButton 
                             color="secondary"
@@ -76,6 +78,9 @@ export class StorageBankListItemDetail extends
                             <Delete />
                         </IconButton>
                     </div>
+                </Grid>
+                <Grid item={true} xs={1}>
+                    <div style={{width: 30}} />
                 </Grid>
                 <Grid item={true} xs={12} />
             </Grid>         
@@ -112,7 +117,7 @@ export class StorageBankListItemDetail extends
     }
 
     private save() {
-        // this.props.editStorageBank(this.props.bank, { name: this.state.name });
+        // this.props.renameStorageBank(this.props.bank, { name: this.state.name });
     }
 
     private delete() {

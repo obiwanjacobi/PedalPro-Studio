@@ -66,15 +66,14 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                 </Grid>
                 {this.hasDetails &&
                 <Collapse in={this.props.preset.ui.expanded}>
-                    {this.props.preset.ui.expanded ? 
+                    {this.props.preset.ui.expanded &&
                         <PresetListItemDetail
                             preset={this.props.preset}
                             editPreset={this.editPreset}
                             movePresets={this.movePresets}
                             deletePresets={this.deletePresets}
                             maxPresetCount={this.props.maxPresetCount}
-                        /> : null
-                    }
+                        />}
                 </Collapse>}
             </Paper>
         );
