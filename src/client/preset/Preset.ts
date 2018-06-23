@@ -7,6 +7,10 @@ export interface PresetGroup {
      * the name of the group
      */
     name: string;
+    /**
+     * previous name of group to detect changes
+     */
+    originName: string;
 }
 
 // ui extensions

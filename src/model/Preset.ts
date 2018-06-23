@@ -19,11 +19,6 @@ export interface Preset {
     name: string;
 
     /**
-     * Raw data
-     */
-    data?: string;
-
-    /**
      * Specific traits of the preset
      */
     traits: PresetTraits;

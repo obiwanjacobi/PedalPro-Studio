@@ -26,6 +26,7 @@ export abstract class ItemBuilder<T extends {}> {
 
 export type MatchItemFn<T> = (item1: T, item2: T) => boolean;
 export type ItemFn<T> = (item: T, index: number) => void;
+export type ConvertItemFn<T> = (item: T) => T;
 
 export abstract class ArrayBuilder<T extends {}> extends ItemBuilder<T[]> {
     public constructor(state: T[], option: CopyOption = CopyOption.ByVal) {
@@ -41,8 +42,12 @@ export abstract class ArrayBuilder<T extends {}> extends ItemBuilder<T[]> {
         this.mutable.push(item);
     }
 
-    public addRange(items: T[]): void {
-        items.forEach((item: T) => this.mutable.push(item));
+    public addRange(items: T[], fnConvert?: ConvertItemFn<T>): void {
+        if (fnConvert) {
+            items.forEach((item: T) => this.mutable.push(fnConvert(item)));
+        } else {
+            items.forEach((item: T) => this.mutable.push(item));
+        }
     }
 
     public forRange(items: T[], operation: ItemFn<T>, matchFn?: MatchItemFn<T>) {

@@ -4,32 +4,32 @@ import { StorageBank } from "./StorageBank";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { DefaultClient, PresetsClient } from "../Client";
 
-export interface LoadBanksAction {
+export interface LoadStorageBanksAction {
     readonly type: "R/storage/*";
     readonly banks?: StorageBank[];
     readonly error?: Error;
 }
 
-export const createLoadBanksAction = (banks: StorageBank[]): LoadBanksAction => {
+export const createLoadStorageBanksAction = (banks: StorageBank[]): LoadStorageBanksAction => {
     return { type: "R/storage/*", banks: banks };
 };
 
-export const createLoadBanksErrorAction = (error: Error): LoadBanksAction => {
+export const createLoadStorageBanksErrorAction = (error: Error): LoadStorageBanksAction => {
     return { type: "R/storage/*", error: error };
 };
 
-const loadStorageBanks = async (presetClient: PresetsClient, dispatch: Dispatch<LoadBanksAction>) => {
-    const banks = await presetClient.getBanks();
-    dispatch(createLoadBanksAction(banks));
+const loadStorageBanks = async (presetClient: PresetsClient, dispatch: Dispatch<LoadStorageBanksAction>) => {
+    const banks = await presetClient.getStorageBanks();
+    dispatch(createLoadStorageBanksAction(banks));
 };
 
-export async function dispatchLoadBanksAction(dispatch: Dispatch<LoadBanksAction>): Promise<void> {
+export async function dispatchLoadStorageBanksAction(dispatch: Dispatch<LoadStorageBanksAction>): Promise<void> {
     const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
 
     try {
         loadStorageBanks(presetClient, dispatch);
     } catch (error) {
-        dispatch(createLoadBanksErrorAction(error));
+        dispatch(createLoadStorageBanksErrorAction(error));
     }
 }
 

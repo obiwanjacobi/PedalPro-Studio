@@ -2,16 +2,17 @@ import * as React from "react";
 import { Checkbox, Collapse, IconButton, Grid, Paper, Typography } from "@material-ui/core";
 
 import { StorageBank } from "./StorageBank";
-import { ChangeBanks } from "./ChangeBanksAction";
-import { LoadBankPresets } from "./LoadBankPresetsAction";
+import { ChangeStorageBanks } from "./ChangeStorageBanksAction";
+import { LoadStorageBankPresets } from "./LoadStorageBankPresetsAction";
 import { StorageBankListItemDetail } from "./StorageBankListItemDetail";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { RenameStorageBank } from "./RenameStorageBankAction";
+import { bankNeedsLoading } from "./BankOperations";
 
 export interface StorageBankListItemProps {
     bank: StorageBank;
 }
-export type StorageBankListItemActions = ChangeBanks & LoadBankPresets;
-
+export type StorageBankListItemActions = ChangeStorageBanks & LoadStorageBankPresets & RenameStorageBank;
 export type StorageBankListItemAllProps = StorageBankListItemProps & StorageBankListItemActions;
 
 export class StorageBankListItem extends React.Component<StorageBankListItemAllProps> {
@@ -36,10 +37,9 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                         <Typography variant="subheading">
                             {this.props.bank.name}
                         </Typography>
-
                     </Grid>
                     <Grid xs={1} item={true}>
-                        {/* <PresetChangedFlag preset={this.props.preset} /> */}
+                        {/* <StorageBankChangedFlag preset={this.props.bank} /> */}
                     </Grid>
                     <Grid xs={1} item={true}>
                         <IconButton onClick={this.toggleExpanded} >
@@ -50,6 +50,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                         {this.props.bank.ui.expanded &&
                             <StorageBankListItemDetail
                                 bank={this.props.bank}
+                                renameStorageBank={this.props.renameStorageBank}
                             />
                         }
                     </Collapse>
@@ -59,20 +60,20 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
     }
 
     private loadPresets() {
-        if (!this.props.bank.loaded && this.props.bank.created) {
-            this.props.loadBankPresets(this.props.bank.name);
+        if (bankNeedsLoading(this.props.bank)) {
+            this.props.loadStorageBankPresets(this.props.bank.name);
         }
         this.toggleSelected();
     }
 
     private toggleExpanded() {
-        this.props.changeBanks(
+        this.props.changeStorageBanks(
             [this.props.bank], 
             {expanded: !this.props.bank.ui.expanded});
     }
 
     private toggleSelected() {
-        this.props.changeBanks(
+        this.props.changeStorageBanks(
             [this.props.bank], 
             {selected: !this.props.bank.ui.selected});
     }

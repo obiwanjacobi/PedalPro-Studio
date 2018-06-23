@@ -4,7 +4,7 @@ import { Preset } from "./Preset";
 import * as ModelPreset from "../../model/Preset";
 import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "../StateBuilder";
 import { itemUiModify } from "../ItemUI";
-import { presetsExceptUiAreEqual, presetHasChanged } from "./PresetOperations";
+import { presetsAreEqual, presetHasChanged } from "./PresetOperations";
 
 export class PresetBuilder extends ItemBuilder<Preset> {
     public static modify(preset: Preset, update: Partial<Preset>): Preset {
@@ -46,7 +46,7 @@ export class PresetBuilder extends ItemBuilder<Preset> {
 
 export class PresetArrayBuilder extends ArrayBuilder<Preset> {
 
-    public forRange(these: Preset[], func: ItemFn<Preset>, matchFn: MatchItemFn<Preset> = presetsExceptUiAreEqual) {
+    public forRange(these: Preset[], func: ItemFn<Preset>, matchFn: MatchItemFn<Preset> = presetsAreEqual) {
         super.forRange(these, func, matchFn);
     }
 
@@ -81,7 +81,7 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
     public movePresets(presetsToMove: Preset[], targetIndex: number) {
         if (presetsToMove.length === 0) { return; }
         this.throwIfIndexNotValid(targetIndex);
-        this.removeRange(presetsToMove, presetsExceptUiAreEqual);
+        this.removeRange(presetsToMove, presetsAreEqual);
 
         const sourceIndex = presetsToMove.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
@@ -93,7 +93,7 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
     public swapPresets(presetsToSwap: Preset[], targetIndex: number) {
         if (presetsToSwap.length === 0) { return; }
         this.throwIfIndexNotValid(targetIndex);
-        this.removeRange(presetsToSwap, presetsExceptUiAreEqual);
+        this.removeRange(presetsToSwap, presetsAreEqual);
         
         const sourceIndex = presetsToSwap.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
         const arrayTargetIndex = this.findArrayIndex(targetIndex);

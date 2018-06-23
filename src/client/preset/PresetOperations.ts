@@ -40,6 +40,13 @@ function presetGroupAreEqual(preset1: Preset, preset2: Preset): boolean {
     return preset1.group === preset2.group;
 }
 
+function presetGroupHasChanged(preset: Preset): boolean {
+    if (preset.group) {
+        return preset.group.name !== preset.group.originName;
+    }
+    return false;
+}
+
 export function formatPresetIndex(preset: ModelPreset.Preset): string {
     const value = preset.index;
     // formats 3 digits with leading zeros
@@ -51,7 +58,7 @@ export function formatPresetFullName(preset: ModelPreset.Preset): string {
     return `${numberToString(preset.index, 3)} - ${preset.name}`;
 }
 
-export function presetsExceptIndexUiAreEqual(preset1: ModelPreset.Preset, preset2: ModelPreset.Preset): boolean {
+export function presetsExceptIndexAreEqual(preset1: ModelPreset.Preset, preset2: ModelPreset.Preset): boolean {
     return lodash.isEqual(preset1.name, preset2.name) &&
            metaEqual(preset1.meta, preset2.meta) &&
            traitsEqual(preset1.traits, preset2.traits) &&
@@ -60,19 +67,21 @@ export function presetsExceptIndexUiAreEqual(preset1: ModelPreset.Preset, preset
 
 export function onlyIndexHasChanged(preset: Preset): boolean {
     if (!preset.origin) { return false; }
-    return preset.origin.index !== preset.index &&
-           presetsExceptIndexUiAreEqual(preset, preset.origin);
+    return (preset.origin.index !== preset.index ||
+           presetGroupHasChanged(preset)) &&
+           presetsExceptIndexAreEqual(preset, preset.origin);
 }
 
 export function presetHasChanged(preset: Preset): boolean {
     if (!preset.origin) { return false; }
     return preset.origin.index !== preset.index ||
-           !presetsExceptIndexUiAreEqual(preset, preset.origin);
+           presetGroupHasChanged(preset) ||
+           !presetsExceptIndexAreEqual(preset, preset.origin);
 }
 
-export function presetsExceptUiAreEqual(preset1: Preset, preset2: Preset): boolean {
+export function presetsAreEqual(preset1: Preset, preset2: Preset): boolean {
     return preset1.index === preset2.index &&
         preset1.source === preset2.source &&
         presetGroupAreEqual(preset1, preset2) &&
-        presetsExceptIndexUiAreEqual(preset1, preset2);
+        presetsExceptIndexAreEqual(preset1, preset2);
 }

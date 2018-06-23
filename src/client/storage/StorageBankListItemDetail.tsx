@@ -3,11 +3,12 @@ import { Grid, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { Delete, Save, Undo } from "@material-ui/icons";
 
 import { StorageBank } from "./StorageBank";
+import { RenameStorageBank } from "./RenameStorageBankAction";
 
 export interface StorageBankListItemDetailProps { 
     bank: StorageBank;
 }
-export type StorageBankListItemDetailActions = {};
+export type StorageBankListItemDetailActions = RenameStorageBank;
 export interface StorageBankListItemDetailState {
     name: string;
 }
@@ -117,7 +118,7 @@ export class StorageBankListItemDetail extends
     }
 
     private save() {
-        // this.props.renameStorageBank(this.props.bank, { name: this.state.name });
+        this.props.renameStorageBank(this.props.bank, this.state.name);
     }
 
     private delete() {

@@ -19,7 +19,8 @@ import { SourcePresetListItem } from "../preset/SourcePresetListItem";
 import { PreviewListItem, NotFoundPreset } from "../preset/PreviewListItem";
 import { ScreenState } from "../screen/ScreenState";
 import { StorageBank } from "./StorageBank";
-import { LoadBankPresets, dispatchLoadBankPresetsAction } from "./LoadBankPresetsAction";
+import { LoadStorageBankPresets, dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
+import { bankNeedsLoading } from "./BankOperations";
 
 export interface StoragePastePageProps {
 }
@@ -33,7 +34,7 @@ export interface StoragePastePageStateProps {
     presets: Preset[];
     banks: StorageBank[];
 }
-export type StoragePastePageActions = ChangePresets & PastePresets & UpdateScreen & LoadBankPresets;
+export type StoragePastePageActions = ChangePresets & PastePresets & UpdateScreen & LoadStorageBankPresets;
 export type StoragePastePageAllProps = StoragePastePageProps & StoragePastePageStateProps & StoragePastePageActions;
 
 export class StoragePastePage extends React.Component<StoragePastePageAllProps, StoragePastePageState> {
@@ -135,12 +136,12 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
         this.setState({targetBank: name});
         
         const bank = this.props.banks.find(b => b.name === name);
-        if (bank && !bank.loaded) {
-            this.props.loadBankPresets(name);
+        if (bankNeedsLoading(bank)) {
+            this.props.loadStorageBankPresets(name);
         }
     }
 
-    private pastedPresets() {
+    private pastedPresets(): Preset[] {
         if (this.state.targetBank.length === 0 || this.props.presets.length === 0) { return []; }
 
         const bankPreset = this.props.presets
@@ -152,7 +153,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
             (cp, i) => { return {
                 ...cp, 
                 index: index + i, 
-                group: { name: this.state.targetBank }, 
+                group: { name: this.state.targetBank, originName: cp.group ? cp.group.originName : "" }, 
                 ui: { ...cp.ui, selected: false }
             }; }
         );
@@ -191,8 +192,8 @@ const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, St
             updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
             },
-            loadBankPresets: (bank: string): void => {
-                dispatchLoadBankPresetsAction(dispatch, bank);
+            loadStorageBankPresets: (bank: string): void => {
+                dispatchLoadStorageBankPresetsAction(dispatch, bank);
             }
         };
 };

@@ -16,7 +16,7 @@ import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
 import { ScreenBuilder } from "../screen/ScreenBuilder";
 import { reduceFault } from "../FaultStateReducer";
 import { reducePasteStoragePresets } from "../storage/StorageStateReducer";
-import { presetsExceptIndexUiAreEqual } from "./PresetOperations";
+import { presetsExceptIndexAreEqual } from "./PresetOperations";
 
 // all actions this reducer handles
 export type PresetAction = 
@@ -103,7 +103,7 @@ const reducePastePresets = (
     if (deleteAfterPaste) {
         builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
             const presetBuilder = new PresetArrayBuilder(clipboardPresets);
-            presetBuilder.removeRange(presets, presetsExceptIndexUiAreEqual);
+            presetBuilder.removeRange(presets, presetsExceptIndexAreEqual);
             return presetBuilder.detach();
         });
     }

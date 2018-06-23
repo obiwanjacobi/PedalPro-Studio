@@ -4,12 +4,13 @@ import { Typography } from "@material-ui/core";
 import { VirtualListProps, VirtualList } from "../controls/VirtualList";
 import { StorageBank } from "./StorageBank";
 import { StorageBankListItem } from "./StorageBankListItem";
-import { ChangeBanks } from "./ChangeBanksAction";
-import { LoadBankPresets } from "./LoadBankPresetsAction";
+import { ChangeStorageBanks } from "./ChangeStorageBanksAction";
+import { LoadStorageBankPresets } from "./LoadStorageBankPresetsAction";
+import { RenameStorageBank } from "./RenameStorageBankAction";
 
 export interface StorageBankListProps extends VirtualListProps<StorageBank> {
 }
-export type StorageBankListActions = ChangeBanks & LoadBankPresets;
+export type StorageBankListActions = ChangeStorageBanks & LoadStorageBankPresets & RenameStorageBank;
 export interface StorageBankListState {}
 export type StorageBankListAllProps = StorageBankListProps & StorageBankListActions;
 
@@ -24,8 +25,9 @@ export class StorageBankList extends VirtualList<StorageBank, StorageBankListAll
         return (
             <StorageBankListItem
                 bank={bank}
-                changeBanks={this.props.changeBanks}
-                loadBankPresets={this.props.loadBankPresets}
+                changeStorageBanks={this.props.changeStorageBanks}
+                loadStorageBankPresets={this.props.loadStorageBankPresets}
+                renameStorageBank={this.props.renameStorageBank}
             />
         );
     }

@@ -8,8 +8,8 @@ import { FlexContainer } from "../controls/FlexContainer";
 import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
-import { ChangeBanks, createChangeBanksAction } from "./ChangeBanksAction";
-import { SavePresets, createSavePresetsAction } from "../preset/SavePresetsAction";
+import { ChangeStorageBanks, createChangeStorageBanksAction } from "./ChangeStorageBanksAction";
+import { SavePresets, dispatchSavePresetsAction } from "../preset/SavePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../preset/EditPresetAction";
 import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
@@ -23,11 +23,12 @@ import { ScreenState } from "../screen/ScreenState";
 import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
 import { StorageBank } from "./StorageBank";
-import { dispatchLoadBanksAction, LoadStorageBanks } from "./LoadBanksAction";
-import { dispatchLoadBankPresetsAction, LoadBankPresets } from "./LoadBankPresetsAction";
+import { dispatchLoadStorageBanksAction, LoadStorageBanks } from "./LoadStorageBanksAction";
+import { dispatchLoadStorageBankPresetsAction, LoadStorageBankPresets } from "./LoadStorageBankPresetsAction";
 import { StorageBankView } from "./StorageBankView";
-import { createAddBankAction, AddBank } from "./AddBankAction";
+import { createAddStorageBankAction, AddStorageBank } from "./AddStorageBankAction";
 import StoragePastePage from "./StoragePastePage";
+import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorageBankAction";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -35,11 +36,12 @@ export interface StoragePresetTabStoreProps {
     presets: Preset[];
     hasClipboard: boolean;
     maxPresetCount: number;
+    pasteOpen: boolean;
 }
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
-    ChangePresets & ChangeBanks & AddBank &
-    LoadStorageBanks & LoadBankPresets &
+    ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank &
+    LoadStorageBanks & LoadStorageBankPresets &
     SavePresets & CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
@@ -64,7 +66,8 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     public shouldComponentUpdate(nextProps: StoragePresetTabAllProps, _: StoragePresetTabState): boolean {
         return (this.props.presets !== nextProps.presets ||
                this.props.banks !== nextProps.banks) ||
-               this.props.hasClipboard !== nextProps.hasClipboard;
+               this.props.hasClipboard !== nextProps.hasClipboard ||
+               this.props.pasteOpen !== nextProps.pasteOpen;
     }
 
     public componentWillReceiveProps(newProps: StoragePresetTabAllProps) {
@@ -94,9 +97,10 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                 <FlexContainer vertical={false}>
                     <StorageBankView
                         banks={this.props.banks}
-                        addBank={this.actions.addBank}
-                        changeBanks={this.actions.changeBanks}
-                        loadBankPresets={this.actions.loadBankPresets}
+                        addStorageBank={this.actions.addStorageBank}
+                        changeStorageBanks={this.actions.changeStorageBanks}
+                        loadStorageBankPresets={this.actions.loadStorageBankPresets}
+                        renameStorageBank={this.actions.renameStorageBank}
                     />
                     <PresetView 
                         filterEmpty={false}
@@ -110,7 +114,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         empty={this.renderEmpty()}                
                     />
                 </FlexContainer>
-                <StoragePastePage />
+                {this.props.pasteOpen && <StoragePastePage />}
             </FlexContainer>
         );
     }
@@ -125,7 +129,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 
     private calcBankPresets(banks: StorageBank[], presets: Preset[]): Preset[] {
         const selectedBanks = banks.filter(b => b.ui.selected);
-        // @ts-ignore: goup may not be set
+        // @ts-ignore: group may not be set
         return presets.filter(p => p.group && selectedBanks.findIndex(b => b.name === p.group.name) !== -1);
     }
 
@@ -161,12 +165,10 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.props.loadStorageBanks();
     }
 
-    // tslint:disable-next-line:no-empty
     private upload() {
         this.actions.savePresets(PresetCollectionType.storage, this.changes.changed);
     }
 
-    // tslint:disable-next-line:no-empty
     private pastePresets() {
         this.props.updateScreen({pasteOpen: true});
     }
@@ -195,7 +197,8 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
             banks: state.banks, 
             presets: state.storage, 
             hasClipboard: state.clipboard.length > 0,
-            maxPresetCount: state.deviceInfo ? state.deviceInfo.presetCount : 0
+            maxPresetCount: state.deviceInfo ? state.deviceInfo.presetCount : 0,
+            pasteOpen: state.screen.pasteOpen
         };
 };
 
@@ -204,22 +207,25 @@ const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: StoragePresetTabProps): StoragePresetTabActions => {
         return {
             loadStorageBanks: (): void  => {
-                dispatchLoadBanksAction(dispatch);
+                dispatchLoadStorageBanksAction(dispatch);
             },
-            loadBankPresets: (bank: string): void => {
-                dispatchLoadBankPresetsAction(dispatch, bank);
+            loadStorageBankPresets: (bank: string): void => {
+                dispatchLoadStorageBankPresetsAction(dispatch, bank);
             },
-            addBank: (): void => {
-                dispatch(createAddBankAction());
+            addStorageBank: (): void => {
+                dispatch(createAddStorageBankAction());
+            },
+            renameStorageBank: (bank: StorageBank, newName: string) => {
+                dispatch(createRenameStorageBankAction(bank, newName));
             },
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
-                createSavePresetsAction(dispatch, source, presets);
+                dispatchSavePresetsAction(dispatch, source, presets);
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
             },
-            changeBanks: (banks: StorageBank[], ui: Partial<ItemUI>): void => {
-                dispatch(createChangeBanksAction(banks, ui));
+            changeStorageBanks: (banks: StorageBank[], ui: Partial<ItemUI>): void => {
+                dispatch(createChangeStorageBanksAction(banks, ui));
             },
             copyPresets: (presets: Preset[]): void => {
                 dispatch(createCopyPresetsAction(presets));

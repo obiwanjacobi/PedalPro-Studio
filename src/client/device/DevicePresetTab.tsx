@@ -15,7 +15,7 @@ import { ChangePresets, createChangePresetsAction } from "../preset/ChangePreset
 import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../preset/EditPresetAction";
 import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
-import { SavePresets, createSavePresetsAction } from "../preset/SavePresetsAction";
+import { SavePresets, dispatchSavePresetsAction } from "../preset/SavePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../preset/DeletePresetsAction";
 import { ScreenState } from "../screen/ScreenState";
@@ -182,7 +182,7 @@ const createActionObject: ActionDispatchFunc =
                 dispatchLoadPresetsAction(dispatch, source);
             },
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
-                createSavePresetsAction(dispatch, source, presets);
+                dispatchSavePresetsAction(dispatch, source, presets);
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

@@ -6,7 +6,7 @@
             "type": "node",
             "request": "launch",
             "name": "Program",
-            "program": "${workspaceFolder}/app/startup.js",
+            "program": "${workspaceFolder}/app/Startup.js",
             "cwd": "${workspaceFolder}",
             "stopOnEntry": false,
             "sourceMaps": true,

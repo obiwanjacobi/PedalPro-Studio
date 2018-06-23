@@ -36,8 +36,10 @@ export class PresetsClient {
     }
 
     public async replacePresets(presets: Preset[]): Promise<Preset[]> {
-        const msg = <PresetRequest> { presets: presets.map(this.unextendPreset) };
-        const response = await this.typedRest.replace<PresetRequest>(`${this.baseUrl}/presets/`, msg);
+        const bank = this.extractBankName(presets);
+        const url = bank ? `${this.baseUrl}/${bank}/presets/` : `${this.baseUrl}/presets/`;
+        const msg = { presets: presets.map(this.unextendPreset) };
+        const response = await this.typedRest.replace<PresetRequest>(url, msg);
         this.throwIfErrorPreset(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map(this.extendPreset);
@@ -65,9 +67,9 @@ export class PresetsClient {
         return this.extendPreset(modelPreset);
     }
 
-    public async getBanks(): Promise<StorageBank[]> {
+    public async getStorageBanks(): Promise<StorageBank[]> {
         if (this.collection !== PresetCollectionType.storage) {
-            throw new Error("Invalid Operation: getBanks can only be called on Storage.");
+            throw new Error("Invalid Operation: getStorageBanks can only be called on Storage.");
         }
         const response = await this.typedRest.get<BankResponse>(`${this.baseUrl}/`);
         this.throwIfErrorBank(response);
@@ -75,13 +77,13 @@ export class PresetsClient {
         return response.result.banks.map(this.extendBank);
     }
 
-    public async getBankPresets(bank: string): Promise<Preset[]> {
+    public async getStorageBankPresets(bank: string): Promise<Preset[]> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/${bank}/presets/`);
         this.throwIfErrorPreset(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map((p: ModelPreset.Preset) => {
             const preset = this.extendPreset(p);
-            preset.group = { name: bank };
+            preset.group = { name: bank, originName: bank };
             return preset;
         });
     }
@@ -130,6 +132,18 @@ export class PresetsClient {
             ui: { expanded: false, selected: false, markedDeleted: false }
         };
         return clientBank;
+    }
+
+    private extractBankName(presets: Preset[]): string | undefined {
+        if (presets.length && 
+            presets[0].source === PresetCollectionType.storage) {
+
+            const group = presets[0].group;
+            if (group) {
+                return group.name;
+            }
+        }
+        return undefined;
     }
 
     private throwIfErrorBank(response: TypedRestClient.IRestResponse<BankResponse>) {

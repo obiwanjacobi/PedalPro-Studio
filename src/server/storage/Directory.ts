@@ -14,6 +14,10 @@ export class Directory {
         return new Directory(path);
     }
 
+    public static exists(path: string): boolean {
+        return FileSystem.existsSync(path);
+    }
+
     public constructor(path: string) {
         this.path = path;
         this.stats = FileSystem.lstatSync(path);

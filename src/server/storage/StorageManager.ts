@@ -46,24 +46,29 @@ export class StorageManager {
     }
 
     private getFiles(bank: string): PresetFile[] {
-        const dir = this.getBankDirectory(bank);
-        return dir.files();
+        const dir = this.findBankDirectory(bank);
+        if (dir) {
+            return dir.files();
+        }
+        return new Array<PresetFile>();
     }
 
     private getPresetFile(bank: string, index: number) {
-        const dir = this.getBankDirectory(bank);
+        let dir = this.getBankDirectory(bank);
         const fileName = new PresetFileName(index);
         return new PresetFile(fileName.toFilePath(dir.path));
     }
 
-    private getBankDirectory(bank: string): Directory {
+    private findBankDirectory(bank: string): Directory | undefined {
         const path = Path.join(this.dir.path, bank);
-        return new Directory(path);
+        if (Directory.exists(path)) {
+            return new Directory(path);
+        }
+        return undefined;
     }
 
-    // private getFile(file: FileInfo): PresetFile {
-    //     const path = Path.join(this.dir.path, file.bank);
-    //     const bank = new Directory(path);
-    //     return bank.getFile(file.name);
-    // }
+    private getBankDirectory(bank: string): Directory {
+        const path = Path.join(this.dir.path, bank);
+        return Directory.create(path);
+    }
 }
