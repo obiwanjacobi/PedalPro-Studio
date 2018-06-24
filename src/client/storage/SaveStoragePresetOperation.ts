@@ -5,6 +5,7 @@ import { createSaveStoragePresetsErrorAction } from "./SaveStoragePresetsAction"
 import { PresetCollectionType } from "../ApplicationDocument";
 import { Preset } from "../preset/Preset";
 import { dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
+import { dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
 
 export const progressSaveStoragePresets = (
     presetClient: PresetsClient, presets: Preset[], dispatch: Dispatch) => {
@@ -21,12 +22,17 @@ export const progressSaveStoragePresets = (
 
         try {
             await savePresetsAsync(presetClient, progressInfo, presets, disp);
-            // Do not use the presets returned from save, 
+            // Do not use the presets returned from savePresetsAsync, 
             // but reload so the presets have their group set.
-            const banks = presets.map(p => p.group ? p.group.name : "");
-            banks.filter(b => b && b.length)
-                .forEach(b => dispatchLoadStorageBankPresetsAction(disp, b)
-            );
+            const banks = presets
+                .map(p => p.group ? p.group.name : "")
+                .filter(b => b && b.length);
+            banks.forEach(b => dispatchLoadStorageBankPresetsAction(disp, b));
+            const renamedBanks = presets
+                .filter(p => p.group && p.group.name !== p.group.originName)
+                .map(p => p.group ? p.group.originName : "")
+                .filter(n => n.length);
+            renamedBanks.forEach(b => dispatchDeleteStorageBankAction(disp, b));
         } catch (error) {
             disp(createSaveStoragePresetsErrorAction(error));
         }

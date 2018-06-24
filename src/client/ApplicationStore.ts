@@ -8,6 +8,7 @@ import * as PresetStateReducer from "./preset/PresetStateReducer";
 import * as StorageStateReducer from "./storage/StorageStateReducer";
 import * as ScreenStateReducer from "./screen/ScreenStateReducer";
 import * as NotificationReducer from "./notification/NotificationStateReduces";
+import * as FaultStateReducer from "./FaultStateReducer";
 
 export class ApplicationStore {
     public readonly store: Store<ApplicationDocument>;
@@ -22,6 +23,10 @@ export class ApplicationStore {
 
     private appReduce(state: ApplicationDocument, action: AnyAction): ApplicationDocument {
         let actionType = <string> action.type;
+        
+        if (actionType.indexOf("fault") > 0) {
+            return FaultStateReducer.reduce(state, <FaultStateReducer.FaultAction> action);
+        }
         
         if (actionType.indexOf("storage") > 0) {
             return StorageStateReducer.reduce(state, <StorageStateReducer.StorageAction> action);

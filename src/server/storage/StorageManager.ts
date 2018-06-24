@@ -22,6 +22,10 @@ export class StorageManager {
         });
     }
 
+    public findDirectory(bank: string): Directory | undefined {
+        return this.dir.directories().find(d => d.name === bank);
+    }
+
     public readPresets(bank: string): Preset[] {
         const presetsOrNull = this.getFiles(bank).map(f => f.read());
         const presets = new Array<Preset>();

@@ -7,6 +7,8 @@ import * as Storage from "../model/Storage";
 import { PresetResponse, PresetRequest, DeviceResponse, BankResponse, ResponseMessage } from "../model/Messages";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { StorageBank } from "./storage/StorageBank";
+import { distinct } from "../ArrayExtensions";
+import { storagePresetsForBank } from "./storage/BankOperations";
 
 export class PresetsClient {
     public readonly collection: PresetCollectionType;
@@ -23,26 +25,33 @@ export class PresetsClient {
         this.unextendPreset = this.unextendPreset.bind(this);
     }
 
-    public async deletePresets(presets: Preset[]): Promise<Preset[]> {
-        const results = new Array<Preset>(presets.length);
-        for (let i = 0; i < presets.length; i++) {
-            const preset = presets[i];
-            const response = await this.typedRest.del<PresetRequest>(`${this.baseUrl}/presets/${preset.index}`);
-            this.throwIfErrorPreset(response);
-            // @ts-ignore:[ts] Object is possibly 'null'.
-            results[i] = this.extendPreset(response.result.presets[0]);
-        }
-        return results;
-    }
+    // public async deletePresets(presets: Preset[]): Promise<Preset[]> {
+    //     const results = new Array<Preset>(presets.length);
+    //     for (let i = 0; i < presets.length; i++) {
+    //         const preset = presets[i];
+    //         const response = await this.typedRest.del<PresetResponse>(`${this.baseUrl}/presets/${preset.index}`);
+    //         this.throwIfErrorPreset(response);
+    //         // @ts-ignore:[ts] Object is possibly 'null'.
+    //         results[i] = this.extendPreset(response.result.presets[0]);
+    //     }
+    //     return results;
+    // }
 
     public async replacePresets(presets: Preset[]): Promise<Preset[]> {
-        const bank = this.extractBankName(presets);
-        const url = bank ? `${this.baseUrl}/${bank}/presets/` : `${this.baseUrl}/presets/`;
-        const msg = { presets: presets.map(this.unextendPreset) };
-        const response = await this.typedRest.replace<PresetRequest>(url, msg);
-        this.throwIfErrorPreset(response);
-        // @ts-ignore:[ts] Object is possibly 'null'.
-        return response.result.presets.map(this.extendPreset);
+        const banks = this.extractBankNames(presets);
+
+        if (banks) {
+            const replacedPresets = new Array<Preset>();
+            // unsing simple for-loop because of await
+            for (let i = 0; i < banks.length; i++) {
+                const bankPresets = storagePresetsForBank(presets, banks[i]);
+                const savedPresets = await this.requestSavePreset(bankPresets, banks[i]);
+                replacedPresets.push(...savedPresets);
+            }
+            return replacedPresets;
+        } else {
+            return await this.requestSavePreset(presets);
+        }
     }
 
     public async getPresets(): Promise<Preset[]> {
@@ -88,6 +97,11 @@ export class PresetsClient {
         });
     }
 
+    public async deleteStorageBank(bank: string): Promise<void> {
+        const response = await this.typedRest.del<BankResponse>(`${this.baseUrl}/${bank}`);
+        this.throwIfErrorBank(response);
+    }
+
     public async getDeviceInfo(): Promise<DeviceIdentity> {
         const response = await this.typedRest.get<DeviceResponse>(this.baseUrl);
         this.throwIfErrorMessage(response);
@@ -100,6 +114,15 @@ export class PresetsClient {
         this.throwIfErrorPreset(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets[0];  // not extended!
+    }
+
+    private async requestSavePreset(presets: Preset[], bank?: string): Promise<Preset[]> {
+        const url = bank ? `${this.baseUrl}/${bank}/presets/` : `${this.baseUrl}/presets/`;
+        const msg = { presets: presets.map(this.unextendPreset) };
+        const response = await this.typedRest.replace<PresetRequest>(url, msg);
+        this.throwIfErrorPreset(response);
+        // @ts-ignore:[ts] Object is possibly 'null'.
+        return response.result.presets.map(this.extendPreset);
     }
 
     private extendPreset(preset: ModelPreset.Preset): Preset {
@@ -134,14 +157,11 @@ export class PresetsClient {
         return clientBank;
     }
 
-    private extractBankName(presets: Preset[]): string | undefined {
-        if (presets.length && 
-            presets[0].source === PresetCollectionType.storage) {
-
-            const group = presets[0].group;
-            if (group) {
-                return group.name;
-            }
+    private extractBankNames(presets: Preset[]): string[] | undefined {
+        if (presets.length) {
+            return distinct(presets
+                .map(p => p.group ? p.group.name : "")
+                .filter(n => n.length));
         }
         return undefined;
     }

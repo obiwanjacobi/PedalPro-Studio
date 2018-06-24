@@ -2,6 +2,7 @@ import { ApplicationDocument, PresetCollectionType } from "./ApplicationDocument
 import { Fault } from "../model/Fault";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { NotificationArrayBuilder } from "./notification/NotificationArrayBuilder";
+import { AddFaultAction } from "./AddFaultAction";
 
 export const reduceFault = (
     state: ApplicationDocument, source: PresetCollectionType, fault: Fault): ApplicationDocument => {
@@ -17,3 +18,16 @@ export const reduceFault = (
     
     return builder.detach();
 };
+
+export type FaultAction = AddFaultAction;
+
+export function reduce(state: ApplicationDocument, action: FaultAction): ApplicationDocument {
+    switch (action.type) {
+        case "C/fault":
+        return reduceFault(state, action.source, action.fault);
+
+        default:
+        break;
+    }
+    return state;
+}

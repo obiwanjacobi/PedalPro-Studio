@@ -3,6 +3,8 @@ import { Preset } from "./Preset";
 import { DeviceIdentity } from "./DeviceIdentity";
 import { Bank } from "./Storage";
 
+export interface RequestMessage {}
+
 export interface ResponseMessage {
     fault?: Fault;
 }

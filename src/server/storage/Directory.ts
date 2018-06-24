@@ -65,8 +65,12 @@ export class Directory {
         return files;
     }
 
-    public getFile(name: string): PresetFile {
-        const filePath = Path.join(this.path, name);
-        return new PresetFile(filePath);
+    // public getFile(name: string): PresetFile {
+    //     const filePath = Path.join(this.path, name);
+    //     return new PresetFile(filePath);
+    // }
+
+    public delete(): void {
+        FileSystem.rmdirSync(this.path);
     }
 }
