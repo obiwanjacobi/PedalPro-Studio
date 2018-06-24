@@ -12,6 +12,8 @@ import { LoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
 import { AddStorageBankAction } from "./AddStorageBankAction";
 import { StorageBankArrayBuilder, StorageBankBuilder } from "./StorageBankBuilder";
 import { RenameStorageBankAction } from "./RenameStorageBankAction";
+import { storagePresetsForBank } from "./BankOperations";
+import { PasteStoragePresetsAction } from "./PasteStoragePresetsAction";
 
 const reduceChangeStorageBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
     ApplicationDocument => {
@@ -33,8 +35,8 @@ const reduceLoadStorageBanks = (state: ApplicationDocument, banks: StorageBank[]
     
     const builder = new ApplicationDocumentBuilder(state);
     const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    
-    bankBuilder.removeRange(banks, (b1, b2) => b1.name === b2.name);
+    const banksToRemove = bankBuilder.mutable.filter(b => b.created);
+    bankBuilder.removeRange(banksToRemove);
     bankBuilder.addRange(banks);
     // remove storage presets for loaded banks
     const presetBuilder = new PresetArrayBuilder(builder.mutable.storage);
@@ -87,7 +89,7 @@ const reduceAddStorageBank = (state: ApplicationDocument): ApplicationDocument =
 const reduceRenameStorageBank = (state: ApplicationDocument, bank: StorageBank, name: string): ApplicationDocument => {
     if (!name || name.length === 0) { return state; }
     
-    const bankPresets = state.storage.filter(p => p.group && p.group.name === bank.name);
+    const bankPresets = storagePresetsForBank(state.storage, bank.name);
 
     const builder = new ApplicationDocumentBuilder(state);
     // rename bank itself
@@ -110,9 +112,32 @@ const reduceRenameStorageBank = (state: ApplicationDocument, bank: StorageBank, 
     return builder.detach();
 };
 
+export const reducePasteStoragePresets = 
+    (state: ApplicationDocument, presets: Preset[], deleteAfterPaste: boolean): ApplicationDocument => {
+
+    if (presets.length === 0) { return state; }
+
+    var builder = new ApplicationDocumentBuilder(state);
+    var storageBuilder = new PresetArrayBuilder(builder.mutable.storage);
+
+    storageBuilder.addRange(presets, p => {
+        return PresetBuilder.modify(p, {source: PresetCollectionType.storage});
+    });
+    builder.mutable.storage = storageBuilder.detach();
+
+    if (deleteAfterPaste) {
+        builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
+            const presetBuilder = new PresetArrayBuilder(clipboardPresets);
+            presetBuilder.removeRange(presets, presetsExceptIndexAreEqual);
+            return presetBuilder.detach();
+        });
+    }
+    return builder.detach();
+};
+
 export type StorageAction = 
     AddStorageBankAction | LoadStorageBanksAction | LoadStorageBankPresetsAction | 
-    ChangeStorageBanksAction | RenameStorageBankAction;
+    ChangeStorageBanksAction | RenameStorageBankAction | PasteStoragePresetsAction;
 
 export const reduce = (state: ApplicationDocument, action: StorageAction): ApplicationDocument => {
     switch (action.type) {
@@ -143,32 +168,12 @@ export const reduce = (state: ApplicationDocument, action: StorageAction): Appli
         case "U/storage/*/ui":
         return reduceChangeStorageBanks(state, action.banks, action.ui);
 
+        case "C/storage/*/presets/":
+        return reducePasteStoragePresets(state, action.presets, action.deleteAfterPaste);
+
         default:
         break;
     }
 
     return state;
-};
-
-export const reducePasteStoragePresets = 
-    (state: ApplicationDocument, presets: Preset[], deleteAfterPaste: boolean): ApplicationDocument => {
-
-    if (presets.length === 0) { return state; }
-
-    var builder = new ApplicationDocumentBuilder(state);
-    var storageBuilder = new PresetArrayBuilder(builder.mutable.storage);
-
-    storageBuilder.addRange(presets, p => {
-        return PresetBuilder.modify(p, {source: PresetCollectionType.storage});
-    });
-    builder.mutable.storage = storageBuilder.detach();
-
-    if (deleteAfterPaste) {
-        builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
-            const presetBuilder = new PresetArrayBuilder(clipboardPresets);
-            presetBuilder.removeRange(presets, presetsExceptIndexAreEqual);
-            return presetBuilder.detach();
-        });
-    }
-    return builder.detach();
 };

@@ -10,7 +10,6 @@ import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocumen
 import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
-import { PastePresets, createPastePresetsAction } from "../preset/PastePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectedView } from "../controls/SelectedView";
@@ -20,7 +19,8 @@ import { PreviewListItem, NotFoundPreset } from "../preset/PreviewListItem";
 import { ScreenState } from "../screen/ScreenState";
 import { StorageBank } from "./StorageBank";
 import { LoadStorageBankPresets, dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
-import { bankNeedsLoading } from "./BankOperations";
+import { bankNeedsLoading, storagePresetsForBank } from "./BankOperations";
+import { PasteStoragePresets, createPasteStoragePresetsAction } from "./PasteStoragePresetsAction";
 
 export interface StoragePastePageProps {
 }
@@ -34,7 +34,7 @@ export interface StoragePastePageStateProps {
     presets: Preset[];
     banks: StorageBank[];
 }
-export type StoragePastePageActions = ChangePresets & PastePresets & UpdateScreen & LoadStorageBankPresets;
+export type StoragePastePageActions = ChangePresets & PasteStoragePresets & UpdateScreen & LoadStorageBankPresets;
 export type StoragePastePageAllProps = StoragePastePageProps & StoragePastePageStateProps & StoragePastePageActions;
 
 export class StoragePastePage extends React.Component<StoragePastePageAllProps, StoragePastePageState> {
@@ -49,7 +49,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
         this.pastedPresets = this.pastedPresets.bind(this);
         this.onBankChange = this.onBankChange.bind(this);
         this.onRemoveSelectedChange = this.onRemoveSelectedChange.bind(this);
-        this.overwrite = this.overwrite.bind(this);
+        this.pasteAndClose = this.pasteAndClose.bind(this);
     }
 
     public componentWillReceiveProps(newProps: StoragePastePageAllProps) {
@@ -64,7 +64,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                         <Clear />
                     </IconButton>
                     <Title caption="Paste Presets" prelude="STORAGE - " />
-                    <Button onClick={this.overwrite} disabled={this.hasResult}>
+                    <Button onClick={this.pasteAndClose} disabled={this.hasResult}>
                         Paste
                     </Button>
                 </ApplicationToolbar>
@@ -72,6 +72,13 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                     <Grid container={true} spacing={8}>
                         <Grid item={true} xs={4}>
                             <Typography variant="body2">Clipboard</Typography>
+                            <FormControlLabel
+                                control={<Checkbox 
+                                    checked={this.state.removeSelected} 
+                                    onChange={this.onRemoveSelectedChange}
+                                />}
+                                label="Remove after Paste"
+                            />
                             <List id="ClipboardList">
                                 {this.props.clipboard.map((preset: Preset, index: number) => {
                                     return (
@@ -83,13 +90,6 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                                     );
                                 })}
                             </List>
-                            <FormControlLabel
-                                control={<Checkbox 
-                                    checked={this.state.removeSelected} 
-                                    onChange={this.onRemoveSelectedChange}
-                                />}
-                                label="Remove after Paste"
-                            />
                         </Grid>
                         <Grid item={true} xs={4}>
                             <Typography variant="body2">Storage Bank</Typography>
@@ -104,7 +104,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                             </Select>
                         </Grid>
                         <Grid item={true} xs={4}>
-                            <Typography variant="body2">Pasted</Typography>
+                            <Typography variant="body2">Pasted Preview</Typography>
                             <List id="DeviceList">
                                 {this.pastedPresets().map((preset: Preset, index: number) => {
                                     return (
@@ -142,10 +142,10 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
     }
 
     private pastedPresets(): Preset[] {
-        if (this.state.targetBank.length === 0 || this.props.presets.length === 0) { return []; }
+        if (this.state.targetBank.length === 0) { return []; }
 
-        const bankPreset = this.props.presets
-            .filter(p => p.group && p.group.name === this.state.targetBank)
+        const bankPreset = 
+            storagePresetsForBank(this.props.presets, this.state.targetBank)
             .sort((p1, p2) => p1.index - p2.index);
 
         const index = bankPreset.length ? bankPreset[bankPreset.length - 1].index + 1 : 0;
@@ -163,8 +163,8 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
         this.props.updateScreen({ pasteOpen: false });
     }
 
-    private overwrite() {
-        this.props.pastePresets(this.pastedPresets(), PresetCollectionType.storage, this.state.removeSelected);
+    private pasteAndClose() {
+        this.props.pasteStoragePresets(this.pastedPresets(), this.state.removeSelected);
         this.close();
     }
 }
@@ -186,8 +186,8 @@ const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, St
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
             },
-            pastePresets: (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void => {
-                dispatch(createPastePresetsAction(presets, target, deleteAfterPaste));
+            pasteStoragePresets: (presets: Preset[], deleteAfterPaste: boolean): void => {
+                dispatch(createPasteStoragePresetsAction(presets, deleteAfterPaste));
             },
             updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));

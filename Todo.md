@@ -1,20 +1,25 @@
 # TODO Task List
 
-- change app name from 'PedalPro Editor' to 'PedalPro Studio'.
-- create paste dialog to let user pick where to paste the copied presets (overwrite, insert at, first empty, or append to end).
-- create storage tab, view and list. List is grouped by file name.
+- [Done] change app name from 'PedalPro Editor' to 'PedalPro Studio'.
+- [Done] create paste dialog to let user pick where to paste the copied presets (overwrite, insert at, first empty, or append to end).
+- [Done] create storage tab, view and list. List is grouped by file name.
 - [Done] move factory preset file for ex and find std factory presets.
 - [Done] create FactoryProvider for PedalPro (Std)
-- mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
+- [Done] mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
 - [Done] reverse engineer DSP type settings
 - Place a badge on the upload button with a count of flagged presets (device)
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 
-## Project Setup
+## Bugs
 
-- Hot Reload in Electron
-- minify webpack output for prod
+- [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
+- Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
+- Paste Empty shows garbage-can (x) target in the overwritten list.
+
+Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
+Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).
+All device presets are automatically saved when uploaded to the device.
 
 ## PedalProDevice
 
@@ -27,26 +32,15 @@
 
 - retrieve version of master FW in non-FW mode (VUT).
 - upload a complete preset (160b for PPE) and make that active (load) - but not store into eprom.
-- PPE exit button exits USB Remote Terminal mode (PP does it - but that is also a little too sensitive - bug?)
-- DSP parameters: navigation should work the same as other settings (1/x) (don't use Exit)
+- [PPE] exit button does not exit USB Remote Terminal mode (PP does it - but that is also a little too sensitive - bug?)
+- [PPE] DSP parameters: navigation should work the same as other settings (1/x) (don't use Exit)
 
 ## Code
 
-- [Will not] Fix shared Model between server and client.
 - [Done] react-redux connect method: investigate
 - dense on List does not work when a checkbox is in ListItem https://github.com/mui-org/material-ui/issues/9274
 - [Fixed] Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
 - reorderable/drag&drop list: https://gist.github.com/jlroettger/2d6d7ae572f985fa176c27a63cadf292
-
-## Bugs
-
-- [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
-- Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
-- Paste Empty shows garbage-can (x) target in the overwritten list.
-
-Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
-Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).
-All device presets are automatically saved when uploaded to the device.
 
 ## performance
 
@@ -64,6 +58,11 @@ All device presets are automatically saved when uploaded to the device.
 react: https://medium.com/@arikmaor/react-redux-performance-tuning-tips-cef1a6c50759
 https://reactjs.org/docs/optimizing-performance.html#use-the-production-build
 https://medium.com/@paularmstrong/twitter-lite-and-high-performance-react-progressive-web-apps-at-scale-d28a00e780a3
+
+## Project Setup
+
+- Hot Reload in Electron
+- minify webpack output for prod
 
 ## Libraries
 
