@@ -45,6 +45,10 @@ export class PresetBuilder extends ItemBuilder<Preset> {
 }
 
 export class PresetArrayBuilder extends ArrayBuilder<Preset> {
+    public removeByGroup(groupName: string) {
+        const toRemove = this.mutable.filter(p => p.group && p.group.name === groupName);
+        this.removeRange(toRemove);
+    }
 
     public forRange(these: Preset[], func: ItemFn<Preset>, matchFn: MatchItemFn<Preset> = presetsAreEqual) {
         super.forRange(these, func, matchFn);

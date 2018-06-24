@@ -9,7 +9,6 @@ import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
 import { ChangeStorageBanks, createChangeStorageBanksAction } from "./ChangeStorageBanksAction";
-import { SavePresets, dispatchSavePresetsAction } from "../preset/SavePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../preset/EditPresetAction";
 import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
@@ -29,6 +28,7 @@ import { StorageBankView } from "./StorageBankView";
 import { createAddStorageBankAction, AddStorageBank } from "./AddStorageBankAction";
 import StoragePastePage from "./StoragePastePage";
 import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorageBankAction";
+import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -41,8 +41,8 @@ export interface StoragePresetTabStoreProps {
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
     ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank &
-    LoadStorageBanks & LoadStorageBankPresets &
-    SavePresets & CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
+    LoadStorageBanks & LoadStorageBankPresets & SaveStoragePresets & 
+    CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
 
@@ -158,15 +158,13 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private download() {
-        const changed = new ChangedView(this.props.presets);
-        if (changed.anyChanged) {
-            // prompt for confirmation losing changes
-        }
+        // TODO: prompt for confirmation losing changes
         this.props.loadStorageBanks();
     }
 
     private upload() {
-        this.actions.savePresets(PresetCollectionType.storage, this.changes.changed);
+        // TODO: only upload changed presets of selected banks
+        this.actions.saveStoragePresets(this.changes.changed);
     }
 
     private pastePresets() {
@@ -218,8 +216,8 @@ const createActionObject: ActionDispatchFunc =
             renameStorageBank: (bank: StorageBank, newName: string) => {
                 dispatch(createRenameStorageBankAction(bank, newName));
             },
-            savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
-                dispatchSavePresetsAction(dispatch, source, presets);
+            saveStoragePresets: (presets: Preset[]): void  => {
+                dispatchSaveStoragePresetsAction(dispatch, presets);
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

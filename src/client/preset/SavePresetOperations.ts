@@ -18,7 +18,7 @@ function makeProgressInfo(title: string, count: number, current: number): Progre
     };
 }
 
-function getProgressInfo(source: PresetCollectionType, presets: Preset[], deviceInfo: DeviceIdentity) {
+export function getProgressInfo(source: PresetCollectionType, presets: Preset[], deviceInfo: DeviceIdentity) {
     switch (source) {
         case PresetCollectionType.device:
             return { title: deviceInfo.device, count: deviceInfo.presetCount };
@@ -34,7 +34,7 @@ function getProgressInfo(source: PresetCollectionType, presets: Preset[], device
     return { title: source.toUpperCase(), count: presets.length };
 }
 
-async function savePresets(
+export async function savePresetsAsync(
         presetClient: PresetsClient, 
         {title, count}: {title: string, count: number}, 
         presets: Preset[], 
@@ -76,8 +76,8 @@ export const progressSavePresets = (
         const progressInfo = getProgressInfo(source, presets, deviceInfo);
 
         try {
-            const savedPresets = await savePresets(presetClient, progressInfo, presets, disp);
-            dispatch(createSavePresetsAction(source, savedPresets));
+            const savedPresets = await savePresetsAsync(presetClient, progressInfo, presets, disp);
+            disp(createSavePresetsAction(source, savedPresets));
         } catch (error) {
             disp(createSavePresetsErrorAction(presetClient.collection, error));
         }

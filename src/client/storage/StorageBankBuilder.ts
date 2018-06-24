@@ -16,6 +16,7 @@ export class StorageBankArrayBuilder extends ArrayBuilder<StorageBank> {
 
     public setLoaded(bankName: string) {
         const index = this.mutable.findIndex(b => b.name === bankName);
-        this.mutable[index] = StorageBankBuilder.modify(this.mutable[index], { loaded: true });
+        this.mutable[index] = 
+            StorageBankBuilder.modify(this.mutable[index], { loaded: true, created: true });
     }
 }

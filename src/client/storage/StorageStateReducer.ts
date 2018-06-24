@@ -14,6 +14,8 @@ import { StorageBankArrayBuilder, StorageBankBuilder } from "./StorageBankBuilde
 import { RenameStorageBankAction } from "./RenameStorageBankAction";
 import { storagePresetsForBank } from "./BankOperations";
 import { PasteStoragePresetsAction } from "./PasteStoragePresetsAction";
+import { SaveStoragePresetsAction } from "./SaveStoragePresetsAction";
+import { distinct } from "../../ArrayExtensions";
 
 const reduceChangeStorageBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
     ApplicationDocument => {
@@ -53,16 +55,19 @@ const reduceLoadStorageBanks = (state: ApplicationDocument, banks: StorageBank[]
 const reduceLoadBankStoragePresets = (state: ApplicationDocument, presets: Preset[]): ApplicationDocument => {
     if (presets.length === 0) { return state; }
     if (presets.findIndex(p => !p.group) !== -1) { return state; }
-    const bankNames = presets.map(p => p.group ? p.group.name : "");
-    if (bankNames.findIndex(b => b === "") !== -1) { return state; }
+    const bankNames = distinct(
+        presets.map(p => p.group ? p.group.name : "")
+        .filter(n => n.length)
+    );
 
     const builder = new ApplicationDocumentBuilder(state);
     const presetsBuilder = new PresetArrayBuilder(builder.mutable.storage);
+    bankNames.forEach(b => presetsBuilder.removeByGroup(b));
     presetsBuilder.addRange(presets);
     builder.mutable.storage = presetsBuilder.detach();
 
     const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    bankBuilder.setLoaded(bankNames[0]);
+    bankNames.forEach(b => bankBuilder.setLoaded(b));
     builder.mutable.banks = bankBuilder.detach();
 
     return builder.detach();
@@ -137,7 +142,8 @@ export const reducePasteStoragePresets =
 
 export type StorageAction = 
     AddStorageBankAction | LoadStorageBanksAction | LoadStorageBankPresetsAction | 
-    ChangeStorageBanksAction | RenameStorageBankAction | PasteStoragePresetsAction;
+    ChangeStorageBanksAction | RenameStorageBankAction | PasteStoragePresetsAction |
+    SaveStoragePresetsAction;
 
 export const reduce = (state: ApplicationDocument, action: StorageAction): ApplicationDocument => {
     switch (action.type) {
@@ -151,6 +157,15 @@ export const reduce = (state: ApplicationDocument, action: StorageAction): Appli
         break;
         
         case "R/storage/*/presets/":
+        if (action.error) {
+            return reduceFault(state, PresetCollectionType.storage, action.error);
+        }
+        if (action.presets) {
+            return reduceLoadBankStoragePresets(state, action.presets);
+        }
+        break;
+
+        case "U/storage/*/presets/":
         if (action.error) {
             return reduceFault(state, PresetCollectionType.storage, action.error);
         }
