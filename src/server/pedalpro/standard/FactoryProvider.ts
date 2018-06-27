@@ -3,10 +3,10 @@ import { VrFile } from "../VrFile";
 import { PresetDeserializer } from "./PresetDeserializer";
 import { DeviceStdProfile } from "./DeviceStdProfile";
 import { LogicalTransformer } from "./LogicalTransformer";
-import { CommonPresetProvider } from "../CommonPresetProvider";
+import { DevicePresetProvider } from "../DevicePresetProvider";
 import { PresetBuffer } from "../PresetBuffer";
 
-export class FactoryProvider extends CommonPresetProvider {
+export class FactoryProvider extends DevicePresetProvider {
     private readonly presets: Preset[];
 
     public constructor(path: string) {
@@ -30,10 +30,12 @@ export class FactoryProvider extends CommonPresetProvider {
 
     public getPresetsPaged(page: number, size: number): Preset[] {
         const start = page * size;
+        this.throwIfNotValidPresetIndex(start);
         return this.presets.slice(start, start + size);
     }
 
     public getPreset(presetIndex: number): Preset {
+        this.throwIfNotValidPresetIndex(presetIndex);
         return this.presets[presetIndex];
     }
 

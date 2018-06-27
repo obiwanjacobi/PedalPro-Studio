@@ -14,7 +14,6 @@ import { ItemUI, itemUiModify } from "../ItemUI";
 import { PresetArrayBuilder, PresetBuilder } from "./PresetBuilder";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
 import { ScreenBuilder } from "../screen/ScreenBuilder";
-import { reduceFault } from "../FaultStateReducer";
 import { presetsExceptIndexAreEqual } from "./PresetOperations";
 
 // all actions this reducer handles
@@ -176,22 +175,11 @@ const reduceDeletePresets = (
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
         case "R/*/presets/":
-        if (action.error) { 
-            return reduceFault(state, action.source, action.error);
-        }
-        if (action.presets) {
-            return reduceLoadPresets(
-                state, action.source, action.presets, action.progress ? action.progress : undefined);
-        }
-        break;
+        return reduceLoadPresets(state, action.source, action.presets, action.progress);
+
         case "U/*/presets/":
-        if (action.error) { 
-            return reduceFault(state, action.source, action.error);
-        }
-        if (action.presets) {
-            return reduceLoadPresets(state, action.source, action.presets);
-        }
-        break;
+        return reduceLoadPresets(state, action.source, action.presets);
+
         case "D/*/presets/":
         return reduceDeletePresets(state, action.source, action.presets);
 

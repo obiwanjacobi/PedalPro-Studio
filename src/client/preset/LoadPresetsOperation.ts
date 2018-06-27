@@ -7,7 +7,8 @@ import { createDeviceInfoAction } from "../device/DevciceInfoAction";
 import { createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ProgressInfo } from "../screen/ScreenState";
 import { ScreenBuilder } from "../screen/ScreenBuilder";
-import { createLoadPresetsAction, createLoadPresetsErrorAction, LoadPresetsAction } from "./LoadPresetsAction";
+import { createLoadPresetsAction, LoadPresetsAction } from "./LoadPresetsAction";
+import { createAddFaultAction } from "../AddFaultAction";
 
 const pageSize = 20;
 
@@ -66,7 +67,7 @@ export const progressLoadPresets = (
 
                 await loadPresets(deviceInfo, presetClient, disp);
             } catch (error) {
-                disp(createLoadPresetsErrorAction(presetClient.collection, error));
+                disp(createAddFaultAction(presetClient.collection, error));
             }
         });
 };

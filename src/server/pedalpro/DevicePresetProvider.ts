@@ -6,7 +6,7 @@ export interface DeviceProfile {
     presetBufferSize: number;
 }
 
-export class CommonPresetProvider implements PresetProvider {
+export class DevicePresetProvider implements PresetProvider {
     protected readonly profile: DeviceProfile;
 
     public constructor(profile: DeviceProfile) {

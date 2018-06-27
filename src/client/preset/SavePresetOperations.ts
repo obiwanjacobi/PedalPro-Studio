@@ -1,12 +1,13 @@
 import { Dispatch } from "react-redux";
 import { PresetsClient } from "../Client";
-import { createSavePresetsErrorAction, createSavePresetsAction } from "./SavePresetsAction";
+import { createSavePresetsAction } from "./SavePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { ProgressInfo } from "../screen/ScreenState";
 import { createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ScreenBuilder } from "../screen/ScreenBuilder";
 import { Preset } from "../preset/Preset";
 import { DeviceIdentity } from "../../model/DeviceIdentity";
+import { createAddFaultAction } from "../AddFaultAction";
 
 const pageSize = 20;
 
@@ -79,7 +80,7 @@ export const progressSavePresets = (
             const savedPresets = await savePresetsAsync(presetClient, progressInfo, presets, disp);
             disp(createSavePresetsAction(source, savedPresets));
         } catch (error) {
-            disp(createSavePresetsErrorAction(presetClient.collection, error));
+            disp(createAddFaultAction(presetClient.collection, error));
         }
     });
 };

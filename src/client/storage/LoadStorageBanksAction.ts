@@ -3,19 +3,15 @@ import { Dispatch } from "react-redux";
 import { StorageBank } from "./StorageBank";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { DefaultClient, PresetsClient } from "../Client";
+import { createAddFaultAction, AddFaultAction } from "../AddFaultAction";
 
 export interface LoadStorageBanksAction {
     readonly type: "R/storage/*";
-    readonly banks?: StorageBank[];
-    readonly error?: Error;
+    readonly banks: StorageBank[];
 }
 
 export const createLoadStorageBanksAction = (banks: StorageBank[]): LoadStorageBanksAction => {
     return { type: "R/storage/*", banks: banks };
-};
-
-export const createLoadStorageBanksErrorAction = (error: Error): LoadStorageBanksAction => {
-    return { type: "R/storage/*", error: error };
 };
 
 const loadStorageBanks = async (presetClient: PresetsClient, dispatch: Dispatch<LoadStorageBanksAction>) => {
@@ -23,13 +19,14 @@ const loadStorageBanks = async (presetClient: PresetsClient, dispatch: Dispatch<
     dispatch(createLoadStorageBanksAction(banks));
 };
 
-export async function dispatchLoadStorageBanksAction(dispatch: Dispatch<LoadStorageBanksAction>): Promise<void> {
+export async function dispatchLoadStorageBanksAction(
+    dispatch: Dispatch<LoadStorageBanksAction | AddFaultAction>): Promise<void> {
     const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
 
     try {
         loadStorageBanks(presetClient, dispatch);
     } catch (error) {
-        dispatch(createLoadStorageBanksErrorAction(error));
+        dispatch(createAddFaultAction(PresetCollectionType.storage, error));
     }
 }
 

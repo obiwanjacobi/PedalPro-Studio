@@ -10,13 +10,15 @@
 - Place a badge on the upload button with a count of flagged presets (device)
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
+- Implement Favorites for presets (requires PP/PPE protocol code).
 
 ## Bugs
 
 - [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
 - Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
-- Paste Empty shows garbage-can (x) target in the overwritten list.
-- Refactor (Load/Save) Actions with error property. Simply dispatch an error-action when error is caught.
+- Paste Empty shows garbage-can (x) target in the preview list.
+- [Done] Refactor (Load/Save) Actions with error property. Simply dispatch an error-action when error is caught.
+- onClick / onChange handlers must check if value is 'on' before dispatching action.
 
 Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
 Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).

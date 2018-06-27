@@ -4,19 +4,13 @@ import { PresetCollectionType } from "../ApplicationDocument";
 import { DefaultClient } from "../Client";
 import { Preset } from "./Preset";
 import { progressSavePresets } from "./SavePresetOperations";
+import { createAddFaultAction, AddFaultAction } from "../AddFaultAction";
 
 export interface SavePresetsAction {
     readonly type: "U/*/presets/";
     readonly source: PresetCollectionType;
-    readonly presets?: Preset[];
-    readonly error?: Error;
+    readonly presets: Preset[];
 }
-
-export const createSavePresetsErrorAction = (source: PresetCollectionType, error: Error): SavePresetsAction => {
-    return {
-        type: "U/*/presets/", source: source, error: error
-    };
-};
 
 export const createSavePresetsAction = (source: PresetCollectionType, presets: Preset[]): SavePresetsAction => {
     return {
@@ -25,14 +19,15 @@ export const createSavePresetsAction = (source: PresetCollectionType, presets: P
 };
 
 export async function dispatchSavePresetsAction(
-    dispatch: Dispatch<SavePresetsAction>, source: PresetCollectionType, presets: Preset[]): Promise<void> {
+    dispatch: Dispatch<SavePresetsAction | AddFaultAction>, 
+    source: PresetCollectionType, presets: Preset[]): Promise<void> {
 
     const presetClient = DefaultClient.getSource(source);
 
     try {
         progressSavePresets(presetClient, source, presets, dispatch);
     } catch (error) {
-        dispatch(createSavePresetsErrorAction(presetClient.collection, error));
+        dispatch(createAddFaultAction(presetClient.collection, error));
     }
 }
 

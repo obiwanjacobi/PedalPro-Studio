@@ -2,7 +2,7 @@ import { PedalProDevice } from "../PedalProDevice";
 import { PresetDeserializer } from "./PresetDeserializer";
 import { DeviceCommands } from "../DeviceCommands";
 import { DeviceStdProfile } from "./DeviceStdProfile";
-import { CommonPresetProvider, DeviceProfile } from "../CommonPresetProvider";
+import { DevicePresetProvider, DeviceProfile } from "../DevicePresetProvider";
 import { Preset } from "../../../model/Preset";
 import { LogicalTransformer } from "./LogicalTransformer";
 import { PresetBuffer } from "../PresetBuffer";
@@ -11,7 +11,7 @@ import { PresetMeta } from "../../../model/PresetMeta";
 import { PedalProDeviceIdentity } from "../PedalProDeviceIdentity";
 import { EmptyPresetBuffer } from "./EmptyPresetBuffer";
 
-export class PedalProProvider extends CommonPresetProvider {
+export class PedalProProvider extends DevicePresetProvider {
     protected readonly commands: DeviceCommands;
     protected readonly identity: PedalProDeviceIdentity;
 

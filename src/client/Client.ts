@@ -87,14 +87,18 @@ export class PresetsClient {
     }
 
     public async getStorageBankPresets(bank: string): Promise<Preset[]> {
-        const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/${bank}/presets/`);
-        this.throwIfErrorPreset(response);
-        // @ts-ignore:[ts] Object is possibly 'null'.
-        return response.result.presets.map((p: ModelPreset.Preset) => {
-            const preset = this.extendPreset(p);
-            preset.group = { name: bank, originName: bank };
-            return preset;
-        });
+        try {
+            const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/${bank}/presets/`);
+            this.throwIfErrorPreset(response);
+            // @ts-ignore:[ts] Object is possibly 'null'.
+            return response.result.presets.map((p: ModelPreset.Preset) => {
+                const preset = this.extendPreset(p);
+                preset.group = { name: bank, originName: bank };
+                return preset;
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 
     public async deleteStorageBank(bank: string): Promise<void> {

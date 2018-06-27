@@ -30,7 +30,6 @@ export class ReadPresetsApi implements ApiHandler {
     // tslint:disable-next-line:no-any
     protected createProvider(params: any): PresetProvider {
         return this.providerFactory(params);
-        // return PedalProProviderFactory.offlineProvider;
     }
 
     protected throwIfNaN(presetIndex: number) {
@@ -45,11 +44,19 @@ export class ReadPresetsApi implements ApiHandler {
         const msg = <PresetResponse> { };
 
         try {
-            const provider = this.createProvider(request.params);
+            let paramsValid = false;
             if (page && size) {
-                msg.presets = provider.getPresetsPaged(Number(page), Number(size));
-            } else {
-                msg.presets = provider.getPresets();
+                const pageNo = Number(page);
+                const sizeNo = Number(size);
+                if (!isNaN(pageNo) && !isNaN(sizeNo)) {
+                    paramsValid = true;
+                    const provider = this.createProvider(request.params);
+                    msg.presets = provider.getPresetsPaged(pageNo, sizeNo);
+                }
+            }
+
+            if (!paramsValid) {
+                msg.fault = createFault("Specified Page and Size parameters were not valid.");
             }
         } catch (error) {
             msg.fault = createFault(error.message);

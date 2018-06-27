@@ -20,8 +20,13 @@ export class StoragePresetProvider implements PresetProvider {
         throw new Error("Not Supported");
     }
 
+    // @ts-ignore: optional ret val
     public getPreset(presetIndex: number): Preset {
-        return this.getPresets()[presetIndex];
+        const presets = this.getPresets();
+        if (presets.length < presetIndex) {
+            return presets[presetIndex];
+        }
+        this.throwPresetIndexNotValid(presetIndex, presets.length);
     }
 
     public getPresets(): Preset[] {
@@ -31,9 +36,14 @@ export class StoragePresetProvider implements PresetProvider {
         return this.cache;
     }
 
+    // @ts-ignore: optional ret val
     public getPresetsPaged(page: number, size: number): Preset[] {
         const start = page * size;
-        return this.getPresets().slice(start, start + size);
+        const presets = this.getPresets();
+        if (presets.length < start) {
+            return this.getPresets().slice(start, start + size);
+        }
+        this.throwPresetIndexNotValid(start, presets.length);
     }
 
     public putPreset(preset: Preset): void {
@@ -54,5 +64,9 @@ export class StoragePresetProvider implements PresetProvider {
         this.storageMgr.deletePreset(this.bank, presetIndex);
         this.cache = undefined;
         return preset;
+    }
+
+    private throwPresetIndexNotValid(presetIndex: number, count: number) {
+        throw new RangeError(`The Preset Index ${presetIndex} is not valid (0-${count - 1}).`);
     }
 }

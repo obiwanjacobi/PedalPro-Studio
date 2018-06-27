@@ -1,4 +1,4 @@
-import { DeviceProfile } from "../CommonPresetProvider";
+import { DeviceProfile } from "../DevicePresetProvider";
 
 export const PresetCount: number = 500;
 export const PresetBufferSize = 128;

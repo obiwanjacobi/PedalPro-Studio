@@ -5,31 +5,24 @@ import { DefaultClient } from "../Client";
 import { Preset } from "./Preset";
 import { ProgressInfo } from "../screen/ScreenState";
 import { progressLoadPresets, loadAllPresets } from "./LoadPresetsOperation";
+import { createAddFaultAction, AddFaultAction } from "../AddFaultAction";
 
 export interface LoadPresetsAction {
     readonly type: "R/*/presets/";
     readonly source: PresetCollectionType;
-    readonly presets?: Preset[];
-    readonly error?: Error;
+    readonly presets: Preset[];
     readonly progress?: ProgressInfo;
 }
 
 export const createLoadPresetsAction = 
     (source: PresetCollectionType, presets: Preset[], progress?: ProgressInfo): LoadPresetsAction => {
-
     return {
         type: "R/*/presets/", source: source, presets: presets, progress: progress
     };
 };
 
-export const createLoadPresetsErrorAction = (source: PresetCollectionType, error: Error): LoadPresetsAction => {
-    return {
-        type: "R/*/presets/", source: source, error: error
-    };
-};
-
 export async function dispatchLoadPresetsAction(
-    dispatch: Dispatch<LoadPresetsAction>, source: PresetCollectionType): Promise<void> {
+    dispatch: Dispatch<LoadPresetsAction | AddFaultAction>, source: PresetCollectionType): Promise<void> {
 
     const presetClient = DefaultClient.getSource(source);
 
@@ -47,7 +40,7 @@ export async function dispatchLoadPresetsAction(
             break;
         }
     } catch (error) {
-        dispatch(createLoadPresetsErrorAction(presetClient.collection, error));
+        dispatch(createAddFaultAction(presetClient.collection, error));
     }
 }
 

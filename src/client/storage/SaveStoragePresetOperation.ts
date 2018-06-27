@@ -1,11 +1,11 @@
 import { Dispatch } from "react-redux";
 import { PresetsClient } from "../Client";
 import { getProgressInfo, savePresetsAsync } from "../preset/SavePresetOperations";
-import { createSaveStoragePresetsErrorAction } from "./SaveStoragePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { Preset } from "../preset/Preset";
 import { dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
 import { dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
+import { createAddFaultAction } from "../AddFaultAction";
 
 export const progressSaveStoragePresets = (
     presetClient: PresetsClient, presets: Preset[], dispatch: Dispatch) => {
@@ -34,7 +34,7 @@ export const progressSaveStoragePresets = (
                 .filter(n => n.length);
             renamedBanks.forEach(b => dispatchDeleteStorageBankAction(disp, b));
         } catch (error) {
-            disp(createSaveStoragePresetsErrorAction(error));
+            disp(createAddFaultAction(PresetCollectionType.storage, error));
         }
     });
 };

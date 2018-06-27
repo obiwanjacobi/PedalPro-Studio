@@ -5,7 +5,6 @@ import { PresetArrayBuilder, PresetBuilder } from "../preset/PresetBuilder";
 import { presetsExceptIndexAreEqual } from "../preset/PresetOperations";
 import { StorageBank } from "./StorageBank";
 import { ItemUI, itemUiModify } from "../ItemUI";
-import { reduceFault } from "../FaultStateReducer";
 import { LoadStorageBanksAction } from "./LoadStorageBanksAction";
 import { ChangeStorageBanksAction } from "./ChangeStorageBanksAction";
 import { LoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
@@ -117,7 +116,7 @@ const reduceRenameStorageBank = (state: ApplicationDocument, bank: StorageBank, 
     return builder.detach();
 };
 
-export const reducePasteStoragePresets = 
+const reducePasteStoragePresets = 
     (state: ApplicationDocument, presets: Preset[], deleteAfterPaste: boolean): ApplicationDocument => {
 
     if (presets.length === 0) { return state; }
@@ -148,31 +147,13 @@ export type StorageAction =
 export const reduce = (state: ApplicationDocument, action: StorageAction): ApplicationDocument => {
     switch (action.type) {
         case "R/storage/*":
-        if (action.error) {
-            return reduceFault(state, PresetCollectionType.storage, action.error);
-        }
-        if (action.banks) {
-            return reduceLoadStorageBanks(state, action.banks);
-        }
-        break;
-        
+        return reduceLoadStorageBanks(state, action.banks);
+
         case "R/storage/*/presets/":
-        if (action.error) {
-            return reduceFault(state, PresetCollectionType.storage, action.error);
-        }
-        if (action.presets) {
-            return reduceLoadBankStoragePresets(state, action.presets);
-        }
-        break;
+        return reduceLoadBankStoragePresets(state, action.presets);
 
         case "U/storage/*/presets/":
-        if (action.error) {
-            return reduceFault(state, PresetCollectionType.storage, action.error);
-        }
-        if (action.presets) {
-            return reduceLoadBankStoragePresets(state, action.presets);
-        }
-        break;
+        return reduceLoadBankStoragePresets(state, action.presets);
 
         case "C/storage/*":
         return reduceAddStorageBank(state);
