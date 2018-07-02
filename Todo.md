@@ -10,15 +10,21 @@
 - Place a badge on the upload button with a count of flagged presets (device)
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
+- Ask conformation before removing changed presets (delete, download).
 - Implement Favorites for presets (requires PP/PPE protocol code).
+- Add tooltip control that display text separate from control (status/tool/title bar)
+- Add locallization, translated strings.
 
 ## Bugs
 
+- [Fixed: use onClick not onChange on buttons] Preset expand does not work (anymore).
+- Device Presets do not have 'meta' set (undefined).
+- After selecting a preset and changing views (device/storage/factory) the view-filter for selection is not enabled anymore.
 - [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
 - Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
 - Paste Empty shows garbage-can (x) target in the preview list.
 - [Done] Refactor (Load/Save) Actions with error property. Simply dispatch an error-action when error is caught.
-- onClick / onChange handlers must check if value is 'on' before dispatching action.
+- onClick / onChange handlers must check if value is 'on' before dispatching action. Replace onClick with onChange.
 
 Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
 Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).

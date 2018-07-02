@@ -28,7 +28,7 @@ export class PresetsClient {
     public async replacePresets(presets: Preset[]): Promise<Preset[]> {
         const banks = this.extractBankNames(presets);
 
-        if (banks) {
+        if (banks.length) {
             const replacedPresets = new Array<Preset>();
             // using simple for-loop because of await
             for (let i = 0; i < banks.length; i++) {
@@ -149,13 +149,13 @@ export class PresetsClient {
         return clientBank;
     }
 
-    private extractBankNames(presets: Preset[]): string[] | undefined {
+    private extractBankNames(presets: Preset[]): string[] {
         if (presets.length) {
             return distinct(presets
                 .map(p => p.group ? p.group.name : "")
                 .filter(n => n.length));
         }
-        return undefined;
+        return [];
     }
 
     private throwIfErrorMessage(response: TypedRestClient.IRestResponse<ResponseMessage>) {

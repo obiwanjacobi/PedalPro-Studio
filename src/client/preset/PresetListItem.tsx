@@ -59,7 +59,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                     </Grid>
                     <Grid xs={1} item={true}>
                         {this.hasDetails &&
-                        <IconButton onChange={this.toggleExpanded} >
+                        <IconButton onClick={this.toggleExpanded} >
                             {this.props.preset.ui.expanded ? <ExpandLess /> : <ExpandMore />}
                         </IconButton>}
                     </Grid>

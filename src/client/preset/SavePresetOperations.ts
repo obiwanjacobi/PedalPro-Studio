@@ -22,7 +22,7 @@ function makeProgressInfo(title: string, count: number, current: number): Progre
 export function getProgressInfo(source: PresetCollectionType, presets: Preset[], deviceInfo: DeviceIdentity) {
     switch (source) {
         case PresetCollectionType.device:
-            return { title: deviceInfo.device, count: deviceInfo.presetCount };
+            return { title: deviceInfo.device, count: presets.length };
     
         case PresetCollectionType.storage:
             // @ts-ignore: bank always set for storage presets

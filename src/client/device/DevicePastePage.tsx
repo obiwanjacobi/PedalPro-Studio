@@ -78,6 +78,13 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                         <Grid item={true} xs={4}>
                             <Paper elevation={2} style={style}>
                                 <Typography variant="body2">Clipboard</Typography>
+                                <FormControlLabel
+                                    control={<Checkbox 
+                                        checked={this.state.removeSelected} 
+                                        onChange={this.onRemoveSelectedChange}
+                                    />}
+                                    label="Remove after Paste"
+                                />
                                 <List id="ClipboardList">
                                     {this.props.clipboard.map((preset: Preset, index: number) => {
                                         return (
@@ -89,13 +96,6 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                                         );
                                     })}
                                 </List>
-                                <FormControlLabel
-                                    control={<Checkbox 
-                                        checked={this.state.removeSelected} 
-                                        onChange={this.onRemoveSelectedChange}
-                                    />}
-                                    label="Remove after Paste"
-                                />
                             </Paper>
                         </Grid>
                         
