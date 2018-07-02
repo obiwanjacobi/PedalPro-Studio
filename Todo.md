@@ -19,7 +19,7 @@
 
 - [Fixed: use onClick not onChange on buttons] Preset expand does not work (anymore).
 - Device Presets do not have 'meta' set (undefined).
-- After selecting a preset and changing views (device/storage/factory) the view-filter for selection is not enabled anymore.
+- [Fixed] After selecting a preset and changing views (device/storage/factory) the view-filter for selection is not enabled anymore.
 - [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
 - Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
 - Paste Empty shows garbage-can (x) target in the preview list.

@@ -43,7 +43,7 @@ export type PresetViewAllProps =
 export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
         super(props);
-        this.state = { 
+        this.state = this.buildUiState(props, { 
             searchKey: "", 
             enableShowEmpty: false, 
             showEmpty: false, 
@@ -51,7 +51,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
             showChanged: false, 
             enableShowSelected: false,
             showSelected: false
-        };
+        });
         // bind event handlers
         this.searchHandler = this.searchHandler.bind(this);
         this.clearSearch = this.clearSearch.bind(this);
@@ -108,16 +108,21 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         );
     }
 
-    public componentWillReceiveProps(props: PresetViewAllProps, newState: PresetViewState) {
-        const isEnabled = props.presets.length > 0;
+    public componentWillReceiveProps(newProps: PresetViewAllProps, newState: PresetViewState) {
+        const changedState = this.buildUiState(newProps, newState);
+        this.setState(changedState);
+    }
+
+    private buildUiState(newProps: PresetViewAllProps, newState: PresetViewState): PresetViewState {
+        const isEnabled = newProps.presets.length > 0;
         const changedState = { ...newState };
 
-        changedState.enableShowChanged = isEnabled && ChangedView.areAnyChanged(props.presets);
+        changedState.enableShowChanged = isEnabled && ChangedView.areAnyChanged(newProps.presets);
         if (!changedState.enableShowChanged) {
             changedState.showChanged = false;
         }
         
-        changedState.enableShowSelected = isEnabled && SelectedView.areAnySelected(props.presets);
+        changedState.enableShowSelected = isEnabled && SelectedView.areAnySelected(newProps.presets);
         if (!changedState.enableShowSelected) {
             changedState.showSelected = false;
         }
@@ -126,10 +131,9 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
         if (!changedState.enableShowEmpty) {
             changedState.showEmpty = false;
         }
-
-        this.setState(changedState);
+        return changedState;
     }
-
+    
     private get isEnabled(): boolean {
         return this.props.presets.length > 0;
     }
