@@ -45,18 +45,17 @@ export class ReadPresetsApi implements ApiHandler {
 
         try {
             let paramsValid = false;
+            const provider = this.createProvider(request.params);
             if (page && size) {
                 const pageNo = Number(page);
                 const sizeNo = Number(size);
                 if (!isNaN(pageNo) && !isNaN(sizeNo)) {
                     paramsValid = true;
-                    const provider = this.createProvider(request.params);
                     msg.presets = provider.getPresetsPaged(pageNo, sizeNo);
                 }
             }
-
             if (!paramsValid) {
-                msg.fault = createFault("Specified Page and Size parameters were not valid.");
+                msg.presets = provider.getPresets();
             }
         } catch (error) {
             msg.fault = createFault(error.message);

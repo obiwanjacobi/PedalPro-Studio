@@ -44,7 +44,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
         super(props);
         this.selection = new SelectedView(props.clipboard);
 
-        this.state = { removeSelected: false, targetBank: "" };
+        this.state = { removeSelected: true, targetBank: "" };
         this.close = this.close.bind(this);
         this.pastedPresets = this.pastedPresets.bind(this);
         this.onBankChange = this.onBankChange.bind(this);

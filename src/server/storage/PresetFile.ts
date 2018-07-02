@@ -37,19 +37,31 @@ export class PresetFile {
     }
 
     public read(): Preset | null {
-        const buffer = FileSystem.readFileSync(this.filePath);
-        if (buffer.length > 0) {
-            return JSON.parse(buffer.toString());
+        try {
+            const buffer = FileSystem.readFileSync(this.filePath);
+            if (buffer.length > 0) {
+                return JSON.parse(buffer.toString());
+            }
+            return null;
+        } catch (error) {
+            throw new Error(`Error: '${error.message}' occurred reading file: ${this.filePath}.`);
         }
-        return null;
     }
 
     public write(preset: Preset) {
-        const presetJson = JSON.stringify(preset);
-        FileSystem.writeFileSync(this.filePath, presetJson);
+        try {
+            const presetJson = JSON.stringify(preset);
+            FileSystem.writeFileSync(this.filePath, presetJson);
+        } catch (error) {
+            throw new Error(`Error: '${error.message}' occurred writing file: ${this.filePath}.`);
+        }
     }
 
     public delete() {
-        FileSystem.unlinkSync(this.filePath);
+        try {
+            FileSystem.unlinkSync(this.filePath);
+        } catch (error) {
+            throw new Error(`Error: '${error.message}' occurred deleting file: ${this.filePath}.`);
+        }
     }
 }

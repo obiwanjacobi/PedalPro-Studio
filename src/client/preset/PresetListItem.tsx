@@ -43,7 +43,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                     <Grid xs={2} item={true}>
                         <Checkbox 
                             checked={this.props.preset.ui.selected} 
-                            onClick={this.toggleSelected}
+                            onChange={this.toggleSelected}
                             icon={this.formatIndex()}
                         />
                     </Grid>
@@ -59,7 +59,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                     </Grid>
                     <Grid xs={1} item={true}>
                         {this.hasDetails &&
-                        <IconButton onClick={this.toggleExpanded} >
+                        <IconButton onChange={this.toggleExpanded} >
                             {this.props.preset.ui.expanded ? <ExpandLess /> : <ExpandMore />}
                         </IconButton>}
                     </Grid>

@@ -4,7 +4,7 @@ import { PresetCollectionType } from "./ApplicationDocument";
 import { Preset } from "./preset/Preset";
 import * as ModelPreset from "../model/Preset";
 import * as Storage from "../model/Storage";
-import { PresetResponse, PresetRequest, DeviceResponse, BankResponse, ResponseMessage } from "../model/Messages";
+import { PresetResponse, DeviceResponse, BankResponse, ResponseMessage } from "../model/Messages";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { StorageBank } from "./storage/StorageBank";
 import { distinct } from "../ArrayExtensions";
@@ -25,24 +25,12 @@ export class PresetsClient {
         this.unextendPreset = this.unextendPreset.bind(this);
     }
 
-    // public async deletePresets(presets: Preset[]): Promise<Preset[]> {
-    //     const results = new Array<Preset>(presets.length);
-    //     for (let i = 0; i < presets.length; i++) {
-    //         const preset = presets[i];
-    //         const response = await this.typedRest.del<PresetResponse>(`${this.baseUrl}/presets/${preset.index}`);
-    //         this.throwIfErrorPreset(response);
-    //         // @ts-ignore:[ts] Object is possibly 'null'.
-    //         results[i] = this.extendPreset(response.result.presets[0]);
-    //     }
-    //     return results;
-    // }
-
     public async replacePresets(presets: Preset[]): Promise<Preset[]> {
         const banks = this.extractBankNames(presets);
 
         if (banks) {
             const replacedPresets = new Array<Preset>();
-            // unsing simple for-loop because of await
+            // using simple for-loop because of await
             for (let i = 0; i < banks.length; i++) {
                 const bankPresets = storagePresetsForBank(presets, banks[i]);
                 const savedPresets = await this.requestSavePreset(bankPresets, banks[i]);
@@ -56,21 +44,21 @@ export class PresetsClient {
 
     public async getPresets(): Promise<Preset[]> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/`);
-        this.throwIfErrorPreset(response);
+        this.throwIfErrorMessage(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map(this.extendPreset);
     }
 
     public async getPresetsPaged(page: number, size: number): Promise<Preset[]> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/?page=${page}&size=${size}`);
-        this.throwIfErrorPreset(response);
+        this.throwIfErrorMessage(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map(this.extendPreset);
     }
 
     public async getPreset(presetIndex: number): Promise<Preset> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/${presetIndex}`);
-        this.throwIfErrorPreset(response);
+        this.throwIfErrorMessage(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         const modelPreset = response.result.presets[0];
         return this.extendPreset(modelPreset);
@@ -81,7 +69,7 @@ export class PresetsClient {
             throw new Error("Invalid Operation: getStorageBanks can only be called on Storage.");
         }
         const response = await this.typedRest.get<BankResponse>(`${this.baseUrl}/`);
-        this.throwIfErrorBank(response);
+        this.throwIfErrorMessage(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.banks.map(this.extendBank);
     }
@@ -89,7 +77,7 @@ export class PresetsClient {
     public async getStorageBankPresets(bank: string): Promise<Preset[]> {
         try {
             const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/${bank}/presets/`);
-            this.throwIfErrorPreset(response);
+            this.throwIfErrorMessage(response);
             // @ts-ignore:[ts] Object is possibly 'null'.
             return response.result.presets.map((p: ModelPreset.Preset) => {
                 const preset = this.extendPreset(p);
@@ -103,7 +91,7 @@ export class PresetsClient {
 
     public async deleteStorageBank(bank: string): Promise<void> {
         const response = await this.typedRest.del<BankResponse>(`${this.baseUrl}/${bank}`);
-        this.throwIfErrorBank(response);
+        this.throwIfErrorMessage(response);
     }
 
     public async getDeviceInfo(): Promise<DeviceIdentity> {
@@ -115,7 +103,7 @@ export class PresetsClient {
 
     public async getEmptyPreset(): Promise<ModelPreset.Preset> {
         const response = await this.typedRest.get<PresetResponse>(`${this.baseUrl}/presets/empty`);
-        this.throwIfErrorPreset(response);
+        this.throwIfErrorMessage(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets[0];  // not extended!
     }
@@ -123,8 +111,8 @@ export class PresetsClient {
     private async requestSavePreset(presets: Preset[], bank?: string): Promise<Preset[]> {
         const url = bank ? `${this.baseUrl}/${bank}/presets/` : `${this.baseUrl}/presets/`;
         const msg = { presets: presets.map(this.unextendPreset) };
-        const response = await this.typedRest.replace<PresetRequest>(url, msg);
-        this.throwIfErrorPreset(response);
+        const response = await this.typedRest.replace<PresetResponse>(url, msg);
+        this.throwIfErrorMessage(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
         return response.result.presets.map(this.extendPreset);
     }
@@ -168,22 +156,6 @@ export class PresetsClient {
                 .filter(n => n.length));
         }
         return undefined;
-    }
-
-    private throwIfErrorBank(response: TypedRestClient.IRestResponse<BankResponse>) {
-        this.throwIfErrorMessage(response);
-        // @ts-ignore: possibly null
-        if (!response.result.banks || response.result.banks.length === 0) {
-            throw new Error("No banks were retrieved.");
-        }
-    }
-
-    private throwIfErrorPreset(response: TypedRestClient.IRestResponse<PresetResponse>) {
-        this.throwIfErrorMessage(response);
-        // @ts-ignore: possibly null
-        if (!response.result.presets || response.result.presets.length === 0) {
-            throw new Error("No presets were retrieved.");
-        }
     }
 
     private throwIfErrorMessage(response: TypedRestClient.IRestResponse<ResponseMessage>) {

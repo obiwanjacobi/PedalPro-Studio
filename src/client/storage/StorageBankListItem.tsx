@@ -18,7 +18,7 @@ export type StorageBankListItemAllProps = StorageBankListItemProps & StorageBank
 export class StorageBankListItem extends React.Component<StorageBankListItemAllProps> {
     public constructor(props: StorageBankListItemAllProps) {
         super(props);
-        this.loadPresets = this.loadPresets.bind(this);
+        this.onBankSelectedChanged = this.onBankSelectedChanged.bind(this);
         this.toggleExpanded = this.toggleExpanded.bind(this);
     }
     
@@ -30,7 +30,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                         <Checkbox 
                             disableRipple={true} 
                             checked={this.props.bank.ui.selected}
-                            onClick={this.loadPresets}
+                            onChange={this.onBankSelectedChanged}
                         />
                     </Grid>
                     <Grid xs={7} item={true}>
@@ -59,11 +59,16 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
         );
     }
 
+    private onBankSelectedChanged(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
+        if (checked) {
+            this.loadPresets();
+        }
+        this.toggleSelected();
+    }
     private loadPresets() {
         if (bankNeedsLoading(this.props.bank)) {
             this.props.loadStorageBankPresets(this.props.bank.name);
         }
-        this.toggleSelected();
     }
 
     private toggleExpanded() {
