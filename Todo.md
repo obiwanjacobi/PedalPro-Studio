@@ -6,14 +6,17 @@
 - [Done] move factory preset file for ex and find std factory presets.
 - [Done] create FactoryProvider for PedalPro (Std)
 - [Done] mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
-- [Done] reverse engineer DSP type settings
+- [Done] reverse engineer DSP type settings.
 - Place a badge on the upload button with a count of flagged presets (device)
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
+- Implement Storage Bank Delete. Local on bank item as well as toolbar (all selected presets).
 - Ask conformation before removing changed presets (delete, download).
 - Implement Favorites for presets (requires PP/PPE protocol code).
 - Add tooltip control that display text separate from control (status/tool/title bar)
 - Add locallization, translated strings.
+- Storage presets should be shown in the same order as the banks they belong to.
+- PresetView should have sorting (byIndex, byName, asc/desc).
 
 ## Bugs
 
@@ -25,6 +28,12 @@
 - Paste Empty shows garbage-can (x) target in the preview list.
 - [Done] Refactor (Load/Save) Actions with error property. Simply dispatch an error-action when error is caught.
 - onClick / onChange handlers must check if value is 'on' before dispatching action. Replace onClick with onChange.
+- Delete storage preset leaves original. Deleted item show at start of list with original index.
+  After upload state is restored as expected, but empty preset is saved to disk.
+- Storage 'Select All' toolbar button does not show correct state when hand-selecting storage presets.
+    Because of extra hidden empty preset?
+- Move storage preset errors out when target index was deleted.
+    Also cannot move down (because max preset count = 0).
 
 Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
 Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).
@@ -56,9 +65,8 @@ All device presets are automatically saved when uploaded to the device.
 - [Done] remove/refactor all anonymous event handlers (start with PresetList/Item) - bind in ctor.
 - add tslib
 - [Done] use a virtual preset list: https://github.com/bvaughn/react-virtualized
-- look into state management
 - [Done] implement ShouldComponentUpdate()
-- Redux connect at list item level. Bind list with number of presets and instantiate each list item with its index.
+- [Done ]Redux connect at list item level. Bind list with number of presets and instantiate each list item with its index.
     How will this work with filtering? Filtering is done at list-level and a ListItem is instantiated for each preset index.
 - [Done] Use production build of React. Have no idea how to change that in electron/ts.
 - [Done] use a pack tool (webpack/babel/rollup) to optimize startup time (which is also pretty bad)

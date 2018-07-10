@@ -49,6 +49,7 @@ function presetGroupHasChanged(preset: Preset): boolean {
 
 export function formatPresetIndex(preset: ModelPreset.Preset): string {
     const value = preset.index;
+    if (value < 0) { return "---"; }
     // formats 3 digits with leading zeros
     return numberToString(value, 3);
 }

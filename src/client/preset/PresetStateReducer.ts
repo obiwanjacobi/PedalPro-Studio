@@ -16,6 +16,18 @@ import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
 import { ScreenBuilder } from "../screen/ScreenBuilder";
 import { presetsExceptIndexAreEqual } from "./PresetOperations";
 
+const ToBeDeletedPreset /*: ModelPreset.Preset*/ = {
+    name: "{to_be_deleted}",
+    meta: { device: "STORAGE" },
+    traits : {
+        empty: true,
+        expression: false,
+        humbucker: false,
+        singleCoil: false,
+        stereo: false
+    }
+};
+
 // all actions this reducer handles
 export type PresetAction = 
     LoadPresetsAction | SavePresetsAction | DeletePresetsAction |
@@ -154,14 +166,19 @@ const reduceLoadPresets = (
 const reduceDeletePresets = (
     state: ApplicationDocument, source: PresetCollectionType, deleted: Preset[]): ApplicationDocument => {
     
-    if (!state.empty) { return state; }
     if (source === PresetCollectionType.factory) { return state; }
+    if (source === PresetCollectionType.device && !state.empty) { return state; }
+    
+    let empty = state.empty;
+    if (source === PresetCollectionType.storage) {
+        empty = <ModelPreset.Preset> ToBeDeletedPreset;
+    }
 
     const builder = new ApplicationDocumentBuilder(state);
     builder.transformPresets(source, (originalPresets: Preset[]): Preset[] => {
         const deleteBuilder = new PresetArrayBuilder(deleted);
         deleteBuilder.forEach((p: Preset, index: number) => {
-            deleteBuilder.mutable[index] = PresetBuilder.delete(p, <ModelPreset.Preset> state.empty);
+            deleteBuilder.mutable[index] = PresetBuilder.delete(p, <ModelPreset.Preset> empty);
         });
 
         const presetBuilder = new PresetArrayBuilder(originalPresets);

@@ -1,7 +1,8 @@
 import * as React from "react";
 import { 
-    ListItem, ListItemText, ListItemSecondaryAction
+    ListItem, ListItemText, ListItemSecondaryAction, Icon
 } from "@material-ui/core";
+import { KeyboardArrowLeft } from "@material-ui/icons";
 
 import { Preset } from "../preset/Preset";
 import { PresetCollectionType } from "../ApplicationDocument";
@@ -38,6 +39,7 @@ export class PreviewListItem extends React.Component<PreviewListItemProps> {
         return (
             <ListItem>
                 <ListItemText primary={this.title} secondary={this.subTitle} />
+                {this.props.match && <Icon color="secondary"><KeyboardArrowLeft /></Icon>}
                 <ListItemSecondaryAction>
                     {!this.notFound &&
                     <PresetChangedFlag preset={this.props.preset} />}
@@ -53,11 +55,6 @@ export class PreviewListItem extends React.Component<PreviewListItemProps> {
 
     private get subTitle() {
         if (this.notFound) { return ""; }
-        
-        if (this.props.match) {
-            return formatPresetFullName(this.props.preset.origin) + " *";    
-        }
-
         return formatPresetFullName(this.props.preset.origin);
     }
 

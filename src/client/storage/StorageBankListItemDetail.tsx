@@ -45,7 +45,7 @@ export class StorageBankListItemDetail extends
                 <Grid item={true} xs={1}/>
                 <Grid item={true} xs={6}>
                     <Input
-                        style={{width: 150}}
+                        style={{width: 180}}
                         placeholder="Bank Name"
                         margin="dense"
                         value={this.state.name}

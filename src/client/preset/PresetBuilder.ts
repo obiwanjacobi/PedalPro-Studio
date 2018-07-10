@@ -62,8 +62,17 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
 
     public replaceByPresetIndex(replacements: Preset[]) {
         replacements.forEach(replacement => {
-            const index = this.mutable.findIndex((p) => p.index === replacement.index);
-            if (index !== -1) {
+            const replacementGroupName = replacement.group ? replacement.group.name : "";
+
+            const index = this.mutable.findIndex(p => 
+                (p.group && 
+                    p.group.name === replacementGroupName && 
+                    p.index === replacement.index) 
+                    ||
+                (!p.group && replacementGroupName.length === 0 &&
+                    p.index === replacement.index)
+            );
+            if (index >= 0) {
                 this.mutable[index] = replacement;
             } else {
                 this.mutable.push(replacement);
