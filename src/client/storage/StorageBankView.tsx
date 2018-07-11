@@ -8,11 +8,13 @@ import { LoadStorageBankPresets } from "./LoadStorageBankPresetsAction";
 import { FlexContainer } from "../controls/FlexContainer";
 import { AddStorageBank } from "./AddStorageBankAction";
 import { RenameStorageBank } from "./RenameStorageBankAction";
+import { DeleteStorageBank } from "./DeleteStorageBankAction";
 
 export interface StorageBankViewProps {
     banks: StorageBank[];
 }
-export type StorageBankViewActions = LoadStorageBankPresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank;
+export type StorageBankViewActions = 
+    LoadStorageBankPresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank & DeleteStorageBank;
 export type StorageBankViewAllProps = StorageBankViewProps & StorageBankViewActions;
 export interface StorageBankViewState { }
 
@@ -33,24 +35,21 @@ export class StorageBankView extends React.Component<StorageBankViewAllProps, St
                 </Toolbar>
                 <StorageBankList 
                     items={this.filteredBanks}
-                    changeStorageBanks={this.actions.changeStorageBanks}
-                    loadStorageBankPresets={this.actions.loadStorageBankPresets}
-                    renameStorageBank={this.actions.renameStorageBank}
+                    changeStorageBanks={this.props.changeStorageBanks}
+                    loadStorageBankPresets={this.props.loadStorageBankPresets}
+                    renameStorageBank={this.props.renameStorageBank}
+                    deleteStorageBank={this.props.deleteStorageBank}
                 />
             </FlexContainer>
         );
     }
 
     private addBank() {
-        this.actions.addStorageBank();
+        this.props.addStorageBank();
     }
 
     private get filteredBanks(): StorageBank[] {
         // TODO: add filtering
         return this.props.banks;
-    }
-
-    private get actions(): Readonly<StorageBankViewActions> {
-        return this.props;
     }
 }

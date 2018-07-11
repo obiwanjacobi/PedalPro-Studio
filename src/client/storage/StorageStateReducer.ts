@@ -123,8 +123,8 @@ const reducePasteStoragePresets =
 
     if (presets.length === 0) { return state; }
 
-    var builder = new ApplicationDocumentBuilder(state);
-    var storageBuilder = new PresetArrayBuilder(builder.mutable.storage);
+    const builder = new ApplicationDocumentBuilder(state);
+    const storageBuilder = new PresetArrayBuilder(builder.mutable.storage);
 
     storageBuilder.addRange(presets, p => {
         return PresetBuilder.modify(p, {source: PresetCollectionType.storage});
@@ -169,12 +169,12 @@ const reduceDeleteStoragePresets =
         });
     
         return builder.detach();
-    
 };
 
 export type StorageAction = 
-    AddStorageBankAction | LoadStorageBanksAction | LoadStorageBankPresetsAction | 
-    ChangeStorageBanksAction | RenameStorageBankAction | PasteStoragePresetsAction |
+    AddStorageBankAction | LoadStorageBanksAction | 
+    ChangeStorageBanksAction | RenameStorageBankAction | 
+    LoadStorageBankPresetsAction | PasteStoragePresetsAction |
     SaveStoragePresetsAction | DeleteStoragePresetsAction;
 
 export const reduce = (state: ApplicationDocument, action: StorageAction): ApplicationDocument => {

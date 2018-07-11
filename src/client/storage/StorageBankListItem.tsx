@@ -8,11 +8,13 @@ import { StorageBankListItemDetail } from "./StorageBankListItemDetail";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { RenameStorageBank } from "./RenameStorageBankAction";
 import { bankNeedsLoading } from "./BankOperations";
+import { DeleteStorageBank } from "./DeleteStorageBankAction";
 
 export interface StorageBankListItemProps {
     bank: StorageBank;
 }
-export type StorageBankListItemActions = ChangeStorageBanks & LoadStorageBankPresets & RenameStorageBank;
+export type StorageBankListItemActions = 
+    ChangeStorageBanks & LoadStorageBankPresets & RenameStorageBank & DeleteStorageBank;
 export type StorageBankListItemAllProps = StorageBankListItemProps & StorageBankListItemActions;
 
 export class StorageBankListItem extends React.Component<StorageBankListItemAllProps> {
@@ -51,6 +53,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                             <StorageBankListItemDetail
                                 bank={this.props.bank}
                                 renameStorageBank={this.props.renameStorageBank}
+                                deleteStorageBank={this.props.deleteStorageBank}
                             />
                         }
                     </Collapse>

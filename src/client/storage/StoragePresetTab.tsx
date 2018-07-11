@@ -29,6 +29,7 @@ import StoragePastePage from "./StoragePastePage";
 import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorageBankAction";
 import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 import { DeleteStoragePresets, createDeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
+import { DeleteStorageBank, dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -40,7 +41,7 @@ export interface StoragePresetTabStoreProps {
 }
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
-    ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank &
+    ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank & DeleteStorageBank &
     LoadStorageBanks & LoadStorageBankPresets & SaveStoragePresets & 
     CopyPresets & EditPreset & MovePresets & UpdateScreen & DeleteStoragePresets;
 
@@ -102,6 +103,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         changeStorageBanks={this.actions.changeStorageBanks}
                         loadStorageBankPresets={this.actions.loadStorageBankPresets}
                         renameStorageBank={this.actions.renameStorageBank}
+                        deleteStorageBank={this.actions.deleteStorageBank}
                     />
                     <PresetView 
                         filterEmpty={false}
@@ -222,6 +224,9 @@ const createActionObject: ActionDispatchFunc =
             },
             renameStorageBank: (bank: StorageBank, newName: string) => {
                 dispatch(createRenameStorageBankAction(bank, newName));
+            },
+            deleteStorageBank: (bank: string) => {
+                dispatchDeleteStorageBankAction(dispatch, bank);
             },
             saveStoragePresets: (presets: Preset[]): void  => {
                 dispatchSaveStoragePresetsAction(dispatch, presets);

@@ -10,7 +10,7 @@ export interface LoadStorageBankPresetsAction {
     readonly presets: Preset[];
 }
 
-export const createLoadStorageBankPresetsAction = (presets: Preset[]): LoadStorageBankPresetsAction => {
+const createLoadStorageBankPresetsAction = (presets: Preset[]): LoadStorageBankPresetsAction => {
     return { type: "R/storage/*/presets/", presets: presets };
 };
 

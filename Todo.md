@@ -8,9 +8,11 @@
 - [Done] mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
 - [Done] reverse engineer DSP type settings.
 - Place a badge on the upload button with a count of flagged presets (device)
+    for storage also indicate it on each bank.
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
-- Implement Storage Bank Delete. Local on bank item as well as toolbar (all selected presets).
+- [Done] Implement Storage Bank delete.
+- Implement delete storage presets toolbar button (all selected presets).
 - Ask conformation before removing changed presets (delete, download).
 - Implement Favorites for presets (requires PP/PPE protocol code).
 - Add tooltip control that display text separate from control (status/tool/title bar)

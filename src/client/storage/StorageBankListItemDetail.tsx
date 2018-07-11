@@ -4,11 +4,12 @@ import { Delete, Save, Undo } from "@material-ui/icons";
 
 import { StorageBank } from "./StorageBank";
 import { RenameStorageBank } from "./RenameStorageBankAction";
+import { DeleteStorageBank } from "./DeleteStorageBankAction";
 
 export interface StorageBankListItemDetailProps { 
     bank: StorageBank;
 }
-export type StorageBankListItemDetailActions = RenameStorageBank;
+export type StorageBankListItemDetailActions = RenameStorageBank & DeleteStorageBank;
 export interface StorageBankListItemDetailState {
     name: string;
 }
@@ -123,6 +124,6 @@ export class StorageBankListItemDetail extends
 
     private delete() {
         // TODO: confirm
-        // this.props.deleteStorageBank(this.props.bank);
+        this.props.deleteStorageBank(this.props.bank.name);
     }
 }

@@ -89,9 +89,11 @@ export class PresetsClient {
         }
     }
 
-    public async deleteStorageBank(bank: string): Promise<void> {
+    public async deleteStorageBank(bank: string): Promise<StorageBank[]> {
         const response = await this.typedRest.del<BankResponse>(`${this.baseUrl}/${bank}`);
         this.throwIfErrorMessage(response);
+        // @ts-ignore:[ts] Object is possibly 'null'.
+        return response.result.banks.map(this.extendBank);
     }
 
     public async getDeviceInfo(): Promise<DeviceIdentity> {

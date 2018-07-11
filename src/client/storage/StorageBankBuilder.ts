@@ -9,6 +9,11 @@ export class StorageBankBuilder extends ItemBuilder<StorageBank> {
 
 export class StorageBankArrayBuilder extends ArrayBuilder<StorageBank> {
 
+    public remove(bank: string) {
+        const removeBank = this.mutable.filter(b => b.name === bank);
+        this.removeRange(removeBank);
+    }
+    
     public update(bank: StorageBank, update: Partial<StorageBank>): void {
         const index = this.mutable.findIndex(b => b.name === bank.name);
         this.mutable[index] = StorageBankBuilder.modify(bank, update);
