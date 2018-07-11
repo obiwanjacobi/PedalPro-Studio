@@ -124,6 +124,6 @@ export class StorageBankListItemDetail extends
 
     private delete() {
         // TODO: confirm
-        this.props.deleteStorageBank(this.props.bank.name);
+        this.props.deleteStorageBank(this.props.bank);
     }
 }

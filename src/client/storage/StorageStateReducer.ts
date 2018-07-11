@@ -17,6 +17,7 @@ import { SaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 import { DeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
 import { distinct } from "../../ArrayExtensions";
 import { storagePresetsForBank } from "./BankOperations";
+import { DeleteStorageBankAction } from "./DeleteStorageBankAction";
 
 const reduceChangeStorageBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
     ApplicationDocument => {
@@ -141,9 +142,26 @@ const reducePasteStoragePresets =
     return builder.detach();
 };
 
+const reduceDeleteStorageBank =
+    (state: ApplicationDocument, bank: StorageBank): ApplicationDocument => {
+
+    const builder = new ApplicationDocumentBuilder(state);
+    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
+    bankBuilder.remove(bank);
+    builder.mutable.banks = bankBuilder.detach();
+
+    builder.transformPresets(PresetCollectionType.storage, (storagePresets: Preset[]): Preset[] => {
+        const presetBuilder = new PresetArrayBuilder(storagePresets);
+        presetBuilder.removeByGroup(bank.name);
+        return presetBuilder.detach();
+    });
+
+    return builder.detach();
+};
+
 const ToBeDeletedPreset /*: ModelPreset.Preset*/ = {
     name: "{to_be_deleted}",
-    meta: { device: "STORAGE" },
+    meta: { device: PresetCollectionType.storage.toUpperCase() },
     traits : {
         empty: true,
         expression: false,
@@ -172,7 +190,7 @@ const reduceDeleteStoragePresets =
 };
 
 export type StorageAction = 
-    AddStorageBankAction | LoadStorageBanksAction | 
+    AddStorageBankAction | LoadStorageBanksAction | DeleteStorageBankAction |
     ChangeStorageBanksAction | RenameStorageBankAction | 
     LoadStorageBankPresetsAction | PasteStoragePresetsAction |
     SaveStoragePresetsAction | DeleteStoragePresetsAction;
@@ -190,6 +208,9 @@ export const reduce = (state: ApplicationDocument, action: StorageAction): Appli
 
         case "C/storage/*":
         return reduceAddStorageBank(state);
+
+        case "D/storage/[]":
+        return reduceDeleteStorageBank(state, action.bank);
 
         case "U/storage/[].name/presets/*.name":
         return reduceRenameStorageBank(state, action.bank, action.newName);

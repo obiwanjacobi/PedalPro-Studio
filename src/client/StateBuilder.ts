@@ -65,6 +65,11 @@ export abstract class ArrayBuilder<T extends {}> extends ItemBuilder<T[]> {
         }
     }
 
+    public remove(item: T) {
+        const index = this.mutable.indexOf(item);
+        this.mutable.splice(index, 1);
+    }
+
     public removeRange(items: T[], matchItemFn?: MatchItemFn<T>) {
         this.forRange(items, (_: T, index: number) => this.removeAt(index), matchItemFn);
     }

@@ -20,9 +20,8 @@ export const createSaveStoragePresetsAction = (presets: Preset[]): SaveStoragePr
 export async function dispatchSaveStoragePresetsAction(
     dispatch: Dispatch<SaveStoragePresetsAction | AddFaultAction>, presets: Preset[]): Promise<void> {
 
-    const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
-
     try {
+        const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
         progressSaveStoragePresets(presetClient, presets, dispatch);
     } catch (error) {
         dispatch(createAddFaultAction(PresetCollectionType.storage, error));

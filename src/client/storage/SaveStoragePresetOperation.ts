@@ -1,7 +1,7 @@
 import { Dispatch } from "react-redux";
 import { PresetsClient } from "../Client";
 import { getProgressInfo, savePresetsAsync } from "../preset/SavePresetOperations";
-import { PresetCollectionType } from "../ApplicationDocument";
+import { PresetCollectionType, ApplicationDocument } from "../ApplicationDocument";
 import { Preset } from "../preset/Preset";
 import { dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
 import { dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
@@ -16,11 +16,9 @@ export const progressSaveStoragePresets = (
     // @ts-ignore
     dispatch(async (disp: Dispatch, getState: () => ApplicationDocument) => {
         const appDoc = getState();
-        let deviceInfo = appDoc.deviceInfo;
-    
-        const progressInfo = getProgressInfo(PresetCollectionType.storage, presets, deviceInfo);
 
         try {
+            const progressInfo = getProgressInfo(PresetCollectionType.storage, presets, appDoc.deviceInfo);
             await savePresetsAsync(presetClient, progressInfo, presets, disp);
             // Do not use the presets returned from savePresetsAsync, 
             // but reload so the presets have their group set.
@@ -31,8 +29,9 @@ export const progressSaveStoragePresets = (
             const renamedBanks = presets
                 .filter(p => p.group && p.group.name !== p.group.originName)
                 .map(p => p.group ? p.group.originName : "")
-                .filter(n => n.length);
-            renamedBanks.forEach(b => dispatchDeleteStorageBankAction(disp, b));
+                .filter(n => n.length)
+                .map(n => appDoc.banks.find(b => b.name === n));
+            renamedBanks.forEach(b => b ? dispatchDeleteStorageBankAction(disp, b) : null);
         } catch (error) {
             disp(createAddFaultAction(PresetCollectionType.storage, error));
         }

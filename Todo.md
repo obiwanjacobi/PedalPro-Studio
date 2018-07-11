@@ -30,6 +30,8 @@
 - Paste Empty shows garbage-can (x) target in the preview list.
 - [Done] Refactor (Load/Save) Actions with error property. Simply dispatch an error-action when error is caught.
 - onClick / onChange handlers must check if value is 'on' before dispatching action. Replace onClick with onChange.
+- [Fixed] Delete last storage bank does not remove it from display.
+- [Fixed] Delete a non-created (uploaded) storage bank fails with message bank was not found.
 - Delete storage preset leaves original. Deleted item show at start of list with original index.
   After upload state is restored as expected, but empty preset is saved to disk.
 - Storage 'Select All' toolbar button does not show correct state when hand-selecting storage presets.

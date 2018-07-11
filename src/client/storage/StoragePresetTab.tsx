@@ -225,7 +225,7 @@ const createActionObject: ActionDispatchFunc =
             renameStorageBank: (bank: StorageBank, newName: string) => {
                 dispatch(createRenameStorageBankAction(bank, newName));
             },
-            deleteStorageBank: (bank: string) => {
+            deleteStorageBank: (bank: StorageBank) => {
                 dispatchDeleteStorageBankAction(dispatch, bank);
             },
             saveStoragePresets: (presets: Preset[]): void  => {
