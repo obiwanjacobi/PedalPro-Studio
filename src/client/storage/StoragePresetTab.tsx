@@ -13,7 +13,6 @@ import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsActio
 import { EditPreset, createEditPresetAction } from "../preset/EditPresetAction";
 import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
-import { DeletePresets, createDeletePresetsAction } from "../preset/DeletePresetsAction";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
@@ -29,6 +28,7 @@ import { createAddStorageBankAction, AddStorageBank } from "./AddStorageBankActi
 import StoragePastePage from "./StoragePastePage";
 import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorageBankAction";
 import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStoragePresetsAction";
+import { DeleteStoragePresets, createDeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -42,7 +42,7 @@ export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
     ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank &
     LoadStorageBanks & LoadStorageBankPresets & SaveStoragePresets & 
-    CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
+    CopyPresets & EditPreset & MovePresets & UpdateScreen & DeleteStoragePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
 
@@ -60,6 +60,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.onCopySelected = this.onCopySelected.bind(this);
         this.pastePresets = this.pastePresets.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
+        this.deletePresets = this.deletePresets.bind(this);
         this.deleteSelectedPresets = this.deleteSelectedPresets.bind(this);
     }
 
@@ -109,7 +110,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         changePresets={this.actions.changePresets}
                         editPreset={this.actions.editPreset}
                         movePresets={this.actions.movePresets}
-                        deletePresets={this.actions.deletePresets}
+                        deletePresets={this.deletePresets}
                         maxPresetCount={this.props.maxPresetCount}
                         empty={this.renderEmpty()}                
                     />
@@ -154,7 +155,13 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
     
     private deleteSelectedPresets() {
-        this.actions.deletePresets(PresetCollectionType.storage, this.selection.selected);
+        this.actions.deleteStoragePresets(this.selection.selected);
+    }
+
+    private deletePresets(source: PresetCollectionType, presets: Preset[]) {
+        if (source === PresetCollectionType.storage) {
+            this.actions.deleteStoragePresets(presets);
+        }
     }
 
     private download() {
@@ -234,8 +241,8 @@ const createActionObject: ActionDispatchFunc =
             movePresets: (presets: Preset[], targetIndex: number): void => {
                 dispatch(createMovePresetsAction(presets, targetIndex));
             },
-            deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
-                dispatch(createDeletePresetsAction(source, presets));
+            deleteStoragePresets: (presets: Preset[]): void  => {
+                dispatch(createDeleteStoragePresetsAction(presets));
             },
             updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));

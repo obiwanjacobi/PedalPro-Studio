@@ -1,5 +1,6 @@
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
+import * as ModelPreset from "../../model/Preset";
 import { Preset } from "../preset/Preset";
 import { PresetArrayBuilder, PresetBuilder } from "../preset/PresetBuilder";
 import { presetsExceptIndexAreEqual } from "../preset/PresetOperations";
@@ -11,10 +12,11 @@ import { LoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
 import { AddStorageBankAction } from "./AddStorageBankAction";
 import { StorageBankArrayBuilder, StorageBankBuilder } from "./StorageBankBuilder";
 import { RenameStorageBankAction } from "./RenameStorageBankAction";
-import { storagePresetsForBank } from "./BankOperations";
 import { PasteStoragePresetsAction } from "./PasteStoragePresetsAction";
 import { SaveStoragePresetsAction } from "./SaveStoragePresetsAction";
+import { DeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
 import { distinct } from "../../ArrayExtensions";
+import { storagePresetsForBank } from "./BankOperations";
 
 const reduceChangeStorageBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
     ApplicationDocument => {
@@ -139,10 +141,41 @@ const reducePasteStoragePresets =
     return builder.detach();
 };
 
+const ToBeDeletedPreset /*: ModelPreset.Preset*/ = {
+    name: "{to_be_deleted}",
+    meta: { device: "STORAGE" },
+    traits : {
+        empty: true,
+        expression: false,
+        humbucker: false,
+        singleCoil: false,
+        stereo: false
+    }
+};
+
+const reduceDeleteStoragePresets =
+    (state: ApplicationDocument, deleted: Preset[]): ApplicationDocument => {
+    
+        const builder = new ApplicationDocumentBuilder(state);
+        builder.transformPresets(PresetCollectionType.storage, (originalPresets: Preset[]): Preset[] => {
+            const deleteBuilder = new PresetArrayBuilder(deleted);
+            deleteBuilder.forEach((p: Preset, index: number) => {
+                deleteBuilder.mutable[index] = PresetBuilder.delete(p, <ModelPreset.Preset> ToBeDeletedPreset);
+            });
+    
+            const presetBuilder = new PresetArrayBuilder(originalPresets);
+            presetBuilder.replaceByPresetIndex(deleteBuilder.detach());
+            return presetBuilder.detach();
+        });
+    
+        return builder.detach();
+    
+};
+
 export type StorageAction = 
     AddStorageBankAction | LoadStorageBanksAction | LoadStorageBankPresetsAction | 
     ChangeStorageBanksAction | RenameStorageBankAction | PasteStoragePresetsAction |
-    SaveStoragePresetsAction;
+    SaveStoragePresetsAction | DeleteStoragePresetsAction;
 
 export const reduce = (state: ApplicationDocument, action: StorageAction): ApplicationDocument => {
     switch (action.type) {
@@ -166,6 +199,9 @@ export const reduce = (state: ApplicationDocument, action: StorageAction): Appli
 
         case "C/storage/*/presets/":
         return reducePasteStoragePresets(state, action.presets, action.deleteAfterPaste);
+
+        case "D/storage/*/presets/":
+        return reduceDeleteStoragePresets(state, action.presets);
 
         default:
         break;
