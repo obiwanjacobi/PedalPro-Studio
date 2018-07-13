@@ -38,6 +38,7 @@
     Because of extra hidden empty preset?
 - Move storage preset errors out when target index was deleted.
     Also cannot move down (because max preset count = 0).
+- [Fixed] Delete all Storage presets does not remove them from display - does from storage.
 
 Based on the device identification a shadow file/folder is maintained that stores all the preset's extra (meta) data.
 Device Presets are to be matched by either name and/or index to the files (user could have edited presets on the device).

@@ -13,9 +13,7 @@ import { AddStorageBankAction } from "./AddStorageBankAction";
 import { StorageBankArrayBuilder, StorageBankBuilder } from "./StorageBankBuilder";
 import { RenameStorageBankAction } from "./RenameStorageBankAction";
 import { PasteStoragePresetsAction } from "./PasteStoragePresetsAction";
-import { SaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 import { DeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
-import { distinct } from "../../ArrayExtensions";
 import { storagePresetsForBank } from "./BankOperations";
 import { DeleteStorageBankAction } from "./DeleteStorageBankAction";
 
@@ -54,22 +52,17 @@ const reduceLoadStorageBanks = (state: ApplicationDocument, banks: StorageBank[]
     return builder.detach();
 };
 
-const reduceLoadBankStoragePresets = (state: ApplicationDocument, presets: Preset[]): ApplicationDocument => {
-    if (presets.length === 0) { return state; }
-    if (presets.findIndex(p => !p.group) !== -1) { return state; }
-    const bankNames = distinct(
-        presets.map(p => p.group ? p.group.name : "")
-        .filter(n => n.length)
-    );
+const reduceLoadBankStoragePresets = 
+    (state: ApplicationDocument, bank: string, presets: Preset[]): ApplicationDocument => {
 
     const builder = new ApplicationDocumentBuilder(state);
     const presetsBuilder = new PresetArrayBuilder(builder.mutable.storage);
-    bankNames.forEach(b => presetsBuilder.removeByGroup(b));
+    presetsBuilder.removeByGroup(bank);
     presetsBuilder.addRange(presets);
     builder.mutable.storage = presetsBuilder.detach();
 
     const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    bankNames.forEach(b => bankBuilder.setLoaded(b));
+    bankBuilder.setLoaded(bank);
     builder.mutable.banks = bankBuilder.detach();
 
     return builder.detach();
@@ -193,7 +186,7 @@ export type StorageAction =
     AddStorageBankAction | LoadStorageBanksAction | DeleteStorageBankAction |
     ChangeStorageBanksAction | RenameStorageBankAction | 
     LoadStorageBankPresetsAction | PasteStoragePresetsAction |
-    SaveStoragePresetsAction | DeleteStoragePresetsAction;
+    DeleteStoragePresetsAction;
 
 export const reduce = (state: ApplicationDocument, action: StorageAction): ApplicationDocument => {
     switch (action.type) {
@@ -201,10 +194,7 @@ export const reduce = (state: ApplicationDocument, action: StorageAction): Appli
         return reduceLoadStorageBanks(state, action.banks);
 
         case "R/storage/*/presets/":
-        return reduceLoadBankStoragePresets(state, action.presets);
-
-        case "U/storage/*/presets/":
-        return reduceLoadBankStoragePresets(state, action.presets);
+        return reduceLoadBankStoragePresets(state, action.bank, action.presets);
 
         case "C/storage/*":
         return reduceAddStorageBank(state);

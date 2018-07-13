@@ -4,21 +4,10 @@ import { PresetCollectionType } from "../ApplicationDocument";
 import { DefaultClient } from "../Client";
 import { Preset } from "../preset/Preset";
 import { progressSaveStoragePresets } from "./SaveStoragePresetOperation";
-import { AddFaultAction, createAddFaultAction } from "../AddFaultAction";
-
-export interface SaveStoragePresetsAction {
-    readonly type: "U/storage/*/presets/";
-    readonly presets: Preset[];
-}
-
-export const createSaveStoragePresetsAction = (presets: Preset[]): SaveStoragePresetsAction => {
-    return {
-        type: "U/storage/*/presets/", presets: presets
-    };
-};
+import { createAddFaultAction } from "../AddFaultAction";
 
 export async function dispatchSaveStoragePresetsAction(
-    dispatch: Dispatch<SaveStoragePresetsAction | AddFaultAction>, presets: Preset[]): Promise<void> {
+    dispatch: Dispatch, presets: Preset[]): Promise<void> {
 
     try {
         const presetClient = DefaultClient.getSource(PresetCollectionType.storage);

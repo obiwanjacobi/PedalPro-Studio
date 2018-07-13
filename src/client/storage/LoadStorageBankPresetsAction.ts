@@ -7,11 +7,12 @@ import { createAddFaultAction, AddFaultAction } from "../AddFaultAction";
 
 export interface LoadStorageBankPresetsAction {
     readonly type: "R/storage/*/presets/";
+    readonly bank: string;
     readonly presets: Preset[];
 }
 
-const createLoadStorageBankPresetsAction = (presets: Preset[]): LoadStorageBankPresetsAction => {
-    return { type: "R/storage/*/presets/", presets: presets };
+const createLoadStorageBankPresetsAction = (bank: string, presets: Preset[]): LoadStorageBankPresetsAction => {
+    return { type: "R/storage/*/presets/", bank: bank, presets: presets };
 };
 
 async function loadStorageBankPresets(
@@ -20,7 +21,7 @@ async function loadStorageBankPresets(
 
     try {
         const presets = await presetClient.getStorageBankPresets(bank);
-        dispatch(createLoadStorageBankPresetsAction(presets));
+        dispatch(createLoadStorageBankPresetsAction(bank, presets));
     } catch (error) {
         dispatch(createAddFaultAction(PresetCollectionType.storage, error));
     }

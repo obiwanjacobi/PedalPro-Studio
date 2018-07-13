@@ -6,6 +6,7 @@ import { Preset } from "../preset/Preset";
 import { dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
 import { dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
 import { createAddFaultAction } from "../AddFaultAction";
+import { distinct } from "../../ArrayExtensions";
 
 export const progressSaveStoragePresets = (
     presetClient: PresetsClient, presets: Preset[], dispatch: Dispatch) => {
@@ -25,13 +26,13 @@ export const progressSaveStoragePresets = (
             const banks = presets
                 .map(p => p.group ? p.group.name : "")
                 .filter(b => b && b.length);
-            banks.forEach(b => dispatchLoadStorageBankPresetsAction(disp, b));
+            distinct(banks).forEach(b => dispatchLoadStorageBankPresetsAction(disp, b));
             const renamedBanks = presets
                 .filter(p => p.group && p.group.name !== p.group.originName)
                 .map(p => p.group ? p.group.originName : "")
                 .filter(n => n.length)
                 .map(n => appDoc.banks.find(b => b.name === n));
-            renamedBanks.forEach(b => b ? dispatchDeleteStorageBankAction(disp, b) : null);
+            distinct(renamedBanks).forEach(b => b ? dispatchDeleteStorageBankAction(disp, b) : null);
         } catch (error) {
             disp(createAddFaultAction(PresetCollectionType.storage, error));
         }
