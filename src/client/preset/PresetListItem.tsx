@@ -7,16 +7,16 @@ import { PresetListItemDetail } from "./PresetListItemDetail";
 import { Preset } from "../preset/Preset";
 import { ChangePresets } from "../preset/ChangePresetsAction";
 import { EditPreset } from "../preset/EditPresetAction";
-import { MovePresets } from "../preset/MovePresetsAction";
+import { MovePresets, CanMoveDown } from "../preset/MovePresetsAction";
 import { DeletePresets } from "../preset/DeletePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { formatPresetIndex } from "../preset/PresetOperations";
 
 export interface PresetListItemProps { 
     preset: Preset;
-    maxPresetCount: number;
 }
-export type PresetListItemActions = ChangePresets & Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets>;
+export type PresetListItemActions = 
+    ChangePresets & Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
 export interface PresetListItemState { }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
@@ -30,6 +30,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
         this.editPreset = this.editPreset.bind(this);
         this.movePresets = this.movePresets.bind(this);
         this.deletePresets = this.deletePresets.bind(this);
+        this.canMoveDown = this.canMoveDown.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: PresetListItemAllProps, _: PresetListItemState): boolean {
@@ -72,7 +73,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                             editPreset={this.editPreset}
                             movePresets={this.movePresets}
                             deletePresets={this.deletePresets}
-                            maxPresetCount={this.props.maxPresetCount}
+                            canMoveDown={this.canMoveDown}
                         />}
                 </Collapse>}
             </Paper>
@@ -96,6 +97,13 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
         this.props.changePresets(
             [this.props.preset], this.props.preset.source,
             {selected: !this.props.preset.ui.selected});
+    }
+
+    private canMoveDown(preset: Preset): boolean {
+        if (this.props.canMoveDown) {
+            return this.props.canMoveDown(preset);
+        }
+        return false;
     }
 
     private editPreset(preset: Preset, update: Partial<Preset>) {

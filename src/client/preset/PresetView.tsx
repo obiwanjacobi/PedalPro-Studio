@@ -11,7 +11,7 @@ import { PresetList } from "./PresetList";
 import { Preset } from "../preset/Preset";
 import { ChangePresets } from "../preset/ChangePresetsAction";
 import { EditPreset } from "../preset/EditPresetAction";
-import { MovePresets } from "../preset/MovePresetsAction";
+import { MovePresets, CanMoveDown } from "../preset/MovePresetsAction";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
 import { FlexContainer } from "../controls/FlexContainer";
@@ -22,7 +22,6 @@ export interface PresetViewStateProps {
     presets: Preset[];
     filterFlagged: boolean;
     filterEmpty: boolean;
-    maxPresetCount: number;
     empty: React.ReactNode;
 }
 
@@ -38,7 +37,7 @@ export interface PresetViewState {
 
 export type PresetViewAllProps = 
     PresetViewStateProps & ChangePresets & 
-    Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets>;
+    Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
 
 export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
     public constructor(props: PresetViewAllProps) {
@@ -101,7 +100,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                     editPreset={this.props.editPreset}
                     movePresets={this.props.movePresets}
                     deletePresets={this.props.deletePresets}
-                    maxPresetCount={this.props.maxPresetCount}
+                    canMoveDown={this.props.canMoveDown}
                     empty={this.hasNoSearchResult ? this.renderNoResults() : this.props.empty}
                 />
             </FlexContainer>

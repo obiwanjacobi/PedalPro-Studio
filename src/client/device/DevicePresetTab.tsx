@@ -56,6 +56,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
         this.download = this.download.bind(this);
         this.upload = this.upload.bind(this);
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
+        this.canMoveDown = this.canMoveDown.bind(this);
     }
 
     public render() {
@@ -86,7 +87,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     editPreset={this.actions.editPreset}
                     movePresets={this.actions.movePresets}
                     deletePresets={this.actions.deletePresets}
-                    maxPresetCount={this.props.maxPresetCount}
+                    canMoveDown={this.canMoveDown}
                     empty={<Typography>
                         Press <FileDownload/> to retrieve the presets.
                     </Typography>}
@@ -112,6 +113,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     protected get actions(): Readonly<DevicePresetTabActions> {
         return this.props;
+    }
+
+    private canMoveDown(preset: Preset): boolean {
+        return preset.index < this.props.maxPresetCount;
     }
 
     private onCopySelected() {

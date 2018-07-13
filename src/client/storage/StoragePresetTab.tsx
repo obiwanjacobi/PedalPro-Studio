@@ -30,13 +30,13 @@ import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorag
 import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 import { DeleteStoragePresets, createDeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
 import { DeleteStorageBank, dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
+import { storagePresetsForBank } from "./BankOperations";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
     banks: StorageBank[];
     presets: Preset[];
     hasClipboard: boolean;
-    maxPresetCount: number;
     pasteOpen: boolean;
 }
 export interface StoragePresetTabState {}
@@ -63,6 +63,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
         this.deletePresets = this.deletePresets.bind(this);
         this.deleteSelectedPresets = this.deleteSelectedPresets.bind(this);
+        this.canMoveDown = this.canMoveDown.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: StoragePresetTabAllProps, _: StoragePresetTabState): boolean {
@@ -113,7 +114,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         editPreset={this.actions.editPreset}
                         movePresets={this.actions.movePresets}
                         deletePresets={this.deletePresets}
-                        maxPresetCount={this.props.maxPresetCount}
+                        canMoveDown={this.canMoveDown}
                         empty={this.renderEmpty()}                
                     />
                 </FlexContainer>
@@ -124,6 +125,15 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 
     protected get actions(): Readonly<StoragePresetTabActions> {
         return this.props;
+    }
+
+    private canMoveDown(preset: Preset): boolean {
+        if (preset.group) {
+            const bankPresets = storagePresetsForBank(this.props.presets, preset.group.name);
+            const maxIndex = bankPresets.map(p => p.index).reduce((prev, curr) => Math.max(prev, curr));
+            return preset.index < maxIndex;
+        }
+        return false;
     }
 
     private get bankPresets(): Preset[] {
@@ -204,7 +214,6 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
             banks: state.banks, 
             presets: state.storage, 
             hasClipboard: state.clipboard.length > 0,
-            maxPresetCount: state.deviceInfo ? state.deviceInfo.presetCount : 0,
             pasteOpen: state.screen.pasteOpen
         };
 };

@@ -20,3 +20,8 @@ export const createMovePresetsAction = (presets: Preset[], targetIndex: number, 
 export interface MovePresets {
     movePresets(presets: Preset[], targetIndex: number, swap?: boolean): void;
 }
+
+// used in display list
+export interface CanMoveDown {
+    canMoveDown(preset: Preset): boolean;
+}
