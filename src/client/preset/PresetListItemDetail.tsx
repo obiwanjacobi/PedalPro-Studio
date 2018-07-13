@@ -123,8 +123,7 @@ export class PresetListItemDetail extends
     }
 
     private movePresetDown() {
-        // 'insert before' requires one extra => that is why +2 and not +1
-        this.props.movePresets([this.props.preset], this.props.preset.index + 2);
+        this.props.movePresets([this.props.preset], this.props.preset.index + 1);
     }
 
     private get canMoveDown(): boolean {

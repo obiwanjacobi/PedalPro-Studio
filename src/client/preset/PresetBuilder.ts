@@ -94,11 +94,11 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
     public movePresets(presetsToMove: Preset[], targetIndex: number) {
         if (presetsToMove.length === 0) { return; }
         this.throwIfIndexNotValid(targetIndex);
-        this.removeRange(presetsToMove, presetsAreEqual);
 
         const sourceIndex = presetsToMove.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
 
+        this.removeRange(presetsToMove, presetsAreEqual);
         this.insertRange(arrayTargetIndex, presetsToMove);
         this.reIndexPresets(sourceIndex, targetIndex + presetsToMove.length - 1);
     }
@@ -106,11 +106,11 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
     public swapPresets(presetsToSwap: Preset[], targetIndex: number) {
         if (presetsToSwap.length === 0) { return; }
         this.throwIfIndexNotValid(targetIndex);
-        this.removeRange(presetsToSwap, presetsAreEqual);
         
         const sourceIndex = presetsToSwap.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
 
+        this.removeRange(presetsToSwap, presetsAreEqual);
         const swappedPresets = this.mutable.splice(arrayTargetIndex, presetsToSwap.length, ...presetsToSwap);
         this.insertRange(sourceIndex, swappedPresets);
         this.reIndexPresets(sourceIndex, targetIndex + presetsToSwap.length - 1);
