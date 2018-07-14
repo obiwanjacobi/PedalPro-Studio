@@ -9,3 +9,7 @@ export function bankNeedsLoading(bank?: StorageBank): boolean {
 export function storagePresetsForBank(presets: Preset[], bank: string): Preset[] {
     return presets.filter(p => p.group && p.group.name === bank);
 }
+
+export function bankNameHasChanged(bank: StorageBank): boolean {
+    return bank.name !== bank.origin.name;
+}

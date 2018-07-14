@@ -75,6 +75,7 @@ const reduceAddStorageBank = (state: ApplicationDocument): ApplicationDocument =
         name: "new", 
         loaded: false, 
         created: false,
+        empty: false,
         origin: { name: "", files: [] },
         ui: { 
             selected: false, 

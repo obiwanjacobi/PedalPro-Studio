@@ -4,10 +4,10 @@ import {
 } from "@material-ui/core";
 import { KeyboardArrowLeft } from "@material-ui/icons";
 
-import { Preset } from "../preset/Preset";
+import { Preset } from "./Preset";
 import { PresetCollectionType } from "../ApplicationDocument";
-import { PresetChangedFlag } from "../controls/PresetChangedFlag";
-import { formatPresetFullName } from "../preset/PresetOperations";
+import { PresetChangedFlag } from "./PresetChangedFlag";
+import { formatPresetFullName } from "./PresetOperations";
 
 export 
 const NotFoundPreset: Preset = {

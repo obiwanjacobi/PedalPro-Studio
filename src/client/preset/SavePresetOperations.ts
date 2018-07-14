@@ -5,7 +5,7 @@ import { PresetCollectionType } from "../ApplicationDocument";
 import { ProgressInfo } from "../screen/ScreenState";
 import { createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { ScreenBuilder } from "../screen/ScreenBuilder";
-import { Preset } from "../preset/Preset";
+import { Preset } from "./Preset";
 import { DeviceIdentity } from "../../model/DeviceIdentity";
 import { createAddFaultAction } from "../AddFaultAction";
 

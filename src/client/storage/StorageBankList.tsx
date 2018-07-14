@@ -8,8 +8,11 @@ import { ChangeStorageBanks } from "./ChangeStorageBanksAction";
 import { LoadStorageBankPresets } from "./LoadStorageBankPresetsAction";
 import { RenameStorageBank } from "./RenameStorageBankAction";
 import { DeleteStorageBank } from "./DeleteStorageBankAction";
+import { storagePresetsForBank } from "./BankOperations";
+import { Preset } from "../preset/Preset";
 
 export interface StorageBankListProps extends VirtualListProps<StorageBank> {
+    presets: Preset[];
 }
 export type StorageBankListActions = 
     ChangeStorageBanks & LoadStorageBankPresets & RenameStorageBank & DeleteStorageBank;
@@ -27,6 +30,7 @@ export class StorageBankList extends VirtualList<StorageBank, StorageBankListAll
         return (
             <StorageBankListItem
                 bank={bank}
+                presets={storagePresetsForBank(this.props.presets, bank.name)}
                 changeStorageBanks={this.props.changeStorageBanks}
                 loadStorageBankPresets={this.props.loadStorageBankPresets}
                 renameStorageBank={this.props.renameStorageBank}

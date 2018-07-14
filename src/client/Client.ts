@@ -145,6 +145,7 @@ export class PresetsClient {
             name: bank.name, 
             loaded: false,
             created: true,
+            empty: false,
             origin: bank,
             ui: { expanded: false, selected: false, markedDeleted: false }
         };

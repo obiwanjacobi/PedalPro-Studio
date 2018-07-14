@@ -9,9 +9,11 @@ import { FlexContainer } from "../controls/FlexContainer";
 import { AddStorageBank } from "./AddStorageBankAction";
 import { RenameStorageBank } from "./RenameStorageBankAction";
 import { DeleteStorageBank } from "./DeleteStorageBankAction";
+import { Preset } from "../preset/Preset";
 
 export interface StorageBankViewProps {
     banks: StorageBank[];
+    presets: Preset[];
 }
 export type StorageBankViewActions = 
     LoadStorageBankPresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank & DeleteStorageBank;
@@ -35,6 +37,7 @@ export class StorageBankView extends React.Component<StorageBankViewAllProps, St
                 </Toolbar>
                 <StorageBankList 
                     items={this.filteredBanks}
+                    presets={this.props.presets}
                     changeStorageBanks={this.props.changeStorageBanks}
                     loadStorageBankPresets={this.props.loadStorageBankPresets}
                     renameStorageBank={this.props.renameStorageBank}

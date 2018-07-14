@@ -90,7 +90,7 @@ export abstract class ArrayBuilder<T extends {}> extends ItemBuilder<T[]> {
 
     protected throwIfIndexNotValid(index: number) {
         if (index < 0 || index >= this.mutable.length) {
-            throw new RangeError(`Index ${index} is not within range [0, ${this.mutable.length}].`);
+            throw new RangeError(`Index ${index} is not within range [0, ${this.mutable.length - 1}].`);
         }
     }
 }

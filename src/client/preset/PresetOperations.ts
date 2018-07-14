@@ -80,9 +80,21 @@ export function presetHasChanged(preset: Preset): boolean {
            !presetsExceptIndexAreEqual(preset, preset.origin);
 }
 
+export function presetsHaveChanged(presets: Preset[]): boolean {
+    return presets.some(presetHasChanged);
+}
+
 export function presetsAreEqual(preset1: Preset, preset2: Preset): boolean {
     return preset1.index === preset2.index &&
         preset1.source === preset2.source &&
         presetGroupAreEqual(preset1, preset2) &&
         presetsExceptIndexAreEqual(preset1, preset2);
+}
+
+export function minPresetIndex(presets: Preset[]): number {
+    return presets.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
+}
+
+export function maxPresetIndex(presets: Preset[]): number {
+    return presets.map(p => p.index).reduce((i1, i2) => Math.max(i1, i2));
 }

@@ -3,10 +3,10 @@ import {
     ListItem, ListItemText, Checkbox
 } from "@material-ui/core";
 
-import { Preset } from "../preset/Preset";
-import { ChangePresets } from "../preset/ChangePresetsAction";
+import { Preset } from "./Preset";
+import { ChangePresets } from "./ChangePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
-import { formatPresetFullName } from "../preset/PresetOperations";
+import { formatPresetFullName } from "./PresetOperations";
 
 export interface SourcePresetListItemProps {
     preset: Preset;

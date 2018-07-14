@@ -1,7 +1,7 @@
 import { PedalProDevice } from "../PedalProDevice";
 import { Preset } from "../../../model/Preset";
 import { PresetDeserializerEx } from "./PresetDeserializerEx";
-import { PresetSerializerEx } from "../extended/PresetSerializerEx";
+import { PresetSerializerEx } from "./PresetSerializerEx";
 import { PresetBuffer } from "../PresetBuffer";
 import { LogicalTransformerEx } from "./LogicalTransformerEx";
 import { DeviceExProfile } from "./DeviceExProfile";

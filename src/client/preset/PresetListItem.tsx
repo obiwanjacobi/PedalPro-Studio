@@ -2,15 +2,15 @@ import * as React from "react";
 import { Collapse, Grid, Paper, Checkbox, IconButton, Typography } from "@material-ui/core";
 import { ExpandMore, ExpandLess } from "@material-ui/icons";
 
-import { PresetChangedFlag } from "../controls/PresetChangedFlag";
+import { PresetChangedFlag } from "./PresetChangedFlag";
 import { PresetListItemDetail } from "./PresetListItemDetail";
-import { Preset } from "../preset/Preset";
-import { ChangePresets } from "../preset/ChangePresetsAction";
-import { EditPreset } from "../preset/EditPresetAction";
-import { MovePresets, CanMoveDown } from "../preset/MovePresetsAction";
-import { DeletePresets } from "../preset/DeletePresetsAction";
+import { Preset } from "./Preset";
+import { ChangePresets } from "./ChangePresetsAction";
+import { EditPreset } from "./EditPresetAction";
+import { MovePresets, CanMoveDown } from "./MovePresetsAction";
+import { DeletePresets } from "./DeletePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
-import { formatPresetIndex } from "../preset/PresetOperations";
+import { formatPresetIndex } from "./PresetOperations";
 
 export interface PresetListItemProps { 
     preset: Preset;

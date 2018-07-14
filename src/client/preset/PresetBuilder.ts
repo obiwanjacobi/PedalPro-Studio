@@ -4,7 +4,7 @@ import { Preset } from "./Preset";
 import * as ModelPreset from "../../model/Preset";
 import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "../StateBuilder";
 import { itemUiModify } from "../ItemUI";
-import { presetsAreEqual, presetHasChanged } from "./PresetOperations";
+import { presetsAreEqual, presetHasChanged, minPresetIndex } from "./PresetOperations";
 
 export class PresetBuilder extends ItemBuilder<Preset> {
     public static modify(preset: Preset, update: Partial<Preset>): Preset {
@@ -95,7 +95,7 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         if (presetsToMove.length === 0) { return; }
         this.throwIfIndexNotValid(targetIndex);
 
-        const sourceIndex = presetsToMove.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
+        const sourceIndex = minPresetIndex(presetsToMove);
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
 
         this.removeRange(presetsToMove, presetsAreEqual);
@@ -107,7 +107,7 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         if (presetsToSwap.length === 0) { return; }
         this.throwIfIndexNotValid(targetIndex);
         
-        const sourceIndex = presetsToSwap.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
+        const sourceIndex = minPresetIndex(presetsToSwap);
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
 
         this.removeRange(presetsToSwap, presetsAreEqual);

@@ -9,9 +9,12 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { RenameStorageBank } from "./RenameStorageBankAction";
 import { bankNeedsLoading } from "./BankOperations";
 import { DeleteStorageBank } from "./DeleteStorageBankAction";
+import { StorageBankChangedFlag } from "./StorageBankChangedFlag";
+import { Preset } from "../preset/Preset";
 
 export interface StorageBankListItemProps {
     bank: StorageBank;
+    presets: Preset[];
 }
 export type StorageBankListItemActions = 
     ChangeStorageBanks & LoadStorageBankPresets & RenameStorageBank & DeleteStorageBank;
@@ -41,7 +44,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                         </Typography>
                     </Grid>
                     <Grid xs={1} item={true}>
-                        {/* <StorageBankChangedFlag preset={this.props.bank} /> */}
+                        <StorageBankChangedFlag bank={this.props.bank} presets={this.props.presets} />
                     </Grid>
                     <Grid xs={1} item={true}>
                         <IconButton onClick={this.toggleExpanded} >

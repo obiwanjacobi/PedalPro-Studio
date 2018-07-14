@@ -31,6 +31,7 @@ import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStor
 import { DeleteStoragePresets, createDeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
 import { DeleteStorageBank, dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
 import { storagePresetsForBank } from "./BankOperations";
+import { maxPresetIndex } from "../preset/PresetOperations";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -100,6 +101,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                 <FlexContainer vertical={false}>
                     <StorageBankView
                         banks={this.props.banks}
+                        presets={this.props.presets}
                         addStorageBank={this.actions.addStorageBank}
                         changeStorageBanks={this.actions.changeStorageBanks}
                         loadStorageBankPresets={this.actions.loadStorageBankPresets}
@@ -130,7 +132,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     private canMoveDown(preset: Preset): boolean {
         if (preset.group) {
             const bankPresets = storagePresetsForBank(this.props.presets, preset.group.name);
-            const maxIndex = bankPresets.map(p => p.index).reduce((prev, curr) => Math.max(prev, curr));
+            const maxIndex = maxPresetIndex(bankPresets);
             return preset.index < maxIndex;
         }
         return false;

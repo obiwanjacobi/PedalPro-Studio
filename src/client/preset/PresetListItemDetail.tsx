@@ -2,10 +2,10 @@ import * as React from "react";
 import { Grid, IconButton, Input, InputAdornment } from "@material-ui/core";
 import { Delete, Save, Undo, ArrowUpward, ArrowDownward } from "@material-ui/icons";
 
-import { Preset } from "../preset/Preset";
-import { EditPreset } from "../preset/EditPresetAction";
-import { MovePresets, CanMoveDown } from "../preset/MovePresetsAction";
-import { DeletePresets } from "../preset/DeletePresetsAction";
+import { Preset } from "./Preset";
+import { EditPreset } from "./EditPresetAction";
+import { MovePresets, CanMoveDown } from "./MovePresetsAction";
+import { DeletePresets } from "./DeletePresetsAction";
 
 export interface PresetListItemDetailProps { 
     preset: Preset;

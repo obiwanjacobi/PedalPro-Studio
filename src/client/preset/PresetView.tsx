@@ -8,15 +8,15 @@ import {
 } from "mdi-material-ui";
 
 import { PresetList } from "./PresetList";
-import { Preset } from "../preset/Preset";
-import { ChangePresets } from "../preset/ChangePresetsAction";
-import { EditPreset } from "../preset/EditPresetAction";
-import { MovePresets, CanMoveDown } from "../preset/MovePresetsAction";
+import { Preset } from "./Preset";
+import { ChangePresets } from "./ChangePresetsAction";
+import { EditPreset } from "./EditPresetAction";
+import { MovePresets, CanMoveDown } from "./MovePresetsAction";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
 import { FlexContainer } from "../controls/FlexContainer";
-import { DeletePresets } from "../preset/DeletePresetsAction";
-import { presetHasChanged } from "../preset/PresetOperations";
+import { DeletePresets } from "./DeletePresetsAction";
+import { presetHasChanged } from "./PresetOperations";
 
 export interface PresetViewStateProps { 
     presets: Preset[];

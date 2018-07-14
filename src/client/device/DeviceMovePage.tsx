@@ -21,7 +21,7 @@ import { ScreenState } from "../screen/ScreenState";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { PreviewListItem } from "../preset/PreviewListItem";
 import { SourcePresetListItem } from "../preset/SourcePresetListItem";
-import { PresetChangedFlag } from "../controls/PresetChangedFlag";
+import { PresetChangedFlag } from "../preset/PresetChangedFlag";
 
 enum MoveType {
     None = "none",
