@@ -13,7 +13,7 @@
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 - [Done] Implement Storage Bank delete.
-- Implement delete storage presets toolbar button (all selected presets).
+- [Done] Implement delete storage presets toolbar button (all selected presets).
 - Ask conformation before removing changed presets (delete, download).
 - Implement Favorites for presets (requires PP/PPE protocol code).
 - Add tooltip control that display text separate from control (status/tool/title bar)
@@ -39,7 +39,8 @@
 - Move storage preset errors out when target index was deleted.
 - [Fixed] Duplicate bank names ('new') causes problems and mixups.
 - [Fixed] Copying storage presets between banks (new/new2) deletes one bank (thinks its a bank-rename).
-- After storage upload, banks are not reloaded and old ui shows.
+- [Fixed] After storage upload, banks are not reloaded and old ui shows.
+- Delete Storage Preset of non-created bank gives error (cannot find the file).
 - Storage banks are only saved when they have presets.
 - [Fixed] Cannot move down (because max preset count = 0).
 - [Fixed] Delete all Storage presets does not remove them from display - does from storage.

@@ -8,6 +8,7 @@ import { createAddFaultAction } from "../AddFaultAction";
 import { bankNameHasChanged } from "./BankOperations";
 import { StorageBank } from "./StorageBank";
 import { dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
+import { dispatchLoadStorageBanksAction } from "./LoadStorageBanksAction";
 
 export async function dispatchSaveStoragePresetsAction(
     dispatch: Dispatch, banks: StorageBank[], presets: Preset[]): Promise<void> {
@@ -28,6 +29,8 @@ export async function dispatchSaveStoragePresetsAction(
             .filter(bankNameHasChanged)
             .filter(b => b.origin.name.length > 0);
         renamedBanks.forEach(b => presetClient.deleteStorageBank(b.origin.name));
+
+        dispatchLoadStorageBanksAction(dispatch);
 
     } catch (error) {
         dispatch(createAddFaultAction(PresetCollectionType.storage, error));
