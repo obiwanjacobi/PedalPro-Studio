@@ -14,7 +14,7 @@ import { StorageBankArrayBuilder, StorageBankBuilder } from "./StorageBankBuilde
 import { RenameStorageBankAction } from "./RenameStorageBankAction";
 import { PasteStoragePresetsAction } from "./PasteStoragePresetsAction";
 import { DeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
-import { storagePresetsForBank } from "./BankOperations";
+import { storagePresetsForBank, tempBankName } from "./BankOperations";
 import { DeleteStorageBankAction } from "./DeleteStorageBankAction";
 
 const reduceChangeStorageBanks = (state: ApplicationDocument, banks: StorageBank[], ui: Partial<ItemUI>): 
@@ -72,7 +72,7 @@ const reduceAddStorageBank = (state: ApplicationDocument): ApplicationDocument =
     const builder = new ApplicationDocumentBuilder(state);
     const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
     bankBuilder.add({ 
-        name: "new", 
+        name: tempBankName(state.banks), 
         loaded: false, 
         created: false,
         empty: false,
