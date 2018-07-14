@@ -8,7 +8,6 @@ import { FlexContainer } from "../controls/FlexContainer";
 import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
-import { ChangeStorageBanks, createChangeStorageBanksAction } from "./ChangeStorageBanksAction";
 import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
 import { EditPreset, createEditPresetAction } from "../preset/EditPresetAction";
 import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
@@ -19,8 +18,11 @@ import { ChangedView } from "../controls/ChangedView";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 import { ScreenState } from "../screen/ScreenState";
 import { Preset } from "../preset/Preset";
+import { maxPresetIndex } from "../preset/PresetOperations";
 import { ItemUI } from "../ItemUI";
+
 import { StorageBank } from "./StorageBank";
+import { ChangeStorageBanks, createChangeStorageBanksAction } from "./ChangeStorageBanksAction";
 import { dispatchLoadStorageBanksAction, LoadStorageBanks } from "./LoadStorageBanksAction";
 import { dispatchLoadStorageBankPresetsAction, LoadStorageBankPresets } from "./LoadStorageBankPresetsAction";
 import { StorageBankView } from "./StorageBankView";
@@ -29,9 +31,7 @@ import StoragePastePage from "./StoragePastePage";
 import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorageBankAction";
 import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 import { DeleteStoragePresets, createDeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
-import { DeleteStorageBank, dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
-import { storagePresetsForBank } from "./BankOperations";
-import { maxPresetIndex } from "../preset/PresetOperations";
+import { storagePresetsForBank, bankHasChanged } from "./BankOperations";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
@@ -42,20 +42,22 @@ export interface StoragePresetTabStoreProps {
 }
 export interface StoragePresetTabState {}
 export type StoragePresetTabActions = 
-    ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank & DeleteStorageBank &
+    ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank &
     LoadStorageBanks & LoadStorageBankPresets & SaveStoragePresets & 
     CopyPresets & EditPreset & MovePresets & UpdateScreen & DeleteStoragePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
 
 export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, StoragePresetTabState> {
-    private selection: SelectedView;
+    private selection: SelectedView<Preset>;
     private changes: ChangedView;
+    private bankSelection: SelectedView<StorageBank>;
 
     public constructor(props: StoragePresetTabAllProps) {
         super(props);
         this.selection = new SelectedView(props.presets);
         this.changes = new ChangedView(props.presets);
+        this.bankSelection = new SelectedView(props.banks);
 
         this.download = this.download.bind(this);
         this.upload = this.upload.bind(this);
@@ -64,6 +66,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.toggleSelectAll = this.toggleSelectAll.bind(this);
         this.deletePresets = this.deletePresets.bind(this);
         this.deleteSelectedPresets = this.deleteSelectedPresets.bind(this);
+        this.deleteStorageBank = this.deleteStorageBank.bind(this);
         this.canMoveDown = this.canMoveDown.bind(this);
     }
 
@@ -78,6 +81,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         const activePresets = this.calcBankPresets(newProps.banks, newProps.presets);
         this.selection = new SelectedView(activePresets);
         this.changes = new ChangedView(activePresets);
+        this.bankSelection = new SelectedView(newProps.banks);
     }
 
     public render() {
@@ -95,7 +99,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     enableSelectAll={!this.selection.isEmpty}
                     statusSelectAll={this.selectAllStatus}
                     onSelectAllChanged={this.toggleSelectAll}
-                    enableUpload={this.changes.anyChanged}
+                    enableUpload={this.canUpload()}
                     onUpload={this.upload}
                 />
                 <FlexContainer vertical={false}>
@@ -106,7 +110,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         changeStorageBanks={this.actions.changeStorageBanks}
                         loadStorageBankPresets={this.actions.loadStorageBankPresets}
                         renameStorageBank={this.actions.renameStorageBank}
-                        deleteStorageBank={this.actions.deleteStorageBank}
+                        deleteStorageBank={this.deleteStorageBank}
                     />
                     <PresetView 
                         filterEmpty={false}
@@ -168,6 +172,10 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         }
     }
     
+    private deleteStorageBank(bank: StorageBank) {
+        this.actions.changeStorageBanks([bank], { markedDeleted: true });
+    }
+
     private deleteSelectedPresets() {
         this.actions.deleteStoragePresets(this.selection.selected);
     }
@@ -183,9 +191,13 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.props.loadStorageBanks();
     }
 
+    private canUpload(): boolean {
+        const banksChanged = this.bankSelection.selected.some(bankHasChanged);
+        return this.changes.anyChanged || banksChanged;
+    }
+
     private upload() {
-        // TODO: only upload changed presets of selected banks
-        this.actions.saveStoragePresets(this.changes.changed);
+        this.actions.saveStoragePresets(this.props.banks.filter(b => b.ui.selected), this.changes.changed);
     }
 
     private pastePresets() {
@@ -236,11 +248,8 @@ const createActionObject: ActionDispatchFunc =
             renameStorageBank: (bank: StorageBank, newName: string) => {
                 dispatch(createRenameStorageBankAction(bank, newName));
             },
-            deleteStorageBank: (bank: StorageBank) => {
-                dispatchDeleteStorageBankAction(dispatch, bank);
-            },
-            saveStoragePresets: (presets: Preset[]): void  => {
-                dispatchSaveStoragePresetsAction(dispatch, presets);
+            saveStoragePresets: (banks: StorageBank[], presets: Preset[]): void  => {
+                dispatchSaveStoragePresetsAction(dispatch, banks, presets);
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

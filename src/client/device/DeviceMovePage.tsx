@@ -42,7 +42,7 @@ export type DeviceMovePageActions = ChangePresets & PastePresets & UpdateScreen 
 export type DeviceMovePageAllProps = DeviceMovePageProps & DeviceMovePageStateProps & DeviceMovePageActions;
 
 export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, DeviceMovePageState> {
-    private selection: SelectedView;
+    private selection: SelectedView<Preset>;
 
     public constructor(props: DeviceMovePageAllProps) {
         super(props);

@@ -44,7 +44,7 @@ const style = {
 };
 
 export class DevicePastePage extends React.Component<DevicePastePageAllProps, DevicePastePageState> {
-    private selection: SelectedView;
+    private selection: SelectedView<Preset>;
 
     public constructor(props: DevicePastePageAllProps) {
         super(props);

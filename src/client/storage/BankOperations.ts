@@ -13,3 +13,8 @@ export function storagePresetsForBank(presets: Preset[], bank: string): Preset[]
 export function bankNameHasChanged(bank: StorageBank): boolean {
     return bank.name !== bank.origin.name;
 }
+
+export function bankHasChanged(bank: StorageBank): boolean {
+    return bankNameHasChanged(bank) ||
+        bank.ui.markedDeleted;
+}

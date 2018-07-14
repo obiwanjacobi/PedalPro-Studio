@@ -9,15 +9,13 @@ export interface DeleteStorageBankAction {
     readonly bank: StorageBank;
 }
 
-const createDeleteStorageBankAction = (bank: StorageBank): DeleteStorageBankAction => {
+export const createDeleteStorageBankAction = (bank: StorageBank): DeleteStorageBankAction => {
     return { type: "D/storage/[]", bank: bank };
 };
 
 export async function dispatchDeleteStorageBankAction(dispatch: Dispatch, bank: StorageBank): Promise<void> {
-
     try {
         const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
-
         if (bank.created) {
             await presetClient.deleteStorageBank(bank.name);
         }

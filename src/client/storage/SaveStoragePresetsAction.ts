@@ -5,18 +5,35 @@ import { DefaultClient } from "../Client";
 import { Preset } from "../preset/Preset";
 import { progressSaveStoragePresets } from "./SaveStoragePresetOperation";
 import { createAddFaultAction } from "../AddFaultAction";
+import { bankNameHasChanged } from "./BankOperations";
+import { StorageBank } from "./StorageBank";
+import { dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
 
 export async function dispatchSaveStoragePresetsAction(
-    dispatch: Dispatch, presets: Preset[]): Promise<void> {
+    dispatch: Dispatch, banks: StorageBank[], presets: Preset[]): Promise<void> {
 
     try {
         const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
-        progressSaveStoragePresets(presetClient, presets, dispatch);
+
+        if (presets.length) {
+            progressSaveStoragePresets(presetClient, presets, dispatch);
+        }
+
+        const deletedBanks = banks
+            .filter(b => b.ui.markedDeleted);
+        deletedBanks.forEach(b => dispatchDeleteStorageBankAction(dispatch, b));
+
+        const renamedBanks = banks
+            .filter(b => b.created)
+            .filter(bankNameHasChanged)
+            .filter(b => b.origin.name.length > 0);
+        renamedBanks.forEach(b => presetClient.deleteStorageBank(b.origin.name));
+
     } catch (error) {
         dispatch(createAddFaultAction(PresetCollectionType.storage, error));
     }
 }
 
 export interface SaveStoragePresets {
-    saveStoragePresets(presets: Preset[]): void;
+    saveStoragePresets(banks: StorageBank[], presets: Preset[]): void;
 }

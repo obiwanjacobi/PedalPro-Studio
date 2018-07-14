@@ -4,13 +4,13 @@ import { getProgressInfo, savePresetsAsync } from "../preset/SavePresetOperation
 import { PresetCollectionType, ApplicationDocument } from "../ApplicationDocument";
 import { Preset } from "../preset/Preset";
 import { dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
-import { dispatchDeleteStorageBankAction } from "./DeleteStorageBankAction";
 import { createAddFaultAction } from "../AddFaultAction";
 import { distinct } from "../../ArrayExtensions";
 
 export const progressSaveStoragePresets = (
     presetClient: PresetsClient, presets: Preset[], dispatch: Dispatch) => {
     
+    if (presets.length === 0) { return; }
     // since updating (redux/thunk/TS) this errors out: 
     //   the thunk extension on Dispatch is not recognized.
     // At runtime it still works though...
@@ -27,12 +27,6 @@ export const progressSaveStoragePresets = (
                 .map(p => p.group ? p.group.name : "")
                 .filter(b => b && b.length);
             distinct(banks).forEach(b => dispatchLoadStorageBankPresetsAction(disp, b));
-            const renamedBanks = presets
-                .filter(p => p.group && p.group.name !== p.group.originName)
-                .map(p => p.group ? p.group.originName : "")
-                .filter(n => n.length)
-                .map(n => appDoc.banks.find(b => b.name === n));
-            distinct(renamedBanks).forEach(b => b ? dispatchDeleteStorageBankAction(disp, b) : null);
         } catch (error) {
             disp(createAddFaultAction(PresetCollectionType.storage, error));
         }

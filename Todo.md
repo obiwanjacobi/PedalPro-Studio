@@ -37,10 +37,12 @@
   After upload state is restored as expected, but empty preset is saved to disk.
 - [Fixed] Storage 'Select All' toolbar button does not show correct state when hand-selecting storage presets.
     Because of extra hidden empty preset?
-- Delete Storage Bank should mark as deleted (now it deletes immediately).
+- [Fixed] Delete Storage Bank should mark as deleted (now it deletes immediately).
 - Move storage preset errors out when target index was deleted.
 - Duplicate bank names ('new') causes problems and mixups.
 - Copying storage presets between banks (new/new2) deletes one bank (thinks its a bank-rename).
+- After storage upload, banks are not reloaded and old ui shows.
+- Storage banks are only saved when they have presets.
 - [Fixed] Cannot move down (because max preset count = 0).
 - [Fixed] Delete all Storage presets does not remove them from display - does from storage.
 

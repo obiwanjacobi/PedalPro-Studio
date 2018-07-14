@@ -23,7 +23,7 @@ export type FactoryPresetTabAllProps =
     FactoryPresetTabProps & FactoryPresetTabStateProps & FactoryPresetTabActions;
 
 export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> {
-    private selection: SelectedView;
+    private selection: SelectedView<Preset>;
 
     public constructor(props: FactoryPresetTabAllProps) {
         super(props);

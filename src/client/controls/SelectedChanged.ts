@@ -3,7 +3,8 @@ import { ChangedView } from "./ChangedView";
 import { SelectAllButtonStatus } from "./SelectAllButton";
 import { Preset } from "../preset/Preset";
 
-export const calcSelectAllStatus = (selected: SelectedView, changed: ChangedView): SelectAllButtonStatus => {
+export function calcSelectAllStatus(
+    selected: SelectedView<Preset>, changed: ChangedView): SelectAllButtonStatus {
     const changedVal = changed.status;
     const selectedVal = selected.status;
 
@@ -31,7 +32,7 @@ export const calcSelectAllStatus = (selected: SelectedView, changed: ChangedView
     }
 
     return SelectAllButtonStatus.NoneSelected;
-};
+}
 
 export const getPresetsToSelect = (changed: ChangedView, status: SelectAllButtonStatus): Preset[] => {
     let presets = changed.all;

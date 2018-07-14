@@ -38,7 +38,7 @@ export type StoragePastePageActions = ChangePresets & PasteStoragePresets & Upda
 export type StoragePastePageAllProps = StoragePastePageProps & StoragePastePageStateProps & StoragePastePageActions;
 
 export class StoragePastePage extends React.Component<StoragePastePageAllProps, StoragePastePageState> {
-    private selection: SelectedView;
+    private selection: SelectedView<Preset>;
 
     public constructor(props: StoragePastePageAllProps) {
         super(props);

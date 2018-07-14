@@ -90,10 +90,14 @@ export class PresetsClient {
     }
 
     public async deleteStorageBank(bank: string): Promise<StorageBank[]> {
-        const response = await this.typedRest.del<BankResponse>(`${this.baseUrl}/${bank}`);
-        this.throwIfErrorMessage(response);
-        // @ts-ignore:[ts] Object is possibly 'null'.
-        return response.result.banks.map(this.extendBank);
+        try {
+            const response = await this.typedRest.del<BankResponse>(`${this.baseUrl}/${bank}`);
+            this.throwIfErrorMessage(response);
+            // @ts-ignore:[ts] Object is possibly 'null'.
+            return response.result.banks.map(this.extendBank);
+        } catch (e) {
+            throw e;
+        }
     }
 
     public async getDeviceInfo(): Promise<DeviceIdentity> {

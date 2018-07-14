@@ -40,7 +40,7 @@ export type DevicePresetTabAllProps =
 export interface DevicePresetTabState {}
 
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, DevicePresetTabState> {
-    private selection: SelectedView;
+    private selection: SelectedView<Preset>;
     private changes: ChangedView;
 
     public constructor(props: DevicePresetTabAllProps) {
