@@ -23,7 +23,7 @@
 - Fix layout of move dialog
 - Fix layout of paste dialogs (device/storage)
 - Fix layout (padding) of notification popup.
-- Remove fireXxxx from PresetToolbar - use props.Xxxx directly
+- [Done] Remove fireXxxx from PresetToolbar - use props.Xxxx directly
 
 ## Bugs
 
