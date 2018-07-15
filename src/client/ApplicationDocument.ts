@@ -17,7 +17,7 @@ export interface ApplicationDocument {
     empty?: ModelPreset.Preset;
     device: Preset[];
     storage: Preset[];
-    banks: StorageBank[];
+    banks?: StorageBank[];
     factory: Preset[];
     clipboard: Preset[];
     screen: ScreenState;

@@ -23,20 +23,20 @@ const reduceChangeStorageBanks = (state: ApplicationDocument, banks: StorageBank
     if (banks.length === 0) { return state; }
 
     const builder = new ApplicationDocumentBuilder(state);
-    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    bankBuilder.forRange(banks, (b: StorageBank, index: number) => {
-        bankBuilder.mutable[index] = StorageBankBuilder.modify(b, { ui: itemUiModify(b.ui, ui) });
-    });
-    builder.mutable.banks = bankBuilder.detach();
-
+    if (builder.mutable.banks) {
+        const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
+        bankBuilder.forRange(banks, (b: StorageBank, index: number) => {
+            bankBuilder.mutable[index] = StorageBankBuilder.modify(b, { ui: itemUiModify(b.ui, ui) });
+        });
+        builder.mutable.banks = bankBuilder.detach();
+    }
     return builder.detach();
 };
 
 const reduceLoadStorageBanks = (state: ApplicationDocument, banks: StorageBank[]): ApplicationDocument => {
-    if (banks.length === 0) { return state; }
     
     const builder = new ApplicationDocumentBuilder(state);
-    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
+    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks || []);
     const banksToRemove = bankBuilder.mutable.filter(b => b.created || 
         // also remove not-created banks that have just been loaded (matched by name)
         banks.findIndex(nb => b.name === nb.name) >= 0);
@@ -63,29 +63,32 @@ const reduceLoadBankStoragePresets =
     presetsBuilder.addRange(presets);
     builder.mutable.storage = presetsBuilder.detach();
 
-    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    bankBuilder.setLoaded(bank);
-    builder.mutable.banks = bankBuilder.detach();
-
+    if (builder.mutable.banks) {
+        const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
+        bankBuilder.setLoaded(bank);
+        builder.mutable.banks = bankBuilder.detach();
+    }
     return builder.detach();
 };
 
 const reduceAddStorageBank = (state: ApplicationDocument): ApplicationDocument => {
     const builder = new ApplicationDocumentBuilder(state);
-    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    bankBuilder.add({ 
-        name: tempBankName(state.banks), 
-        loaded: false, 
-        created: false,
-        empty: false,
-        origin: { name: "", files: [] },
-        ui: { 
-            selected: false, 
-            expanded: true, 
-            markedDeleted: false
-        }
-    });
-    builder.mutable.banks = bankBuilder.detach();
+    if (builder.mutable.banks) {
+        const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
+        bankBuilder.add({ 
+            name: tempBankName(state.banks), 
+            loaded: false, 
+            created: false,
+            empty: false,
+            origin: { name: "", files: [] },
+            ui: { 
+                selected: false, 
+                expanded: true, 
+                markedDeleted: false
+            }
+        });
+        builder.mutable.banks = bankBuilder.detach();
+    }
     return builder.detach();
 };
 
@@ -95,23 +98,25 @@ const reduceRenameStorageBank = (state: ApplicationDocument, bank: StorageBank, 
     const bankPresets = storagePresetsForBank(state.storage, bank.name);
 
     const builder = new ApplicationDocumentBuilder(state);
-    // rename bank itself
-    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    bankBuilder.update(bank, {name: name});
-    builder.mutable.banks = bankBuilder.detach();
-    // rename group name of all presets
-    const presetBuilder = new PresetArrayBuilder(builder.mutable.storage);
-    presetBuilder.forRange(
-        bankPresets, 
-        (p: Preset, i: number) => {
-            presetBuilder.mutable[i] = PresetBuilder.modify(p, { 
-                group: {
-                    name: name, originName: p.group ? p.group.name : name
-                }
-            });
-        }
-    );
-    builder.mutable.storage = presetBuilder.detach();
+    if (builder.mutable.banks) {
+        // rename bank itself
+        const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
+        bankBuilder.update(bank, {name: name});
+        builder.mutable.banks = bankBuilder.detach();
+        // rename group name of all presets
+        const presetBuilder = new PresetArrayBuilder(builder.mutable.storage);
+        presetBuilder.forRange(
+            bankPresets, 
+            (p: Preset, i: number) => {
+                presetBuilder.mutable[i] = PresetBuilder.modify(p, { 
+                    group: {
+                        name: name, originName: p.group ? p.group.name : name
+                    }
+                });
+            }
+        );
+        builder.mutable.storage = presetBuilder.detach();
+    }
     return builder.detach();
 };
 
@@ -142,16 +147,17 @@ const reduceDeleteStorageBank =
     (state: ApplicationDocument, bank: StorageBank): ApplicationDocument => {
 
     const builder = new ApplicationDocumentBuilder(state);
-    const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    bankBuilder.remove(bank);
-    builder.mutable.banks = bankBuilder.detach();
+    if (builder.mutable.banks) {
+        const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
+        bankBuilder.remove(bank);
+        builder.mutable.banks = bankBuilder.detach();
 
-    builder.transformPresets(PresetCollectionType.storage, (storagePresets: Preset[]): Preset[] => {
-        const presetBuilder = new PresetArrayBuilder(storagePresets);
-        presetBuilder.removeByGroup(bank.name);
-        return presetBuilder.detach();
-    });
-
+        builder.transformPresets(PresetCollectionType.storage, (storagePresets: Preset[]): Preset[] => {
+            const presetBuilder = new PresetArrayBuilder(storagePresets);
+            presetBuilder.removeByGroup(bank.name);
+            return presetBuilder.detach();
+        });
+    }
     return builder.detach();
 };
 

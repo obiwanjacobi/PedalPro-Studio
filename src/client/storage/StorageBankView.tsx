@@ -1,24 +1,33 @@
 import * as React from "react";
-import { Typography, Toolbar, IconButton } from "@material-ui/core";
+import { Typography, Toolbar, Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
+
+import { FlexContainer } from "../controls/FlexContainer";
+import { Preset } from "../preset/Preset";
 import { StorageBankList } from "./StorageBankList";
 import { StorageBank } from "./StorageBank";
 import { ChangeStorageBanks } from "./ChangeStorageBanksAction";
 import { LoadStorageBankPresets } from "./LoadStorageBankPresetsAction";
-import { FlexContainer } from "../controls/FlexContainer";
 import { AddStorageBank } from "./AddStorageBankAction";
 import { RenameStorageBank } from "./RenameStorageBankAction";
 import { DeleteStorageBank } from "./DeleteStorageBankAction";
-import { Preset } from "../preset/Preset";
 
 export interface StorageBankViewProps {
-    banks: StorageBank[];
+    banks?: StorageBank[];
     presets: Preset[];
 }
 export type StorageBankViewActions = 
     LoadStorageBankPresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank & DeleteStorageBank;
 export type StorageBankViewAllProps = StorageBankViewProps & StorageBankViewActions;
 export interface StorageBankViewState { }
+
+const styles = {
+    small: { 
+        marginLeft: "8px",
+        width: 34,
+        height: 20,
+    }
+};
 
 export class StorageBankView extends React.Component<StorageBankViewAllProps, StorageBankViewState> {
     public constructor(props: StorageBankViewAllProps) {
@@ -31,9 +40,15 @@ export class StorageBankView extends React.Component<StorageBankViewAllProps, St
             <FlexContainer vertical={true}>
                 <Toolbar>
                     <Typography variant="subheading">Banks</Typography>
-                    <IconButton onClick={this.addBank}>
+                    <Button 
+                        onClick={this.addBank} 
+                        disabled={this.disableAddBank()} 
+                        color="primary" 
+                        variant="fab" 
+                        style={styles.small}
+                    >
                         <Add />
-                    </IconButton>
+                    </Button>
                 </Toolbar>
                 <StorageBankList 
                     items={this.filteredBanks}
@@ -47,12 +62,16 @@ export class StorageBankView extends React.Component<StorageBankViewAllProps, St
         );
     }
 
+    private disableAddBank(): boolean {
+        return !this.props.banks;
+    }
+
     private addBank() {
         this.props.addStorageBank();
     }
 
     private get filteredBanks(): StorageBank[] {
         // TODO: add filtering
-        return this.props.banks;
+        return this.props.banks || [];
     }
 }

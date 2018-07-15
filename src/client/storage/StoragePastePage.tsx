@@ -173,7 +173,7 @@ const extractComponentPropsFromState: MapStateToProps<
         StoragePastePageStateProps, StoragePastePageProps, ApplicationDocument
     > = (state: ApplicationDocument, _: StoragePastePageProps): StoragePastePageStateProps => {
         return  { 
-            banks: state.banks, 
+            banks: state.banks || [], 
             presets: state.storage, 
             clipboard: state.clipboard, 
             open: state.screen.pasteOpen 

@@ -4,7 +4,7 @@ import { ItemBuilder, CopyOption } from "./StateBuilder";
 
 export class ApplicationDocumentBuilder extends ItemBuilder<ApplicationDocument> {
     public static default: ApplicationDocument = {
-        banks: [],
+        // banks: undefined,
         clipboard: [],
         device: [],
         factory: [],

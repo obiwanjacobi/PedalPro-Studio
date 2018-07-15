@@ -35,7 +35,7 @@ import { storagePresetsForBank, bankHasChanged } from "./BankOperations";
 
 export interface StoragePresetTabProps {}
 export interface StoragePresetTabStoreProps {
-    banks: StorageBank[];
+    banks?: StorageBank[];
     presets: Preset[];
     hasClipboard: boolean;
     pasteOpen: boolean;
@@ -57,7 +57,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         super(props);
         this.selection = new SelectedView(props.presets);
         this.changes = new ChangedView(props.presets);
-        this.bankSelection = new SelectedView(props.banks);
+        this.bankSelection = new SelectedView(props.banks || []);
 
         this.download = this.download.bind(this);
         this.upload = this.upload.bind(this);
@@ -78,10 +78,11 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     public componentWillReceiveProps(newProps: StoragePresetTabAllProps) {
-        const activePresets = this.calcBankPresets(newProps.banks, newProps.presets);
+        const banks = newProps.banks || [];
+        const activePresets = this.calcBankPresets(banks, newProps.presets);
         this.selection = new SelectedView(activePresets);
         this.changes = new ChangedView(activePresets);
-        this.bankSelection = new SelectedView(newProps.banks);
+        this.bankSelection = new SelectedView(banks);
     }
 
     public render() {
@@ -143,7 +144,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private get bankPresets(): Preset[] {
-        return this.calcBankPresets(this.props.banks, this.props.presets);
+        return this.calcBankPresets(this.banks, this.props.presets);
     }
 
     private calcBankPresets(banks: StorageBank[], presets: Preset[]): Preset[] {
@@ -197,7 +198,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private upload() {
-        this.actions.saveStoragePresets(this.props.banks.filter(b => b.ui.selected), this.changes.changed);
+        this.actions.saveStoragePresets(this.banks.filter(b => b.ui.selected), this.changes.changed);
     }
 
     private pastePresets() {
@@ -205,7 +206,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private renderEmpty(): React.ReactNode {
-        if (this.props.banks.length > 0) {
+        if (this.banks.length > 0) {
             return (
                 <Typography>
                     Select a bank (left) to see its presets.
@@ -218,6 +219,10 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                 </Typography>
             );
         }
+    }
+
+    private get banks(): StorageBank[] {
+        return this.props.banks || [];
     }
 }
 

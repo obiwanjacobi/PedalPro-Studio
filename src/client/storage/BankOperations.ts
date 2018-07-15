@@ -20,7 +20,8 @@ export function bankHasChanged(bank: StorageBank): boolean {
 }
 
 const newBankName = "{new_bank";
-export function tempBankName(banks: StorageBank[]): string {
-    const newCount = banks.filter(b => b.name.startsWith(newBankName)).length;
+export function tempBankName(banks?: StorageBank[]): string {
+    const newCount = 
+        banks ? banks.filter(b => b.name.startsWith(newBankName)).length : 0;
     return `${newBankName}-${newCount + 1}}`;
 }

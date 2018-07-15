@@ -43,7 +43,7 @@
 - [Fixed] Delete Storage Preset of non-created bank gives error (cannot find the file).
 - [Fixed] New Storage banks are double when uploaded
 - Storage banks are only saved when they have presets.
-- Enable Add Storage Bank after download (Banks can be empty!)
+- [Fixed] Enable Add Storage Bank after download (Banks can be empty!)
 - [Fixed] Cannot move down (because max preset count = 0).
 - [Fixed] Delete all Storage presets does not remove them from display - does from storage.
 
