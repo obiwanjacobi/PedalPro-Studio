@@ -57,11 +57,15 @@ export class PresetFile {
         }
     }
 
-    public delete() {
+    public delete(): boolean {
         try {
-            FileSystem.unlinkSync(this.filePath);
+            if (FileSystem.existsSync(this.filePath)) {
+                FileSystem.unlinkSync(this.filePath);
+                return true;
+            }
         } catch (error) {
             throw new Error(`Error: '${error.message}' occurred deleting file: ${this.filePath}.`);
         }
+        return false;
     }
 }

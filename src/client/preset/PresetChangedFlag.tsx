@@ -11,12 +11,12 @@ export interface PresetChangedFlagProps {
 export class PresetChangedFlag extends React.Component<PresetChangedFlagProps> {
 
     public render() {
-        if (onlyIndexHasChanged(this.props.preset)) {
+        if (this.props.preset.ui.markedDeleted) {
+            return <DeleteForever color="secondary" />;
+        } else if (onlyIndexHasChanged(this.props.preset)) {
             return <FlagOutline color="secondary" />; 
         } else if (presetHasChanged(this.props.preset)) { 
-            return this.props.preset.traits.empty ?
-                <DeleteForever color="secondary" />
-                : <Flag color="secondary" />; 
+            return <Flag color="secondary" />; 
         }
         return null;
     }

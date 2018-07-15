@@ -12,7 +12,7 @@ export class PresetBuilder extends ItemBuilder<Preset> {
     }
 
     public static delete(preset: Preset, empty: ModelPreset.Preset) {
-        return { ...preset, ...empty, ui: itemUiModify(preset.ui, { markedDeleted: false })};
+        return { ...preset, ...empty, ui: itemUiModify(preset.ui, { markedDeleted: true })};
     }
 
     public static toModel(preset: Preset): ModelPreset.Preset {

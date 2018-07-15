@@ -17,11 +17,16 @@ export async function dispatchSaveStoragePresetsAction(
         const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
 
         if (presets.length) {
-            progressSaveStoragePresets(presetClient, presets, dispatch);
+            // filter out deleted presets of banks that are not created yet.
+            const banksNotCreated = banks.filter(b => !b.created);
+            const presetsToSave = presets.filter(p  => 
+                // @ts-ignore: possible undefined: p.group
+                !(banksNotCreated.findIndex(b => b.name === p.group.name) >= 0 && p.ui.markedDeleted));
+            progressSaveStoragePresets(presetClient, presetsToSave, dispatch);
         }
 
         const deletedBanks = banks
-            .filter(b => b.ui.markedDeleted);
+            .filter(b => b.ui.markedDeleted && b.created);
         deletedBanks.forEach(b => dispatchDeleteStorageBankAction(dispatch, b));
 
         const renamedBanks = banks
