@@ -16,12 +16,12 @@ export type SourcePresetListItemAllProps = SourcePresetListItemProps & Partial<C
 export class SourcePresetListItem extends React.Component<SourcePresetListItemAllProps> {
     public constructor(props: SourcePresetListItemAllProps) {
         super(props);
-        this.onSelectPreset = this.onSelectPreset.bind(this);
+        this.onToggleSelectPreset = this.onToggleSelectPreset.bind(this);
     }
 
     public render() {
         return (
-            <ListItem button={true} onClick={this.onSelectPreset}>
+            <ListItem button={true} onClick={this.onToggleSelectPreset}>
                 {this.props.changePresets &&
                     <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.preset.ui.selected} />}
                 <ListItemText primary={this.title} secondary={this.props.preset.source.toUpperCase()} />
@@ -33,7 +33,7 @@ export class SourcePresetListItem extends React.Component<SourcePresetListItemAl
         return formatPresetFullName(this.props.preset);
     }
 
-    private onSelectPreset(_: React.MouseEvent<HTMLElement>) {
+    private onToggleSelectPreset(_: React.MouseEvent<HTMLElement>) {
         if (this.props.changePresets) {
             this.props.changePresets(
                 [this.props.preset], PresetCollectionType.clipboard, 

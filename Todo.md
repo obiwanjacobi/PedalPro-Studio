@@ -10,10 +10,11 @@
 - [Done] Place a badge on the upload button with a count of flagged presets (device)
 - [Done] For storage indicate flagged presets it on each bank.
 - [Done] Storage Bank flag to indicate changes in the bank itself (rename)
-- drag & drop (react-sortable-hoc)
-- undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 - [Done] Implement Storage Bank delete.
 - [Done] Implement delete storage presets toolbar button (all selected presets).
+- [Done] Remove fireXxxx from PresetToolbar - use props.Xxxx directly
+- drag & drop (react-sortable-hoc)
+- undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 - Ask conformation before removing changed presets (delete, download).
 - Implement Favorites for presets (requires PP/PPE protocol code).
 - Add tooltip control that display text separate from control (status/tool/title bar)
@@ -23,30 +24,30 @@
 - Fix layout of move dialog
 - Fix layout of paste dialogs (device/storage)
 - Fix layout (padding) of notification popup.
-- [Done] Remove fireXxxx from PresetToolbar - use props.Xxxx directly
+- Paste Empty shows garbage-can (x) target in the preview list.
 
 ## Bugs
 
-- [Fixed: use onClick not onChange on buttons] Preset expand does not work (anymore).
+- Move storage preset errors out when target index was deleted.
+- Storage banks are only saved when they have presets.
 - Device Presets do not have 'meta' set (undefined).
+- Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
+- [Done] onClick / onChange handlers must check if value is 'on' before dispatching action. 
+    Replace onClick with onChange.
+- [Fixed: use onClick not onChange on buttons] Preset expand does not work (anymore).
 - [Fixed] After selecting a preset and changing views (device/storage/factory) the view-filter for selection is not enabled anymore.
 - [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
-- Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
-- Paste Empty shows garbage-can (x) target in the preview list.
 - [Done] Refactor (Load/Save) Actions with error property. Simply dispatch an error-action when error is caught.
-- onClick / onChange handlers must check if value is 'on' before dispatching action. Replace onClick with onChange.
 - [Fixed] Delete last storage bank does not remove it from display.
 - [Fixed] Delete a non-created (uploaded) storage bank fails with message bank was not found.
 - [Fixed] Delete storage preset leaves original. Deleted item show at start of list with original index. After upload state is restored as expected, but empty preset is saved to disk.
 - [Fixed] Storage 'Select All' toolbar button does not show correct state when hand-selecting storage presets. Because of extra hidden empty preset?
 - [Fixed] Delete Storage Bank should mark as deleted (now it deletes immediately).
-- Move storage preset errors out when target index was deleted.
 - [Fixed] Duplicate bank names ('new') causes problems and mixups.
 - [Fixed] Copying storage presets between banks (new/new2) deletes one bank (thinks its a bank-rename).
 - [Fixed] After storage upload, banks are not reloaded and old ui shows.
 - [Fixed] Delete Storage Preset of non-created bank gives error (cannot find the file).
 - [Fixed] New Storage banks are double when uploaded
-- Storage banks are only saved when they have presets.
 - [Fixed] Enable Add Storage Bank after download (Banks can be empty!)
 - [Fixed] Cannot move down (because max preset count = 0).
 - [Fixed] Delete all Storage presets does not remove them from display - does from storage.

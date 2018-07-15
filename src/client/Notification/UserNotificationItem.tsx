@@ -58,7 +58,7 @@ export class UserNotificationItem extends
         }
     }
 
-    private remove(_: React.MouseEvent<HTMLElement>) {
+    private remove() {
         this.props.removeNotification(this.props.notification);
     }
 }
