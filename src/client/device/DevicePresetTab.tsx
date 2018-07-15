@@ -76,7 +76,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     enableSelectAll={!this.selection.isEmpty}
                     statusSelectAll={this.selectAllStatus}
                     onSelectAllChanged={this.toggleSelectAll}
-                    enableUpload={this.changes.anyChanged}
+                    uploadCount={this.changedCount}
                     onUpload={this.upload}
                 />
                 <PresetView 
@@ -164,6 +164,10 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     private upload() {
         const changedPresets = this.changes.changed;
         this.actions.savePresets(PresetCollectionType.device, changedPresets);
+    }
+
+    private get changedCount(): number {
+        return this.changes.changed.length;
     }
 }
 

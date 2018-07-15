@@ -100,7 +100,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                     enableSelectAll={!this.selection.isEmpty}
                     statusSelectAll={this.selectAllStatus}
                     onSelectAllChanged={this.toggleSelectAll}
-                    enableUpload={this.canUpload()}
+                    uploadCount={this.uploadCount()}
                     onUpload={this.upload}
                 />
                 <FlexContainer vertical={false}>
@@ -192,9 +192,9 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.props.loadStorageBanks();
     }
 
-    private canUpload(): boolean {
-        const banksChanged = this.bankSelection.selected.some(bankHasChanged);
-        return this.changes.anyChanged || banksChanged;
+    private uploadCount(): number {
+        const banksChanged = this.bankSelection.selected.filter(bankHasChanged);
+        return banksChanged.length + this.changes.changed.length;
     }
 
     private upload() {

@@ -7,9 +7,9 @@
 - [Done] create FactoryProvider for PedalPro (Std)
 - [Done] mark as delete (make empty) selected presets and single preset (expand box). Actually deleted (made empty) when uploaded.
 - [Done] reverse engineer DSP type settings.
-- Place a badge on the upload button with a count of flagged presets (device)
-- For storage indicate flagged presets it on each bank.
-- Storage Bank flag to indicate changes in the bank itself (rename)
+- [Done] Place a badge on the upload button with a count of flagged presets (device)
+- [Done] For storage indicate flagged presets it on each bank.
+- [Done] Storage Bank flag to indicate changes in the bank itself (rename)
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 - [Done] Implement Storage Bank delete.
@@ -20,6 +20,10 @@
 - Add locallization, translated strings.
 - Storage presets should be shown in the same order as the banks they belong to.
 - PresetView should have sorting (byIndex, byName, asc/desc).
+- Fix layout of move dialog
+- Fix layout of paste dialogs (device/storage)
+- Fix layout (padding) of notification popup.
+- Remove fireXxxx from PresetToolbar - use props.Xxxx directly
 
 ## Bugs
 

@@ -16,6 +16,12 @@ const appTheme = createMuiTheme({
                 color: "#FFC107"
             }
         },
+        MuiBadge: {
+            badge: {
+                top: "0px",
+                right: "0px"
+            }
+        }
     }
 });
 

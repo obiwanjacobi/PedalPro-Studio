@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Badge } from "@material-ui/core";
 import { Delete, ContentPaste, ContentCopy, FileDownload, FileUpload, ImportExport } from "@material-ui/icons";
 
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
@@ -10,7 +10,7 @@ export interface PresetToolbarProps {
     enablePaste?: boolean;
     enableDelete?: boolean;
     enableDownload?: boolean;
-    enableUpload?: boolean;
+    uploadCount?: number;
     enableMove?: boolean;
 }
 export interface PresetToolbarEvents { 
@@ -64,13 +64,34 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
                 <IconButton disabled={!this.props.enableDownload} onClick={this.fireDownload}>
                     <FileDownload />
                 </IconButton>}
-                {this.props.onUpload &&
-                <IconButton disabled={!this.props.enableUpload} onClick={this.fireUpload}>
-                    <FileUpload />
-                </IconButton>}
+                {this.props.onUpload ? (
+                    this.enableUpload ? 
+                        <Badge badgeContent={this.uploadCount} color="default">
+                            <IconButton onClick={this.fireUpload}>
+                                <FileUpload />
+                            </IconButton>
+                        </Badge> :
+                        <IconButton disabled={true}>
+                            <FileUpload />
+                        </IconButton>
+                ) : null}
                 <img src="../assets/VintageRevolutionLogoText.jpg" alt="logo" className="vrlogo" />
             </ApplicationToolbar>
         );
+    }
+
+    private get enableUpload(): boolean {
+        if (this.props.uploadCount) {
+            return this.props.uploadCount > 0;
+        }
+        return false;
+    }
+
+    private get uploadCount(): number {
+        if (this.props.uploadCount) {
+            return this.props.uploadCount;
+        }
+        return 0;
     }
 
     private fireCopy() {
