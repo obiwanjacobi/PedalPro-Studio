@@ -37,7 +37,9 @@ const reduceLoadStorageBanks = (state: ApplicationDocument, banks: StorageBank[]
     
     const builder = new ApplicationDocumentBuilder(state);
     const bankBuilder = new StorageBankArrayBuilder(builder.mutable.banks);
-    const banksToRemove = bankBuilder.mutable.filter(b => b.created);
+    const banksToRemove = bankBuilder.mutable.filter(b => b.created || 
+        // also remove not-created banks that have just been loaded (matched by name)
+        banks.findIndex(nb => b.name === nb.name) >= 0);
     bankBuilder.removeRange(banksToRemove);
     bankBuilder.addRange(banks);
     // remove storage presets for loaded banks

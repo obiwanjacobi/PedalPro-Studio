@@ -41,8 +41,9 @@
 - [Fixed] Copying storage presets between banks (new/new2) deletes one bank (thinks its a bank-rename).
 - [Fixed] After storage upload, banks are not reloaded and old ui shows.
 - [Fixed] Delete Storage Preset of non-created bank gives error (cannot find the file).
-- New Storage banks are double when uploaded
+- [Fixed] New Storage banks are double when uploaded
 - Storage banks are only saved when they have presets.
+- Enable Add Storage Bank after download (Banks can be empty!)
 - [Fixed] Cannot move down (because max preset count = 0).
 - [Fixed] Delete all Storage presets does not remove them from display - does from storage.
 
