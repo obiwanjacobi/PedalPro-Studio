@@ -33,7 +33,7 @@ export async function dispatchLoadStorageBankPresetsAction(
     const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
 
     try {
-        loadStorageBankPresets(presetClient, dispatch, bank);
+        await loadStorageBankPresets(presetClient, dispatch, bank);
     } catch (error) {
         dispatch(createAddFaultAction(PresetCollectionType.storage, error));
     }

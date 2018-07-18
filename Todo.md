@@ -1,4 +1,12 @@
-# TODO Task List
+# PedalPro Studio - TODO
+
+## Release/Deployemnt Issues
+
+- minify webpack output for prod
+- assets loaded at runtime (vr-files) are not installed on disk.
+- could not locate binding file HID.node.
+
+## TODO Task List
 
 - [Done] change app name from 'PedalPro Editor' to 'PedalPro Studio'.
 - [Done] create paste dialog to let user pick where to paste the copied presets (overwrite, insert at, first empty, or append to end).
@@ -96,7 +104,6 @@ https://medium.com/@paularmstrong/twitter-lite-and-high-performance-react-progre
 ## Project Setup
 
 - Hot Reload in Electron
-- minify webpack output for prod
 
 ## Libraries
 

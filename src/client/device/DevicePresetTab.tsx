@@ -188,10 +188,14 @@ const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
-                dispatchLoadPresetsAction(dispatch, source);
+                dispatchLoadPresetsAction(dispatch, source)
+                .then(__ => { /**/ })
+                .catch(e => { throw e; });
             },
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
-                dispatchSavePresetsAction(dispatch, source, presets);
+                dispatchSavePresetsAction(dispatch, source, presets)
+                .then(__ => { /**/ })
+                .catch(e => { throw e; });
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

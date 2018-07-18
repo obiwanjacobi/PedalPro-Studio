@@ -193,7 +193,9 @@ const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, St
                 dispatch(createUpdateScreenAction(state));
             },
             loadStorageBankPresets: (bank: string): void => {
-                dispatchLoadStorageBankPresetsAction(dispatch, bank);
+                dispatchLoadStorageBankPresetsAction(dispatch, bank)
+                .then(__ => { /**/ })
+                .catch(e => { throw e; });
             }
         };
 };

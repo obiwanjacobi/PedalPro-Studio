@@ -18,6 +18,7 @@ const commonConfig = {
     rules: [
       {
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         enforce: "pre",
         loader: "tslint-loader",
         options: {
@@ -27,18 +28,13 @@ const commonConfig = {
       },
       {
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         loader: "ts-loader"
       }
     ]
   },
   resolve: {
     extensions: [".js", ".ts", ".tsx", ".jsx", ".json"],
-    // alias: {
-    //   'react$': path.join(__dirname, 'node_modules', 'react', 'dist', 'react.min.js'),
-    //   'react-dom$': path.join(__dirname, 'node_modules', 'react-dom', 'dist', 'react-dom.min.js'),
-    //   'redux$': path.join(__dirname, 'node_modules', 'redux', 'dist', 'redux.min.js'),
-    //   'react-redux$': path.join(__dirname, 'node_modules', 'react-redux', 'dist', 'react-redux.min.js')
-    // }
   }
 };
 

@@ -8,14 +8,16 @@ import { OfflinePresetProviderEx } from "./_tests/OfflinePresetProviderEx";
 import { Configuration } from "../../Configuration";
 
 export class PedalProProviderFactory {
-    public static offlineProvider: OfflinePresetProviderEx = 
-        new OfflinePresetProviderEx(Configuration.pedalpro.factoryFileEx);
+    public static offlineProvider?: OfflinePresetProviderEx;
 
     public static create(throwOnError: boolean): PresetProvider {
         const device = new PedalProDevice();
         const deviceId = PedalProProviderFactory.getDeviceIdentity(device, throwOnError);
 
         if (!deviceId) {
+            if (!this.offlineProvider) {
+                this.offlineProvider = new OfflinePresetProviderEx(Configuration.pedalpro.factoryFileEx);
+            }
             return this.offlineProvider;
         }   
 

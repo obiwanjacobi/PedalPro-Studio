@@ -35,8 +35,8 @@ export async function dispatchSaveStoragePresetsAction(
             .filter(b => b.origin.name.length > 0);
         renamedBanks.forEach(b => presetClient.deleteStorageBank(b.origin.name));
 
-        dispatchLoadStorageBanksAction(dispatch);
-
+        await dispatchLoadStorageBanksAction(dispatch);
+        
     } catch (error) {
         dispatch(createAddFaultAction(PresetCollectionType.storage, error));
     }

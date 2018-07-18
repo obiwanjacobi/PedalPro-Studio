@@ -13,6 +13,7 @@ const commonConfig = {
     rules: [
       {
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         enforce: "pre",
         loader: "tslint-loader",
         options: {
@@ -22,6 +23,7 @@ const commonConfig = {
       },
       {
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         loader: "ts-loader"
       }
     ]
@@ -34,10 +36,10 @@ const commonConfig = {
 module.exports = [
     Object.assign({
         target: "electron-main",
-        entry: { startup: path.join(__dirname, "src", "Startup.ts") }
+        entry: { program: path.join(__dirname, "src", "Startup.ts") }
     }, commonConfig),
     Object.assign({
         target: "electron-renderer",
-        entry: { autostart: path.join(__dirname, "src", "Autostart.ts") }
+        entry: { app: path.join(__dirname, "src", "Autostart.ts") }
     }, commonConfig)
 ];

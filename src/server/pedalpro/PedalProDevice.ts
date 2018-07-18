@@ -24,7 +24,7 @@ export class PedalProDevice {
             // DEVICE_ID  0x0005 - PedalPro
             this.hidDevice = new HID(0x04d8, 0x0005);
         } catch (error) {
-            throw new Error("Device is not connected.");
+            throw new Error("Device is not connected: " + error);
         }
     }
 

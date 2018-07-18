@@ -98,7 +98,9 @@ const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, Fa
     (dispatch: Dispatch, _: FactoryPresetTabProps): FactoryPresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
-                dispatchLoadPresetsAction(dispatch, source);
+                dispatchLoadPresetsAction(dispatch, source)
+                .then(__ => { /**/ })
+                .catch(e => { throw e; });
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

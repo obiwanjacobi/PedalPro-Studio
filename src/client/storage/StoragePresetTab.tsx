@@ -242,10 +242,14 @@ const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: StoragePresetTabProps): StoragePresetTabActions => {
         return {
             loadStorageBanks: (): void  => {
-                dispatchLoadStorageBanksAction(dispatch);
+                dispatchLoadStorageBanksAction(dispatch)
+                .then(__ => { /**/ })
+                .catch(e => { throw e; });
             },
             loadStorageBankPresets: (bank: string): void => {
-                dispatchLoadStorageBankPresetsAction(dispatch, bank);
+                dispatchLoadStorageBankPresetsAction(dispatch, bank)
+                .then(__ => { /**/ })
+                .catch(e => { throw e; });
             },
             addStorageBank: (): void => {
                 dispatch(createAddStorageBankAction());
@@ -254,7 +258,9 @@ const createActionObject: ActionDispatchFunc =
                 dispatch(createRenameStorageBankAction(bank, newName));
             },
             saveStoragePresets: (banks: StorageBank[], presets: Preset[]): void  => {
-                dispatchSaveStoragePresetsAction(dispatch, banks, presets);
+                dispatchSaveStoragePresetsAction(dispatch, banks, presets)
+                .then(__ => { /**/ })
+                .catch(e => { throw e; });
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
