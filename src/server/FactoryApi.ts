@@ -1,4 +1,6 @@
 import * as express from "express";
+import * as Path from "path";
+
 import { ApiHandler } from "./ApiHandler";
 import { ReadPresetsApi } from "./ReadPresetsApi";
 import { PresetProvider } from "./PresetProvider";
@@ -23,9 +25,11 @@ export class FactoryApi implements ApiHandler {
 
         switch (deviceInfo.model) {
             case  PedalProDeviceModel.PedalPro:
-                return new FactoryProvider(Configuration.pedalpro.factoryFile);
+                const filePath = Path.join(__dirname, Configuration.pedalpro.factoryFile);
+                return new FactoryProvider(filePath);
             case  PedalProDeviceModel.PedalProEx:
-                return new FactoryProviderEx(Configuration.pedalpro.factoryFileEx);
+                const filePathEx = Path.join(__dirname, Configuration.pedalpro.factoryFileEx);
+                return new FactoryProviderEx(filePathEx);
             default:
                 throw new Error("Device has no Factory presets.");
         }

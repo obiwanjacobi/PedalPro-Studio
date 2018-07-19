@@ -19,7 +19,7 @@ export class PedalProProviderFactory {
                 this.offlineProvider = new OfflinePresetProviderEx(Configuration.pedalpro.factoryFileEx);
             }
             return this.offlineProvider;
-        }   
+        }
 
         switch (deviceId.model) {
             case PedalProDeviceModel.PedalPro:

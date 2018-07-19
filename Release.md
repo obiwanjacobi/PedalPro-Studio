@@ -9,13 +9,17 @@ Execute these steps to build a new release.
 
 from
 
-  `<script>require("../app/Autostart.js");</script>`
-  `<!-- <script src="../app/app.js"></script> -->`
+```html
+  <script>require("../app/Autostart.js");</script>
+  <!-- <script src="../app/app.js"></script> -->
+```
 
 to
 
-  `<!-- <script>require("../app/Autostart.js");</script> -->`
-  `<script src="../app/app.js"></script>`
+```html
+  <!-- <script>require("../app/Autostart.js");</script> -->
+  <script src="../app/app.js"></script>
+```
 
 ## `package.json`
 

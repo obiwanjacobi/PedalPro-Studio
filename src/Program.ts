@@ -4,16 +4,18 @@ import * as Url from "url";
 import { Environment } from "./Environment";
 
 export class ProgramLocations {
+    public readonly application: string;
     public readonly documents: string;
     public readonly downloads: string;
     public readonly temp: string;
 
     public constructor(electronApp: Electron.App) {
         const basePath = Path.join(electronApp.getPath("documents"), "PedalPro Studio");
-        
         this.documents = Path.join(basePath, "storage");
         this.downloads = Path.join(basePath, "community");
+
         this.temp = electronApp.getPath("temp");
+        this.application = Environment.isProduction ? "./app.asar/" : "./";
     }
 }
 
