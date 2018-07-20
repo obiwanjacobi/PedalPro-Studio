@@ -15,7 +15,7 @@ export class ProgramLocations {
         this.downloads = Path.join(basePath, "community");
 
         this.temp = electronApp.getPath("temp");
-        this.application = Environment.isProduction ? "./app.asar/" : "./";
+        this.application = Environment.isProduction ? __dirname : "./app";
     }
 }
 

@@ -9,6 +9,7 @@ import { FactoryProviderEx } from "./pedalpro/extended/FactoryProviderEx";
 import { PedalProDeviceModel } from "./pedalpro/PedalProDeviceIdentity";
 import { Configuration } from "../Configuration";
 import { getDeviceInfo } from "./DeviceApi";
+import { Program } from "../Program";
 
 export class FactoryApi implements ApiHandler {
     public readonly uri: string = "/factory";
@@ -25,10 +26,10 @@ export class FactoryApi implements ApiHandler {
 
         switch (deviceInfo.model) {
             case  PedalProDeviceModel.PedalPro:
-                const filePath = Path.join(__dirname, Configuration.pedalpro.factoryFile);
+                const filePath = Path.join(Program.locations.application, Configuration.pedalpro.factoryFile);
                 return new FactoryProvider(filePath);
             case  PedalProDeviceModel.PedalProEx:
-                const filePathEx = Path.join(__dirname, Configuration.pedalpro.factoryFileEx);
+                const filePathEx = Path.join(Program.locations.application, Configuration.pedalpro.factoryFileEx);
                 return new FactoryProviderEx(filePathEx);
             default:
                 throw new Error("Device has no Factory presets.");

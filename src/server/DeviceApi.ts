@@ -1,4 +1,5 @@
 import * as express from "express";
+
 import { ApiHandler, createFault } from "./ApiHandler";
 import { FactoryApi } from "./FactoryApi";
 import { WritePresetsApi } from "./WritePresetsApi";
@@ -10,16 +11,28 @@ import { PedalProDeviceIdentity, PedalProDeviceModel } from "./pedalpro/PedalPro
 
 export const getDeviceInfo = (): PedalProDeviceIdentity => {
     const device = new PedalProDevice();
-    const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device, Environment.isProduction);
+    const isProd = Environment.isProduction;
+    const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device, isProd);
     if (!deviceInfo) {
-        return {
-            vendor: "Offline",
-            device: "PedalPro-Ex",
-            version: "",
-            model: PedalProDeviceModel.PedalProEx,
-            supported: true,
-            presetCount: 400
-        };
+        if (isProd) {
+            return {
+                vendor: "<unknown>",
+                device: "<unknown>",
+                version: "0.0",
+                model: PedalProDeviceModel.Unspecified,
+                supported: false,
+                presetCount: 0
+            };
+        } else {
+            return {
+                vendor: "Development",
+                device: "Offline",
+                version: "0.0",
+                model: PedalProDeviceModel.PedalProEx,
+                supported: true,
+                presetCount: 400
+            };
+        }
     }
     return deviceInfo;
 };

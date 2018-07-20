@@ -7,7 +7,7 @@
     "name": "Jacobi Software",
     "url": "https://www.vintage-revolution.com"
   },
-  "main": "./app/program.js",
+  "main": "./app/Startup.js",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.0.0",

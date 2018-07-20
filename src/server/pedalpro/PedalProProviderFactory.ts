@@ -1,3 +1,6 @@
+import * as Path from "path";
+
+import { Program } from "../../Program";
 import { PedalProProvider } from "./standard/PedalProProvider";
 import { PedalProDevice } from "./PedalProDevice";
 import { ReadDeviceIdentity } from "./ReadDeviceIdentity";
@@ -16,7 +19,8 @@ export class PedalProProviderFactory {
 
         if (!deviceId) {
             if (!this.offlineProvider) {
-                this.offlineProvider = new OfflinePresetProviderEx(Configuration.pedalpro.factoryFileEx);
+                const filePathEx = Path.join(Program.locations.application, Configuration.pedalpro.factoryFileEx);
+                this.offlineProvider = new OfflinePresetProviderEx(filePathEx);
             }
             return this.offlineProvider;
         }
