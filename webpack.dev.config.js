@@ -6,7 +6,8 @@ const commonConfig = {
     filename: "[name].js"
   },
   node: {
-    __dirname: false
+    __dirname: false,
+    __filename: false,
   },
   devtool: "inline-source-map",
   module: {
@@ -23,13 +24,20 @@ const commonConfig = {
       },
       {
         test: /\.tsx?$/,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         loader: "ts-loader"
+      },
+      {
+        test: /\.node$/,
+        loader: "node-loader" 
       }
     ]
   },
   resolve: {
-    extensions: [".js", ".ts", ".tsx", ".jsx", ".json"]
+    extensions: [".js", ".ts", ".tsx", ".jsx", ".json", ".node"],
+  },
+  externals: {
+    "node-hid": 'commonjs node-hid'
   }
 };
 

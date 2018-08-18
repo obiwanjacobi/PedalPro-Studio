@@ -1,5 +1,4 @@
 const path = require("path");
-const webpack = require("webpack");
 
 const commonConfig = {
   output: {
@@ -7,13 +6,9 @@ const commonConfig = {
     filename: "[name].js"
   },
   node: {
-    __dirname: false
+    __dirname: false,
+    __filename: false,
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-  ],
   module: {
     rules: [
       {
@@ -30,11 +25,18 @@ const commonConfig = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         loader: "ts-loader"
+      },
+      {
+        test: /\.node$/,
+        loader: "node-loader" 
       }
     ]
   },
   resolve: {
-    extensions: [".js", ".ts", ".tsx", ".jsx", ".json"],
+    extensions: [".js", ".ts", ".tsx", ".jsx", ".json", ".node"],
+  },
+  externals: {
+    "node-hid": 'commonjs node-hid'
   }
 };
 
