@@ -16,17 +16,4 @@
     },
     // "typescript.referencesCodeLens.enabled": true,
     // "typescript.implementationsCodeLens.enabled": true
-    "line-counter.excludes": [
-        "**/.git/**",
-        "**/.vscode/**",
-        "**/node_modules/**",
-        "**/release/**",
-        "**/assets/**",
-        "**/app/**",
-        "**/_tests/**"
-    ],
-    "line-counter.includes": [
-        "**/*.ts",
-        "**/*.tsx"
-    ]
 }
