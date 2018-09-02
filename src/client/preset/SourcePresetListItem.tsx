@@ -1,6 +1,6 @@
 import * as React from "react";
 import { 
-    ListItem, ListItemText, Checkbox
+    Paper, ListItemText, Checkbox
 } from "@material-ui/core";
 
 import { Preset } from "./Preset";
@@ -21,11 +21,16 @@ export class SourcePresetListItem extends React.Component<SourcePresetListItemAl
 
     public render() {
         return (
-            <ListItem button={true} onClick={this.onToggleSelectPreset}>
+            <Paper elevation={2} style={{width: "100%"}}>
                 {this.props.changePresets &&
-                    <Checkbox tabIndex={-1} disableRipple={true} checked={this.props.preset.ui.selected} />}
+                    <Checkbox 
+                        tabIndex={-1} 
+                        checked={this.props.preset.ui.selected} 
+                        onClick={this.onToggleSelectPreset}
+                    />
+                }
                 <ListItemText primary={this.title} secondary={this.props.preset.source.toUpperCase()} />
-            </ListItem>
+            </Paper>
         );
     }
 

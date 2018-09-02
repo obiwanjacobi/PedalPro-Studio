@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
-import { 
+import {
     FormControl, FormControlLabel, RadioGroup, Radio, Select,
-    Grid, IconButton, List, Dialog, Typography, Button, Paper, MenuItem, InputLabel, Input 
+    Grid, IconButton, Dialog, Typography, Button, MenuItem, InputLabel, Input
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
@@ -14,14 +14,14 @@ import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsActio
 import { presetHasChanged, formatPresetFullName } from "../preset/PresetOperations";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
 import { PastePresets, createPastePresetsAction } from "../preset/PastePresetsAction";
+import { PresetChangedFlag } from "../preset/PresetChangedFlag";
+import { SourcePresetList } from "../preset/SourcePresetList";
+import { PreviewList } from "../preset/PreviewList";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectedView } from "../controls/SelectedView";
 import { Title } from "../controls/Title";
 import { ScreenState } from "../screen/ScreenState";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
-import { PreviewListItem } from "../preset/PreviewListItem";
-import { SourcePresetListItem } from "../preset/SourcePresetListItem";
-import { PresetChangedFlag } from "../preset/PresetChangedFlag";
 
 enum MoveType {
     None = "none",
@@ -29,7 +29,11 @@ enum MoveType {
     Swap = "swap",
 }
 
-export interface DeviceMovePageProps {}
+const Styles = {
+    MainColumn: { padding: "8px" }
+};
+
+export interface DeviceMovePageProps { }
 export interface DeviceMovePageState {
     moveType: string;
     targetIndex: number;
@@ -71,56 +75,33 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                         Move
                     </Button>
                 </ApplicationToolbar>
-                <Grid container={true} spacing={8} alignItems="stretch" justify="flex-start" style={{flexGrow: 1}}>
-                    <Grid item={true} xs={4}>
-                        <Paper elevation={2}>
-                            <Typography variant="body2">Selected</Typography>
-                            <List id="SelectedList">
-                                {this.selection.selected.map((preset: Preset, index: number) => {
-                                    return (
-                                        <SourcePresetListItem
-                                            key={index} 
-                                            preset={preset} 
-                                        />
-                                    );
-                                })}
-                            </List>
-                        </Paper>
+                <Grid container={true} style={{width: "100%", flexGrow: 1, overflow: "hidden"}}>
+                    <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
+                        <Typography variant="body2">Selected</Typography>
+                        <SourcePresetList items={this.selection.selected} />
                     </Grid>
-                    <Grid item={true} xs={4}>
+                    <Grid item={true} xs={4} style={Styles.MainColumn}>
                         <Typography variant="body2">Operation</Typography>
                         <FormControl component="fieldset">
                             <RadioGroup value={this.state.moveType} onChange={this.onMoveTypeChange}>
-                    <FormControlLabel value={MoveType.Insert} label="Insert (before)" control={<Radio/>} />
-                    <FormControlLabel value={MoveType.Swap} label="Swap / Exchange" control={<Radio/>} />
-                    <FormControl>
-                        <InputLabel htmlFor="target-input">Target</InputLabel>
-                        <Select 
-                            value={this.state.targetIndex}
-                            onChange={this.onTargetIndexChange}
-                            input={<Input id="target-input"/>}
-                        >
-                            {this.renderTargetList()}
-                        </Select>
-                    </FormControl>
+                                <FormControlLabel value={MoveType.Insert} label="Insert (before)" control={<Radio />} />
+                                <FormControlLabel value={MoveType.Swap} label="Swap / Exchange" control={<Radio />} />
+                                <FormControl>
+                                    <InputLabel htmlFor="target-input">Target</InputLabel>
+                                    <Select
+                                        value={this.state.targetIndex}
+                                        onChange={this.onTargetIndexChange}
+                                        input={<Input id="target-input" />}
+                                    >
+                                        {this.renderTargetList()}
+                                    </Select>
+                                </FormControl>
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid item={true} xs={4}>
-                        <Paper elevation={2}>
-                            <Typography variant="body2">Moved preview</Typography>
-                            <List id="DeviceList">
-                                {this.movedPresets().map((preset: Preset, index: number) => {
-                                    return (
-                                        <PreviewListItem
-                                            key={index} 
-                                            preset={preset}
-                                            match={this.isMatch(preset)}
-                                        />
-                                    );
-                                })}
-                            </List>
-                        </Paper>
+                    <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
+                        <Typography variant="body2">Moved preview</Typography>
+                        <PreviewList items={this.movedPresets()} />
                     </Grid>
                 </Grid>
             </Dialog>
@@ -129,35 +110,31 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
 
     private renderTargetList() {
         return this.props.presets
-            .filter(p => !this.isMatch(p))
-            .map((p, i) => 
+            .filter(p => !p.ui.selected)
+            .map((p, i) =>
                 <MenuItem key={i} value={p.index}>{formatPresetFullName(p)}<PresetChangedFlag preset={p} /></MenuItem>);
     }
 
     private get hasResult(): boolean {
         return this.movedPresets().length > 0;
     }
-    
+
     private onTargetIndexChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        this.setState({targetIndex: Number(event.target.value)});
+        this.setState({ targetIndex: Number(event.target.value) });
     }
 
     private onMoveTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({moveType: event.target.value});
-    }
-
-    private isMatch(preset: Preset): boolean {
-        return preset.ui.selected;
+        this.setState({ moveType: event.target.value });
     }
 
     private movedPresets(): Preset[] {
         switch (this.state.moveType) {
             case MoveType.Insert:
-            return this.movedPresetsInsert();
+                return this.movedPresetsInsert();
 
             case MoveType.Swap:
-            return this.movedPresetsSwap();
-            
+                return this.movedPresetsSwap();
+
             default:
                 return [];
         }
@@ -186,17 +163,17 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
     }
 
     private move() {
-        switch (this.state.moveType) {            
+        switch (this.state.moveType) {
             case MoveType.Insert:
-            this.props.movePresets(this.selection.selected, this.state.targetIndex);
-            break;
-            
+                this.props.movePresets(this.selection.selected, this.state.targetIndex);
+                break;
+
             case MoveType.Swap:
-            this.props.movePresets(this.selection.selected, this.state.targetIndex, true);
-            break;
-            
+                this.props.movePresets(this.selection.selected, this.state.targetIndex, true);
+                break;
+
             default:
-            break;
+                break;
         }
     }
 
@@ -207,10 +184,10 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
 }
 
 type ExtractStatePropFunc = MapStateToProps<DeviceMovePageStateProps, DeviceMovePageProps, ApplicationDocument>;
-const extractComponentPropsFromState: ExtractStatePropFunc = 
+const extractComponentPropsFromState: ExtractStatePropFunc =
     (state: ApplicationDocument, _: DeviceMovePageProps): DeviceMovePageStateProps => {
-        return  { presets: state.device, open: state.screen.moveOpen };
-};
+        return { presets: state.device, open: state.screen.moveOpen };
+    };
 
 const createActionObject: MapDispatchToPropsFunction<DeviceMovePageActions, DeviceMovePageProps> =
     (dispatch: Dispatch, _: DeviceMovePageProps): DeviceMovePageActions => {
@@ -228,6 +205,6 @@ const createActionObject: MapDispatchToPropsFunction<DeviceMovePageActions, Devi
                 dispatch(createMovePresetsAction(presets, targetIndex, swap));
             }
         };
-};
+    };
 
 export default connect(extractComponentPropsFromState, createActionObject)(DeviceMovePage);

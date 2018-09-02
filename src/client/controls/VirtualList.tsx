@@ -1,10 +1,12 @@
 import * as React from "react";
 import { Index, List, AutoSizer, ListRowProps } from "react-virtualized";
+import { Typography } from "@material-ui/core";
 
 const itemPadding = 2;
 
 const containerStyles: React.CSSProperties = {
-    flexGrow: 1
+    flexGrow: 1,
+    // height: "100%"
 };
 const listStyles: React.CSSProperties = {
     boxSizing: "border-box"
@@ -25,7 +27,7 @@ const cellStyles: React.CSSProperties = {
     padding: itemPadding
 };
 
-interface GridCalculator<T> {
+export interface GridCalculator<T> {
     /**
      * Sets the items that are passed to the list.
      * Use for total number of items and impl. of select
@@ -55,7 +57,7 @@ interface GridCalculator<T> {
     select(rowIndex: number): T[];
 }
 
-class GridCalc<T> implements GridCalculator<T> {
+export class GridCalc<T> implements GridCalculator<T> {
     public items: T[];
     public width: number;
 
@@ -91,17 +93,21 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends R
 
     protected constructor(props: P) {
         super(props);
+        this.grid = this.createGridCalculator();
 
         this.renderRow = this.renderRow.bind(this);
         this.getRowHeight = this.getRowHeight.bind(this);
         this.refVirtualList = this.refVirtualList.bind(this);
         this.renderEmpty = this.renderEmpty.bind(this);
+    }
 
-        this.grid = new GridCalc<T>();
+    protected createGridCalculator(): GridCalculator<T> {
+        return new GridCalc<T>();
     }
 
     public shouldComponentUpdate(nextProps: VirtualListProps<T>, _: S): boolean {
-        return this.props.items !== nextProps.items;
+        const update = this.props.items !== nextProps.items;
+        return update;
     }
 
     public render(): React.ReactNode {
@@ -156,7 +162,7 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends R
     protected renderEmpty() {
         return (
             <div style={{...containerStyles, textAlign: "center"}}>
-                No items.
+                <Typography>No items.</Typography>
             </div>
         );
     }
