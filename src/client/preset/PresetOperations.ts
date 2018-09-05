@@ -55,6 +55,8 @@ export function formatPresetIndex(preset: ModelPreset.Preset): string {
 }
 
 export function formatPresetFullName(preset: ModelPreset.Preset): string {
+    const value = preset.index;
+    if (value < 0) { return preset.name; }
     // formats 3 digits with leading zeros
     return `${numberToString(preset.index, 3)} - ${preset.name}`;
 }

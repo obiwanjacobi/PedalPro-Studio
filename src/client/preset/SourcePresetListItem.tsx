@@ -1,6 +1,6 @@
 import * as React from "react";
 import { 
-    Paper, ListItemText, Checkbox
+    Checkbox, Grid, Paper, ListItemText
 } from "@material-ui/core";
 
 import { Preset } from "./Preset";
@@ -22,14 +22,20 @@ export class SourcePresetListItem extends React.Component<SourcePresetListItemAl
     public render() {
         return (
             <Paper elevation={2} style={{width: "100%"}}>
-                {this.props.changePresets &&
-                    <Checkbox 
-                        tabIndex={-1} 
-                        checked={this.props.preset.ui.selected} 
-                        onClick={this.onToggleSelectPreset}
-                    />
-                }
-                <ListItemText primary={this.title} secondary={this.props.preset.source.toUpperCase()} />
+                <Grid container={true}>
+                    <Grid item={true} xs={3}>
+                        {this.props.changePresets &&
+                            <Checkbox 
+                                tabIndex={-1} 
+                                checked={this.props.preset.ui.selected} 
+                                onClick={this.onToggleSelectPreset}
+                            />
+                        }
+                    </Grid>
+                    <Grid item={true} xs={9}>
+                        <ListItemText primary={this.title} secondary={this.props.preset.source.toUpperCase()} />
+                    </Grid>
+                </Grid>
             </Paper>
         );
     }

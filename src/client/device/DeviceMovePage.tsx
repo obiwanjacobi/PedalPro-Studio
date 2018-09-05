@@ -80,6 +80,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                         <Typography variant="body2">Selected</Typography>
                         <SourcePresetList items={this.selection.selected} />
                     </Grid>
+
                     <Grid item={true} xs={4} style={Styles.MainColumn}>
                         <Typography variant="body2">Operation</Typography>
                         <FormControl component="fieldset">
@@ -99,6 +100,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                             </RadioGroup>
                         </FormControl>
                     </Grid>
+                    
                     <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
                         <Typography variant="body2">Moved preview</Typography>
                         <PreviewList items={this.movedPresets()} />

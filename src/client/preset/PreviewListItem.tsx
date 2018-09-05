@@ -9,8 +9,7 @@ import { PresetCollectionType } from "../ApplicationDocument";
 import { PresetChangedFlag } from "./PresetChangedFlag";
 import { formatPresetFullName } from "./PresetOperations";
 
-export 
-const NotFoundPreset: Preset = {
+export const NotFoundPreset: Preset = {
     name: "<No Match>",
     index: -1,
     source: PresetCollectionType.device,

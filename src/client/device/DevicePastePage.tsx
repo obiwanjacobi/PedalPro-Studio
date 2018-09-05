@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { 
     FormControl, FormControlLabel, RadioGroup, Radio, 
-    Grid, IconButton, List, Checkbox, Dialog, Typography, Button, Paper 
+    Grid, IconButton, Checkbox, Dialog, Typography, Button
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
@@ -15,8 +15,9 @@ import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAc
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { ScreenState } from "../screen/ScreenState";
 import { SelectedView } from "../controls/SelectedView";
-import { PreviewListItem, NotFoundPreset } from "../preset/PreviewListItem";
-import { SourcePresetListItem } from "../preset/SourcePresetListItem";
+import { PreviewList } from "../preset/PreviewList";
+import { NotFoundPreset } from "../preset/PreviewListItem";
+import { SourcePresetList } from "../preset/SourcePresetList";
 import { Title } from "../controls/Title";
 
 enum PasteType {
@@ -39,8 +40,8 @@ export interface DevicePastePageStateProps {
 export type DevicePastePageActions = ChangePresets & PastePresets & UpdateScreen;
 export type DevicePastePageAllProps = DevicePastePageProps & DevicePastePageStateProps & DevicePastePageActions;
 
-const style = {
-    padding: 12
+const Styles = {
+    MainColumn: { padding: "8px" }
 };
 
 export class DevicePastePage extends React.Component<DevicePastePageAllProps, DevicePastePageState> {
@@ -73,60 +74,35 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                         Overwrite
                     </Button>
                 </ApplicationToolbar>
-                <div style={style}>
-                    <Grid container={true} spacing={8}>
-                        <Grid item={true} xs={4}>
-                            <Paper elevation={2} style={style}>
-                                <Typography variant="body2">Clipboard</Typography>
-                                <FormControlLabel
-                                    control={<Checkbox 
-                                        checked={this.state.removeSelected} 
-                                        onChange={this.onRemoveSelectedChange}
-                                    />}
-                                    label="Remove after Paste"
-                                />
-                                <List id="ClipboardList">
-                                    {this.props.clipboard.map((preset: Preset, index: number) => {
-                                        return (
-                                            <SourcePresetListItem
-                                                key={index} 
-                                                preset={preset} 
-                                                changePresets={this.props.changePresets}
-                                            />
-                                        );
-                                    })}
-                                </List>
-                            </Paper>
-                        </Grid>
-                        
-                        <Grid item={true} xs={4}>
-                            <Typography variant="body2">Operation</Typography>
-                            <FormControl component="fieldset">
-                                <RadioGroup value={this.state.pasteType} onChange={this.onPasteTypeChange}>
-                        <FormControlLabel value={PasteType.Index} label="Replace by Index" control={<Radio/>} />
-                        <FormControlLabel value={PasteType.Name} label="Replace by Name" control={<Radio/>} />
-                        <FormControlLabel value={PasteType.Empty} label="Replace empty" control={<Radio/>} />}
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
-                        <Grid item={true} xs={4}>
-                            <Paper elevation={2} style={style}>
-                                <Typography variant="body2">Overwritten</Typography>
-                                <List id="DeviceList">
-                                    {this.overwrittenPresets().map((preset: Preset, index: number) => {
-                                        return (
-                                            <PreviewListItem
-                                                key={index} 
-                                                preset={preset}
-                                                match={false}
-                                            />
-                                        );
-                                    })}
-                                </List>
-                            </Paper>
-                        </Grid>
+                <Grid container={true} style={{width: "100%", flexGrow: 1, overflow: "hidden"}}>
+                    <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
+                        <Typography variant="body2">Clipboard</Typography>
+                        <FormControlLabel
+                            control={<Checkbox 
+                                checked={this.state.removeSelected} 
+                                onChange={this.onRemoveSelectedChange}
+                            />}
+                            label="Remove after Paste"
+                        />
+                        <SourcePresetList items={this.props.clipboard} changePresets={this.props.changePresets} />
                     </Grid>
-                </div>
+                        
+                    <Grid item={true} xs={4} style={Styles.MainColumn}>
+                        <Typography variant="body2">Operation</Typography>
+                        <FormControl component="fieldset">
+                            <RadioGroup value={this.state.pasteType} onChange={this.onPasteTypeChange}>
+                    <FormControlLabel value={PasteType.Index} label="Replace by Index" control={<Radio/>} />
+                    <FormControlLabel value={PasteType.Name} label="Replace by Name" control={<Radio/>} />
+                    <FormControlLabel value={PasteType.Empty} label="Replace empty" control={<Radio/>} />}
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
+                        <Typography variant="body2">Preview</Typography>
+                        <PreviewList items={this.overwrittenPresets()} />
+                    </Grid>
+                </Grid>
             </Dialog>
         );
     }
@@ -146,10 +122,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
     private overwrittenPresets(): Preset[] {
         switch (this.state.pasteType) {
             case PasteType.Empty:
-                const empties = this.props.presets
-                    .filter((p: Preset) => p.traits.empty)
-                    .slice(0, this.selection.selected.length);
-                return empties.fill(NotFoundPreset, empties.length, this.props.clipboard.length);
+                return this.overwrittenEmptyPresets();
             case PasteType.Index:
                 return this.overwrittenPresetsByIndex();
             case PasteType.Name:
@@ -159,11 +132,21 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
         }
     }
 
+    private overwrittenEmptyPresets(): Preset[] {
+        const byEmpty = new Array<Preset>(this.selection.selected.length);
+        const empties = this.props.presets.filter((p: Preset) => p.traits.empty);
+        this.selection.selected.forEach((p: Preset, index: number) => {
+            const found = empties[index];
+            byEmpty[index] = this.newPreset(p, found);
+        });
+        return byEmpty.fill(NotFoundPreset, byEmpty.length, this.props.clipboard.length);
+    }
+
     private overwrittenPresetsByIndex(): Preset[] {
         const byIndex = new Array<Preset>(this.selection.selected.length);
         this.selection.selected.forEach((p: Preset, index: number) => {
             const found = this.props.presets.find((d: Preset) => d.index === p.index);
-            byIndex[index] = found || NotFoundPreset;
+            byIndex[index] = this.newPreset(p, found);
         });
         return byIndex;
     }
@@ -172,13 +155,20 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
         const byName = new Array<Preset>(this.selection.selected.length);
         this.selection.selected.forEach((p: Preset, index: number) => {
             const found = this.props.presets.find((d: Preset) => d.name === p.name);
-            byName[index] = found || NotFoundPreset;
+            byName[index] = this.newPreset(p, found);
         });
         return byName;
     }
 
+    private newPreset(source: Preset, target?: Preset): Preset {
+        target = target || NotFoundPreset;
+        return { ...source, index: target.index, origin: target };
+    }
+
     private pastedPresets() {
         const overwritten = this.overwrittenPresets();
+        if (overwritten.length === 0) { return overwritten; }
+
         const pasted = this.selection.selected.slice();
 
         for (let i = 0; i < pasted.length; i++) {
