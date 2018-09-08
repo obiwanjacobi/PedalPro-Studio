@@ -1,5 +1,6 @@
 import { HID } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
+import { Environment } from "../../Environment";
 
 export class PedalProDevice {
     private hidDevice: HID | null = null;
@@ -24,7 +25,11 @@ export class PedalProDevice {
             // DEVICE_ID  0x0005 - PedalPro
             this.hidDevice = new HID(0x04d8, 0x0005);
         } catch (error) {
-            throw new Error("Device is not connected: " + error);
+            if (Environment.isProduction) {
+                throw new Error("Device is not connected");
+            } else {
+                throw new Error("Device is not connected: " + error);
+            }
         }
     }
 
