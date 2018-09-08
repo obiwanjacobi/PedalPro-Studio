@@ -86,6 +86,10 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.bankSelection = new SelectedView(banks);
     }
 
+    public componentWillMount() {
+        this.download();
+    }
+
     public render() {
         return (
             <FlexContainer vertical={true}>
