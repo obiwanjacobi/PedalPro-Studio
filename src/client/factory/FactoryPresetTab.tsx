@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "@material-ui/core";
 
+import { fulfillPromise } from "../../PromiseExtensions";
 import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
 import { FlexContainer } from "../controls/FlexContainer";
@@ -98,9 +99,7 @@ const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, Fa
     (dispatch: Dispatch, _: FactoryPresetTabProps): FactoryPresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
-                dispatchLoadPresetsAction(dispatch, source)
-                .then(__ => { /**/ })
-                .catch(e => { throw e; });
+                fulfillPromise(dispatchLoadPresetsAction(dispatch, source));
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

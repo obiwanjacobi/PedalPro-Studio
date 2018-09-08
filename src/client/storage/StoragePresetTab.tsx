@@ -3,6 +3,7 @@ import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "
 import { Typography } from "@material-ui/core";
 import { FileDownload } from "@material-ui/icons";
 
+import { fulfillPromise } from "../../PromiseExtensions";
 import { SelectAllButtonStatus } from "../controls/SelectAllButton";
 import { FlexContainer } from "../controls/FlexContainer";
 import { PresetToolbar } from "../preset/PresetToolbar";
@@ -242,14 +243,10 @@ const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: StoragePresetTabProps): StoragePresetTabActions => {
         return {
             loadStorageBanks: (): void  => {
-                dispatchLoadStorageBanksAction(dispatch)
-                .then(__ => { /**/ })
-                .catch(e => { throw e; });
+                fulfillPromise(dispatchLoadStorageBanksAction(dispatch));
             },
             loadStorageBankPresets: (bank: string): void => {
-                dispatchLoadStorageBankPresetsAction(dispatch, bank)
-                .then(__ => { /**/ })
-                .catch(e => { throw e; });
+                fulfillPromise(dispatchLoadStorageBankPresetsAction(dispatch, bank));
             },
             addStorageBank: (): void => {
                 dispatch(createAddStorageBankAction());
@@ -258,9 +255,7 @@ const createActionObject: ActionDispatchFunc =
                 dispatch(createRenameStorageBankAction(bank, newName));
             },
             saveStoragePresets: (banks: StorageBank[], presets: Preset[]): void  => {
-                dispatchSaveStoragePresetsAction(dispatch, banks, presets)
-                .then(__ => { /**/ })
-                .catch(e => { throw e; });
+                fulfillPromise(dispatchSaveStoragePresetsAction(dispatch, banks, presets));
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));

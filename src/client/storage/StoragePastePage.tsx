@@ -6,6 +6,7 @@ import {
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
+import { fulfillPromise } from "../../PromiseExtensions";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { ItemUI } from "../ItemUI";
 import { Preset } from "../preset/Preset";
@@ -178,9 +179,7 @@ const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, St
                 dispatch(createUpdateScreenAction(state));
             },
             loadStorageBankPresets: (bank: string): void => {
-                dispatchLoadStorageBankPresetsAction(dispatch, bank)
-                    .then(__ => { /**/ })
-                    .catch(e => { throw e; });
+                fulfillPromise(dispatchLoadStorageBankPresetsAction(dispatch, bank));
             }
         };
     };

@@ -3,6 +3,7 @@ import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "
 import { Typography } from "@material-ui/core";
 import { FileDownload } from "@material-ui/icons";
 
+import { fulfillPromise } from "../../PromiseExtensions";
 import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
 import { SelectedView } from "../controls/SelectedView";
@@ -188,14 +189,10 @@ const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
             loadPresets: (source: PresetCollectionType): void  => {
-                dispatchLoadPresetsAction(dispatch, source)
-                .then(__ => { /**/ })
-                .catch(e => { throw e; });
+                fulfillPromise(dispatchLoadPresetsAction(dispatch, source));
             },
             savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
-                dispatchSavePresetsAction(dispatch, source, presets)
-                .then(__ => { /**/ })
-                .catch(e => { throw e; });
+                fulfillPromise(dispatchSavePresetsAction(dispatch, source, presets));
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
                 dispatch(createChangePresetsAction(presets, source, ui));
