@@ -1,22 +1,23 @@
 import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
-import { 
+import {
     FormControlLabel, Select, MenuItem,
-    Grid, IconButton, List, Checkbox, Dialog, Typography, Button 
+    Grid, IconButton, Checkbox, Dialog, Typography, Button
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
-import { Preset } from "../preset/Preset";
 import { ItemUI } from "../ItemUI";
+import { Preset } from "../preset/Preset";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
+import { PreviewList } from "../preset/PreviewList";
+import { NotFoundPreset } from "../preset/PreviewListItem";
+import { SourcePresetList } from "../preset/SourcePresetList";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
+import { ScreenState } from "../screen/ScreenState";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectedView } from "../controls/SelectedView";
 import { Title } from "../controls/Title";
-import { SourcePresetListItem } from "../preset/SourcePresetListItem";
-import { PreviewListItem, NotFoundPreset } from "../preset/PreviewListItem";
-import { ScreenState } from "../screen/ScreenState";
 import { StorageBank } from "./StorageBank";
 import { LoadStorageBankPresets, dispatchLoadStorageBankPresetsAction } from "./LoadStorageBankPresetsAction";
 import { bankNeedsLoading, storagePresetsForBank } from "./BankOperations";
@@ -36,6 +37,10 @@ export interface StoragePastePageStateProps {
 }
 export type StoragePastePageActions = ChangePresets & PasteStoragePresets & UpdateScreen & LoadStorageBankPresets;
 export type StoragePastePageAllProps = StoragePastePageProps & StoragePastePageStateProps & StoragePastePageActions;
+
+const Styles = {
+    MainColumn: { padding: "8px" }
+};
 
 export class StoragePastePage extends React.Component<StoragePastePageAllProps, StoragePastePageState> {
     private selection: SelectedView<Preset>;
@@ -68,57 +73,35 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                         Paste
                     </Button>
                 </ApplicationToolbar>
-                <div style={{padding: 12}}>
-                    <Grid container={true} spacing={8}>
-                        <Grid item={true} xs={4}>
-                            <Typography variant="body2">Clipboard</Typography>
-                            <FormControlLabel
-                                control={<Checkbox 
-                                    checked={this.state.removeSelected} 
-                                    onChange={this.onRemoveSelectedChange}
-                                />}
-                                label="Remove after Paste"
-                            />
-                            <List id="ClipboardList">
-                                {this.props.clipboard.map((preset: Preset, index: number) => {
-                                    return (
-                                        <SourcePresetListItem
-                                            key={index} 
-                                            preset={preset} 
-                                            changePresets={this.props.changePresets}
-                                        />
-                                    );
-                                })}
-                            </List>
-                        </Grid>
-                        <Grid item={true} xs={4}>
-                            <Typography variant="body2">Storage Bank</Typography>
-                            <Select value={this.state.targetBank} onChange={this.onBankChange}>
-                                {this.props.banks.map((bank: StorageBank, index: number) => {
-                                    return (
-                                        <MenuItem key={index} value={bank.name}>
-                                            <Typography>{bank.name}</Typography>
-                                        </MenuItem>
-                                    );
-                                })}
-                            </Select>
-                        </Grid>
-                        <Grid item={true} xs={4}>
-                            <Typography variant="body2">Pasted Preview</Typography>
-                            <List id="DeviceList">
-                                {this.pastedPresets().map((preset: Preset, index: number) => {
-                                    return (
-                                        <PreviewListItem
-                                            key={index} 
-                                            preset={preset}
-                                            match={false}
-                                        />
-                                    );
-                                })}
-                            </List>
-                        </Grid>
+                <Grid container={true} style={{ width: "100%", flexGrow: 1, overflow: "hidden" }}>
+                    <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
+                        <Typography variant="body2">Clipboard</Typography>
+                        <FormControlLabel
+                            control={<Checkbox
+                                checked={this.state.removeSelected}
+                                onChange={this.onRemoveSelectedChange}
+                            />}
+                            label="Remove after Paste"
+                        />
+                        <SourcePresetList items={this.props.clipboard} changePresets={this.props.changePresets} />
                     </Grid>
-                </div>
+                    <Grid item={true} xs={4} style={Styles.MainColumn}>
+                        <Typography variant="body2">Storage Bank</Typography>
+                        <Select value={this.state.targetBank} onChange={this.onBankChange}>
+                            {this.props.banks.map((bank: StorageBank, index: number) => {
+                                return (
+                                    <MenuItem key={index} value={bank.name}>
+                                        <Typography>{bank.name}</Typography>
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                    </Grid>
+                    <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
+                        <Typography variant="body2">Pasted Preview</Typography>
+                        <PreviewList items={this.pastedPresets()} />
+                    </Grid>
+                </Grid>
             </Dialog>
         );
     }
@@ -128,13 +111,13 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
     }
 
     private onRemoveSelectedChange() {
-        this.setState({removeSelected: !this.state.removeSelected});
+        this.setState({ removeSelected: !this.state.removeSelected });
     }
 
     private onBankChange(event: React.ChangeEvent<HTMLSelectElement>) {
         const name = event.target.value;
-        this.setState({targetBank: name});
-        
+        this.setState({ targetBank: name });
+
         const bank = this.props.banks.find(b => b.name === name);
         if (bankNeedsLoading(bank)) {
             this.props.loadStorageBankPresets(name);
@@ -144,18 +127,20 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
     private pastedPresets(): Preset[] {
         if (this.state.targetBank.length === 0) { return []; }
 
-        const bankPreset = 
+        const bankPreset =
             storagePresetsForBank(this.props.presets, this.state.targetBank)
-            .sort((p1, p2) => p1.index - p2.index);
+                .sort((p1, p2) => p1.index - p2.index);
 
         const index = bankPreset.length ? bankPreset[bankPreset.length - 1].index + 1 : 0;
         return this.selection.selected.map(
-            (cp, i) => { return {
-                ...cp, 
-                index: index + i, 
-                group: { name: this.state.targetBank, originName: cp.group ? cp.group.originName : "" }, 
-                ui: { ...cp.ui, selected: false }
-            }; }
+            (cp, i) => {
+                return {
+                    ...cp,
+                    index: index + i,
+                    group: { name: this.state.targetBank, originName: cp.group ? cp.group.originName : "" },
+                    ui: { ...cp.ui, selected: false }
+                };
+            }
         );
     }
 
@@ -170,15 +155,15 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
 }
 
 const extractComponentPropsFromState: MapStateToProps<
-        StoragePastePageStateProps, StoragePastePageProps, ApplicationDocument
+    StoragePastePageStateProps, StoragePastePageProps, ApplicationDocument
     > = (state: ApplicationDocument, _: StoragePastePageProps): StoragePastePageStateProps => {
-        return  { 
-            banks: state.banks || [], 
-            presets: state.storage, 
-            clipboard: state.clipboard, 
-            open: state.screen.pasteOpen 
+        return {
+            banks: state.banks || [],
+            presets: state.storage,
+            clipboard: state.clipboard,
+            open: state.screen.pasteOpen
         };
-};
+    };
 
 const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, StoragePastePageProps> =
     (dispatch: Dispatch, _: StoragePastePageProps): StoragePastePageActions => {
@@ -194,10 +179,10 @@ const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, St
             },
             loadStorageBankPresets: (bank: string): void => {
                 dispatchLoadStorageBankPresetsAction(dispatch, bank)
-                .then(__ => { /**/ })
-                .catch(e => { throw e; });
+                    .then(__ => { /**/ })
+                    .catch(e => { throw e; });
             }
         };
-};
+    };
 
 export default connect(extractComponentPropsFromState, createActionObject)(StoragePastePage);
