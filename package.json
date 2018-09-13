@@ -1,13 +1,13 @@
 {
   "name": "pedalpro-studio",
   "description": "PedalPro Studio",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": {
     "email": "obiwanjacobi@hotmail.com",
     "name": "Jacobi Software",
     "url": "https://www.vintage-revolution.com"
   },
-  "main": "./app/program.js",
+  "main": "./app/Startup.js",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.0.0",
