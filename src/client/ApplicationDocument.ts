@@ -4,6 +4,7 @@ import { Notification } from "./notification/Notification";
 import { ScreenState } from "./screen/ScreenState";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { StorageBank } from "./storage/StorageBank";
+import { EffectState } from "./effect/EffectState";
 
 export enum PresetCollectionType {
     device = "device",
@@ -20,6 +21,7 @@ export interface ApplicationDocument {
     banks?: StorageBank[];
     factory: Preset[];
     clipboard: Preset[];
+    effects?: EffectState;
     screen: ScreenState;
     notifications: Notification[];
 }

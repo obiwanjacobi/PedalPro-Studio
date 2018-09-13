@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { PresetListItem } from "./PresetListItem";
 import { Preset } from "./Preset";
+import { EditEffects } from "../effect/EditEffectsAction";
 import { ChangePresets } from "./ChangePresetsAction";
 import { EditPreset } from "./EditPresetAction";
 import { MovePresets, CanMoveDown } from "./MovePresetsAction";
@@ -12,7 +13,8 @@ export interface PresetListProps extends VirtualListProps<Preset> {
     empty: React.ReactNode;
 }
 export type PresetListActions = 
-    ChangePresets & Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
+    ChangePresets & EditEffects &
+    Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
 export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
@@ -31,6 +33,7 @@ export class PresetList extends VirtualList<Preset, PresetListAllProps, PresetLi
         return (
             <PresetListItem
                 preset={preset}
+                editEffects={this.props.editEffects}
                 changePresets={this.props.changePresets}
                 editPreset={this.props.editPreset}
                 movePresets={this.props.movePresets}

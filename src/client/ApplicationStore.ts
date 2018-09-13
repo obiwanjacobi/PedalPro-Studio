@@ -6,6 +6,7 @@ import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import * as DeviceStateReducer from "./device/DeviceStateReducer";
 import * as PresetStateReducer from "./preset/PresetStateReducer";
 import * as StorageStateReducer from "./storage/StorageStateReducer";
+import * as EffectStateReducer from "./effect/EffectStateReducer";
 import * as ScreenStateReducer from "./screen/ScreenStateReducer";
 import * as NotificationReducer from "./notification/NotificationStateReduces";
 import * as FaultStateReducer from "./FaultStateReducer";
@@ -30,6 +31,9 @@ export class ApplicationStore {
         
         if (actionType.indexOf("storage") > 0) {
             return StorageStateReducer.reduce(state, <StorageStateReducer.StorageAction> action);
+        }
+        if (actionType.indexOf("effects") > 0) {
+            return EffectStateReducer.reduce(state, <EffectStateReducer.EffectAction> action);
         }
         if (actionType.indexOf("presets") > 0) {
             return PresetStateReducer.reduce(state, <PresetStateReducer.PresetAction> action);

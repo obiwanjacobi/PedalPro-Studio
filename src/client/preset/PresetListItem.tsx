@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Collapse, Grid, Paper, Checkbox, IconButton, Typography } from "@material-ui/core";
-import { ExpandMore, ExpandLess } from "@material-ui/icons";
+import { ExpandMore, ExpandLess, Edit } from "@material-ui/icons";
 
 import { PresetChangedFlag } from "./PresetChangedFlag";
 import { PresetListItemDetail } from "./PresetListItemDetail";
 import { Preset } from "./Preset";
+import { EditEffects } from "../effect/EditEffectsAction";
 import { ChangePresets } from "./ChangePresetsAction";
 import { EditPreset } from "./EditPresetAction";
 import { MovePresets, CanMoveDown } from "./MovePresetsAction";
@@ -16,7 +17,8 @@ export interface PresetListItemProps {
     preset: Preset;
 }
 export type PresetListItemActions = 
-    ChangePresets & Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
+    ChangePresets & EditEffects &
+    Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
 export interface PresetListItemState { }
 
 export type PresetListItemAllProps = PresetListItemProps & PresetListItemActions;
@@ -31,6 +33,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
         this.movePresets = this.movePresets.bind(this);
         this.deletePresets = this.deletePresets.bind(this);
         this.canMoveDown = this.canMoveDown.bind(this);
+        this.openEffect = this.openEffect.bind(this);
     }
 
     public shouldComponentUpdate(nextProps: PresetListItemAllProps, _: PresetListItemState): boolean {
@@ -48,12 +51,17 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                             icon={this.formatIndex()}
                         />
                     </Grid>
-                    <Grid xs={7} item={true}>
+                    <Grid xs={6} item={true}>
                         <Typography variant="subheading">
                             {this.props.preset.name}
                         </Typography>
                         {this.props.preset.group && 
                             <Typography variant="caption">{this.props.preset.group.name}</Typography>}
+                    </Grid>
+                    <Grid xs={1} item={true}>
+                        <IconButton onClick={this.openEffect} >
+                            <Edit />
+                        </IconButton>
                     </Grid>
                     <Grid xs={1} item={true}>
                         <PresetChangedFlag preset={this.props.preset} />
@@ -122,5 +130,9 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
         if (this.props.deletePresets) {
             this.props.deletePresets(source, presets);
         }
+    }
+
+    private openEffect() {
+        this.props.editEffects(this.props.preset);
     }
 }

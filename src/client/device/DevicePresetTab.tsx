@@ -19,6 +19,7 @@ import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsActio
 import { SavePresets, dispatchSavePresetsAction } from "../preset/SavePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../preset/DeletePresetsAction";
+import { EditEffects, createEditEffectsAction } from "../effect/EditEffectsAction";
 import { ScreenState } from "../screen/ScreenState";
 import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";
@@ -35,7 +36,8 @@ export interface DevicePresetTabStateProps {
     pasteOpen: boolean;
 }
 export type DevicePresetTabActions = 
-    ChangePresets & LoadPresets & SavePresets & CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
+    ChangePresets & EditEffects &
+    LoadPresets & SavePresets & CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
 export type DevicePresetTabAllProps = 
     DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
 export interface DevicePresetTabState {}
@@ -84,6 +86,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     filterEmpty={true}
                     filterFlagged={true}
                     presets={this.props.presets}
+                    editEffects={this.props.editEffects}
                     changePresets={this.actions.changePresets}
                     editPreset={this.actions.editPreset}
                     movePresets={this.actions.movePresets}
@@ -211,6 +214,9 @@ const createActionObject: ActionDispatchFunc =
             },
             updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
+            },
+            editEffects: (preset: Preset): void => {
+                dispatch(createEditEffectsAction(preset));
             }
         };
 };

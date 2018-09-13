@@ -9,6 +9,7 @@ import {
 
 import { PresetList } from "./PresetList";
 import { Preset } from "./Preset";
+import { EditEffects } from "../effect/EditEffectsAction";
 import { ChangePresets } from "./ChangePresetsAction";
 import { EditPreset } from "./EditPresetAction";
 import { MovePresets, CanMoveDown } from "./MovePresetsAction";
@@ -36,7 +37,7 @@ export interface PresetViewState {
 }
 
 export type PresetViewAllProps = 
-    PresetViewStateProps & ChangePresets & 
+    PresetViewStateProps & ChangePresets & EditEffects &
     Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
 
 export class PresetView extends React.PureComponent<PresetViewAllProps, PresetViewState> {
@@ -96,6 +97,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
                 </div>
                 <PresetList
                     items={this.filteredPresets()}
+                    editEffects={this.props.editEffects}
                     changePresets={this.props.changePresets}
                     editPreset={this.props.editPreset}
                     movePresets={this.props.movePresets}

@@ -13,6 +13,7 @@ import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsActio
 import { EditPreset, createEditPresetAction } from "../preset/EditPresetAction";
 import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
+import { EditEffects, createEditEffectsAction } from "../effect/EditEffectsAction";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";
@@ -42,7 +43,8 @@ export interface StoragePresetTabStoreProps {
     pasteOpen: boolean;
 }
 export interface StoragePresetTabState {}
-export type StoragePresetTabActions = 
+export type StoragePresetTabActions =
+    EditEffects &
     ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank &
     LoadStorageBanks & LoadStorageBankPresets & SaveStoragePresets & 
     CopyPresets & EditPreset & MovePresets & UpdateScreen & DeleteStoragePresets;
@@ -122,6 +124,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         filterEmpty={false}
                         filterFlagged={true}
                         presets={this.bankPresets}
+                        editEffects={this.props.editEffects}
                         changePresets={this.actions.changePresets}
                         editPreset={this.actions.editPreset}
                         movePresets={this.actions.movePresets}
@@ -281,6 +284,9 @@ const createActionObject: ActionDispatchFunc =
             },
             updateScreen: (state: Partial<ScreenState>): void => {
                 dispatch(createUpdateScreenAction(state));
+            },
+            editEffects: (preset: Preset): void => {
+                dispatch(createEditEffectsAction(preset));
             }
         };
 };

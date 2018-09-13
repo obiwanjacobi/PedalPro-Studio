@@ -11,7 +11,7 @@ import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocumen
 import { LoadPresets, dispatchLoadPresetsAction } from "../preset/LoadPresetsAction";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
-
+import { EditEffects, createEditEffectsAction } from "../effect/EditEffectsAction";
 import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";
 
@@ -19,7 +19,7 @@ export interface FactoryPresetTabProps { }
 export interface FactoryPresetTabStateProps { 
     presets: Preset[];
 }
-export type FactoryPresetTabActions = ChangePresets & LoadPresets & CopyPresets;
+export type FactoryPresetTabActions = EditEffects & ChangePresets & LoadPresets & CopyPresets;
 export type FactoryPresetTabAllProps = 
     FactoryPresetTabProps & FactoryPresetTabStateProps & FactoryPresetTabActions;
 
@@ -49,6 +49,7 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
                     filterFlagged={false}
                     filterEmpty={false}
                     changePresets={this.actions.changePresets}
+                    editEffects={this.props.editEffects}
                     empty={<Typography>
                         No factory presets were found.
                     </Typography>}
@@ -106,6 +107,9 @@ const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, Fa
             },
             copyPresets: (presets: Preset[]): void => {
                 dispatch(createCopyPresetsAction(presets));
+            },
+            editEffects: (preset: Preset): void => {
+                dispatch(createEditEffectsAction(preset));
             }
         };
 };
