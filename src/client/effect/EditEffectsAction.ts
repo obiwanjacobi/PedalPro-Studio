@@ -6,11 +6,11 @@ export enum EditEffectsActionKey {
 
 export interface EditEffectsAction {
     readonly type: EditEffectsActionKey.type;
-    readonly preset: Preset;
+    readonly preset?: Preset;
 }
 
 export const createEditEffectsAction = 
-    (preset: Preset): EditEffectsAction => {
+    (preset?: Preset): EditEffectsAction => {
     return { 
         type: EditEffectsActionKey.type, 
         preset: preset, 
@@ -18,5 +18,5 @@ export const createEditEffectsAction =
 };
 
 export interface EditEffects {
-    editEffects(preset: Preset): void;
+    editEffects(preset?: Preset): void;
 }

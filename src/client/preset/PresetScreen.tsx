@@ -6,6 +6,7 @@ import ProgressBar from "../screen/ProgressBar";
 import StoragePresetTab from "../storage/StoragePresetTab";
 import DevicePresetTab from "../device/DevicePresetTab";
 import FactoryPresetTab from "../factory/FactoryPresetTab";
+import EffectsPage from "../effect/EffectsPage";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {
@@ -50,6 +51,7 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
                         </Grid> */}
                     </Grid>
                 </AppBar>
+                <EffectsPage />
                 <UserNotification />
                 <ProgressBar />
             </div>

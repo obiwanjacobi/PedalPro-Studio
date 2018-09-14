@@ -4,7 +4,7 @@ import { Notification } from "./notification/Notification";
 import { ScreenState } from "./screen/ScreenState";
 import { DeviceIdentity } from "../model/DeviceIdentity";
 import { StorageBank } from "./storage/StorageBank";
-import { EffectState } from "./effect/EffectState";
+import { EffectState } from "./effect/EffectsState";
 
 export enum PresetCollectionType {
     device = "device",
