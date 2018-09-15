@@ -9,7 +9,7 @@ import {
 
 import { PresetList } from "./PresetList";
 import { Preset } from "./Preset";
-import { EditEffects } from "../effect/EditEffectsAction";
+import { EditEffects } from "../effects/EditEffectsAction";
 import { ChangePresets } from "./ChangePresetsAction";
 import { EditPreset } from "./EditPresetAction";
 import { MovePresets, CanMoveDown } from "./MovePresetsAction";

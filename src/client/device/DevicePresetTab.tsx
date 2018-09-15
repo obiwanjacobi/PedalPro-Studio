@@ -19,7 +19,7 @@ import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsActio
 import { SavePresets, dispatchSavePresetsAction } from "../preset/SavePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
 import { DeletePresets, createDeletePresetsAction } from "../preset/DeletePresetsAction";
-import { EditEffects, createEditEffectsAction } from "../effect/EditEffectsAction";
+import { EditEffects, createEditEffectsAction } from "../effects/EditEffectsAction";
 import { ScreenState } from "../screen/ScreenState";
 import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";

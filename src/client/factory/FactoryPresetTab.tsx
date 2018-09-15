@@ -11,7 +11,7 @@ import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocumen
 import { LoadPresets, dispatchLoadPresetsAction } from "../preset/LoadPresetsAction";
 import { ChangePresets, createChangePresetsAction } from "../preset/ChangePresetsAction";
 import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsAction";
-import { EditEffects, createEditEffectsAction } from "../effect/EditEffectsAction";
+import { EditEffects, createEditEffectsAction } from "../effects/EditEffectsAction";
 import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";
 

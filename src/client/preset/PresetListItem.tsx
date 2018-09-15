@@ -5,7 +5,7 @@ import { ExpandMore, ExpandLess, Edit } from "@material-ui/icons";
 import { PresetChangedFlag } from "./PresetChangedFlag";
 import { PresetListItemDetail } from "./PresetListItemDetail";
 import { Preset } from "./Preset";
-import { EditEffects } from "../effect/EditEffectsAction";
+import { EditEffects } from "../effects/EditEffectsAction";
 import { ChangePresets } from "./ChangePresetsAction";
 import { EditPreset } from "./EditPresetAction";
 import { MovePresets, CanMoveDown } from "./MovePresetsAction";

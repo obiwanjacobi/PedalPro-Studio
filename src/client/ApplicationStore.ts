@@ -6,7 +6,7 @@ import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import * as DeviceStateReducer from "./device/DeviceStateReducer";
 import * as PresetStateReducer from "./preset/PresetStateReducer";
 import * as StorageStateReducer from "./storage/StorageStateReducer";
-import * as EffectStateReducer from "./effect/EffectsStateReducer";
+import * as EffectStateReducer from "./effects/EffectsStateReducer";
 import * as ScreenStateReducer from "./screen/ScreenStateReducer";
 import * as NotificationReducer from "./notification/NotificationStateReduces";
 import * as FaultStateReducer from "./FaultStateReducer";

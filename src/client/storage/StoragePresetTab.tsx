@@ -13,7 +13,7 @@ import { CopyPresets, createCopyPresetsAction } from "../preset/CopyPresetsActio
 import { EditPreset, createEditPresetAction } from "../preset/EditPresetAction";
 import { MovePresets, createMovePresetsAction } from "../preset/MovePresetsAction";
 import { UpdateScreen, createUpdateScreenAction } from "../screen/UpdateScreenAction";
-import { EditEffects, createEditEffectsAction } from "../effect/EditEffectsAction";
+import { EditEffects, createEditEffectsAction } from "../effects/EditEffectsAction";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { SelectedView } from "../controls/SelectedView";
 import { ChangedView } from "../controls/ChangedView";

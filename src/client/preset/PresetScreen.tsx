@@ -6,7 +6,7 @@ import ProgressBar from "../screen/ProgressBar";
 import StoragePresetTab from "../storage/StoragePresetTab";
 import DevicePresetTab from "../device/DevicePresetTab";
 import FactoryPresetTab from "../factory/FactoryPresetTab";
-import EffectsPage from "../effect/EffectsPage";
+import EffectsPage from "../effects/EffectsPage";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {

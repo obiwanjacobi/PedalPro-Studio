@@ -11,6 +11,7 @@ import { Title } from "../controls/Title";
 import { Preset } from "../preset/Preset";
 import { Effects, EffectsEx } from "../../model/Effects";
 import { EditEffects, createEditEffectsAction } from "./EditEffectsAction";
+import { EffectsExView } from "./EffectsExView";
 
 type EffectsPageProps = {};
 type EffectsPageStoreProps = {
@@ -41,6 +42,8 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                         Save
                     </Button>
                 </ApplicationToolbar>
+                {this.props.effectsEx &&
+                    <EffectsExView effectsEx={this.props.effectsEx} />}
             </Dialog>
         );
     }
