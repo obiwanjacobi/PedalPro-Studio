@@ -26,5 +26,5 @@ export interface Preset {
     /**
      * Effects of the preset
      */
-    effects?: Effects | EffectsEx;
+    effects: Effects | EffectsEx;
 }

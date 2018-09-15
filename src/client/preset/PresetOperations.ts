@@ -1,9 +1,9 @@
 import * as lodash from "lodash";
 
 import { numberToString } from "../../StringExtensions";
-import * as ModelPreset from "../../model/Preset";
+import { Preset as ModelPreset } from "../../model/Preset";
 import { PresetTraits } from "../../model/PresetTraits";
-import { Effects, EffectsEx } from "../../model/Effects";
+// import { Effects, EffectsEx } from "../../model/Effects";
 import { PresetMeta } from "../../model/PresetMeta";
 import { Preset } from "./Preset";
 
@@ -15,23 +15,23 @@ function metaEqual(meta1: PresetMeta, meta2: PresetMeta): boolean {
     return lodash.isEqual(meta1, meta2);
 }
 
-function isEffectsEx(effects: Effects | EffectsEx): boolean {
-    const ex = effects as EffectsEx;
-    if (ex.pre && ex.dsp) { return true; }
-    return false;
-}
+// function isEffectsEx(effects: Effects | EffectsEx): boolean {
+//     const ex = effects as EffectsEx;
+//     if (ex.pre && ex.dsp) { return true; }
+//     return false;
+// }
 
-function effectsEqual(
-    effects1: Effects | EffectsEx | undefined, 
-    effects2: Effects | EffectsEx | undefined): boolean {
+// function effectsEqual(
+//     effects1: Effects | EffectsEx | undefined, 
+//     effects2: Effects | EffectsEx | undefined): boolean {
 
-    if (!effects1 || !effects2) { return effects1 === effects2; }
+//     if (!effects1 || !effects2) { return effects1 === effects2; }
 
-    if (isEffectsEx(effects1) === isEffectsEx(effects2)) {
-        return lodash.isEqual(effects1, effects2);
-    }
-    return false;
-}
+//     if (isEffectsEx(effects1) === isEffectsEx(effects2)) {
+//         return lodash.isEqual(effects1, effects2);
+//     }
+//     return false;
+// }
 
 function presetGroupAreEqual(preset1: Preset, preset2: Preset): boolean {
     if (preset1.group && preset2.group) {
@@ -47,21 +47,21 @@ function presetGroupHasChanged(preset: Preset): boolean {
     return false;
 }
 
-export function formatPresetIndex(preset: ModelPreset.Preset): string {
+export function formatPresetIndex(preset: ModelPreset): string {
     const value = preset.index;
     if (value < 0) { return "---"; }
     // formats 3 digits with leading zeros
     return numberToString(value, 3);
 }
 
-export function formatPresetFullName(preset: ModelPreset.Preset): string {
+export function formatPresetFullName(preset: ModelPreset): string {
     const value = preset.index;
     if (value < 0) { return preset.name; }
     // formats 3 digits with leading zeros
     return `${numberToString(preset.index, 3)} - ${preset.name}`;
 }
 
-export function presetsExceptIndexAreEqual(preset1: ModelPreset.Preset, preset2: ModelPreset.Preset): boolean {
+export function presetsExceptIndexAreEqual(preset1: ModelPreset, preset2: ModelPreset): boolean {
     return lodash.isEqual(preset1.name, preset2.name) &&
            metaEqual(preset1.meta, preset2.meta) &&
            traitsEqual(preset1.traits, preset2.traits)

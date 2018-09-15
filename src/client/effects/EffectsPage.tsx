@@ -59,11 +59,11 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
 type ExtractStatePropFunc = MapStateToProps<EffectsPageStoreProps, EffectsPageProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: EffectsPageProps): EffectsPageStoreProps => {
-        if (state.effects) {
+        if (state.editEffects) {
             return  { 
-                preset: state.effects.preset,
-                effects: state.effects.preset.effects as Effects,
-                effectsEx: state.effects.preset.effects as EffectsEx,
+                preset: state.editEffects.preset,
+                effects: state.editEffects.effects as Effects,
+                effectsEx: state.editEffects.effects as EffectsEx,
             };
         }
         return {};

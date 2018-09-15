@@ -21,7 +21,7 @@ export interface ApplicationDocument {
     banks?: StorageBank[];
     factory: Preset[];
     clipboard: Preset[];
-    effects?: EffectState;
+    editEffects?: EffectState;
     screen: ScreenState;
     notifications: Notification[];
 }
