@@ -10,7 +10,7 @@ import { CommonPresetBufferFieldIndex } from "./CommonPresetBufferFieldIndex";
 import { Convert } from "./Convert";
 import { Modulation, Harmonics } from "../../model/Modulation";
 import { Delay } from "../../model/Delay";
-import { Aux } from "../../model/SendReturn";
+import { Aux } from "../../model/AuxRouting";
 import { VoltageControlledAmp } from "../../model/VoltageControlledAmp";
 import { TapTempo } from "../../model/TapTempo";
 import { Midi } from "../../model/Midi";

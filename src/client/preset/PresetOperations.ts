@@ -64,8 +64,9 @@ export function formatPresetFullName(preset: ModelPreset.Preset): string {
 export function presetsExceptIndexAreEqual(preset1: ModelPreset.Preset, preset2: ModelPreset.Preset): boolean {
     return lodash.isEqual(preset1.name, preset2.name) &&
            metaEqual(preset1.meta, preset2.meta) &&
-           traitsEqual(preset1.traits, preset2.traits) &&
-           effectsEqual(preset1.effects, preset2.effects);
+           traitsEqual(preset1.traits, preset2.traits)
+           // && effectsEqual(preset1.effects, preset2.effects)
+           ;
 }
 
 export function onlyIndexHasChanged(preset: Preset): boolean {

@@ -9,7 +9,7 @@ import { ApplicationDocument } from "../ApplicationDocument";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { Title } from "../controls/Title";
 import { Preset } from "../preset/Preset";
-import { Effects, EffectsEx } from "../../model/Effects";
+import { Effects, EffectsEx } from "./Effects";
 import { EditEffects, createEditEffectsAction } from "./EditEffectsAction";
 import { EffectsExView } from "./EffectsExView";
 

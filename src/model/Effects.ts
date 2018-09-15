@@ -7,7 +7,7 @@ import { Filters } from "./Filters";
 import { Volume } from "./Volume";
 import { Modulation } from "./Modulation";
 import { Delay } from "./Delay";
-import { Aux } from "./SendReturn";
+import { Aux } from "./AuxRouting";
 import { PreAmp } from "./PreAmp";
 import { Dsp } from "./Dsp";
 import { Phaser } from "./Phaser";

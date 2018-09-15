@@ -3,7 +3,7 @@ import {
     Grid
 } from "@material-ui/core";
 
-import { EffectsEx } from "../../model/Effects";
+import { EffectsEx } from "./Effects";
 import { EffectsExList } from "./EffectsExList";
 
 type EffectsExViewProps = {

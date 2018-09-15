@@ -6,7 +6,7 @@ import { NoiseGate } from "../../model/NoiseGate";
 import { Filters } from "../../model/Filters";
 import { Modulation } from "../../model/Modulation";
 import { Delay, DelayRange } from "../../model/Delay";
-import { Aux } from "../../model/SendReturn";
+import { Aux } from "../../model/AuxRouting";
 import { Volume } from "../../model/Volume";
 import { Convert } from "./Convert";
 

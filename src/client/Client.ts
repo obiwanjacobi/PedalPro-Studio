@@ -1,14 +1,15 @@
 import * as TypedRestClient from "typed-rest-client/RestClient";
 
+import { distinct } from "../ArrayExtensions";
 import { PresetCollectionType } from "./ApplicationDocument";
 import { Preset } from "./preset/Preset";
-import * as ModelPreset from "../model/Preset";
-import * as Storage from "../model/Storage";
 import { PresetResponse, DeviceResponse, BankResponse, ResponseMessage } from "../model/Messages";
 import { DeviceIdentity } from "../model/DeviceIdentity";
+import * as ModelPreset from "../model/Preset";
+import * as Storage from "../model/Storage";
 import { StorageBank } from "./storage/StorageBank";
-import { distinct } from "../ArrayExtensions";
 import { storagePresetsForBank } from "./storage/BankOperations";
+import { extendPreset } from "./PresetExtender";
 
 export class PresetsClient {
     public readonly collection: PresetCollectionType;
@@ -124,28 +125,21 @@ export class PresetsClient {
     }
 
     private extendPreset(preset: ModelPreset.Preset): Preset {
-        const clientPreset: Preset = {
-            ...preset, 
-            origin: preset,
-            source: this.collection,
-            ui: { expanded: false, selected: false, markedDeleted: false }
-        };
-        return clientPreset;
+        return extendPreset(preset, this.collection);
     }
 
     private unextendPreset(clientPreset: Preset): ModelPreset.Preset {
-        const preset: ModelPreset.Preset = {
+        return {
             name: clientPreset.name,
             index: clientPreset.index,
             traits: clientPreset.traits,
             effects: clientPreset.effects,
             meta: clientPreset.meta
         };
-        return preset;
     }
 
     private extendBank(bank: Storage.Bank): StorageBank {
-        const clientBank: StorageBank = {
+        return {
             name: bank.name, 
             loaded: false,
             created: true,
@@ -153,7 +147,6 @@ export class PresetsClient {
             origin: bank,
             ui: { expanded: false, selected: false, markedDeleted: false }
         };
-        return clientBank;
     }
 
     private extractBankNames(presets: Preset[]): string[] {

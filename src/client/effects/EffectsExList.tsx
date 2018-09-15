@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { EffectsEx } from "../../model/Effects";
+import { EffectsEx } from "./Effects";
 import { CompressorListItem } from "./compressor/CompressorListItem";
 
 type EffectsExListProps = {

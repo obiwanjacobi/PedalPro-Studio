@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Compressor } from "../../../model/Compressor";
 import { Typography } from "@material-ui/core";
+
+import { Compressor } from "./Compressor";
 
 type CompressorListItemProps = {
     compressor: Compressor;
