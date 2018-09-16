@@ -4,7 +4,7 @@ import {
 } from "@material-ui/core";
 
 import { EffectsEx } from "./Effects";
-import { EffectsExList } from "./EffectsExList";
+import EffectsExList from "./EffectsExList";
 
 type EffectsExViewProps = {
     effectsEx: EffectsEx;

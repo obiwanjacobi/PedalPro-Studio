@@ -9,8 +9,7 @@ export interface EditEffectsAction {
     readonly preset?: Preset;
 }
 
-export const createEditEffectsAction = 
-    (preset?: Preset): EditEffectsAction => {
+export function createEditEffectsAction(preset?: Preset): EditEffectsAction {
     return { 
         type: EditEffectsActionKey.type, 
         preset: preset, 
