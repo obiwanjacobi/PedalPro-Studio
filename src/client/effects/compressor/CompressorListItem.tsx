@@ -23,9 +23,9 @@ export class CompressorListItem extends React.Component<CompressorListItemAllPro
             <EffectsItemCard
                 enabled={this.props.compressor.enabled}
                 title="Compressor"
-                avatar="C"
+                avatar="Com"
                 onEnabled={this.toggleEnabled}
-                settingsSummary={
+                content={
                     <Typography color="textSecondary">Setting-summary here...</Typography>
                 }
             />

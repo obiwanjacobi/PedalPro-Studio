@@ -5,6 +5,7 @@ import {
 
 import { EffectsEx } from "./Effects";
 import EffectsExList from "./EffectsExList";
+import EffectsExSettings from "./EffectsExSettings";
 
 type EffectsExViewProps = {
     effectsEx: EffectsEx;
@@ -16,11 +17,11 @@ export class EffectsExView extends React.Component<EffectsExViewAllProps, Effect
     public render() {
         return (
             <Grid container={true}>
-                <Grid item={true} xs={4}>
+                <Grid item={true} container={true} direction="column" xs={4}>
                     <EffectsExList effectsEx={this.props.effectsEx} />
                 </Grid>
-                <Grid item={true} xs={8}>
-                    Effects specific settings here...
+                <Grid item={true} container={true} xs={8}>
+                    <EffectsExSettings />
                 </Grid>
             </Grid>
         );

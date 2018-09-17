@@ -5,7 +5,7 @@ type EffectsItemCardProps = {
     enabled: boolean;
     title: string;
     avatar: string;
-    settingsSummary: React.ReactNode;
+    content: React.ReactNode;
 };
 type EffectsItemCardEvents = {
     onEnabled: () => void;
@@ -35,7 +35,7 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
                     title={this.props.title}
                 />
                 <CardContent>
-                    {this.props.settingsSummary}
+                    {this.props.content}
                 </CardContent>
             </Card>
         );

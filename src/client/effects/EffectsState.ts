@@ -1,5 +1,16 @@
 import { Preset } from "../preset/Preset";
-import { Effects, EffectsEx } from "./Effects";
+import { Effects, EffectsEx, EffectNames } from "./Effects";
+
+export type EffectComponentName = {
+    /**
+     * Same name as the Effects(Ex) property names (compressor, boost etc)
+     */
+    effectName: EffectNames;
+    /**
+     * A component name within the effect.
+     */
+    componentName?: string;
+};
 
 export interface EffectState {
     /**
@@ -11,4 +22,6 @@ export interface EffectState {
      * A copy of the preset.effects.
      */
     effects: Effects | EffectsEx;
+
+    selected: EffectComponentName;
 }
