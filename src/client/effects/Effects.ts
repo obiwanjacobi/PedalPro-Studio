@@ -66,3 +66,5 @@ export enum EffectNames {
     Vca = "vca",
     Volume = "volume",
 }
+
+export type EffectsOrEx = Effects | EffectsEx;

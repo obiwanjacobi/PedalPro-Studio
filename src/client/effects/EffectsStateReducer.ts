@@ -1,6 +1,6 @@
 import { ApplicationDocument } from "../ApplicationDocument";
 import { EditEffectsAction, EditEffectsActionKey } from "./EditEffectsAction";
-import { Effects, EffectsEx, EffectNames } from "./Effects";
+import { Effects, EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { ChangeEffectsActionKey, ChangeEffectsAction } from "./ChangeEffectsAction";
 import { mergeEffects, mergeEffectsEx, changeEffectsUI } from "./EffectsOperations";
 import { SelectEffectActionKey, SelectEffectAction } from "./SelectEffectAction";
@@ -8,10 +8,10 @@ import { SelectEffectActionKey, SelectEffectAction } from "./SelectEffectAction"
 function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction): ApplicationDocument {
     if (!!action.preset) {
         // from model to extended
-        const effects = { ...action.preset.effects } as Effects | EffectsEx;
+        const effects = { ...action.preset.effects } as EffectsOrEx;
         return { ...state, editEffects: { 
             preset: action.preset, 
-            effects: effects, 
+            effectsOrEx: effects, 
             selected: { effectName: EffectNames.None } 
         } };
     }
@@ -20,21 +20,21 @@ function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction
 
 function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAction): ApplicationDocument {
     if (state.editEffects &&
-        state.editEffects.effects)
+        state.editEffects.effectsOrEx)
     {
         if (action.effects) {
             return { ...state, editEffects: { 
                 preset: state.editEffects.preset, 
-                effects: mergeEffects(<Effects> state.editEffects.effects, action.effects),
-                selected: { effectName: EffectNames.None }
+                effectsOrEx: mergeEffects(<Effects> state.editEffects.effectsOrEx, action.effects),
+                selected: state.editEffects.selected
             }};
         }
 
         if (action.effectsEx) {
             return { ...state, editEffects: { 
                 preset: state.editEffects.preset, 
-                effects: mergeEffectsEx(<EffectsEx> state.editEffects.effects, action.effectsEx),
-                selected: { effectName: EffectNames.None }
+                effectsOrEx: mergeEffectsEx(<EffectsEx> state.editEffects.effectsOrEx, action.effectsEx),
+                selected: state.editEffects.selected
             }};
         }
     }
@@ -46,7 +46,7 @@ function reduceSelectEffect(state: ApplicationDocument, action: SelectEffectActi
         return { ...state, 
             editEffects: { 
                 preset: state.editEffects.preset,
-                effects: changeEffectsUI(state.editEffects.effects, action.selected, {}),
+                effectsOrEx: changeEffectsUI(state.editEffects.effectsOrEx, action.selected, {}),
                 selected: { effectName: action.selected, componentName: action.component }
             }
         };

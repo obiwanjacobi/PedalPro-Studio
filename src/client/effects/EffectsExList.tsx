@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction /*, MapStateToProps*/ } from "react-redux";
 import { AutoSizer } from "react-virtualized";
 
-import { EffectsEx, Effects, EffectNames } from "./Effects";
+import { EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { CompressorListItem } from "./compressor/CompressorListItem";
 import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
 // import { ApplicationDocument } from "../ApplicationDocument";
@@ -110,7 +110,7 @@ type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsExListActions, Effec
 const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: EffectsExListProps): EffectsExListActions => {
         return {
-            changeEffects: (effects: RecursivePartial<Effects | EffectsEx>): void => {
+            changeEffects: (effects: RecursivePartial<EffectsOrEx>): void => {
                 dispatch(createChangeEffectsAction(effects));
             },
             selectEffect : (effectName: EffectNames, component?: string) => {

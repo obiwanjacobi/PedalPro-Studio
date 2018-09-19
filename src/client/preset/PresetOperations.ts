@@ -15,15 +15,15 @@ function metaEqual(meta1: PresetMeta, meta2: PresetMeta): boolean {
     return lodash.isEqual(meta1, meta2);
 }
 
-// function isEffectsEx(effects: Effects | EffectsEx): boolean {
+// function isEffectsEx(effects: EffectsOrEx): boolean {
 //     const ex = effects as EffectsEx;
 //     if (ex.pre && ex.dsp) { return true; }
 //     return false;
 // }
 
 // function effectsEqual(
-//     effects1: Effects | EffectsEx | undefined, 
-//     effects2: Effects | EffectsEx | undefined): boolean {
+//     effects1: EffectsOrEx | undefined, 
+//     effects2: EffectsOrEx | undefined): boolean {
 
 //     if (!effects1 || !effects2) { return effects1 === effects2; }
 

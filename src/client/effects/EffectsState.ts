@@ -1,5 +1,5 @@
 import { Preset } from "../preset/Preset";
-import { Effects, EffectsEx, EffectNames } from "./Effects";
+import { EffectNames, EffectsOrEx } from "./Effects";
 
 export type EffectComponentName = {
     /**
@@ -21,7 +21,7 @@ export interface EffectState {
     /**
      * A copy of the preset.effects.
      */
-    effects: Effects | EffectsEx;
+    effectsOrEx: EffectsOrEx;
 
     selected: EffectComponentName;
 }

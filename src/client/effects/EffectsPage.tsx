@@ -62,8 +62,8 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
         if (state.editEffects) {
             return  { 
                 preset: state.editEffects.preset,
-                effects: state.editEffects.effects as Effects,
-                effectsEx: state.editEffects.effects as EffectsEx,
+                effects: state.editEffects.effectsOrEx as Effects,
+                effectsEx: state.editEffects.effectsOrEx as EffectsEx,
             };
         }
         return {};

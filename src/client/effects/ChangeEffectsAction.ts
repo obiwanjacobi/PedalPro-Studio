@@ -1,4 +1,4 @@
-import { Effects, EffectsEx } from "./Effects";
+import { Effects, EffectsEx, EffectsOrEx } from "./Effects";
 import { RecursivePartial } from "../../TypeExtensions";
 
 export enum ChangeEffectsActionKey {
@@ -12,7 +12,7 @@ export interface ChangeEffectsAction {
 }
 
 export function createChangeEffectsAction 
-    (effectsOrEx: RecursivePartial<Effects | EffectsEx>): ChangeEffectsAction {
+    (effectsOrEx: RecursivePartial<EffectsOrEx>): ChangeEffectsAction {
         const effects = effectsOrEx as RecursivePartial<Effects>;
         if (effects) {
             return { 
@@ -33,5 +33,5 @@ export function createChangeEffectsAction
 };
 
 export interface ChangeEffects {
-    changeEffects(effects?: RecursivePartial<Effects | EffectsEx>): void;
+    changeEffects(effects?: RecursivePartial<EffectsOrEx>): void;
 }

@@ -1,10 +1,10 @@
-import { Effects, EffectsEx, EffectNames } from "./Effects";
+import { Effects, EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { EffectsBuilder } from "./EffectsBuilder";
 import { EffectsExBuilder } from "./EffectsExBuilder";
 import { RecursivePartial } from "../../TypeExtensions";
 import { ItemUI } from "../ItemUI";
 
-export function changeEffectsUI(effectsOrEx: Effects | EffectsEx, effectName: EffectNames, ui: Partial<ItemUI>): Effects | EffectsEx {
+export function changeEffectsUI(effectsOrEx: EffectsOrEx, effectName: EffectNames, ui: Partial<ItemUI>): EffectsOrEx {
     const effects = effectsOrEx as Effects;
     if (effects) {
         const builder = new EffectsBuilder(effects);
