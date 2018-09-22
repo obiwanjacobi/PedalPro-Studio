@@ -27,7 +27,7 @@ export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, Bo
         );
     }
 
-    private changeBoostGain(_, value: number) {
+    private changeBoostGain(_: React.ChangeEvent<{}>, value: number) {
         this.props.changeEffects({ boost: { gain: BoostGainValues[value] } });
     }
 }

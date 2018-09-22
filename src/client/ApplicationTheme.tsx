@@ -21,6 +21,11 @@ const appTheme = createMuiTheme({
                 top: "0px",
                 right: "0px"
             }
+        },
+        MuiDialog: {
+            root: {
+                background: "#303030"
+            }
         }
     }
 });

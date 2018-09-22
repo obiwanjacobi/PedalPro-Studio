@@ -5,11 +5,13 @@ import { Aux } from "./AuxRouting";
 import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { AuxRouting } from "../../../model/AuxRouting";
+import { EffectNames } from "../Effects";
+import { SelectEffect } from "../SelectEffectAction";
 
 type AuxRoutingListItemProps = {
     aux: Aux;
 };
-type AuxRoutingListItemActions = ChangeEffects;
+type AuxRoutingListItemActions = ChangeEffects & SelectEffect;
 type AuxRoutingListItemAllProps = AuxRoutingListItemProps & AuxRoutingListItemActions;
 type AuxRoutingListItemState = {};
 
@@ -26,6 +28,8 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
                 title="Aux Routing"
                 avatar="Aux"
                 onEnabled={this.toggleEnabled}
+                effectName={{ effectName: EffectNames.AuxRouting }}
+                selectEffect={this.props.selectEffect}
                 content={
                     <Typography color="textSecondary">Setting-summary here...</Typography>
                 }

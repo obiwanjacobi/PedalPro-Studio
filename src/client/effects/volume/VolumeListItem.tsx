@@ -4,11 +4,13 @@ import { Typography } from "@material-ui/core";
 import { Volume } from "./Volume";
 import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
+import { EffectNames } from "../Effects";
+import { SelectEffect } from "../SelectEffectAction";
 
 type VolumeListItemProps = {
     volume: Volume;
 };
-type VolumeListItemActions = ChangeEffects;
+type VolumeListItemActions = ChangeEffects & SelectEffect;
 type VolumeListItemAllProps = VolumeListItemProps & VolumeListItemActions;
 type VolumeListItemState = {};
 
@@ -25,6 +27,8 @@ export class VolumeListItem extends React.Component<VolumeListItemAllProps, Volu
                 title="Volume"
                 avatar="Vol"
                 onEnabled={this.toggleEnabled}
+                effectName={{ effectName: EffectNames.Volume }}
+                selectEffect={this.props.selectEffect}
                 content={
                     <Typography color="textSecondary">Setting-summary here...</Typography>
                 }

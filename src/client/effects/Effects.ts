@@ -49,6 +49,7 @@ export interface EffectsEx extends Model.EffectsEx {
 }
 
 // same as property names on Effects and EffectsEx interfaces
+// same as property names on Effects and EffectsEx interfaces
 export enum EffectNames {
     None = "",
     AuxRouting = "aux",
@@ -61,6 +62,7 @@ export enum EffectNames {
     Midi = "midi",
     Modulation = "modulation",
     NoiseGate = "noiseGate",
+    Phaser = "phaser",
     PreAmp = "pre",
     TapTempo = "tap",
     Vca = "vca",

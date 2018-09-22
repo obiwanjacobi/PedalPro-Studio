@@ -2,14 +2,15 @@ import * as React from "react";
 import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 
 import { ApplicationDocument } from "../ApplicationDocument";
-import { EffectNames, EffectsOrEx } from "./Effects";
+import { EffectNames, EffectsOrEx, EffectsEx } from "./Effects";
 import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
 import { RecursivePartial } from "../../TypeExtensions";
 import { BoostSettings } from "./boost/BoostSettings";
+import { EmphasisSettings } from "./preamp/EmphasisSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
-    effects: EffectsOrEx;
+    effects: EffectsEx;
     effectName: EffectNames;
     componentName?: string;
 };
@@ -25,9 +26,20 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                     <BoostSettings boost={this.props.effects.boost} changeEffects={this.props.changeEffects} />
                 ) : null;
         
+            case EffectNames.PreAmp:
+                return this.props.effects.pre.enabled ? (
+                    this.renderPreAmpSettings()
+                ) : null;
             default:
                 return null;
         }        
+    }
+
+    private renderPreAmpSettings(): React.ReactNode {
+        switch(this.props.componentName) {
+            default:
+                return <EmphasisSettings pre={this.props.effects.pre} changeEffects={this.props.changeEffects} />
+        }
     }
 }
 
@@ -36,7 +48,7 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: EffectsExSettingsProps): EffectsExSettingsStoreProps => {
         if (state.editEffects) {
             return  {
-                effects: state.editEffects.effectsOrEx,
+                effects: state.editEffects.effectsOrEx as EffectsEx,
                 effectName: state.editEffects.selected.effectName,
                 componentName: state.editEffects.selected.componentName
             };

@@ -4,11 +4,13 @@ import { Typography } from "@material-ui/core";
 import { Phaser } from "./Phaser";
 import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
+import { EffectNames } from "../Effects";
+import { SelectEffect } from "../SelectEffectAction";
 
 type PhaserListItemProps = {
     phaser: Phaser;
 };
-type PhaserListItemActions = ChangeEffects;
+type PhaserListItemActions = ChangeEffects & SelectEffect;
 type PhaserListItemAllProps = PhaserListItemProps & PhaserListItemActions;
 type PhaserListItemState = {};
 
@@ -25,6 +27,8 @@ export class PhaserListItem extends React.Component<PhaserListItemAllProps, Phas
                 title="Phaser"
                 avatar="Phr"
                 onEnabled={this.toggleEnabled}
+                effectName={{ effectName: EffectNames.Phaser }}
+                selectEffect={this.props.selectEffect}
                 content={
                     <Typography color="textSecondary">Setting-summary here...</Typography>
                 }

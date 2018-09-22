@@ -56,6 +56,7 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
             <CompressorListItem
                 compressor={this.props.effectsEx.compressor}
                 changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
             />
         );
         components.push(
@@ -69,30 +70,35 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
             <PreAmpListItem
                 pre={this.props.effectsEx.pre}
                 changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <PhaserListItem
                 phaser={this.props.effectsEx.phaser}
                 changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <AuxRoutingListItem
                 aux={this.props.effectsEx.aux}
                 changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <VolumeListItem
                 volume={this.props.effectsEx.volume}
                 changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <NoiseGateListItem
                 noiseGate={this.props.effectsEx.noiseGate}
                 changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
             />
         );
 

@@ -4,11 +4,13 @@ import { Typography } from "@material-ui/core";
 import { Compressor } from "./Compressor";
 import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
+import { SelectEffect } from "../SelectEffectAction";
+import { EffectNames } from "../Effects";
 
 type CompressorListItemProps = {
     compressor: Compressor;
 };
-type CompressorListItemActions = ChangeEffects;
+type CompressorListItemActions = ChangeEffects & SelectEffect;
 type CompressorListItemAllProps = CompressorListItemProps & CompressorListItemActions;
 type CompressorListItemState = {};
 
@@ -25,6 +27,8 @@ export class CompressorListItem extends React.Component<CompressorListItemAllPro
                 title="Compressor"
                 avatar="Com"
                 onEnabled={this.toggleEnabled}
+                effectName={{ effectName: EffectNames.Compressor }}
+                selectEffect={this.props.selectEffect}
                 content={
                     <Typography color="textSecondary">Setting-summary here...</Typography>
                 }

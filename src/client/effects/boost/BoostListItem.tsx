@@ -18,7 +18,7 @@ export class BoostListItem extends React.Component<BoostListItemAllProps, BoostL
     constructor(props: BoostListItemAllProps) {
         super(props);
         this.selectEffect = this.selectEffect.bind(this);
-        this.toggleEnabled = this.toggleEnabled.bind(this);
+        this.onEnabled = this.onEnabled.bind(this);
     }
     
     public render() {
@@ -27,7 +27,9 @@ export class BoostListItem extends React.Component<BoostListItemAllProps, BoostL
                 enabled={this.props.boost.enabled}
                 title="Boost"
                 avatar="Bst"
-                onEnabled={this.toggleEnabled}
+                onEnabled={this.onEnabled}
+                effectName={{ effectName: EffectNames.Boost }}
+                selectEffect={this.props.selectEffect}
                 content={
                     <Button onClick={this.selectEffect}>
                         <Typography color="textSecondary">Click to select</Typography>
@@ -41,8 +43,7 @@ export class BoostListItem extends React.Component<BoostListItemAllProps, BoostL
         this.props.selectEffect(EffectNames.Boost);
     }
 
-    private toggleEnabled() {
-        const partial: Partial<Boost> = { enabled: !this.props.boost.enabled };
-        this.props.changeEffects({ boost: partial });
+    private onEnabled(enabled: boolean) {
+        this.props.changeEffects({ boost: { enabled: enabled } });
     }
 }
