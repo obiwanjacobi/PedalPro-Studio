@@ -1,7 +1,10 @@
 import * as React from "react";
 import { Grid, IconButton, Input, InputAdornment } from "@material-ui/core";
-import { Delete, Save, Undo, ArrowUpward, ArrowDownward } from "@material-ui/icons";
-
+import { Delete, Save, Undo } from "@material-ui/icons";
+import {
+    MenuDownOutline as ArrowDown, 
+    MenuUpOutline as ArrowUp 
+} from "mdi-material-ui";
 import { Preset } from "./Preset";
 import { EditPreset } from "./EditPresetAction";
 import { MovePresets, CanMoveDown } from "./MovePresetsAction";
@@ -52,7 +55,7 @@ export class PresetListItemDetail extends
 
     public render(): React.ReactNode {
         return (
-            <Grid container={true} justify="flex-end">
+            <Grid container={true} justify="flex-end" alignItems="center">
                 <Grid item={true} xs={1}/>
                 <Grid item={true} xs={6}>
                     <Input
@@ -97,19 +100,18 @@ export class PresetListItemDetail extends
                             disabled={!this.canMoveUp}
                             onClick={this.movePresetUp}
                         >
-                            <ArrowUpward style={styles.smallIcon}/>
+                            <ArrowUp style={{marginTop: "-12px"}} />
                         </IconButton>
                         <IconButton 
                             style={styles.smallIcon}
                             disabled={!this.canMoveDown}
                             onClick={this.movePresetDown}
                         >
-                            <ArrowDownward style={styles.smallIcon}/>
+                            <ArrowDown style={{marginTop: "-12px"}} />
                         </IconButton>
                     </div>
                 </Grid>
                 <Grid item={true} xs={1} />
-                <Grid item={true} xs={12} />
             </Grid>         
         );
     }
