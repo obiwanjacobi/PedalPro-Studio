@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Slider } from "@material-ui/lab";
-import { Typography } from "@material-ui/core";
+
 import { Percent } from "../../model/Types";
+import { numberToString } from "../../StringExtensions";
+import { SettingsValueLayout } from "./SettingsValueLayout";
 
 type PercentSliderProps = {
     value: Percent;
@@ -21,17 +23,40 @@ export class PercentSlider extends React.Component<PercentSliderAllProps, Percen
     
     public render() {
         return (
-            <div>
-                <Typography>{this.props.label}</Typography>
-                <Slider 
-                    value={this.props.value} 
-                    min={0}
-                    max={100} 
-                    step={1}
-                    onChange={this.onChange}
-                />
-            </div>
+            <SettingsValueLayout
+                formattedValue={this.formattedValue}
+                unit="%"
+                label={this.props.label}
+                control={
+                    <Slider 
+                        value={this.props.value} 
+                        min={0}
+                        max={100.0} 
+                        step={0.4}
+                        onChange={this.onChange}
+                    />
+                }
+            />
+
+            // <Grid container={true}>
+            //     <Grid item={true} xs={12}>
+            //         <Typography>{this.props.label}</Typography>
+            //     </Grid>
+            //     <Grid item={true} xs={12}>
+            //     </Grid>
+            //     <Grid item={true} xs={10} />
+            //     <Grid item={true} xs={1}>
+            //         <Typography color="secondary">{this.formattedValue}</Typography>
+            //     </Grid>
+            //     <Grid item={true} xs={1}>
+            //         <Typography>%</Typography>
+            //     </Grid>
+            // </Grid>
         );
+    }
+
+    private get formattedValue(): string {
+        return numberToString(this.props.value, 1, 1);
     }
 
     private onChange(_: React.ChangeEvent<{}>, value: number): void {

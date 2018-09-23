@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Slider } from "@material-ui/lab";
-import { Typography } from "@material-ui/core";
 import { AttenuationGainValues, AttenuationGain } from "../../../model/PreAmp";
+import { SettingsValueLayout } from "../SettingsValueLayout";
+import { numberToString } from "../../../StringExtensions";
 
 type AttenuationGainSliderProps = {
     value: AttenuationGain;
-    label: string;
 };
 type AttenuationGainSliderEvents = {
     onChange: (value: AttenuationGain) => void;
@@ -21,16 +21,23 @@ export class AttenuationGainSlider extends React.Component<AttenuationGainSlider
     
     public render() {
         return (
-            <div>
-                <Typography>{this.props.label}</Typography>
-                <Slider 
-                    value={AttenuationGainValues.indexOf(this.props.value)} 
-                    max={AttenuationGainValues.length} 
-                    step={1}
-                    onChange={this.onChange}
-                />
-            </div>
+            <SettingsValueLayout
+                formattedValue={this.formattedValue}
+                label="Emphasis"
+                unit="dB"
+                control={
+                    <Slider 
+                        value={AttenuationGainValues.indexOf(this.props.value)} 
+                        max={AttenuationGainValues.length} 
+                        step={1}
+                        onChange={this.onChange}
+                    />}
+            />
         );
+    }
+
+    private get formattedValue(): string {
+        return numberToString(this.props.value, 1, 1);
     }
 
     private onChange(_: React.ChangeEvent<{}>, value: number): void {

@@ -36,9 +36,14 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
     }
 
     private renderPreAmpSettings(): React.ReactNode {
-        switch(this.props.componentName) {
+        switch (this.props.componentName) {
             default:
-                return <EmphasisSettings pre={this.props.effects.pre} changeEffects={this.props.changeEffects} />
+                return (
+                    <EmphasisSettings 
+                        emphasis={this.props.effects.pre.emphasis} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
         }
     }
 }

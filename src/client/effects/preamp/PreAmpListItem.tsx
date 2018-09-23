@@ -6,7 +6,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
-import { PreAmpRouting, PreAmpRoutingValue } from "../../../model/PreAmp";
+import { PreAmpRoutingValue } from "../../../model/PreAmp";
 
 type PreAmpListItemProps = {
     pre: PreAmp;

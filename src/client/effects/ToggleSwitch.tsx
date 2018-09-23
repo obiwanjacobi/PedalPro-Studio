@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Switch, Typography } from "@material-ui/core";
+import { Switch, Typography, Grid } from "@material-ui/core";
 
 type ToggleSwitchProps = {
     checked: boolean;
     label: string;
+    unit?: string;
 };
 type ToggleSwitchEvents = {
     onChange: (checked: boolean) => void;
@@ -19,10 +20,12 @@ export class ToggleSwitch extends React.Component<ToggleSwitchAllProps, ToggleSw
     
     public render() {
         return (
-            <div>
+            <Grid container={true} direction="row" alignItems="center">
                 <Typography>{this.props.label}</Typography>
                 <Switch checked={this.props.checked} onChange={this.onChange} />
-            </div>
+                {this.props.unit &&
+                    <Typography>{this.props.unit}</Typography>}
+            </Grid>
         );
     }
 

@@ -30,7 +30,7 @@ export function createChangeEffectsAction
         }
 
         throw new Error("Could not determine: Effects or EffectsEx");
-};
+}
 
 export interface ChangeEffects {
     changeEffects(effects?: RecursivePartial<EffectsOrEx>): void;
