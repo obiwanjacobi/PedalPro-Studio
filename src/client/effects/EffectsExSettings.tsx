@@ -10,6 +10,8 @@ import { EmphasisSettings } from "./preamp/EmphasisSettings";
 import { PreAmpComponentNames } from "./preamp/PreAmp";
 import { EqualizerSettings } from "./preamp/EqualizerSettings";
 import { FuzzSettings } from "./preamp/FuzzSettings";
+import { DistortionDiodeSettings } from "./preamp/DistortionDiodeSettings";
+import { DistortionFetSettings } from "./preamp/DistortionFetSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -45,6 +47,20 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                 return (
                     <EmphasisSettings 
                         emphasis={this.props.effects.pre.emphasis} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+            case PreAmpComponentNames.DistortionDiode:
+                return (
+                    <DistortionDiodeSettings
+                        distortion={this.props.effects.pre.distortionDiode} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+            case PreAmpComponentNames.DistortionFet:
+                return (
+                    <DistortionFetSettings
+                        distortion={this.props.effects.pre.distortionFet} 
                         changeEffects={this.props.changeEffects}
                     />
                 );

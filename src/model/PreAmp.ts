@@ -113,6 +113,16 @@ export enum DistortionDiodeType {
     Mxr
 }
 
+export const DistortionDiodeTypeValue: string[] = [
+    "Guvnor",
+    "Dumble Drive",
+    "VR Distortion",
+    "Full Drive",
+    "Bright Distortion",
+    "Vintage Drive",
+    "MXR"
+];
+
 export interface PreDistortionDiode {
     type: DistortionDiodeType;
     low: Percent;
