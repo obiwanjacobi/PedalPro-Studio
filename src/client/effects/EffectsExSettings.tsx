@@ -9,6 +9,7 @@ import { BoostSettings } from "./boost/BoostSettings";
 import { EmphasisSettings } from "./preamp/EmphasisSettings";
 import { PreAmpComponentNames } from "./preamp/PreAmp";
 import { EqualizerSettings } from "./preamp/EqualizerSettings";
+import { FuzzSettings } from "./preamp/FuzzSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -44,6 +45,13 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                 return (
                     <EmphasisSettings 
                         emphasis={this.props.effects.pre.emphasis} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+            case PreAmpComponentNames.Fuzz:
+                return (
+                    <FuzzSettings
+                        fuzz={this.props.effects.pre.fuzz} 
                         changeEffects={this.props.changeEffects}
                     />
                 );
