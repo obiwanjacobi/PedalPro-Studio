@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Slider } from "@material-ui/lab";
-import { BoostGain, BoostGainValues } from "../../../model/Boost";
+import { BoostGain } from "../../../model/Boost";
 import { SettingsValueLayout } from "../SettingsValueLayout";
 import { numberToString } from "../../../StringExtensions";
 
@@ -15,6 +15,7 @@ type BoostGainSliderState = {};
 export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, BoostGainSliderState> {
     public constructor(props: BoostGainSliderAllProps) {
         super(props);
+        this.onChangeGain = this.onChangeGain.bind(this);
     }
 
     public render() {
@@ -25,9 +26,10 @@ export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, Bo
                 unit="dB"
                 control={
                     <Slider 
-                        value={BoostGainValues.indexOf(this.props.gain)} 
-                        max={BoostGainValues.length} 
-                        step={1}
+                        value={this.props.gain} 
+                        min={-12} 
+                        max={12} 
+                        step={0.5}
                         onChange={this.onChangeGain}
                     />}
             />        
