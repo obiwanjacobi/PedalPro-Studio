@@ -7,6 +7,8 @@ import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction"
 import { RecursivePartial } from "../../TypeExtensions";
 import { BoostSettings } from "./boost/BoostSettings";
 import { EmphasisSettings } from "./preamp/EmphasisSettings";
+import { PreAmpComponentNames } from "./preamp/PreAmp";
+import { EqualizerSettings } from "./preamp/EqualizerSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -37,10 +39,18 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
     private renderPreAmpSettings(): React.ReactNode {
         switch (this.props.componentName) {
+            case PreAmpComponentNames.Emphasis:
             default:
                 return (
                     <EmphasisSettings 
                         emphasis={this.props.effects.pre.emphasis} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+            case PreAmpComponentNames.Equalizer:
+                return (
+                    <EqualizerSettings
+                        equalizer={this.props.effects.pre.equalizer} 
                         changeEffects={this.props.changeEffects}
                     />
                 );

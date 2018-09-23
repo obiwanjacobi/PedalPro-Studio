@@ -3,7 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { PercentSlider } from "../PercentSlider";
-import { AttenuationGainSlider } from "./AttenuationGainSlider";
+import { AttenuationGainSlider } from "../AttenuationGainSlider";
 import { ToggleSwitch } from "../ToggleSwitch";
 import { EmphasisFrequencySlider } from "./EmphasisFrequencySlider";
 import { EmphasisFrequency, AttenuationGain, EmphasisResonance, PreEmphasis } from "../../../model/PreAmp";
@@ -54,6 +54,7 @@ export class EmphasisSettings extends React.Component<EmphasisSettingsAllProps, 
                 </Grid>
                 <Grid item={true} xs={12}>
                     <AttenuationGainSlider 
+                        label="Emphasis"
                         value={this.props.emphasis.gain} 
                         onChange={this.onChangeGain}
                     />

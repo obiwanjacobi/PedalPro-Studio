@@ -20,8 +20,7 @@ function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction
 
 function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAction): ApplicationDocument {
     if (state.editEffects &&
-        state.editEffects.effectsOrEx)
-    {
+        state.editEffects.effectsOrEx) {
         if (action.effects) {
             return { ...state, editEffects: { 
                 preset: state.editEffects.preset, 
