@@ -1,4 +1,4 @@
-import { Dispatch } from "react-redux";
+import { Dispatch } from "redux";
 
 import { PresetCollectionType } from "../ApplicationDocument";
 import { DefaultClient } from "../Client";

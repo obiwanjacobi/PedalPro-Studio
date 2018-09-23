@@ -1,7 +1,8 @@
 import * as React from "react";
-import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Dispatch } from "redux";
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "@material-ui/core";
-import { FileDownload } from "@material-ui/icons";
+import { Download } from "mdi-material-ui";
 
 import { fulfillPromise } from "../../PromiseExtensions";
 import { SelectAllButtonStatus } from "../controls/SelectAllButton";
@@ -223,7 +224,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         } else {
             return (
                 <Typography>
-                    Press <FileDownload/> to retrieve the preset banks.
+                    Press <Download/> to retrieve the preset banks.
                 </Typography>
             );
         }

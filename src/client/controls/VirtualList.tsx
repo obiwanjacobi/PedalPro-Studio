@@ -6,7 +6,6 @@ const itemPadding = 2;
 
 const containerStyles: React.CSSProperties = {
     flexGrow: 1,
-    // height: "100%"
 };
 const listStyles: React.CSSProperties = {
     boxSizing: "border-box"

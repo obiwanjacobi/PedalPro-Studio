@@ -1,4 +1,4 @@
-import { Dispatch } from "react-redux";
+import { Dispatch } from "redux";
 
 import { DeviceIdentity } from "../../model/DeviceIdentity";
 import { PresetsClient } from "../Client";

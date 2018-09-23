@@ -1,6 +1,7 @@
 import * as React from "react";
 import { IconButton, Badge } from "@material-ui/core";
-import { Delete, ContentPaste, ContentCopy, FileDownload, FileUpload, ImportExport } from "@material-ui/icons";
+import { Delete, ImportExport } from "@material-ui/icons";
+import { Download, Upload, ContentPaste, ContentCopy } from "mdi-material-ui";
 
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
 import { SelectAllButton, SelectAllButtonProps, SelectAllButtonEvents } from "../controls/SelectAllButton";
@@ -56,17 +57,17 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
                 </IconButton>}
                 {this.props.onDownload &&
                 <IconButton disabled={!this.props.enableDownload} onClick={this.props.onDownload}>
-                    <FileDownload />
+                    <Download />
                 </IconButton>}
                 {this.props.onUpload ? (
                     this.enableUpload ? 
                         <Badge badgeContent={this.uploadCount} color="default">
                             <IconButton onClick={this.props.onUpload}>
-                                <FileUpload />
+                                <Upload />
                             </IconButton>
                         </Badge> :
                         <IconButton disabled={true}>
-                            <FileUpload />
+                            <Upload />
                         </IconButton>
                 ) : null}
                 <img src="../assets/VintageRevolutionLogoText.jpg" alt="logo" className="vrlogo" />

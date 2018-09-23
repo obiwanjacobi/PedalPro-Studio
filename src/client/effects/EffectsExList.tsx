@@ -1,5 +1,6 @@
 import * as React from "react";
-import { connect, Dispatch, MapDispatchToPropsFunction /*, MapStateToProps*/ } from "react-redux";
+import { Dispatch } from "redux";
+import { connect, MapDispatchToPropsFunction /*, MapStateToProps*/ } from "react-redux";
 import { AutoSizer } from "react-virtualized";
 
 import { EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
@@ -33,18 +34,18 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
                             {this.renderEffectItems()}
                         </div>
                     );
-                }
-                }
+                }}
             </AutoSizer>
         );
     }
 
     private renderEffectItems(): React.ReactNode {
         return (
-            this.effectsComponents().map((effect, i) =>
-                <div key={i} style={{ padding: "8px" }}>
-                    {effect}
-                </div>
+            this.effectsComponents().map((effect, i) => (
+                    <div key={i} style={{ padding: "8px" }}>
+                        {effect}
+                    </div>
+                )
             )
         );
     }

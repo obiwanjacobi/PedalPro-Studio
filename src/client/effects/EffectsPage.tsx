@@ -1,5 +1,6 @@
 import * as React from "react";
-import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Dispatch } from "redux";
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import {
     IconButton, Dialog, Button
 } from "@material-ui/core";

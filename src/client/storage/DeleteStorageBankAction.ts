@@ -1,4 +1,4 @@
-import { Dispatch } from "react-redux";
+import { Dispatch } from "redux";
 import { DefaultClient } from "../Client";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { createAddFaultAction } from "../AddFaultAction";

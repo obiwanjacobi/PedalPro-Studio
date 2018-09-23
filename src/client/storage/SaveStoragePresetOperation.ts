@@ -1,4 +1,4 @@
-import { Dispatch } from "react-redux";
+import { Dispatch } from "redux";
 import { PresetsClient } from "../Client";
 import { getProgressInfo, savePresetsAsync } from "../preset/SavePresetOperations";
 import { PresetCollectionType, ApplicationDocument } from "../ApplicationDocument";

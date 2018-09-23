@@ -1,4 +1,4 @@
-import { Dispatch } from "react-redux";
+import { Dispatch } from "redux";
 import { PresetsClient } from "../Client";
 import { createSavePresetsAction } from "./SavePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";

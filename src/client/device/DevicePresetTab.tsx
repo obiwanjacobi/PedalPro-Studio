@@ -1,7 +1,8 @@
 import * as React from "react";
-import { connect, Dispatch, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { Dispatch } from "redux";
+import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import { Typography } from "@material-ui/core";
-import { FileDownload } from "@material-ui/icons";
+import { Download } from "mdi-material-ui";
 
 import { fulfillPromise } from "../../PromiseExtensions";
 import { Preset } from "../preset/Preset";
@@ -93,7 +94,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     deletePresets={this.actions.deletePresets}
                     canMoveDown={this.canMoveDown}
                     empty={<Typography>
-                        Press <FileDownload/> to retrieve the presets.
+                        Press <Download/> to retrieve the presets.
                     </Typography>}
                 />
                 {this.props.moveOpen && <DeviceMovePage />}

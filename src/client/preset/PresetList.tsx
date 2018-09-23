@@ -19,8 +19,8 @@ export interface PresetListState { }
 
 export type PresetListAllProps = PresetListProps & PresetListActions;
 
-const itemHeightCollapsed = 48;
-const itemHeightExpanded = 100;
+const itemHeightCollapsed = 54;
+const itemHeightExpanded = 106;
 
 export class PresetList extends VirtualList<Preset, PresetListAllProps, PresetListState> {
     protected calcRowHeight(presetsOnRow: Preset[]): number {
