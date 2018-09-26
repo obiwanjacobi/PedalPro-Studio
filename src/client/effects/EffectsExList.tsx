@@ -14,6 +14,7 @@ import { AuxRoutingListItem } from "./auxRouting/AuxRoutingListItem";
 import { NoiseGateListItem } from "./noiseGate/NoiseGateListItem";
 import { VolumeListItem } from "./volume/VolumeListItem";
 import { PreAmpListItem } from "./preamp/PreAmpListItem";
+import { FiltersPreListItem } from "./filters/FiltersPreListItem";
 import { SelectEffect, createSelectEffectAction } from "./SelectEffectAction";
 
 type EffectsExListProps = {
@@ -27,15 +28,17 @@ type EffectsExListState = {};
 class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExListState> {
     public render() {
         return (
-            <AutoSizer>
-                {({ height, width }) => {
-                    return (
-                        <div style={{ width: width, height: height }}>
-                            {this.renderEffectItems()}
-                        </div>
-                    );
-                }}
-            </AutoSizer>
+            <div style={{flexGrow: 1}}>
+                <AutoSizer>
+                    {({ height, width }) => {
+                        return (
+                            <div style={{ width: width, height: height, overflowY: "scroll" }}>
+                                {this.renderEffectItems()}
+                            </div>
+                        );
+                    }}
+                </AutoSizer>
+            </div>
         );
     }
 
@@ -56,6 +59,13 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
         components.push(
             <CompressorListItem
                 compressor={this.props.effectsEx.compressor}
+                changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
+            />
+        );
+        components.push(
+            <FiltersPreListItem
+                filters={this.props.effectsEx.filters}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />

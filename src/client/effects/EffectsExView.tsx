@@ -16,12 +16,14 @@ type EffectsExViewState = {};
 export class EffectsExView extends React.Component<EffectsExViewAllProps, EffectsExViewState> {
     public render() {
         return (
-            <Grid container={true}>
-                <Grid item={true} container={true} direction="column" xs={4}>
+            <Grid container={true} style={{height: "100%"}}>
+                <Grid item={true} xs={4} container={true} direction="column">
                     <EffectsExList effectsEx={this.props.effectsEx} />
                 </Grid>
-                <Grid item={true} container={true} xs={8}>
-                    <EffectsExSettings />
+                <Grid item={true} xs={7}>
+                    <div style={{margin: "8px"}}>
+                        <EffectsExSettings />
+                    </div>
                 </Grid>
             </Grid>
         );

@@ -16,9 +16,9 @@ type AuxRoutingListItemAllProps = AuxRoutingListItemProps & AuxRoutingListItemAc
 type AuxRoutingListItemState = {};
 
 export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllProps, AuxRoutingListItemState> {
-    constructor(props: AuxRoutingListItemAllProps) {
+    public constructor(props: AuxRoutingListItemAllProps) {
         super(props);
-        this.toggleEnabled = this.toggleEnabled.bind(this);
+        this.onEnabled = this.onEnabled.bind(this);
     }
     
     public render() {
@@ -27,7 +27,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
                 enabled={this.props.aux.routing !== AuxRouting.None}
                 title="Aux Routing"
                 avatar="Aux"
-                onEnabled={this.toggleEnabled}
+                onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.AuxRouting }}
                 selectEffect={this.props.selectEffect}
                 content={
@@ -37,9 +37,8 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
         );
     }
 
-    private toggleEnabled() {
-        const auxRouting = this.props.aux.routing === AuxRouting.None ? AuxRouting.Mixer : AuxRouting.None;
-        const partial: Partial<Aux> = { routing: auxRouting };
-        this.props.changeEffects({ aux: partial });
+    private onEnabled(enabled: boolean) {
+        const auxRouting = enabled ? AuxRouting.Mixer : AuxRouting.None;
+        this.props.changeEffects({ aux: { routing: auxRouting } });
     }
 }

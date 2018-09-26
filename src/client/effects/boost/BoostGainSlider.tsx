@@ -7,15 +7,15 @@ import { numberToString } from "../../../StringExtensions";
 type BoostGainSliderProps = {
     gain: BoostGain;
 };
-type BoostGainSliderActions = {
+type BoostGainSliderEvents = {
     onChange: (gain: BoostGain) => void;
 };
-type BoostGainSliderAllProps = BoostGainSliderProps & BoostGainSliderActions;
+type BoostGainSliderAllProps = BoostGainSliderProps & BoostGainSliderEvents;
 type BoostGainSliderState = {};
 export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, BoostGainSliderState> {
     public constructor(props: BoostGainSliderAllProps) {
         super(props);
-        this.onChangeGain = this.onChangeGain.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     public render() {
@@ -30,7 +30,7 @@ export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, Bo
                         min={-12} 
                         max={12} 
                         step={0.5}
-                        onChange={this.onChangeGain}
+                        onChange={this.onChange}
                     />}
             />        
         );
@@ -40,7 +40,7 @@ export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, Bo
         return numberToString(this.props.gain, 2, 1);
     }
 
-    private onChangeGain(_: React.ChangeEvent<{}>, value: BoostGain) {
+    private onChange(_: React.ChangeEvent<{}>, value: number) {
         this.props.onChange(value);
     }
 }

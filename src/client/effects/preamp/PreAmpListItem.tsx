@@ -46,66 +46,70 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
                 onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.PreAmp }}
                 selectEffect={this.props.selectEffect}
-                content={
-                    <List>
-                        <ListItem button={true} onClick={this.onEmphasis}>
-                            <ListItemText primary="Emphasis" />
-                            <ListItemSecondaryAction>
-                                <Switch checked={true} disabled={true} />
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <ListItem button={this.routingValue.distortionDiode} onClick={this.onDistortionDiode}>
-                            <ListItemText primary="Distortion (diode)" />
-                            <ListItemSecondaryAction>
-                                <Switch 
-                                    checked={this.routingValue.distortionDiode} 
-                                    onChange={this.onChangeDistortionDiode} 
-                                />
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <ListItem button={this.routingValue.distortionFet} onClick={this.onDistortionFet}>
-                            <ListItemText primary="Distortion (jfet)" />
-                            <ListItemSecondaryAction>
-                            <Switch 
-                                checked={this.routingValue.distortionFet} 
-                                onChange={this.onChangeDistortionFet} 
-                            />
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <ListItem button={this.routingValue.fuzz} onClick={this.onFuzz}>
-                            <ListItemText primary="Fuzz" />
-                            <ListItemSecondaryAction>
-                            <Switch
-                                checked={this.routingValue.fuzz} 
-                                onChange={this.onChangeFuzz}
-                            />
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <ListItem button={true} onClick={this.onEqualizer}>
-                            <ListItemText primary="Equalizer" />
-                            <ListItemSecondaryAction>
-                                <Switch checked={true} disabled={true} />
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    </List>
-                }
+                content={this.renderActionList()}
             />
+        );
+    }
+
+    private renderActionList(): React.ReactNode {
+        return (
+            <List>
+                <ListItem button={true} onClick={this.onEmphasis}>
+                    <ListItemText primary="Emphasis" />
+                    <ListItemSecondaryAction>
+                        <Switch checked={true} disabled={true} color="secondary" />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem button={this.routingValue.distortionDiode} onClick={this.onDistortionDiode}>
+                    <ListItemText primary="Distortion (diode)" />
+                    <ListItemSecondaryAction>
+                        <Switch 
+                            checked={this.routingValue.distortionDiode} 
+                            onChange={this.onChangeDistortionDiode} 
+                        />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem button={this.routingValue.distortionFet} onClick={this.onDistortionFet}>
+                    <ListItemText primary="Distortion (jfet)" />
+                    <ListItemSecondaryAction>
+                    <Switch 
+                        checked={this.routingValue.distortionFet} 
+                        onChange={this.onChangeDistortionFet} 
+                    />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem button={this.routingValue.fuzz} onClick={this.onFuzz}>
+                    <ListItemText primary="Fuzz" />
+                    <ListItemSecondaryAction>
+                    <Switch
+                        checked={this.routingValue.fuzz} 
+                        onChange={this.onChangeFuzz}
+                    />
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem button={true} onClick={this.onEqualizer}>
+                    <ListItemText primary="Equalizer" />
+                    <ListItemSecondaryAction>
+                        <Switch checked={true} disabled={true} color="secondary" />
+                    </ListItemSecondaryAction>
+                </ListItem>
+            </List>
         );
     }
 
     private onChangeDistortionDiode(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffects({ pre: { routing: this.routingValue.setDistortionDiode(checked) }});
-        if (checked) { this.onDistortionDiode(); }
+        if (checked) { this.selectComponent(PreAmpComponentNames.DistortionDiode); }
     }
 
     private onChangeDistortionFet(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffects({ pre: { routing: this.routingValue.setDistortionFet(checked) }});
-        if (checked) { this.onDistortionFet(); }
+        if (checked) { this.selectComponent(PreAmpComponentNames.DistortionFet); }
     }
 
     private onChangeFuzz(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffects({ pre: { routing: this.routingValue.setFuzz(checked) }});
-        if (checked) { this.onFuzz(); }
+        if (checked) { this.selectComponent(PreAmpComponentNames.Fuzz); }
     }
 
     private onEnabled(enabled: boolean) {
@@ -117,15 +121,21 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
     }
 
     private onDistortionDiode() {
-        this.selectComponent(PreAmpComponentNames.DistortionDiode);
+        if (this.routingValue.distortionDiode) {
+            this.selectComponent(PreAmpComponentNames.DistortionDiode);
+        }
     }
 
     private onDistortionFet() {
-        this.selectComponent(PreAmpComponentNames.DistortionFet);
+        if (this.routingValue.distortionFet) {
+            this.selectComponent(PreAmpComponentNames.DistortionFet);
+        }
     }
 
     private onFuzz() {
-        this.selectComponent(PreAmpComponentNames.Fuzz);
+        if (this.routingValue.fuzz) {
+            this.selectComponent(PreAmpComponentNames.Fuzz);
+        }
     }
 
     private onEqualizer() {

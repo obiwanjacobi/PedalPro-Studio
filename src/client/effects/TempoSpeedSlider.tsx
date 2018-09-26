@@ -1,22 +1,22 @@
 import * as React from "react";
 import { Slider } from "@material-ui/lab";
 
-import { Percent } from "../../model/Types";
+import { TempoSpeed } from "../../model/Types";
 import { numberToString } from "../../StringExtensions";
 import { SettingsValueLayout } from "./SettingsValueLayout";
 
-type PercentSliderProps = {
-    value: Percent;
-    label: string;
+type TempoSpeedSliderProps = {
+    value: TempoSpeed;
+    label?: string;
 };
-type PercentSliderEvents = {
-    onChange: (value: Percent) => void;
+type TempoSpeedSliderEvents = {
+    onChange: (value: TempoSpeed) => void;
 };
-type PercentSliderAllProps = PercentSliderProps & PercentSliderEvents;
-type PercentSliderState = {};
+type TempoSpeedSliderAllProps = TempoSpeedSliderProps & TempoSpeedSliderEvents;
+type TempoSpeedSliderState = {};
 
-export class PercentSlider extends React.Component<PercentSliderAllProps, PercentSliderState> {
-    constructor(props: PercentSliderAllProps) {
+export class TempoSpeedSlider extends React.Component<TempoSpeedSliderAllProps, TempoSpeedSliderState> {
+    constructor(props: TempoSpeedSliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);
     }
@@ -25,14 +25,14 @@ export class PercentSlider extends React.Component<PercentSliderAllProps, Percen
         return (
             <SettingsValueLayout
                 formattedValue={this.formattedValue}
-                unit="%"
-                label={this.props.label}
+                unit="bpm"
+                label={this.props.label || "Tempo"}
                 control={
                     <Slider 
                         value={this.props.value} 
-                        min={0}
-                        max={100.0} 
-                        step={0.4}
+                        min={3}
+                        max={550.0} 
+                        step={0.1}
                         onChange={this.onChange}
                     />
                 }

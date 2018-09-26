@@ -4,6 +4,7 @@ import { Boost } from "./Boost";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { BoostGainSlider } from "./BoostGainSlider";
 import { Grid, Typography } from "@material-ui/core";
+import { BoostGain } from "../../../model/Boost";
 
 type BoostSettingsProps = {
     boost: Boost;
@@ -35,7 +36,7 @@ export class BoostSettings extends React.Component<BoostSettingsAllProps, BoostS
         );
     }
 
-    private onChangeGain(value: number) {
-        this.props.changeEffects({ boost: { gain: value } });
+    private onChangeGain(gain: BoostGain) {
+        this.props.changeEffects({ boost: { gain: gain } });
     }
 }

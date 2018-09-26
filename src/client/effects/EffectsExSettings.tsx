@@ -13,6 +13,9 @@ import { EqualizerSettings } from "./preamp/EqualizerSettings";
 import { FuzzSettings } from "./preamp/FuzzSettings";
 import { DistortionDiodeSettings } from "./preamp/DistortionDiodeSettings";
 import { DistortionFetSettings } from "./preamp/DistortionFetSettings";
+import { FilterRouting } from "../../model/Filters";
+import { FiltersComponentNames } from "./filters/Filters";
+import { Filter1Settings } from "./filters/Filter1Settings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -27,6 +30,11 @@ type EffectsExSettingsState = {};
 class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, EffectsExSettingsState> {
     public render() {
         switch (this.props.effectName) {
+            case EffectNames.Filters:
+                return this.props.effects.filters.routing !== FilterRouting.Bypass ? (
+                    this.renderFilterSettings()
+                ) : null;
+
             case EffectNames.Boost:
                 return this.props.effects.boost.enabled ? (
                     <BoostSettings boost={this.props.effects.boost} changeEffects={this.props.changeEffects} />
@@ -39,6 +47,20 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
             default:
                 return null;
         }        
+    }
+
+    private renderFilterSettings(): React.ReactNode {
+        switch (this.props.componentName) {
+            case FiltersComponentNames.PreFilter1:
+                return (
+                    <Filter1Settings
+                        filter={this.props.effects.filters.filter1}
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+            default:
+                return null;
+        }
     }
 
     private renderPreAmpSettings(): React.ReactNode {

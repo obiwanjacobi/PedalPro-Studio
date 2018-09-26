@@ -11,7 +11,7 @@ export enum PreAmpRouting {
 // tslint:disable:no-bitwise
 
 export class PreAmpRoutingValue {
-    private val: PreAmpRouting;
+    private readonly val: PreAmpRouting;
 
     public constructor(routing: PreAmpRouting) {
         this.val = routing;

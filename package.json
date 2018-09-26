@@ -9,15 +9,24 @@
   },
   "main": "./app/Startup.js",
   "private": true,
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --config webpack.dev.config.js --mode development",
+    "build:prod": "./node_modules/.bin/webpack --config webpack.prod.config.js --mode production",
+    "test": "jest",
+    "test-electron": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest",
+    "test-w": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest --watchAll",
+    "start": "./node_modules/.bin/electron .",
+    "postinstall": "./node_modules/.bin/electron-builder install-app-deps && ./node_modules/.bin/tsc && ./node_modules/.bin/electron-rebuild.cmd --force",
+    "build:native": "./node_modules/.bin/electron-rebuild.cmd --force",
+    "release": "./node_modules/.bin/electron-builder"
+  },
   "dependencies": {
     "@material-ui/core": "^3.1.0",
     "@material-ui/icons": "^3.0.1",
     "@material-ui/lab": "^3.0.0-alpha.16",
-    "@types/redux": "^3.6.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
-    "immutable": "^3.8.2",
     "lodash": "^4.17.11",
     "mdi-material-ui": "^5.5.0",
     "mdi-react": "^4.3.0",
@@ -47,6 +56,7 @@
     "@types/react-dom": "^16.0.7",
     "@types/react-redux": "^6.0.9",
     "@types/react-virtualized": "^9.18.7",
+    "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
     "ajv": "^6.5.4",
     "ajv-keywords": "^3.2.0",
@@ -55,7 +65,7 @@
     "electron-rebuild": "^1.8.2",
     "jest": "^23.6.0",
     "node-loader": "^0.6.0",
-    "ts-jest": "^23.10.1",
+    "ts-jest": "^22.0.2",
     "ts-loader": "^5.1.1",
     "tslint": "^5.11.0",
     "tslint-loader": "^3.6.0",
@@ -64,16 +74,6 @@
     "webpack": "^4.19.1",
     "webpack-cli": "^3.1.1",
     "windows-build-tools": "^5.0.0"
-  },
-  "scripts": {
-    "build": "./node_modules/.bin/webpack --config webpack.dev.config.js --mode development",
-    "build:prod": "./node_modules/.bin/webpack --config webpack.prod.config.js --mode production",
-    "test": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest",
-    "test-w": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest --watchAll",
-    "start": "./node_modules/.bin/electron .",
-    "postinstall": "./node_modules/.bin/electron-builder install-app-deps && ./node_modules/.bin/tsc && ./node_modules/.bin/electron-rebuild.cmd --force",
-    "build:native": "./node_modules/.bin/electron-rebuild.cmd --force",
-    "release": "./node_modules/.bin/electron-builder"
   },
   "build": {
     "appId": "jacobi.pedalpro.studio",
@@ -102,22 +102,5 @@
       "description": "A (JSON) file containing a PedalPro Preset",
       "role": "none"
     }
-  },
-  "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "tsconfig.test.json"
-      }
-    },
-    "transform": {
-      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(\\.(test|spec))\\.(ts|tsx)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ]
   }
 }

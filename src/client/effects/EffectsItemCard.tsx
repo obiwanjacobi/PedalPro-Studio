@@ -12,7 +12,7 @@ type EffectsItemCardProps = {
 };
 type EffectItemCardActions = SelectEffect;
 type EffectsItemCardEvents = {
-    onEnabled: (enabled: boolean) => void;
+    onEnabled?: (enabled: boolean) => void;
 };
 type EffectsItemCardAllProps = EffectsItemCardProps & EffectsItemCardEvents & EffectItemCardActions;
 type EffectsItemCardState = {};
@@ -26,22 +26,24 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
 
     public render() {
         if (this.props.enabled) {
-            return this.renderActive();
-        } else {
+            if (this.props.onEnabled) {
+                return this.renderActiveSwitch();
+            } else {
+                return this.renderActive();
+            }
+        } else if (this.props.onEnabled) {
             return this.renderInactive();
+        } else {
+            return this.renderInactiveContent();
         }
     }
 
-    private renderActive() {
+    private renderActiveSwitch() {
         return (
             <Card raised={true}>
                 <CardHeader
-                    avatar={
-                        <Avatar>{this.props.avatar}</Avatar>
-                    }
-                    action={
-                        <Switch checked={true} onChange={this.onDeactivate} />
-                    }
+                    avatar={<Avatar>{this.props.avatar}</Avatar>}
+                    action={<Switch checked={true} onChange={this.onDeactivate} />}
                     title={this.props.title}
                 />
                 <CardContent>
@@ -52,27 +54,59 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
     }
 
     private renderInactive() {
+
         return (
             <Card raised={false}>
                 <CardHeader
                     avatar={
-                        <Avatar>{this.props.avatar}</Avatar>
-                    }
+                        <Avatar>{this.props.avatar}</Avatar>}
                     action={
-                        <Switch checked={false} onChange={this.onActivate} />
-                    }
+                        <Switch checked={false} onChange={this.onActivate} />}
                     title={this.props.title}
                 />
             </Card>
         );
     }
 
+    private renderActive() {
+        return (
+            <Card raised={true}>
+                <CardHeader
+                    avatar={<Avatar>{this.props.avatar}</Avatar>}
+                    title={this.props.title}
+                />
+                <CardContent>
+                    {this.props.content}
+                </CardContent>
+            </Card>
+        );
+    }
+
+    private renderInactiveContent() {
+
+        return (
+            <Card raised={false}>
+                <CardHeader
+                    avatar={<Avatar>{this.props.avatar}</Avatar>}
+                    title={this.props.title}
+                />
+                <CardContent>
+                    {this.props.content}
+                </CardContent>
+            </Card>
+        );
+    }
+
     private onDeactivate() {
-        this.props.onEnabled(false);
+        if (this.props.onEnabled) {
+            this.props.onEnabled(false);
+        }
     }
 
     private onActivate() {
-        this.props.onEnabled(true);
+        if (this.props.onEnabled) {
+            this.props.onEnabled(true);
+        }
         this.props.selectEffect(this.props.effectName.effectName, this.props.effectName.componentName);
     }
 }
