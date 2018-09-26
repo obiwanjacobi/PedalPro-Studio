@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Typography, Button } from "@material-ui/core";
 
 import { Boost } from "./Boost";
 import { EffectsItemCard } from "../EffectsItemCard";
@@ -17,7 +16,6 @@ type BoostListItemState = {};
 export class BoostListItem extends React.Component<BoostListItemAllProps, BoostListItemState> {
     constructor(props: BoostListItemAllProps) {
         super(props);
-        this.selectEffect = this.selectEffect.bind(this);
         this.onEnabled = this.onEnabled.bind(this);
     }
     
@@ -30,19 +28,10 @@ export class BoostListItem extends React.Component<BoostListItemAllProps, BoostL
                 onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.Boost }}
                 selectEffect={this.props.selectEffect}
-                content={
-                    <Button onClick={this.selectEffect}>
-                        <Typography color="textSecondary">Click to select</Typography>
-                    </Button>
-                }
             />
         );
     }
-
-    private selectEffect() {
-        this.props.selectEffect(EffectNames.Boost);
-    }
-
+    
     private onEnabled(enabled: boolean) {
         this.props.changeEffects({ boost: { enabled: enabled } });
     }
