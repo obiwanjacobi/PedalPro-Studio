@@ -16,6 +16,7 @@ import { DistortionFetSettings } from "./preamp/DistortionFetSettings";
 import { FilterRouting } from "../../model/Filters";
 import { FiltersComponentNames } from "./filters/Filters";
 import { Filter1Settings } from "./filters/Filter1Settings";
+import { Filter2Settings } from "./filters/Filter2Settings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -55,6 +56,13 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                 return (
                     <Filter1Settings
                         filter={this.props.effects.filters.filter1}
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+            case FiltersComponentNames.PreFilter2:
+                return (
+                    <Filter2Settings
+                        filter={this.props.effects.filters.filter2}
                         changeEffects={this.props.changeEffects}
                     />
                 );
