@@ -58,6 +58,6 @@ export class Filter2EnvelopeSettings
     }
 
     private onChangeFunction(value: EnvelopeFunction) {
-        this.props.changeEffects({ filters: { filter1: { envelope: { function: value } } } });
+        this.props.changeEffects({ filters: { filter2: { envelope: { function: value } } } });
     }
 }
