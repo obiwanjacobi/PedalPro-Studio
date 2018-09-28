@@ -57,14 +57,13 @@ export interface AutoFilter1 {
 }
 
 export interface EnvelopeFilter1 {
-    startFrequency: Frequency1;
+    frequency: Frequency1;
     sensitivity: Percent;
     function: EnvelopeFunction;
 }
 
 export interface EqFilter1 {
-    enhancedFrequency: Frequency1;
-    resonance: ResonanceFilter1;
+    frequency: Frequency1;
 }
 
 export interface Filter1 {
@@ -87,14 +86,13 @@ export interface AutoFilter2 {
 }
 
 export interface EnvelopeFilter2 {
-    startFrequency: Frequency2;
+    frequency: Frequency2;
     sensitivity: Percent;
     function: EnvelopeFunction;
 }
 
 export interface EqFilter2 {
-    enhancedFrequency: Frequency2;
-    resonance: ResonanceFilter2;
+    frequency: Frequency2;
 }
 
 export interface Filter2 {

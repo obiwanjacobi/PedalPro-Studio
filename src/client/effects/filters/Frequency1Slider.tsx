@@ -40,7 +40,7 @@ export class Frequency1Slider
     }
 
     private get formattedValue(): string {
-        return numberToString(this.props.frequency, 1, 1);
+    return numberToString(this.props.frequency, 1, 0);
     }
 
     private onChange(_: React.ChangeEvent<{}>, value: number) {

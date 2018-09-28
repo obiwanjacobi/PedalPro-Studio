@@ -6,6 +6,8 @@ import { Filter1, ResonanceFilter1, FilterMode } from "../../../model/Filters";
 import { FilterResonanceSlider } from "./FilterResonanceSlider";
 import { FilterModeOptions } from "./FilterModeOptions";
 import { Filter1AutoSettings } from "./Filter1AutoSettings";
+import { Filter1EqualizerSettings } from "./Filter1EqualizerSettings";
+import { Filter1EnvelopeSettings } from "./Filter1EnvelopeSettings";
 
 type Filter1SettingsProps = {
     filter: Filter1;
@@ -48,6 +50,18 @@ export class Filter1Settings extends React.Component<Filter1SettingsAllProps, Fi
             case FilterMode.Auto:
                 return (
                     <Filter1AutoSettings auto={this.props.filter.auto} changeEffects={this.props.changeEffects} />
+                );
+            case FilterMode.Equalizer:
+                return (
+                    <Filter1EqualizerSettings eq={this.props.filter.eq} changeEffects={this.props.changeEffects} />
+                );
+            case FilterMode.EnvelopeNeg:
+            case FilterMode.EnvelopePos:
+                return (
+                    <Filter1EnvelopeSettings 
+                        envelope={this.props.filter.envelope} 
+                        changeEffects={this.props.changeEffects}
+                    />
                 );
             default:
                 return null;

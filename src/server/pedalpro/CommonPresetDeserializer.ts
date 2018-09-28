@@ -126,13 +126,12 @@ export abstract class CommonPresetDeserializer<FieldsT extends CommonPresetBuffe
         filters.filter1.envelope = <EnvelopeFilter1> { };
         filters.filter1.envelope.function = buffer.getBitsOfField(this.fields.EnvelopeFunction, 1, 2);
         filters.filter1.envelope.sensitivity = buffer.getField(this.fields.EnvelopeSensitivity1);
-        filters.filter1.envelope.startFrequency = Convert.makeWord(
+        filters.filter1.envelope.frequency = Convert.makeWord(
              buffer.getBitsOfField(this.fields.FrequencyStartHH, 1, 2),
              buffer.getField(this.fields.FrequencyStart1Lo));
         
         filters.filter1.eq = <EqFilter1> { };
-        filters.filter1.eq.resonance = buffer.getField(this.fields.DAQResonanceQ1);
-        filters.filter1.eq.enhancedFrequency = Convert.makeWord(
+        filters.filter1.eq.frequency = Convert.makeWord(
             buffer.getBitsOfField(this.fields.DAQFrequencyHH, 1, 2),
             buffer.getField(this.fields.DAQFixFrequency1Lo));
 
@@ -159,13 +158,12 @@ export abstract class CommonPresetDeserializer<FieldsT extends CommonPresetBuffe
         filters.filter2.envelope = <EnvelopeFilter2> { };
         filters.filter2.envelope.function = buffer.getBitsOfField(this.fields.EnvelopeFunction, 5, 2);
         filters.filter2.envelope.sensitivity = buffer.getField(this.fields.EnvelopeSensitivity2);
-        filters.filter2.envelope.startFrequency = Convert.makeWord(
+        filters.filter2.envelope.frequency = Convert.makeWord(
             buffer.getBitsOfField(this.fields.FrequencyStartHH, 3, 2),
             buffer.getField(this.fields.FrequencyStart2Lo));
         
         filters.filter2.eq = <EqFilter2> { };
-        filters.filter2.eq.resonance = buffer.getField(this.fields.DAQResonanceQ2);
-        filters.filter2.eq.enhancedFrequency = Convert.makeWord(
+        filters.filter2.eq.frequency = Convert.makeWord(
             buffer.getBitsOfField(this.fields.DAQFrequencyHH, 3, 2),
             buffer.getField(this.fields.DAQFixFrequency2Lo));
 

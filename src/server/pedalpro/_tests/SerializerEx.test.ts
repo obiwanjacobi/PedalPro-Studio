@@ -91,10 +91,9 @@ describe("Integration deserializer and logic transform", () => {
 
         expect(effects.filters.filter1.envelope.function).toBe(0);
         expect(effects.filters.filter1.envelope.sensitivity).toBe(50.1);
-        expect(effects.filters.filter1.envelope.startFrequency).toBe(371);
+        expect(effects.filters.filter1.envelope.frequency).toBe(371);
 
-        expect(effects.filters.filter1.eq.enhancedFrequency).toBe(1001);
-        expect(effects.filters.filter1.eq.resonance).toBe(18);
+        expect(effects.filters.filter1.eq.frequency).toBe(1001);
 
         expect(effects.filters.filter2.mode).toBe(0);
         expect(effects.filters.filter2.resonance).toBe(16);
@@ -108,10 +107,9 @@ describe("Integration deserializer and logic transform", () => {
 
         expect(effects.filters.filter2.envelope.function).toBe(0);
         expect(effects.filters.filter2.envelope.sensitivity).toBe(50.1);
-        expect(effects.filters.filter2.envelope.startFrequency).toBe(401);
+        expect(effects.filters.filter2.envelope.frequency).toBe(401);
 
-        expect(effects.filters.filter2.eq.enhancedFrequency).toBe(1001);
-        expect(effects.filters.filter2.eq.resonance).toBe(16);
+        expect(effects.filters.filter2.eq.frequency).toBe(1001);
 
         expect(effects.midi.routing.aux).toBe(0);
         expect(effects.midi.routing.delay).toBe(0);
@@ -222,10 +220,6 @@ describe("Integration deserializer and logic transform", () => {
 {
     "presets": [
         {
-            "data": "43,6C,65,61,6E,4A,61,7A,7A,20,FE,1F,0,18,2,3A,0,57,74,0,80,80,4,E,1,FF,0,6,9A,B,66,0,0,6F,0,0,1,0,
-            65,80,80,94,5,56,22,1E,0,92,4,94,2,0,0,92,4,F6,1,59,0,0,1F,FF,FF,11,0,66,7F,81,7F,0,7F,1,0,28,2C,24,25,2A,
-            29,22,1F,0,FC,98,0,1,A4,1,FF,FF,FF,1,64,0,B3,FF,82,0,0,DE,8,A6,EF,CC,99,5C,59,0,34,E8,E8,5C,5C,FF,FF,F,F,0,
-            0,0,0,0,1,0,0,3,0,0,28,64,2,6C,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
             "name": "CleanJazz",
             "traits": {
                 "singleCoil": false,
@@ -339,7 +333,6 @@ describe("Integration deserializer and logic transform", () => {
                             "startFrequency": 371
                         },
                         "eq": {
-                            "resonance": 18,
                             "enhancedFrequency": 1001
                         }
                     },
@@ -360,7 +353,6 @@ describe("Integration deserializer and logic transform", () => {
                             "startFrequency": 401
                         },
                         "eq": {
-                            "resonance": 16,
                             "enhancedFrequency": 1001
                         }
                     }

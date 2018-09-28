@@ -90,12 +90,11 @@ export abstract class CommonPresetSerializer<FieldsT extends CommonPresetBufferF
         
         buffer.setBitsOfField(this.fields.EnvelopeFunction, filters.filter1.envelope.function, 1, 2);
         buffer.setField(this.fields.EnvelopeSensitivity1, filters.filter1.envelope.sensitivity);
-        buffer.setBitsOfField(this.fields.FrequencyStartHH, Convert.hiByte(filters.filter1.envelope.startFrequency), 1, 2);
-        buffer.setField(this.fields.FrequencyStart1Lo, Convert.loByte(filters.filter1.envelope.startFrequency));
+        buffer.setBitsOfField(this.fields.FrequencyStartHH, Convert.hiByte(filters.filter1.envelope.frequency), 1, 2);
+        buffer.setField(this.fields.FrequencyStart1Lo, Convert.loByte(filters.filter1.envelope.frequency));
         
-        buffer.setField(this.fields.DAQResonanceQ1, filters.filter1.eq.resonance);
-        buffer.setBitsOfField(this.fields.DAQFrequencyHH, Convert.hiByte(filters.filter1.eq.enhancedFrequency), 1, 2),
-        buffer.setField(this.fields.DAQFixFrequency1Lo, Convert.loByte(filters.filter1.eq.enhancedFrequency));
+        buffer.setBitsOfField(this.fields.DAQFrequencyHH, Convert.hiByte(filters.filter1.eq.frequency), 1, 2),
+        buffer.setField(this.fields.DAQFixFrequency1Lo, Convert.loByte(filters.filter1.eq.frequency));
 
         // --- Filter 2 ---
 
@@ -114,12 +113,11 @@ export abstract class CommonPresetSerializer<FieldsT extends CommonPresetBufferF
         
         buffer.setBitsOfField(this.fields.EnvelopeFunction, filters.filter2.envelope.function, 5, 2);
         buffer.setField(this.fields.EnvelopeSensitivity2, filters.filter2.envelope.sensitivity);
-        buffer.setBitsOfField(this.fields.FrequencyStartHH, Convert.hiByte(filters.filter2.envelope.startFrequency), 3, 2);
-        buffer.setField(this.fields.FrequencyStart2Lo, Convert.loByte(filters.filter2.envelope.startFrequency));
+        buffer.setBitsOfField(this.fields.FrequencyStartHH, Convert.hiByte(filters.filter2.envelope.frequency), 3, 2);
+        buffer.setField(this.fields.FrequencyStart2Lo, Convert.loByte(filters.filter2.envelope.frequency));
         
-        buffer.setField(this.fields.DAQResonanceQ2, filters.filter2.eq.resonance);
-        buffer.setBitsOfField(this.fields.DAQFrequencyHH, Convert.hiByte(filters.filter2.eq.enhancedFrequency), 3, 2);
-        buffer.setField(this.fields.DAQFixFrequency2Lo, Convert.loByte(filters.filter2.eq.enhancedFrequency));
+        buffer.setBitsOfField(this.fields.DAQFrequencyHH, Convert.hiByte(filters.filter2.eq.frequency), 3, 2);
+        buffer.setField(this.fields.DAQFixFrequency2Lo, Convert.loByte(filters.filter2.eq.frequency));
     }
 
     protected serializeModulation(buffer: PresetBuffer, modulation: Modulation): void {

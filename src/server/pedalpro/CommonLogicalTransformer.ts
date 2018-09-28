@@ -57,18 +57,16 @@ export class CommonLogicalTransformer {
         filters.filter1.auto.minFrequency = Convert.toFrequency1(filters.filter1.auto.minFrequency);
         filters.filter1.auto.maxFrequency = Convert.toFrequency1(filters.filter1.auto.maxFrequency);
         filters.filter1.envelope.sensitivity = Convert.toPercent(filters.filter1.envelope.sensitivity);
-        filters.filter1.envelope.startFrequency = Convert.toFrequency1(filters.filter1.envelope.startFrequency);
-        filters.filter1.eq.enhancedFrequency  = Convert.toFrequency1(filters.filter1.eq.enhancedFrequency);
-        filters.filter1.eq.resonance  = Convert.toResonance1(filters.filter1.eq.resonance);
+        filters.filter1.envelope.frequency = Convert.toFrequency1(filters.filter1.envelope.frequency);
+        filters.filter1.eq.frequency  = Convert.toFrequency1(filters.filter1.eq.frequency);
 
         filters.filter2.resonance = Convert.toResonance2(filters.filter2.resonance);
         filters.filter2.auto.tempo = Convert.toTempoSpeed(filters.filter2.auto.tempo);
         filters.filter2.auto.minFrequency = Convert.toFrequency2(filters.filter2.auto.minFrequency);
         filters.filter2.auto.maxFrequency = Convert.toFrequency2(filters.filter2.auto.maxFrequency);
         filters.filter2.envelope.sensitivity = Convert.toPercent(filters.filter2.envelope.sensitivity);
-        filters.filter2.envelope.startFrequency = Convert.toFrequency2(filters.filter2.envelope.startFrequency);
-        filters.filter2.eq.enhancedFrequency  = Convert.toFrequency2(filters.filter2.eq.enhancedFrequency);
-        filters.filter2.eq.resonance  = Convert.toResonance2(filters.filter2.eq.resonance);
+        filters.filter2.envelope.frequency = Convert.toFrequency2(filters.filter2.envelope.frequency);
+        filters.filter2.eq.frequency  = Convert.toFrequency2(filters.filter2.eq.frequency);
     }
 
     public static filtersFromLogical(filters: Filters) {
@@ -77,18 +75,16 @@ export class CommonLogicalTransformer {
         filters.filter1.auto.minFrequency = Convert.fromFrequency1(filters.filter1.auto.minFrequency);
         filters.filter1.auto.maxFrequency = Convert.fromFrequency1(filters.filter1.auto.maxFrequency);
         filters.filter1.envelope.sensitivity = Convert.fromPercent(filters.filter1.envelope.sensitivity);
-        filters.filter1.envelope.startFrequency = Convert.fromFrequency1(filters.filter1.envelope.startFrequency);
-        filters.filter1.eq.enhancedFrequency  = Convert.fromFrequency1(filters.filter1.eq.enhancedFrequency);
-        filters.filter1.eq.resonance  = Convert.fromResonance1(filters.filter1.eq.resonance);
+        filters.filter1.envelope.frequency = Convert.fromFrequency1(filters.filter1.envelope.frequency);
+        filters.filter1.eq.frequency  = Convert.fromFrequency1(filters.filter1.eq.frequency);
 
         filters.filter2.resonance = Convert.fromResonance2(filters.filter2.resonance);
         filters.filter2.auto.tempo = Convert.fromTempoSpeed(filters.filter2.auto.tempo);
         filters.filter2.auto.minFrequency = Convert.fromFrequency2(filters.filter2.auto.minFrequency);
         filters.filter2.auto.maxFrequency = Convert.fromFrequency2(filters.filter2.auto.maxFrequency);
         filters.filter2.envelope.sensitivity = Convert.fromPercent(filters.filter2.envelope.sensitivity);
-        filters.filter2.envelope.startFrequency = Convert.fromFrequency2(filters.filter2.envelope.startFrequency);
-        filters.filter2.eq.enhancedFrequency  = Convert.fromFrequency2(filters.filter2.eq.enhancedFrequency);
-        filters.filter2.eq.resonance  = Convert.fromResonance2(filters.filter2.eq.resonance);
+        filters.filter2.envelope.frequency = Convert.fromFrequency2(filters.filter2.envelope.frequency);
+        filters.filter2.eq.frequency  = Convert.fromFrequency2(filters.filter2.eq.frequency);
     }
 
     public static modulationToLogical(modulation: Modulation) {
