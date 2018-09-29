@@ -20,6 +20,7 @@ import { FiltersPostListItem } from "./filters/FiltersPostListItem";
 import { DelayListItem } from "./delay/DelayListItem";
 import { ModulationListItem } from "./modulation/ModulationListItem";
 import { VcaListItem } from "./vca/VcaListItem";
+import { DspListItem } from "./dsp/DspListItem";
 
 type EffectsExListProps = {
     effectsEx: EffectsEx;
@@ -119,6 +120,13 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
         components.push(
             <DelayListItem
                 delay={this.props.effectsEx.delay}
+                changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
+            />
+        );
+        components.push(
+            <DspListItem
+                dsp={this.props.effectsEx.dsp}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />

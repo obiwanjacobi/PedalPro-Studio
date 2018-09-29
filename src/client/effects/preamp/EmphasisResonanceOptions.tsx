@@ -24,7 +24,7 @@ export class EmphasisResonanceOptions
         return (
             <Grid container={true} spacing={8} direction="row" alignItems="center">
                 <Typography>Resonance</Typography>
-                <Select value={this.props.resonance} onChange={this.onChange} style={{ marginLeft: "8px"}}>
+                <Select value={this.props.resonance} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={EmphasisResonance.Low}>Low</MenuItem>
                     <MenuItem value={EmphasisResonance.MidLow}>Mid-Low</MenuItem>
                     <MenuItem value={EmphasisResonance.MidHigh}>Mid-High</MenuItem>

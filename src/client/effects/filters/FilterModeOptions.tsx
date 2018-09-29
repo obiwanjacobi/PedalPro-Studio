@@ -24,7 +24,7 @@ export class FilterModeOptions
         return (
             <Grid container={true} spacing={8} direction="row" alignItems="center">
                 <Typography>Mode</Typography>
-                <Select value={this.props.mode} onChange={this.onChange} style={{ marginLeft: "8px"}}>
+                <Select value={this.props.mode} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={FilterMode.Auto}>Auto</MenuItem>
                     <MenuItem value={FilterMode.Equalizer}>Equalizer</MenuItem>
                     <MenuItem value={FilterMode.EnvelopePos}>Envelope Pos.</MenuItem>

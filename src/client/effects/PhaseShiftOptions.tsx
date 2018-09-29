@@ -24,7 +24,7 @@ export class PhaseShiftOptions
         return (
             <Grid container={true} spacing={8} direction="row" alignItems="center">
                 <Typography>Phase</Typography>
-                <Select value={this.props.phase} onChange={this.onChange} style={{ marginLeft: "8px"}}>
+                <Select value={this.props.phase} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={PhaseShift.Degrees0}>0</MenuItem>
                     <MenuItem value={PhaseShift.Degrees90}>90</MenuItem>
                     <MenuItem value={PhaseShift.Degrees180}>180</MenuItem>

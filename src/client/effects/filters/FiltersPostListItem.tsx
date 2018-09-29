@@ -51,9 +51,9 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
             <div>
                 <EffectsListItemOption
                     label="Filter 1"
-                    enabledLeft={false}
-                    enabledRight={this.routing.postFilter1Left}
-                    onChangeRight={this.onChangeFilter1}
+                    enabledRight={false}
+                    enabledLeft={this.routing.postFilter1Left}
+                    onChangeLeft={this.onChangeFilter1}
                     onSelect={this.onFilter1}
                 />
                 <EffectsListItemOption

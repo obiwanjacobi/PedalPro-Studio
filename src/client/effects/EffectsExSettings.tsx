@@ -17,6 +17,7 @@ import { FiltersComponentNames } from "./filters/Filters";
 import { Filter1Settings } from "./filters/Filter1Settings";
 import { Filter2Settings } from "./filters/Filter2Settings";
 import { DelaySettings } from "./delay/DelaySettings";
+import { VcaSettings } from "./vca/VcaSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -39,6 +40,9 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
         
             case EffectNames.PreAmp:
                 return this.renderPreAmpSettings();
+
+            case EffectNames.Vca:
+                return (<VcaSettings vca={this.props.effects.vca} changeEffects={this.props.changeEffects} />);
 
             case EffectNames.Delay:
                 return (<DelaySettings delay={this.props.effects.delay} changeEffects={this.props.changeEffects} />);

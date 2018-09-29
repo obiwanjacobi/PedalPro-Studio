@@ -24,7 +24,7 @@ export class Filter2TypeOptions
         return (
             <Grid container={true} spacing={8} direction="row" alignItems="center">
                 <Typography>Type</Typography>
-                <Select value={this.props.type} onChange={this.onChange} style={{ marginLeft: "8px"}}>
+                <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={Filter2Type.LowPass}>Low Pass</MenuItem>
                     <MenuItem value={Filter2Type.BandPass}>Band Pass</MenuItem>
                 </Select>

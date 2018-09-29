@@ -24,7 +24,7 @@ export class DistortionDiodeTypeOptions
         return (
             <Grid container={true} spacing={8} direction="row" alignItems="center">
                 <Typography>Type</Typography>
-                <Select value={this.props.type} onChange={this.onChange} style={{ marginLeft: "8px"}}>
+                <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     {this.renderMenuItem(DistortionDiodeType.Guvnor)}
                     {this.renderMenuItem(DistortionDiodeType.DumbleDrive)}
                     {this.renderMenuItem(DistortionDiodeType.VrDistortion1)}

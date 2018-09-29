@@ -32,7 +32,7 @@ export enum FilterMode {
 export enum FilterWaveForm {
     Sine,
     Triangle,
-    Trapeziodal,
+    Trapezoidal,
     Rectangle,
     Exponential,
     Shelf1,

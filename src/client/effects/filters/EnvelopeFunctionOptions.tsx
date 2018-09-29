@@ -24,7 +24,7 @@ export class EnvelopeFunctionOptions
         return (
             <Grid container={true} spacing={8} direction="row" alignItems="center">
                 <Typography>Function</Typography>
-                <Select value={this.props.function} onChange={this.onChange} style={{ marginLeft: "8px"}}>
+                <Select value={this.props.function} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={EnvelopeFunction.Linear}>Linear</MenuItem>
                     <MenuItem value={EnvelopeFunction.ExponentialPos}>Exponential Pos.</MenuItem>
                     <MenuItem value={EnvelopeFunction.ExponentialNeg}>Exponential Neg.</MenuItem>

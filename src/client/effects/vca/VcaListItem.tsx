@@ -26,7 +26,7 @@ export class VcaListItem extends React.Component<VcaListItemAllProps, VcaListIte
                 title="Voltage Controlled Amp"
                 avatar="Vca"
                 onEnabled={this.onEnabled}
-                effectName={{ effectName: EffectNames.Modulation }}
+                effectName={{ effectName: EffectNames.Vca }}
                 selectEffect={this.props.selectEffect}
             />
         );
