@@ -18,6 +18,7 @@ import { FiltersPreListItem } from "./filters/FiltersPreListItem";
 import { SelectEffect, createSelectEffectAction } from "./SelectEffectAction";
 import { FiltersPostListItem } from "./filters/FiltersPostListItem";
 import { DelayListItem } from "./delay/DelayListItem";
+import { ModulationListItem } from "./modulation/ModulationListItem";
 
 type EffectsExListProps = {
     effectsEx: EffectsEx;
@@ -96,6 +97,13 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
         components.push(
             <FiltersPostListItem
                 filters={this.props.effectsEx.filters}
+                changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
+            />
+        );
+        components.push(
+            <ModulationListItem
+                modulation={this.props.effectsEx.modulation}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />

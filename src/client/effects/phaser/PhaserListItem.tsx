@@ -17,7 +17,7 @@ type PhaserListItemState = {};
 export class PhaserListItem extends React.Component<PhaserListItemAllProps, PhaserListItemState> {
     constructor(props: PhaserListItemAllProps) {
         super(props);
-        this.toggleEnabled = this.toggleEnabled.bind(this);
+        this.onEnabled = this.onEnabled.bind(this);
     }
     
     public render() {
@@ -26,7 +26,7 @@ export class PhaserListItem extends React.Component<PhaserListItemAllProps, Phas
                 enabled={this.props.phaser.enabled}
                 title="Phaser"
                 avatar="Phr"
-                onEnabled={this.toggleEnabled}
+                onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.Phaser }}
                 selectEffect={this.props.selectEffect}
                 content={
@@ -36,8 +36,7 @@ export class PhaserListItem extends React.Component<PhaserListItemAllProps, Phas
         );
     }
 
-    private toggleEnabled() {
-        const partial: Partial<Phaser> = { enabled: !this.props.phaser.enabled };
-        this.props.changeEffects({ phaser: partial });
+    private onEnabled(enabled: boolean) {
+        this.props.changeEffects({ phaser: { enabled: enabled } });
     }
 }
