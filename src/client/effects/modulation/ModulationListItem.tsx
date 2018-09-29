@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Typography } from "@material-ui/core";
 
 import { Modulation } from "./Modulation";
 import { EffectsItemCard } from "../EffectsItemCard";

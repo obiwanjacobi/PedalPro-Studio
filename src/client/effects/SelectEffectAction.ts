@@ -13,7 +13,7 @@ export interface SelectEffectAction {
 export function createSelectEffectAction 
     (selected: EffectNames, component?: string): SelectEffectAction {
         return { type: SelectEffectActionKey.type, selected: selected, component: component };
-};
+}
 
 export interface SelectEffect {
     selectEffect(selected: EffectNames, component?: string): void;
