@@ -13,10 +13,10 @@ import { EqualizerSettings } from "./preamp/EqualizerSettings";
 import { FuzzSettings } from "./preamp/FuzzSettings";
 import { DistortionDiodeSettings } from "./preamp/DistortionDiodeSettings";
 import { DistortionFetSettings } from "./preamp/DistortionFetSettings";
-import { FilterRouting } from "../../model/Filters";
 import { FiltersComponentNames } from "./filters/Filters";
 import { Filter1Settings } from "./filters/Filter1Settings";
 import { Filter2Settings } from "./filters/Filter2Settings";
+import { DelaySettings } from "./delay/DelaySettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -32,19 +32,17 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
     public render() {
         switch (this.props.effectName) {
             case EffectNames.Filters:
-                return this.props.effects.filters.routing !== FilterRouting.Bypass ? (
-                    this.renderFilterSettings()
-                ) : null;
+                return this.renderFilterSettings();
 
             case EffectNames.Boost:
-                return this.props.effects.boost.enabled ? (
-                    <BoostSettings boost={this.props.effects.boost} changeEffects={this.props.changeEffects} />
-                ) : null;
+                return (<BoostSettings boost={this.props.effects.boost} changeEffects={this.props.changeEffects} />);
         
             case EffectNames.PreAmp:
-                return this.props.effects.pre.enabled ? (
-                    this.renderPreAmpSettings()
-                ) : null;
+                return this.renderPreAmpSettings();
+
+            case EffectNames.Delay:
+                return (<DelaySettings delay={this.props.effects.delay} changeEffects={this.props.changeEffects} />);
+
             default:
                 return null;
         }        
