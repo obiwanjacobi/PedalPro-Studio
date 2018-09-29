@@ -16,6 +16,7 @@ import { VolumeListItem } from "./volume/VolumeListItem";
 import { PreAmpListItem } from "./preamp/PreAmpListItem";
 import { FiltersPreListItem } from "./filters/FiltersPreListItem";
 import { SelectEffect, createSelectEffectAction } from "./SelectEffectAction";
+import { FiltersPostListItem } from "./filters/FiltersPostListItem";
 
 type EffectsExListProps = {
     effectsEx: EffectsEx;
@@ -87,6 +88,13 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
         components.push(
             <PhaserListItem
                 phaser={this.props.effectsEx.phaser}
+                changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
+            />
+        );
+        components.push(
+            <FiltersPostListItem
+                filters={this.props.effectsEx.filters}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />

@@ -110,8 +110,8 @@ export enum FilterRouting {
     Bypass,
     PostF1L,
     Stereo,
-    PostF2,
-    PostF1F2,
+    PostF2L,
+    PostF1F2L,
     PreF1,
     PreF2,
     PreF1F2,
@@ -143,7 +143,7 @@ export class FilterRoutingValue {
             if (this.preFilter2) {
                 return FilterRouting.PreF1F2;
             }
-            if (this.postFilter2) {
+            if (this.postFilter2Right) {
                 return FilterRouting.PreF1PostF2R;
             }
             return FilterRouting.PreF1;
@@ -151,7 +151,7 @@ export class FilterRoutingValue {
             if (this.preFilter2) {
                 return FilterRouting.PreF2;
             }
-            if (this.postFilter2) {
+            if (this.postFilter2Right) {
                 return FilterRouting.PostF2R;
             }
             return FilterRouting.Bypass;
@@ -173,27 +173,26 @@ export class FilterRoutingValue {
             if (this.preFilter1) {
                 return FilterRouting.PreF1;
             }
-            if (this.postFilter1) {
+            if (this.postFilter1Left) {
                 return FilterRouting.PostF1L;
             }
             return FilterRouting.Bypass;
         }
     }
 
-    public get postFilter1(): boolean {
+    public get postFilter1Left(): boolean {
         return (this.val === FilterRouting.PostF1L ||
-            this.val === FilterRouting.PostF1F2 ||
+            this.val === FilterRouting.PostF1F2L ||
             this.val === FilterRouting.Stereo);
     }
 
-    public setPostFilter1(enabled: boolean): FilterRouting {
+    public setPostFilter1Left(enabled: boolean): FilterRouting {
         if (enabled) {
-            if (this.preFilter2) {
-                // no other solution but to kill preF2
-                return FilterRouting.PostF1L;
-            }
-            if (this.postFilter2) {
+            if (this.postFilter2Right) {
                 return FilterRouting.Stereo;
+            }
+            if (this.postFilter2Left) {
+                return FilterRouting.PostF1F2L;
             }
             return FilterRouting.PostF1L;
         } else {
@@ -203,36 +202,33 @@ export class FilterRoutingValue {
             if (this.val === FilterRouting.Stereo) {
                 return FilterRouting.PostF2R;
             }
-            if (this.val === FilterRouting.PostF1F2) {
-                return FilterRouting.PostF2;
+            if (this.val === FilterRouting.PostF1F2L) {
+                return FilterRouting.PostF2L;
             }
             return FilterRouting.Bypass;
         }
     }
 
-    public get postFilter2(): boolean {
+    public get postFilter2Right(): boolean {
         return (this.val === FilterRouting.PostF2R ||
-            this.val === FilterRouting.PostF1F2 ||
             this.val === FilterRouting.PreF1PostF2R ||
             this.val === FilterRouting.Stereo);
     }
 
-    public setPostFilter2(enabled: boolean): FilterRouting {
+    public setPostFilter2Right(enabled: boolean): FilterRouting {
         if (enabled) {
             if (this.preFilter1) {
                 return FilterRouting.PreF1PostF2R;
             }
-            if (this.postFilter1) {
-                // return FilterRouting.PostF1F2;
+            if (this.postFilter1Left) {
                 return FilterRouting.Stereo;
             }
-            // return FilterRouting.PostF2;
             return FilterRouting.PostF2R;
         } else {
             if (this.preFilter1) {
                 return FilterRouting.PreF1;
             }
-            if (this.postFilter1) {
+            if (this.postFilter1Left) {
                 return FilterRouting.PostF1L;
             }
             return FilterRouting.Bypass;
@@ -240,22 +236,28 @@ export class FilterRoutingValue {
     }
 
     public get postFilter2Left(): boolean {
-        return (this.val === FilterRouting.PostF2 ||
-            this.val === FilterRouting.PostF1F2);
+        return (this.val === FilterRouting.PostF2L ||
+            this.val === FilterRouting.PostF1F2L);
     }
 
-    public get postStereo(): boolean {
-        return (this.val === FilterRouting.Stereo);
-    }
-
-    public setPostStereo(enabled: boolean): FilterRouting {
+    public setPostFilter2Left(enabled: boolean): FilterRouting {
         if (enabled) {
-            return FilterRouting.Stereo;
+            if (this.postFilter1Left) {
+                return FilterRouting.PostF1F2L;
+            }
+            return FilterRouting.PostF2L;
         } else {
+            if (this.preFilter1) {
+                return FilterRouting.PreF1;
+            }
+            if (this.postFilter1Left) {
+                return FilterRouting.PostF1L;
+            }
             return FilterRouting.Bypass;
         }
     }
 }
+
 export interface Filters {
     routing: FilterRouting;
 

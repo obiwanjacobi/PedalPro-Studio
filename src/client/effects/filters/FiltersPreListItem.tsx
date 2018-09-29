@@ -66,24 +66,24 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
 
     private onFilter1() {
         if (this.routing.preFilter1) {
-            this.selectComponent(FiltersComponentNames.PreFilter1);
+            this.selectComponent(FiltersComponentNames.Filter1);
         }
     }
 
     private onChangeFilter1(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffects({ filters: { routing: this.routing.setPreFilter1(checked) }});
-        if (checked) { this.selectComponent(FiltersComponentNames.PreFilter1); }
+        if (checked) { this.selectComponent(FiltersComponentNames.Filter1); }
     }
 
     private onFilter2() {
         if (this.routing.preFilter2) {
-            this.selectComponent(FiltersComponentNames.PreFilter2);
+            this.selectComponent(FiltersComponentNames.Filter2);
         }
     }
 
     private onChangeFilter2(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffects({ filters: { routing: this.routing.setPreFilter2(checked) }});
-        if (checked) { this.selectComponent(FiltersComponentNames.PreFilter2); }
+        if (checked) { this.selectComponent(FiltersComponentNames.Filter2); }
     }
 
     private selectComponent(componentName: FiltersComponentNames) {

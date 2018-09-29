@@ -52,14 +52,14 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
     private renderFilterSettings(): React.ReactNode {
         switch (this.props.componentName) {
-            case FiltersComponentNames.PreFilter1:
+            case FiltersComponentNames.Filter1:
                 return (
                     <Filter1Settings
                         filter={this.props.effects.filters.filter1}
                         changeEffects={this.props.changeEffects}
                     />
                 );
-            case FiltersComponentNames.PreFilter2:
+            case FiltersComponentNames.Filter2:
                 return (
                     <Filter2Settings
                         filter={this.props.effects.filters.filter2}
