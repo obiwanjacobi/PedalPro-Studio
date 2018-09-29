@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography, ButtonBase, Switch } from "@material-ui/core";
+import { Typography, ButtonBase, Switch, Grid } from "@material-ui/core";
 
 type EffectsListItemOptionProps = {
     label: string;
@@ -26,16 +26,29 @@ export class EffectsListItemOption
 
     public render() {
         return (
-            <div>
-                {this.props.onChangeLeft &&
-                    <Switch checked={this.props.enabledLeft} onChange={this.onChangeLeft} />}
-                <ButtonBase onClick={this.onClick}>
-                    <Typography>{this.props.label}</Typography>
-                </ButtonBase>
-                {this.props.onChangeRight &&
-                    <Switch checked={this.props.enabledRight} onChange={this.onChangeRight} />}
-            </div>
+            <Grid container={true} direction="row" alignItems="center" justify="space-between">
+                <Grid item={true} xs={3}>
+                    {this.props.onChangeLeft &&
+                        <Switch checked={this.props.enabledLeft} onChange={this.onChangeLeft} />}
+                </Grid>
+                <Grid item={true} xs={6}>
+                    <ButtonBase 
+                        onClick={this.onClick} 
+                        disabled={!this.isEnabled}
+                    >
+                        <Typography style={{paddingLeft: "16px"}}>{this.props.label}</Typography>
+                    </ButtonBase>
+                </Grid>
+                <Grid item={true} xs={3}>
+                    {this.props.onChangeRight &&
+                        <Switch checked={this.props.enabledRight} onChange={this.onChangeRight} />}
+                </Grid>
+            </Grid>
         );
+    }
+
+    private get isEnabled(): boolean {
+        return this.props.enabledLeft || this.props.enabledRight;
     }
 
     private onClick() {
