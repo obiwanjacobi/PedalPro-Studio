@@ -8,9 +8,9 @@ type EffectsItemCardProps = {
     title: string;
     avatar: string;
     content?: React.ReactNode;
-    effectName: EffectComponentName;
+    effectName?: EffectComponentName;
 };
-type EffectItemCardActions = SelectEffect;
+type EffectItemCardActions = Partial<SelectEffect>;
 type EffectsItemCardEvents = {
     onEnabled?: (enabled: boolean) => void;
 };
@@ -45,7 +45,7 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
 
     private onSelectEffect() {
         if (!this.props.content && this.props.enabled) {
-            this.props.selectEffect(this.props.effectName.effectName, this.props.effectName.componentName);
+            this.selectEffect();
         }
     }
 
@@ -53,8 +53,12 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
         if (this.props.onEnabled) {
             this.props.onEnabled(enabled);
         }
-        if (enabled) { 
-            this.props.selectEffect(this.props.effectName.effectName, this.props.effectName.componentName); 
+        if (enabled) { this.selectEffect(); }
+    }
+
+    private selectEffect() {
+        if (this.props.selectEffect && this.props.effectName) {
+            this.props.selectEffect(this.props.effectName.effectName, this.props.effectName.componentName);
         }
     }
 }
