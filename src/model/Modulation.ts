@@ -7,10 +7,10 @@ export enum ModulationMode {
     Flanger
 }
 
-export enum ModulatingWaveForm {
+export enum ModulationWaveForm {
     Sine,
     Triangle,
-    Trapeziodal,
+    Trapezoidal,
     Rectangle,
     Exponential,
     Shelf1,
@@ -28,7 +28,7 @@ export interface Chorus {
     level: Percent;
     depth: Percent;
     phase: PhaseShift;
-    wave: ModulatingWaveForm;
+    wave: ModulationWaveForm;
     wet: Percent;
 }
 
@@ -37,7 +37,7 @@ export interface Vibe {
     tempo: TempoSpeed;
     depth: Percent;
     phase: PhaseShift;
-    wave: ModulatingWaveForm;
+    wave: ModulationWaveForm;
 }
 
 export interface Flanger {
@@ -45,7 +45,7 @@ export interface Flanger {
     tempo: TempoSpeed;
     feedback: Percent;
     depth: Percent;
-    wave: ModulatingWaveForm;
+    wave: ModulationWaveForm;
     delay: Percent;
     wet: Percent;
 }

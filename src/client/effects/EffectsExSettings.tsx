@@ -22,6 +22,10 @@ import { CompressorSettings } from "./compressor/CompressorSettings";
 import { AuxRoutingComponentNames } from "./auxRouting/AuxRouting";
 import { AuxMixerSettings } from "./auxRouting/AuxMixerSettings";
 import { AuxPedalSettings } from "./auxRouting/AuxPedalSettings";
+import { ModulationComponentNames } from "./modulation/Modulation";
+import { ChorusSettings } from "./modulation/ChorusSettings";
+import { VibeSettings } from "./modulation/VibeSettings";
+import { FlangerSettings } from "./modulation/FlangerSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -55,6 +59,9 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
             case EffectNames.Vca:
                 return (<VcaSettings vca={this.props.effects.vca} changeEffects={this.props.changeEffects} />);
+
+            case EffectNames.Modulation:    
+                return this.renderModulationSettings();
 
             case EffectNames.Delay:
                 return (<DelaySettings delay={this.props.effects.delay} changeEffects={this.props.changeEffects} />);
@@ -122,6 +129,33 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                 return (
                     <EqualizerSettings
                         equalizer={this.props.effects.pre.equalizer} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+        }
+    }
+
+    private renderModulationSettings(): React.ReactNode {
+        switch (this.props.componentName) {
+            default:
+            case ModulationComponentNames.Chorus:
+                return (
+                    <ChorusSettings
+                        chorus={this.props.effects.modulation.chorus} 
+                        changeEffects={this.props.changeEffects} 
+                    />
+                );
+            case ModulationComponentNames.Flanger:
+                return (
+                    <FlangerSettings 
+                        flanger={this.props.effects.modulation.flanger} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+            case ModulationComponentNames.Vibe:
+                return (
+                    <VibeSettings 
+                        vibe={this.props.effects.modulation.vibe} 
                         changeEffects={this.props.changeEffects}
                     />
                 );
