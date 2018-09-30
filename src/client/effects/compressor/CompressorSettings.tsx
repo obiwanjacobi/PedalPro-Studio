@@ -7,7 +7,8 @@ import { PercentSlider } from "../PercentSlider";
 import { Percent } from "../../../model/Types";
 import { CompressorAttackOptions } from "./CompressorAttackOptions";
 import { CompressorReleaseOptions } from "./CompressorReleaseOptions";
-import { CompressorAttackTime, CompressorReleaseTime } from "../../../model/Compressor";
+import { CompressorAttackTime, CompressorReleaseTime, CompressorModelType } from "../../../model/Compressor";
+import { CompressorTypeOptions } from "./CompressorTypeOptions";
 
 type CompressorSettingsProps = {
     compressor: Compressor;
@@ -20,6 +21,7 @@ export class CompressorSettings extends React.Component<CompressorSettingsAllPro
 
     public constructor(props: CompressorSettingsAllProps) {
         super(props);
+        this.onChangeModel = this.onChangeModel.bind(this);
         this.onChangeSensitivity = this.onChangeSensitivity.bind(this);
         this.onChangeLevel = this.onChangeLevel.bind(this);
         this.onChangeAttack = this.onChangeAttack.bind(this);
@@ -31,6 +33,12 @@ export class CompressorSettings extends React.Component<CompressorSettingsAllPro
             <Grid container={true}>
                 <Grid item={true} xs={12}>
                     <Typography variant="headline">Compressor</Typography>
+                </Grid>
+                <Grid item={true} xs={12}>
+                    <CompressorTypeOptions
+                        type={this.props.compressor.model} 
+                        onChange={this.onChangeModel}
+                    />
                 </Grid>
                 <Grid item={true} xs={12}>
                     <PercentSlider 
@@ -60,6 +68,10 @@ export class CompressorSettings extends React.Component<CompressorSettingsAllPro
                 </Grid>
             </Grid>
         );
+    }
+
+    private onChangeModel(model: CompressorModelType) {
+        this.props.changeEffects({ compressor: { model: model } });
     }
 
     private onChangeSensitivity(sensitivity: Percent) {
