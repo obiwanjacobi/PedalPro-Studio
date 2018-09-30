@@ -19,6 +19,9 @@ import { Filter2Settings } from "./filters/Filter2Settings";
 import { DelaySettings } from "./delay/DelaySettings";
 import { VcaSettings } from "./vca/VcaSettings";
 import { CompressorSettings } from "./compressor/CompressorSettings";
+import { AuxRoutingComponentNames } from "./auxRouting/AuxRouting";
+import { AuxMixerSettings } from "./auxRouting/AuxMixerSettings";
+import { AuxPedalSettings } from "./auxRouting/AuxPedalSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -56,6 +59,8 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
             case EffectNames.Delay:
                 return (<DelaySettings delay={this.props.effects.delay} changeEffects={this.props.changeEffects} />);
 
+            case EffectNames.AuxRouting:
+                return this.renderAuxSettings();
             default:
                 return null;
         }        
@@ -120,6 +125,16 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                         changeEffects={this.props.changeEffects}
                     />
                 );
+        }
+    }
+
+    private renderAuxSettings(): React.ReactNode {
+        switch (this.props.componentName) {
+            default:
+            case AuxRoutingComponentNames.Mixer:
+                return (<AuxMixerSettings aux={this.props.effects.aux} changeEffects={this.props.changeEffects} />);
+            case AuxRoutingComponentNames.Pedals:
+                return (<AuxPedalSettings aux={this.props.effects.aux} changeEffects={this.props.changeEffects} />);
         }
     }
 }

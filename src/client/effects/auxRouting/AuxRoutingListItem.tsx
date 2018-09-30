@@ -63,21 +63,27 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
     }
     
     private onPedals() {
-        this.selectEffect(AuxRoutingComponentNames.Pedals);
+        if (this.isPedals) {
+            this.selectEffect(AuxRoutingComponentNames.Pedals);
+        }
     }
 
     private onChangePedals(enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.LeftOnly : AuxRouting.None;
         this.props.changeEffects({ aux: { routing: auxRouting } });
+        if (enabled) { this.selectEffect(AuxRoutingComponentNames.Pedals); }
     }
 
     private onMixer() {
-        this.selectEffect(AuxRoutingComponentNames.Mixer);
+        if (this.props.aux.routing === AuxRouting.Mixer) {
+            this.selectEffect(AuxRoutingComponentNames.Mixer);
+        }
     }
 
     private onChangeMixer(enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.Mixer : AuxRouting.None;
         this.props.changeEffects({ aux: { routing: auxRouting } });
+        if (enabled) { this.selectEffect(AuxRoutingComponentNames.Mixer); }
     }
 
     private selectEffect(componentName: AuxRoutingComponentNames) {
