@@ -8,6 +8,7 @@ import { DelayRange, RelativeDelay } from "../../../model/Delay";
 import { DelayRelativeTimeSlider } from "./DelayRelativeTimeSlider";
 import { PercentSlider } from "../PercentSlider";
 import { Percent } from "../../../model/Types";
+import { ToggleSwitch } from "../ToggleSwitch";
 
 type DelaySettingsProps = {
     delay: Delay;
@@ -26,6 +27,9 @@ export class DelaySettings extends React.Component<DelaySettingsAllProps, DelayS
         this.onChangeOutput = this.onChangeOutput.bind(this);
         this.onChangeWet = this.onChangeWet.bind(this);
         this.onChangeFeedback = this.onChangeFeedback.bind(this);
+        this.onChangeModulation = this.onChangeModulation.bind(this);
+        this.onChangeModDepth = this.onChangeModDepth.bind(this);
+        this.onChangeModSpeed = this.onChangeModSpeed.bind(this);
     }
     
     public render() {
@@ -72,6 +76,29 @@ export class DelaySettings extends React.Component<DelaySettingsAllProps, DelayS
                         onChange={this.onChangeFeedback}
                     />
                 </Grid>
+                <Grid item={true} xs={12}>
+                    <ToggleSwitch 
+                        label="Modulation" 
+                        checked={this.props.delay.modulation} 
+                        onChange={this.onChangeModulation}
+                    />
+                </Grid>
+                {this.props.delay.modulation && 
+                    <Grid item={true} xs={12}>
+                        <PercentSlider 
+                            label="Modulation Speed" 
+                            value={this.props.delay.modSpeed} 
+                            onChange={this.onChangeModSpeed}
+                        />
+                    </Grid>}
+                {this.props.delay.modulation &&
+                    <Grid item={true} xs={12}>
+                        <PercentSlider 
+                            label="Modulation Depth" 
+                            value={this.props.delay.modDepth} 
+                            onChange={this.onChangeModDepth}
+                        />
+                    </Grid>}
             </Grid>
         );
     }
@@ -98,5 +125,17 @@ export class DelaySettings extends React.Component<DelaySettingsAllProps, DelayS
 
     private onChangeFeedback(value: Percent) {
         this.props.changeEffects({ delay: { feedback: value } });
+    }
+
+    private onChangeModulation(value: boolean) {
+        this.props.changeEffects({ delay: { modulation: value } });
+    }
+
+    private onChangeModDepth(value: Percent) {
+        this.props.changeEffects({ delay: { modDepth: value } });
+    }
+
+    private onChangeModSpeed(value: Percent) {
+        this.props.changeEffects({ delay: { modSpeed: value } });
     }
 }
