@@ -26,7 +26,7 @@ export class DspListItem extends React.Component<DspListItemAllProps, DspListIte
                 title="Digital Sound Processing"
                 avatar="Dsp"
                 onEnabled={this.onEnabled}
-                effectName={{ effectName: EffectNames.Modulation }}
+                effectName={{ effectName: EffectNames.Dsp }}
                 selectEffect={this.props.selectEffect}
             />
         );

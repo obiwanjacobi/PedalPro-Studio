@@ -26,6 +26,8 @@ import { ModulationComponentNames } from "./modulation/Modulation";
 import { ChorusSettings } from "./modulation/ChorusSettings";
 import { VibeSettings } from "./modulation/VibeSettings";
 import { FlangerSettings } from "./modulation/FlangerSettings";
+import { VolumeSettings } from "./volume/VolumeSettings";
+import { NoiseGateSettings } from "./noiseGate/NoiseGateSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -68,6 +70,18 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
             case EffectNames.AuxRouting:
                 return this.renderAuxSettings();
+
+            case EffectNames.Volume:
+                return (<VolumeSettings volume={this.props.effects.volume} changeEffects={this.props.changeEffects} />);
+
+            case EffectNames.NoiseGate:
+                return (
+                    <NoiseGateSettings 
+                        noiseGate={this.props.effects.noiseGate} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+
             default:
                 return null;
         }        
