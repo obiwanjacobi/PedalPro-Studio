@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Typography } from "@material-ui/core";
 
 import { Phaser } from "./Phaser";
 import { EffectsItemCard } from "../EffectsItemCard";
@@ -29,9 +28,6 @@ export class PhaserListItem extends React.Component<PhaserListItemAllProps, Phas
                 onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.Phaser }}
                 selectEffect={this.props.selectEffect}
-                content={
-                    <Typography color="textSecondary">Setting-summary here...</Typography>
-                }
             />
         );
     }

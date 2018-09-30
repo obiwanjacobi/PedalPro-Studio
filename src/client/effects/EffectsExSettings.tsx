@@ -28,6 +28,7 @@ import { VibeSettings } from "./modulation/VibeSettings";
 import { FlangerSettings } from "./modulation/FlangerSettings";
 import { VolumeSettings } from "./volume/VolumeSettings";
 import { NoiseGateSettings } from "./noiseGate/NoiseGateSettings";
+import { PhaserSettings } from "./phaser/PhaserSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -61,6 +62,9 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
             case EffectNames.Vca:
                 return (<VcaSettings vca={this.props.effects.vca} changeEffects={this.props.changeEffects} />);
+
+            case EffectNames.Phaser:
+                return (<PhaserSettings phaser={this.props.effects.phaser} changeEffects={this.props.changeEffects} />);
 
             case EffectNames.Modulation:    
                 return this.renderModulationSettings();
