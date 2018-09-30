@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Typography } from "@material-ui/core";
 
 import { Volume } from "./Volume";
 import { EffectsItemCard } from "../EffectsItemCard";
@@ -17,7 +16,7 @@ type VolumeListItemState = {};
 export class VolumeListItem extends React.Component<VolumeListItemAllProps, VolumeListItemState> {
     constructor(props: VolumeListItemAllProps) {
         super(props);
-        this.toggleEnabled = this.toggleEnabled.bind(this);
+        this.onEnabled = this.onEnabled.bind(this);
     }
     
     public render() {
@@ -26,18 +25,14 @@ export class VolumeListItem extends React.Component<VolumeListItemAllProps, Volu
                 enabled={this.props.volume.enabled}
                 title="Volume"
                 avatar="Vol"
-                onEnabled={this.toggleEnabled}
+                onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.Volume }}
                 selectEffect={this.props.selectEffect}
-                content={
-                    <Typography color="textSecondary">Setting-summary here...</Typography>
-                }
             />
         );
     }
 
-    private toggleEnabled() {
-        const partial: Partial<Volume> = { enabled: !this.props.volume.enabled };
-        this.props.changeEffects({ volume: partial });
+    private onEnabled(enabled: boolean) {
+        this.props.changeEffects({ volume: { enabled: enabled } });
     }
 }

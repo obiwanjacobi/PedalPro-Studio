@@ -22,7 +22,7 @@ export class Filter2TypeOptions
 
     public render() {
         return (
-            <Grid container={true} spacing={8} direction="row" alignItems="center">
+            <Grid container={true} alignItems="center">
                 <Typography>Type</Typography>
                 <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={Filter2Type.LowPass}>Low Pass</MenuItem>

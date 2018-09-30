@@ -15,7 +15,7 @@ type ModulationListItemAllProps = ModulationListItemProps & ModulationListItemAc
 type ModulationListItemState = {};
 
 export class ModulationListItem extends React.Component<ModulationListItemAllProps, ModulationListItemState> {
-    constructor(props: ModulationListItemAllProps) {
+    public constructor(props: ModulationListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);
     }

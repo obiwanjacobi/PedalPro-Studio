@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Typography } from "@material-ui/core";
 
 import { Compressor } from "./Compressor";
 import { EffectsItemCard } from "../EffectsItemCard";
@@ -15,9 +14,9 @@ type CompressorListItemAllProps = CompressorListItemProps & CompressorListItemAc
 type CompressorListItemState = {};
 
 export class CompressorListItem extends React.Component<CompressorListItemAllProps, CompressorListItemState> {
-    constructor(props: CompressorListItemAllProps) {
+    public constructor(props: CompressorListItemAllProps) {
         super(props);
-        this.toggleEnabled = this.toggleEnabled.bind(this);
+        this.onEnabled = this.onEnabled.bind(this);
     }
     
     public render() {
@@ -26,18 +25,14 @@ export class CompressorListItem extends React.Component<CompressorListItemAllPro
                 enabled={this.props.compressor.enabled}
                 title="Compressor"
                 avatar="Com"
-                onEnabled={this.toggleEnabled}
+                onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.Compressor }}
                 selectEffect={this.props.selectEffect}
-                content={
-                    <Typography color="textSecondary">Setting-summary here...</Typography>
-                }
             />
         );
     }
 
-    private toggleEnabled() {
-        const partial: Partial<Compressor> = { enabled: !this.props.compressor.enabled };
-        this.props.changeEffects({ compressor: partial });
+    private onEnabled(enabled: boolean) {
+        this.props.changeEffects({ compressor: { enabled: enabled } });
     }
 }

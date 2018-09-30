@@ -22,7 +22,7 @@ export class EnvelopeFunctionOptions
 
     public render() {
         return (
-            <Grid container={true} spacing={8} direction="row" alignItems="center">
+            <Grid container={true} alignItems="center">
                 <Typography>Function</Typography>
                 <Select value={this.props.function} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={EnvelopeFunction.Linear}>Linear</MenuItem>

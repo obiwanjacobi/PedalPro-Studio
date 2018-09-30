@@ -22,7 +22,7 @@ export class DistortionDiodeTypeOptions
 
     public render() {
         return (
-            <Grid container={true} spacing={8} direction="row" alignItems="center">
+            <Grid container={true} alignItems="center">
                 <Typography>Type</Typography>
                 <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     {this.renderMenuItem(DistortionDiodeType.Guvnor)}

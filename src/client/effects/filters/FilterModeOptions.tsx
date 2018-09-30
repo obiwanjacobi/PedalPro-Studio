@@ -22,7 +22,7 @@ export class FilterModeOptions
 
     public render() {
         return (
-            <Grid container={true} spacing={8} direction="row" alignItems="center">
+            <Grid container={true} alignItems="center">
                 <Typography>Mode</Typography>
                 <Select value={this.props.mode} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={FilterMode.Auto}>Auto</MenuItem>

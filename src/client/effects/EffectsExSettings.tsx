@@ -18,6 +18,7 @@ import { Filter1Settings } from "./filters/Filter1Settings";
 import { Filter2Settings } from "./filters/Filter2Settings";
 import { DelaySettings } from "./delay/DelaySettings";
 import { VcaSettings } from "./vca/VcaSettings";
+import { CompressorSettings } from "./compressor/CompressorSettings";
 
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
@@ -32,6 +33,14 @@ type EffectsExSettingsState = {};
 class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, EffectsExSettingsState> {
     public render() {
         switch (this.props.effectName) {
+            case EffectNames.Compressor:
+                return (
+                    <CompressorSettings 
+                        compressor={this.props.effects.compressor} 
+                        changeEffects={this.props.changeEffects}
+                    />
+                );
+                
             case EffectNames.Filters:
                 return this.renderFilterSettings();
 

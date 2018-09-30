@@ -14,7 +14,7 @@ type BoostListItemAllProps = BoostListItemProps & BoostListItemActions;
 type BoostListItemState = {};
 
 export class BoostListItem extends React.Component<BoostListItemAllProps, BoostListItemState> {
-    constructor(props: BoostListItemAllProps) {
+    public constructor(props: BoostListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);
     }

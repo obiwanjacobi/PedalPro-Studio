@@ -42,7 +42,7 @@ export class VcaSettings extends React.Component<VcaSettingsAllProps, VcaSetting
                     <PercentSlider label="Depth" value={this.props.vca.depth} onChange={this.onChangeDepth} />
                 </Grid>
                 <Grid item={true} xs={12}>
-                    <TempoSpeedSlider value={this.props.vca.depth} onChange={this.onChangeTempo} />
+                    <TempoSpeedSlider value={this.props.vca.tempo} onChange={this.onChangeTempo} />
                 </Grid>
                 <Grid item={true} xs={12}>
                     <PhaseShiftOptions phase={this.props.vca.phase} onChange={this.onChangePhase} />

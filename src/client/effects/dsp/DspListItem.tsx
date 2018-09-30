@@ -14,7 +14,7 @@ type DspListItemAllProps = DspListItemProps & DspListItemActions;
 type DspListItemState = {};
 
 export class DspListItem extends React.Component<DspListItemAllProps, DspListItemState> {
-    constructor(props: DspListItemAllProps) {
+    public constructor(props: DspListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);
     }

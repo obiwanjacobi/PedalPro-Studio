@@ -22,7 +22,7 @@ export class WaveFormOptions
 
     public render() {
         return (
-            <Grid container={true} spacing={8} direction="row" alignItems="center">
+            <Grid container={true} alignItems="center">
                 <Typography>Wave</Typography>
                 <Select value={this.props.wave} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={WaveForm.Sine}>Sine</MenuItem>

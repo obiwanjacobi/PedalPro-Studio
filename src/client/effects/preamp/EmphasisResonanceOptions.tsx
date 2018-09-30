@@ -22,7 +22,7 @@ export class EmphasisResonanceOptions
 
     public render() {
         return (
-            <Grid container={true} spacing={8} direction="row" alignItems="center">
+            <Grid container={true} alignItems="center">
                 <Typography>Resonance</Typography>
                 <Select value={this.props.resonance} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={EmphasisResonance.Low}>Low</MenuItem>
