@@ -125,7 +125,7 @@ export class Convert {
 
     public static fromTimeShort(value: number): number {
         if (value < 23.7) { return 0; }
-        if (value < 994) { return 0; }
+        if (value > 99.4) { return 0; }
         return Math.round(this.transformRange(value * 10, 237, 994, 0, 0xFF));
     }
 
