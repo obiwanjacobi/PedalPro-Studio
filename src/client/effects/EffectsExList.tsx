@@ -5,7 +5,7 @@ import { AutoSizer } from "react-virtualized";
 
 import { EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { CompressorListItem } from "./compressor/CompressorListItem";
-import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
+import { ChangeEffectsEx, createChangeEffectsExAction } from "./ChangeEffectsAction";
 // import { ApplicationDocument } from "../ApplicationDocument";
 import { RecursivePartial } from "../../TypeExtensions";
 import { BoostListItem } from "./boost/BoostListItem";
@@ -26,7 +26,7 @@ type EffectsExListProps = {
     effectsEx: EffectsEx;
 };
 type EffectsExListStoreProps = {};
-type EffectsExListActions = ChangeEffects & SelectEffect;
+type EffectsExListActions = ChangeEffectsEx & SelectEffect;
 type EffectsExListAllProps = EffectsExListProps & EffectsExListStoreProps & EffectsExListActions;
 type EffectsExListState = {};
 
@@ -64,91 +64,91 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
         components.push(
             <CompressorListItem
                 compressor={this.props.effectsEx.compressor}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <FiltersPreListItem
                 filters={this.props.effectsEx.filters}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <BoostListItem
                 boost={this.props.effectsEx.boost}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <PreAmpListItem
                 pre={this.props.effectsEx.pre}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <VcaListItem
                 vca={this.props.effectsEx.vca}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <PhaserListItem
                 phaser={this.props.effectsEx.phaser}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <FiltersPostListItem
                 filters={this.props.effectsEx.filters}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <ModulationListItem
                 modulation={this.props.effectsEx.modulation}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <DelayListItem
                 delay={this.props.effectsEx.delay}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <DspListItem
                 dsp={this.props.effectsEx.dsp}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <AuxRoutingListItem
                 aux={this.props.effectsEx.aux}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <VolumeListItem
                 volume={this.props.effectsEx.volume}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <NoiseGateListItem
                 noiseGate={this.props.effectsEx.noiseGate}
-                changeEffects={this.props.changeEffects}
+                changeEffectsEx={this.props.changeEffectsEx}
                 selectEffect={this.props.selectEffect}
             />
         );
@@ -167,8 +167,8 @@ type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsExListActions, Effec
 const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: EffectsExListProps): EffectsExListActions => {
         return {
-            changeEffects: (effects: RecursivePartial<EffectsOrEx>): void => {
-                dispatch(createChangeEffectsAction(effects));
+            changeEffectsEx: (effects: RecursivePartial<EffectsOrEx>): void => {
+                dispatch(createChangeEffectsExAction(effects));
             },
             selectEffect : (effectName: EffectNames, component?: string) => {
                 dispatch(createSelectEffectAction(effectName, component));

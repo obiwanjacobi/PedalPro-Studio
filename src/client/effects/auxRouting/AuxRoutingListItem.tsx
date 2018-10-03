@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Aux, AuxRoutingComponentNames } from "./AuxRouting";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { AuxRouting } from "../../../model/AuxRouting";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
@@ -11,7 +11,7 @@ import { EffectsListItemOption } from "../EffectsListItemOption";
 type AuxRoutingListItemProps = {
     aux: Aux;
 };
-type AuxRoutingListItemActions = ChangeEffects & SelectEffect;
+type AuxRoutingListItemActions = ChangeEffectsEx & SelectEffect;
 type AuxRoutingListItemAllProps = AuxRoutingListItemProps & AuxRoutingListItemActions;
 type AuxRoutingListItemState = {};
 
@@ -70,7 +70,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
 
     private onChangePedals(enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.LeftOnly : AuxRouting.None;
-        this.props.changeEffects({ aux: { routing: auxRouting } });
+        this.props.changeEffectsEx({ aux: { routing: auxRouting } });
         if (enabled) { this.selectEffect(AuxRoutingComponentNames.Pedals); }
     }
 
@@ -82,7 +82,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
 
     private onChangeMixer(enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.Mixer : AuxRouting.None;
-        this.props.changeEffects({ aux: { routing: auxRouting } });
+        this.props.changeEffectsEx({ aux: { routing: auxRouting } });
         if (enabled) { this.selectEffect(AuxRoutingComponentNames.Mixer); }
     }
 

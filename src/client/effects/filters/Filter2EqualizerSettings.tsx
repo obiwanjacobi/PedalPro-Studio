@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Grid } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EqFilter2, Frequency2 } from "../../../model/Filters";
 import { Frequency2Slider } from "./Frequency2Slider";
 
 type Filter2EqualizerSettingsProps = {
     eq: EqFilter2;
 };
-type Filter2EqualizerSettingsActions = ChangeEffects;
+type Filter2EqualizerSettingsActions = ChangeEffectsEx;
 type Filter2EqualizerSettingsAllProps = Filter2EqualizerSettingsProps & Filter2EqualizerSettingsActions;
 type Filter2EqualizerSettingsState = {};
 
@@ -35,6 +35,6 @@ export class Filter2EqualizerSettings
     }
 
     private onChangeFrequency(value: Frequency2) {
-        this.props.changeEffects({ filters: { filter2: { eq: { frequency: value } } } });
+        this.props.changeEffectsEx({ filters: { filter2: { eq: { frequency: value } } } });
     }
 }

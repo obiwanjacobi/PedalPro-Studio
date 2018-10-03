@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, ListItemSecondaryAction, Switch } from "@
 
 import { PreAmp, PreAmpComponentNames } from "./PreAmp";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { PreAmpRoutingValue } from "../../../model/PreAmp";
@@ -11,7 +11,7 @@ import { PreAmpRoutingValue } from "../../../model/PreAmp";
 type PreAmpListItemProps = {
     pre: PreAmp;
 };
-type PreAmpListItemActions = ChangeEffects & SelectEffect;
+type PreAmpListItemActions = ChangeEffectsEx & SelectEffect;
 type PreAmpListItemAllProps = PreAmpListItemProps & PreAmpListItemActions;
 type PreAmpListItemState = {};
 
@@ -98,22 +98,22 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
     }
 
     private onChangeDistortionDiode(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffects({ pre: { routing: this.routingValue.setDistortionDiode(checked) }});
+        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionDiode(checked) }});
         if (checked) { this.selectComponent(PreAmpComponentNames.DistortionDiode); }
     }
 
     private onChangeDistortionFet(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffects({ pre: { routing: this.routingValue.setDistortionFet(checked) }});
+        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionFet(checked) }});
         if (checked) { this.selectComponent(PreAmpComponentNames.DistortionFet); }
     }
 
     private onChangeFuzz(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffects({ pre: { routing: this.routingValue.setFuzz(checked) }});
+        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setFuzz(checked) }});
         if (checked) { this.selectComponent(PreAmpComponentNames.Fuzz); }
     }
 
     private onEnabled(enabled: boolean) {
-        this.props.changeEffects({ pre: { enabled: enabled } });
+        this.props.changeEffectsEx({ pre: { enabled: enabled } });
     }
 
     private onEmphasis() {

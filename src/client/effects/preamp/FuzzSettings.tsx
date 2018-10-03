@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { PreFuzz } from "../../../model/PreAmp";
 import { ToggleSwitch } from "../ToggleSwitch";
 import { PercentSlider } from "../PercentSlider";
@@ -10,7 +10,7 @@ import { Percent } from "../../../model/Types";
 type FuzzSettingsProps = {
     fuzz: PreFuzz;
 };
-type FuzzSettingsActions = ChangeEffects;
+type FuzzSettingsActions = ChangeEffectsEx;
 type FuzzSettingsAllProps = FuzzSettingsProps & FuzzSettingsActions;
 type FuzzSettingsState = {};
 
@@ -43,10 +43,10 @@ export class FuzzSettings extends React.Component<FuzzSettingsAllProps, FuzzSett
     }
 
     private onChangeBoost(checked: boolean) {
-        this.props.changeEffects({ pre: { fuzz: { boost: checked } } });
+        this.props.changeEffectsEx({ pre: { fuzz: { boost: checked } } });
     }
 
     private onChangeLevel(value: Percent) {
-        this.props.changeEffects({ pre: { fuzz: { level: value } } });
+        this.props.changeEffectsEx({ pre: { fuzz: { level: value } } });
     }
 }

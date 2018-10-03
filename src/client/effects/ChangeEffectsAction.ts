@@ -1,4 +1,4 @@
-import { Effects, EffectsEx, EffectsOrEx } from "./Effects";
+import { Effects, EffectsEx } from "./Effects";
 import { RecursivePartial } from "../../TypeExtensions";
 
 export enum ChangeEffectsActionKey {
@@ -11,27 +11,26 @@ export interface ChangeEffectsAction {
     readonly effectsEx?: RecursivePartial<EffectsEx>;
 }
 
-export function createChangeEffectsAction 
-    (effectsOrEx: RecursivePartial<EffectsOrEx>): ChangeEffectsAction {
-        const effects = effectsOrEx as RecursivePartial<Effects>;
-        if (effects) {
-            return { 
-                type: ChangeEffectsActionKey.type, 
-                effects: effects, 
-            };
-        }
-    
-        const effectsEx = effectsOrEx as RecursivePartial<EffectsEx>;
-        if (effectsEx) {
-            return { 
-                type: ChangeEffectsActionKey.type, 
-                effectsEx: effectsEx, 
-            };
-        }
-
-        throw new Error("Could not determine: Effects or EffectsEx");
+export function createChangeEffectsExAction 
+    (effectsEx: RecursivePartial<EffectsEx>): ChangeEffectsAction {
+        return { 
+            type: ChangeEffectsActionKey.type, 
+            effectsEx: effectsEx, 
+        };
 }
 
-export interface ChangeEffects {
-    changeEffects(effects?: RecursivePartial<EffectsOrEx>): void;
+export interface ChangeEffectsEx {
+    changeEffectsEx(effects: RecursivePartial<EffectsEx>): void;
 }
+
+// export function createChangeEffectsAction 
+//     (effects: RecursivePartial<Effects>): ChangeEffectsAction {
+//         return { 
+//             type: ChangeEffectsActionKey.type, 
+//             effects: effects, 
+//         };
+// }
+
+// export interface ChangeEffects {
+//     changeEffects(effects: RecursivePartial<Effects>): void;
+// }

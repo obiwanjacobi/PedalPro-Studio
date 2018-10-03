@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { AutoFilter1, Frequency1, FilterWaveForm } from "../../../model/Filters";
 import { Frequency1Slider } from "./Frequency1Slider";
 import { PhaseShiftOptions } from "../PhaseShiftOptions";
@@ -12,7 +12,7 @@ import { FilterWaveFromOptions } from "./FilterWaveFormOptions";
 type Filter1AutoSettingsProps = {
     auto: AutoFilter1;
 };
-type Filter1AutoSettingsActions = ChangeEffects;
+type Filter1AutoSettingsActions = ChangeEffectsEx;
 type Filter1AutoSettingsAllProps = Filter1AutoSettingsProps & Filter1AutoSettingsActions;
 type Filter1AutoSettingsState = {};
 
@@ -59,23 +59,23 @@ export class Filter1AutoSettings extends React.Component<Filter1AutoSettingsAllP
 
     private onChangeMinFrequency(value: Frequency1) {
         const max = Math.max(value, this.props.auto.maxFrequency);
-        this.props.changeEffects({ filters: { filter1: { auto: { minFrequency: value, maxFrequency: max } } } });
+        this.props.changeEffectsEx({ filters: { filter1: { auto: { minFrequency: value, maxFrequency: max } } } });
     }
 
     private onChangeMaxFrequency(value: Frequency1) {
         const min = Math.min(value, this.props.auto.minFrequency);
-        this.props.changeEffects({ filters: { filter1: { auto: { minFrequency: min, maxFrequency: value } } } });
+        this.props.changeEffectsEx({ filters: { filter1: { auto: { minFrequency: min, maxFrequency: value } } } });
     }
 
     private onChangePhase(value: PhaseShift) {
-        this.props.changeEffects({ filters: { filter1: { auto: { phase: value } } } });
+        this.props.changeEffectsEx({ filters: { filter1: { auto: { phase: value } } } });
     }
 
     private onChangeWave(value: FilterWaveForm) {
-        this.props.changeEffects({ filters: { filter1: { auto: { wave: value } } } });
+        this.props.changeEffectsEx({ filters: { filter1: { auto: { wave: value } } } });
     }
 
     private onChangeTempo(value: PhaseShift) {
-        this.props.changeEffects({ filters: { filter1: { auto: { tempo: value } } } });
+        this.props.changeEffectsEx({ filters: { filter1: { auto: { tempo: value } } } });
     }
 }

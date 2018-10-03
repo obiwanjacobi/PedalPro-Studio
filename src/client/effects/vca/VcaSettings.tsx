@@ -2,7 +2,7 @@ import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
 import { VoltageControlledAmp } from "./VoltageControlledAmp";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { VcaAssign } from "../../../model/VoltageControlledAmp";
 import { Percent, TempoSpeed, PhaseShift, WaveForm } from "../../../model/Types";
 import { VcaAssignOptions } from "./VcaAssignOptions";
@@ -14,7 +14,7 @@ import { TempoSpeedSlider } from "../TempoSpeedSlider";
 type VcaSettingsProps = {
     vca: VoltageControlledAmp;
 };
-type VcaSettingsActions = ChangeEffects;
+type VcaSettingsActions = ChangeEffectsEx;
 type VcaSettingsAllProps = VcaSettingsProps & VcaSettingsActions;
 type VcaSettingsState = {};
 
@@ -55,22 +55,22 @@ export class VcaSettings extends React.Component<VcaSettingsAllProps, VcaSetting
     }
 
     private onChangeAssign(assign: VcaAssign) {
-        this.props.changeEffects({ vca: { assign: assign } });
+        this.props.changeEffectsEx({ vca: { assign: assign } });
     }
 
     private onChangeDepth(depth: Percent) {
-        this.props.changeEffects({ vca: { depth: depth } });
+        this.props.changeEffectsEx({ vca: { depth: depth } });
     }
 
     private onChangePhase(phase: PhaseShift) {
-        this.props.changeEffects({ vca: { phase: phase } });
+        this.props.changeEffectsEx({ vca: { phase: phase } });
     }
 
     private onChangeWave(wave: WaveForm) {
-        this.props.changeEffects({ vca: { wave: wave } });
+        this.props.changeEffectsEx({ vca: { wave: wave } });
     }
 
     private onChangeTempo(tempo: TempoSpeed) {
-        this.props.changeEffects({ vca: { tempo: tempo } });
+        this.props.changeEffectsEx({ vca: { tempo: tempo } });
     }
 }

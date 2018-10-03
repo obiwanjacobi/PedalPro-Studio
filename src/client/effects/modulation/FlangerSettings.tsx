@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { Percent, TempoSpeed } from "../../../model/Types";
 import { PercentSlider } from "../PercentSlider";
 import { TempoSpeedSlider } from "../TempoSpeedSlider";
@@ -12,7 +12,7 @@ import { FlangerHarmonicsOptions } from "./FlangerHarmonicsOptions";
 type FlangerSettingsProps = {
     flanger: Flanger;
 };
-type FlangerSettingsActions = ChangeEffects;
+type FlangerSettingsActions = ChangeEffectsEx;
 type FlangerSettingsAllProps = FlangerSettingsProps & FlangerSettingsActions;
 type FlangerSettingsState = {};
 
@@ -72,30 +72,30 @@ export class FlangerSettings extends React.Component<FlangerSettingsAllProps, Fl
     }
 
     private onChangeHarmonics(harmonics: Harmonics) {
-        this.props.changeEffects({ modulation: { flanger: { harmonics: harmonics } } });
+        this.props.changeEffectsEx({ modulation: { flanger: { harmonics: harmonics } } });
     }
 
     private onChangeDepth(depth: Percent) {
-        this.props.changeEffects({ modulation: { flanger: { depth: depth } } });
+        this.props.changeEffectsEx({ modulation: { flanger: { depth: depth } } });
     }
 
     private onChangeFeedback(feedback: Percent) {
-        this.props.changeEffects({ modulation: { flanger: { feedback: feedback } } });
+        this.props.changeEffectsEx({ modulation: { flanger: { feedback: feedback } } });
     }
 
     private onChangeWet(wet: Percent) {
-        this.props.changeEffects({ modulation: { flanger: { wet: wet } } });
+        this.props.changeEffectsEx({ modulation: { flanger: { wet: wet } } });
     }
 
     private onChangeDelay(delay: Percent) {
-        this.props.changeEffects({ modulation: { flanger: { delay: delay } } });
+        this.props.changeEffectsEx({ modulation: { flanger: { delay: delay } } });
     }
 
     private onChangeWave(wave: ModulationWaveForm) {
-        this.props.changeEffects({ modulation: { flanger: { wave: wave } } });
+        this.props.changeEffectsEx({ modulation: { flanger: { wave: wave } } });
     }
 
     private onChangeTempo(tempo: TempoSpeed) {
-        this.props.changeEffects({ modulation: { flanger: { tempo: tempo } } });
+        this.props.changeEffectsEx({ modulation: { flanger: { tempo: tempo } } });
     }
 }

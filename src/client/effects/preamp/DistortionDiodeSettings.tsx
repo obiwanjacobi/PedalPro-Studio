@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { PreDistortionDiode, DistortionDiodeType } from "../../../model/PreAmp";
 import { PercentSlider } from "../PercentSlider";
 import { Percent } from "../../../model/Types";
@@ -10,7 +10,7 @@ import { DistortionDiodeTypeOptions } from "./DistortionDiodeTypeOptions";
 type DistortionDiodeSettingsProps = {
     distortion: PreDistortionDiode;
 };
-type DistortionDiodeSettingsActions = ChangeEffects;
+type DistortionDiodeSettingsActions = ChangeEffectsEx;
 type DistortionDiodeSettingsAllProps = DistortionDiodeSettingsProps & DistortionDiodeSettingsActions;
 type DistortionDiodeSettingsState = {};
 
@@ -52,22 +52,22 @@ export class DistortionDiodeSettings
     }
 
     private onChangeType(type: DistortionDiodeType) {
-        this.props.changeEffects({ pre: { distortionDiode: { type: type } } });
+        this.props.changeEffectsEx({ pre: { distortionDiode: { type: type } } });
     }
 
     private onChangeLow(value: Percent) {
-        this.props.changeEffects({ pre: { distortionDiode: { low: value } } });
+        this.props.changeEffectsEx({ pre: { distortionDiode: { low: value } } });
     }
 
     private onChangeMid(value: Percent) {
-        this.props.changeEffects({ pre: { distortionDiode: { mid: value } } });
+        this.props.changeEffectsEx({ pre: { distortionDiode: { mid: value } } });
     }
 
     private onChangeHigh(value: Percent) {
-        this.props.changeEffects({ pre: { distortionDiode: { high: value } } });
+        this.props.changeEffectsEx({ pre: { distortionDiode: { high: value } } });
     }
 
     private onChangeLevel(value: Percent) {
-        this.props.changeEffects({ pre: { distortionDiode: { level: value } } });
+        this.props.changeEffectsEx({ pre: { distortionDiode: { level: value } } });
     }
 }

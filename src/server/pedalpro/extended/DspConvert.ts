@@ -19,6 +19,8 @@ const frequencyTable: number[] = [
 ];
 
 export class DspConvert {
+    public static readonly frequencyValueSteps = frequencyTable.length - 2;
+
     public static restrictCaveDelay1(value: number): number {
         if (value < 0x0A) { return 0x0A; }
         if (value > 0x50) { return 0x50; }

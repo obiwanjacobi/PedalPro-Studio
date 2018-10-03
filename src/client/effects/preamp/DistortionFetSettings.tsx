@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { PreDistortionFet } from "../../../model/PreAmp";
 import { PercentSlider } from "../PercentSlider";
 import { Percent } from "../../../model/Types";
@@ -9,7 +9,7 @@ import { Percent } from "../../../model/Types";
 type DistortionFetSettingsProps = {
     distortion: PreDistortionFet;
 };
-type DistortionFetSettingsActions = ChangeEffects;
+type DistortionFetSettingsActions = ChangeEffectsEx;
 type DistortionFetSettingsAllProps = DistortionFetSettingsProps & DistortionFetSettingsActions;
 type DistortionFetSettingsState = {};
 
@@ -37,10 +37,10 @@ export class DistortionFetSettings extends React.Component<DistortionFetSettings
     }
 
     private onChangeContour(value: Percent) {
-        this.props.changeEffects({ pre: { distortionFet: { contour: value } } });
+        this.props.changeEffectsEx({ pre: { distortionFet: { contour: value } } });
     }
 
     private onChangeLevel(value: Percent) {
-        this.props.changeEffects({ pre: { distortionFet: { level: value } } });
+        this.props.changeEffectsEx({ pre: { distortionFet: { level: value } } });
     }
 }

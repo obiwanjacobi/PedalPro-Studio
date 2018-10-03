@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Modulation, ModulationComponentNames } from "./Modulation";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { ModulationMode } from "../../../model/Modulation";
@@ -11,7 +11,7 @@ import { List, ListItem, ListItemText, ListItemSecondaryAction, Switch } from "@
 type ModulationListItemProps = {
     modulation: Modulation;
 };
-type ModulationListItemActions = ChangeEffects & SelectEffect;
+type ModulationListItemActions = ChangeEffectsEx & SelectEffect;
 type ModulationListItemAllProps = ModulationListItemProps & ModulationListItemActions;
 type ModulationListItemState = {};
 
@@ -72,7 +72,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
         }
     }
     private onChangeChorus(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
-        this.props.changeEffects({ modulation: { mode: enabled ? ModulationMode.Chorus : ModulationMode.None } });
+        this.props.changeEffectsEx({ modulation: { mode: enabled ? ModulationMode.Chorus : ModulationMode.None } });
         if (enabled) { this.selectEffect(ModulationComponentNames.Chorus); }
     }
 
@@ -86,7 +86,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
         }
     }
     private onChangeFlanger(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
-        this.props.changeEffects({ modulation: { mode: enabled ? ModulationMode.Flanger : ModulationMode.None } });
+        this.props.changeEffectsEx({ modulation: { mode: enabled ? ModulationMode.Flanger : ModulationMode.None } });
         if (enabled) { this.selectEffect(ModulationComponentNames.Flanger); }
     }
 
@@ -100,7 +100,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
         }
     }
     private onChangeVibe(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
-        this.props.changeEffects({ modulation: { mode: enabled ? ModulationMode.ChorusVibe : ModulationMode.None } });
+        this.props.changeEffectsEx({ modulation: { mode: enabled ? ModulationMode.ChorusVibe : ModulationMode.None } });
         if (enabled) { this.selectEffect(ModulationComponentNames.Vibe); }
     }
 

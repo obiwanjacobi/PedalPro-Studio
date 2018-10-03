@@ -2,14 +2,14 @@ import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
 import { Aux } from "./AuxRouting";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { Percent } from "../../../model/Types";
 import { PercentSlider } from "../PercentSlider";
 
 type AuxMixerSettingsProps = {
     aux: Aux;
 };
-type AuxMixerSettingsActions = ChangeEffects;
+type AuxMixerSettingsActions = ChangeEffectsEx;
 type AuxMixerSettingsAllProps = AuxMixerSettingsProps & AuxMixerSettingsActions;
 type AuxMixerSettingsState = {};
 
@@ -80,26 +80,26 @@ export class AuxMixerSettings extends React.Component<AuxMixerSettingsAllProps, 
     }
 
     private onChangeGainL(value: Percent) {
-        this.props.changeEffects({ aux: { mixGainSendL: value } });
+        this.props.changeEffectsEx({ aux: { mixGainSendL: value } });
     }
 
     private onChangeGainR(value: Percent) {
-        this.props.changeEffects({ aux: { mixGainSendR: value } });
+        this.props.changeEffectsEx({ aux: { mixGainSendR: value } });
     }
 
     private onChangeWetL(value: Percent) {
-        this.props.changeEffects({ aux: { mixWetLevelL: value } });
+        this.props.changeEffectsEx({ aux: { mixWetLevelL: value } });
     }
 
     private onChangeWetR(value: Percent) {
-        this.props.changeEffects({ aux: { mixWetLevelR: value } });
+        this.props.changeEffectsEx({ aux: { mixWetLevelR: value } });
     }
 
     private onChangeDryL(value: Percent) {
-        this.props.changeEffects({ aux: { mixDryLevelL: value } });
+        this.props.changeEffectsEx({ aux: { mixDryLevelL: value } });
     }
 
     private onChangeDryR(value: Percent) {
-        this.props.changeEffects({ aux: { mixDryLevelR: value } });
+        this.props.changeEffectsEx({ aux: { mixDryLevelR: value } });
     }
 }

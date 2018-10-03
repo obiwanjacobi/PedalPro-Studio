@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { Percent, TempoSpeed, PhaseShift } from "../../../model/Types";
 import { PercentSlider } from "../PercentSlider";
 import { PhaseShiftOptions } from "../PhaseShiftOptions";
@@ -13,7 +13,7 @@ import { ToggleSwitch } from "../ToggleSwitch";
 type ChorusSettingsProps = {
     chorus: Chorus;
 };
-type ChorusSettingsActions = ChangeEffects;
+type ChorusSettingsActions = ChangeEffectsEx;
 type ChorusSettingsAllProps = ChorusSettingsProps & ChorusSettingsActions;
 type ChorusSettingsState = {};
 
@@ -62,30 +62,30 @@ export class ChorusSettings extends React.Component<ChorusSettingsAllProps, Chor
     }
 
     private onChangeBright(enabled: boolean) {
-        this.props.changeEffects({ modulation: { chorus: { bright: enabled } } });
+        this.props.changeEffectsEx({ modulation: { chorus: { bright: enabled } } });
     }
 
     private onChangeDepth(depth: Percent) {
-        this.props.changeEffects({ modulation: { chorus: { depth: depth } } });
+        this.props.changeEffectsEx({ modulation: { chorus: { depth: depth } } });
     }
 
     private onChangeLevel(level: Percent) {
-        this.props.changeEffects({ modulation: { chorus: { level: level } } });
+        this.props.changeEffectsEx({ modulation: { chorus: { level: level } } });
     }
 
     private onChangeWet(wet: Percent) {
-        this.props.changeEffects({ modulation: { chorus: { wet: wet } } });
+        this.props.changeEffectsEx({ modulation: { chorus: { wet: wet } } });
     }
 
     private onChangePhase(phase: PhaseShift) {
-        this.props.changeEffects({ modulation: { chorus: { phase: phase } } });
+        this.props.changeEffectsEx({ modulation: { chorus: { phase: phase } } });
     }
 
     private onChangeWave(wave: ModulationWaveForm) {
-        this.props.changeEffects({ modulation: { chorus: { wave: wave } } });
+        this.props.changeEffectsEx({ modulation: { chorus: { wave: wave } } });
     }
 
     private onChangeTempo(tempo: TempoSpeed) {
-        this.props.changeEffects({ modulation: { chorus: { tempo: tempo } } });
+        this.props.changeEffectsEx({ modulation: { chorus: { tempo: tempo } } });
     }
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Compressor } from "./Compressor";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { Grid, Typography } from "@material-ui/core";
 import { PercentSlider } from "../PercentSlider";
 import { Percent } from "../../../model/Types";
@@ -13,7 +13,7 @@ import { CompressorTypeOptions } from "./CompressorTypeOptions";
 type CompressorSettingsProps = {
     compressor: Compressor;
 };
-type CompressorSettingsActions = ChangeEffects;
+type CompressorSettingsActions = ChangeEffectsEx;
 type CompressorSettingsAllProps = CompressorSettingsProps & CompressorSettingsActions;
 type CompressorSettingsState = {};
 
@@ -71,22 +71,22 @@ export class CompressorSettings extends React.Component<CompressorSettingsAllPro
     }
 
     private onChangeModel(model: CompressorModelType) {
-        this.props.changeEffects({ compressor: { model: model } });
+        this.props.changeEffectsEx({ compressor: { model: model } });
     }
 
     private onChangeSensitivity(sensitivity: Percent) {
-        this.props.changeEffects({ compressor: { sensitivity: sensitivity } });
+        this.props.changeEffectsEx({ compressor: { sensitivity: sensitivity } });
     }
 
     private onChangeLevel(level: Percent) {
-        this.props.changeEffects({ compressor: { level: level } });
+        this.props.changeEffectsEx({ compressor: { level: level } });
     }
 
     private onChangeAttack(attack: CompressorAttackTime) {
-        this.props.changeEffects({ compressor: { attack: attack } });
+        this.props.changeEffectsEx({ compressor: { attack: attack } });
     }
 
     private onChangeRelease(release: CompressorReleaseTime) {
-        this.props.changeEffects({ compressor: { release: release } });
+        this.props.changeEffectsEx({ compressor: { release: release } });
     }
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { PercentSlider } from "../PercentSlider";
 import { AttenuationGainSlider } from "../AttenuationGainSlider";
 import { ToggleSwitch } from "../ToggleSwitch";
@@ -13,7 +13,7 @@ import { EmphasisResonanceOptions } from "./EmphasisResonanceOptions";
 type EmphasisSettingsProps = {
     emphasis: PreEmphasis;
 };
-type EmphasisSettingsActions = ChangeEffects;
+type EmphasisSettingsActions = ChangeEffectsEx;
 type EmphasisSettingsAllProps = EmphasisSettingsProps & EmphasisSettingsActions;
 type EmphasisSettingsState = {};
 
@@ -76,30 +76,30 @@ export class EmphasisSettings extends React.Component<EmphasisSettingsAllProps, 
     }
 
     private onChangeLevel(value: Percent): void {
-        this.props.changeEffects({ pre: { emphasis: { level: value }} });
+        this.props.changeEffectsEx({ pre: { emphasis: { level: value }} });
     }
 
     private onChangeBoost(checked: boolean) {
-        this.props.changeEffects({ pre: { emphasis: { boost: checked }} });
+        this.props.changeEffectsEx({ pre: { emphasis: { boost: checked }} });
     }
 
     private onChangeLow(value: Percent) {
-        this.props.changeEffects({ pre: { emphasis: { low: value }} });
+        this.props.changeEffectsEx({ pre: { emphasis: { low: value }} });
     }
 
     private onChangeHigh(value: Percent) {
-        this.props.changeEffects({ pre: { emphasis: { high: value }} });
+        this.props.changeEffectsEx({ pre: { emphasis: { high: value }} });
     }
 
     private onChangeGain(value: AttenuationGain) {
-        this.props.changeEffects({ pre: { emphasis: { gain: value }} });
+        this.props.changeEffectsEx({ pre: { emphasis: { gain: value }} });
     }
 
     private onChangeFrequency(value: EmphasisFrequency) {
-        this.props.changeEffects({ pre: { emphasis: { frequency: value }} });
+        this.props.changeEffectsEx({ pre: { emphasis: { frequency: value }} });
     }
 
     private onChangeResonance(value: EmphasisResonance) {
-        this.props.changeEffects({ pre: { emphasis: { resonance: value }} });
+        this.props.changeEffectsEx({ pre: { emphasis: { resonance: value }} });
     }
 }

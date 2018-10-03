@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { Grid, Typography } from "@material-ui/core";
 import { Filter2, ResonanceFilter1, FilterMode, Filter2Type } from "../../../model/Filters";
 import { FilterResonanceSlider } from "./FilterResonanceSlider";
@@ -13,7 +13,7 @@ import { Filter2TypeOptions } from "./Filter2TypeOptions";
 type Filter2SettingsProps = {
     filter: Filter2;
 };
-type Filter2SettingsActions = ChangeEffects;
+type Filter2SettingsActions = ChangeEffectsEx;
 type Filter2SettingsAllProps = Filter2SettingsProps & Filter2SettingsActions;
 type Filter2SettingsState = {};
 
@@ -54,18 +54,18 @@ export class Filter2Settings extends React.Component<Filter2SettingsAllProps, Fi
         switch (this.props.filter.mode) {
             case FilterMode.Auto:
                 return (
-                    <Filter2AutoSettings auto={this.props.filter.auto} changeEffects={this.props.changeEffects} />
+                    <Filter2AutoSettings auto={this.props.filter.auto} changeEffectsEx={this.props.changeEffectsEx} />
                 );
             case FilterMode.Equalizer:
                 return (
-                    <Filter2EqualizerSettings eq={this.props.filter.eq} changeEffects={this.props.changeEffects} />
+                    <Filter2EqualizerSettings eq={this.props.filter.eq} changeEffectsEx={this.props.changeEffectsEx} />
                 );
             case FilterMode.EnvelopeNeg:
             case FilterMode.EnvelopePos:
                 return (
                     <Filter2EnvelopeSettings 
                         envelope={this.props.filter.envelope} 
-                        changeEffects={this.props.changeEffects}
+                        changeEffectsEx={this.props.changeEffectsEx}
                     />
                 );
             default:
@@ -74,14 +74,14 @@ export class Filter2Settings extends React.Component<Filter2SettingsAllProps, Fi
     }
 
     private onChangeResonance(value: ResonanceFilter1) {
-        this.props.changeEffects({ filters: { filter2: { resonance: value } } });
+        this.props.changeEffectsEx({ filters: { filter2: { resonance: value } } });
     }
 
     private onChangeMode(value: FilterMode) {
-        this.props.changeEffects({ filters: { filter2: { mode: value } } });
+        this.props.changeEffectsEx({ filters: { filter2: { mode: value } } });
     }
 
     private onChangeType(value: Filter2Type) {
-        this.props.changeEffects({ filters: { filter2: { type: value } } });
+        this.props.changeEffectsEx({ filters: { filter2: { type: value } } });
     }
 }

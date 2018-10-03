@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { PercentSlider } from "../PercentSlider";
 import { Grid, Typography } from "@material-ui/core";
 import { Percent } from "../../../model/Types";
@@ -10,7 +10,7 @@ import { ToggleSwitch } from "../ToggleSwitch";
 type NoiseGateSettingsProps = {
     noiseGate: NoiseGate;
 };
-type NoiseGateSettingsActions = ChangeEffects;
+type NoiseGateSettingsActions = ChangeEffectsEx;
 type NoiseGateSettingsAllProps = NoiseGateSettingsProps & NoiseGateSettingsActions;
 type NoiseGateSettingsState = {};
 
@@ -55,14 +55,14 @@ export class NoiseGateSettings extends React.Component<NoiseGateSettingsAllProps
     }
 
     private onChangeSustain(value: boolean) {
-        this.props.changeEffects({ noiseGate: { sustain: value } });
+        this.props.changeEffectsEx({ noiseGate: { sustain: value } });
     }
 
     private onChangeLevel(value: Percent) {
-        this.props.changeEffects({ noiseGate: { noiseLevel: value } });
+        this.props.changeEffectsEx({ noiseGate: { noiseLevel: value } });
     }
 
     private onChangeRelease(value: Percent) {
-        this.props.changeEffects({ noiseGate: { release: value } });
+        this.props.changeEffectsEx({ noiseGate: { release: value } });
     }
 }

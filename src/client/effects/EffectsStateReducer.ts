@@ -4,6 +4,8 @@ import { Effects, EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { ChangeEffectsActionKey, ChangeEffectsAction } from "./ChangeEffectsAction";
 import { mergeEffects, mergeEffectsEx, changeEffectsUI } from "./EffectsOperations";
 import { SelectEffectActionKey, SelectEffectAction } from "./SelectEffectAction";
+import { isNullForType } from "./dsp/Dsp";
+import { EffectsExBuilder } from "./EffectsExBuilder";
 
 function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction): ApplicationDocument {
     if (!!action.preset) {
@@ -30,6 +32,18 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
         }
 
         if (action.effectsEx) {
+            // DSP special case
+            // make sure the data structure exists for the selected dsp type/mode
+            if (action.effectsEx.dsp && isNullForType(action.effectsEx.dsp)) {
+                return { ...state, editEffects: { 
+                    preset: state.editEffects.preset, 
+                    effectsOrEx: mergeEffectsEx(<EffectsEx> state.editEffects.effectsOrEx, 
+                                                action.effectsEx, 
+                                                EffectsExBuilder.createForDspType(action.effectsEx.dsp.type)),
+                    selected: state.editEffects.selected
+                }};
+            }
+
             return { ...state, editEffects: { 
                 preset: state.editEffects.preset, 
                 effectsOrEx: mergeEffectsEx(<EffectsEx> state.editEffects.effectsOrEx, action.effectsEx),

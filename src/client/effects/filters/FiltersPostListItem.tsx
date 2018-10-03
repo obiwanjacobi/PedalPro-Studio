@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Filters, FiltersComponentNames } from "./Filters";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
@@ -11,7 +11,7 @@ import { EffectsListItemOption } from "../EffectsListItemOption";
 type FiltersPostListItemProps = {
     filters: Filters;
 };
-type FiltersPostListItemActions = ChangeEffects & SelectEffect;
+type FiltersPostListItemActions = ChangeEffectsEx & SelectEffect;
 type FiltersPostListItemAllProps = FiltersPostListItemProps & FiltersPostListItemActions;
 type FiltersPostListItemState = {};
 
@@ -75,7 +75,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
     }
 
     private onChangeFilter1(checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter1Left(checked) }});
+        this.props.changeEffectsEx({ filters: { routing: this.routing.setPostFilter1Left(checked) }});
         if (checked) { this.selectComponent(FiltersComponentNames.Filter1); }
     }
 
@@ -86,12 +86,12 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
     }
 
     private onChangeFilter2(checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Right(checked) }});
+        this.props.changeEffectsEx({ filters: { routing: this.routing.setPostFilter2Right(checked) }});
         if (checked) { this.selectComponent(FiltersComponentNames.Filter2); }
     }
 
     private onChangeFilter2Left(checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Left(checked) }});
+        this.props.changeEffectsEx({ filters: { routing: this.routing.setPostFilter2Left(checked) }});
         if (checked) { this.selectComponent(FiltersComponentNames.Filter2); }
     }
 

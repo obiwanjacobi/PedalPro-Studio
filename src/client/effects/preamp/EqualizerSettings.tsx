@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { AttenuationGainSlider } from "../AttenuationGainSlider";
 import { PreEqualizer } from "../../../model/PreAmp";
 import { Percent } from "../../../model/Types";
@@ -9,7 +9,7 @@ import { Percent } from "../../../model/Types";
 type EqualizerSettingsProps = {
     equalizer: PreEqualizer;
 };
-type EqualizerSettingsActions = ChangeEffects;
+type EqualizerSettingsActions = ChangeEffectsEx;
 type EqualizerSettingsAllProps = EqualizerSettingsProps & EqualizerSettingsActions;
 type EqualizerSettingsState = {};
 
@@ -93,34 +93,34 @@ export class EqualizerSettings extends React.Component<EqualizerSettingsAllProps
     }
 
     private onChangeBand60(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band60Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band60Hz: value } } });
     }
 
     private onChangeBand125(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band125Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band125Hz: value } } });
     }
 
     private onChangeBand250(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band250Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band250Hz: value } } });
     }
 
     private onChangeBand500(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band500Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band500Hz: value } } });
     }
 
     private onChangeBand1000(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band1000Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band1000Hz: value } } });
     }
 
     private onChangeBand2000(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band2000Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band2000Hz: value } } });
     }
 
     private onChangeBand4000(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band4000Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band4000Hz: value } } });
     }
 
     private onChangeBand8000(value: Percent): void {
-        this.props.changeEffects({ pre: { equalizer: { band8000Hz: value } } });
+        this.props.changeEffectsEx({ pre: { equalizer: { band8000Hz: value } } });
     }
 }

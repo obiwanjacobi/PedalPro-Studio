@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Dsp } from "./Dsp";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 
 type DspListItemProps = {
     dsp: Dsp;
 };
-type DspListItemActions = ChangeEffects & SelectEffect;
+type DspListItemActions = ChangeEffectsEx & SelectEffect;
 type DspListItemAllProps = DspListItemProps & DspListItemActions;
 type DspListItemState = {};
 
@@ -23,7 +23,7 @@ export class DspListItem extends React.Component<DspListItemAllProps, DspListIte
         return (
             <EffectsItemCard
                 enabled={this.props.dsp.enabled}
-                title="Digital Sound Processing"
+                title="Digital Signal Processing"
                 avatar="Dsp"
                 onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.Dsp }}
@@ -33,6 +33,6 @@ export class DspListItem extends React.Component<DspListItemAllProps, DspListIte
     }
 
     private onEnabled(enabled: boolean) {
-        this.props.changeEffects({ dsp: { enabled: enabled } });
+        this.props.changeEffectsEx({ dsp: { enabled: enabled } });
     }
 }

@@ -7,6 +7,12 @@ export interface TypeParamsConstructor<T> {
     new (...args: any[]): T;
 }
 
+// tslint:disable-next-line:no-any
+export function isTypeOf<T>(variable: any, type: TypeDefaultConstructor<T>) {
+    const template = new type();
+    return typeof template === typeof variable;
+}
+
 export type RecursivePartial<T> = {
     [P in keyof T]?: RecursivePartial<T[P]>;
 };

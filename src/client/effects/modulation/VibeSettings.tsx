@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { Percent, TempoSpeed, PhaseShift } from "../../../model/Types";
 import { PercentSlider } from "../PercentSlider";
 import { PhaseShiftOptions } from "../PhaseShiftOptions";
@@ -13,7 +13,7 @@ import { ToggleSwitch } from "../ToggleSwitch";
 type VibeSettingsProps = {
     vibe: Vibe;
 };
-type VibeSettingsActions = ChangeEffects;
+type VibeSettingsActions = ChangeEffectsEx;
 type VibeSettingsAllProps = VibeSettingsProps & VibeSettingsActions;
 type VibeSettingsState = {};
 
@@ -54,22 +54,22 @@ export class VibeSettings extends React.Component<VibeSettingsAllProps, VibeSett
     }
 
     private onChangeBoost(enabled: boolean) {
-        this.props.changeEffects({ modulation: { vibe: { boost: enabled } } });
+        this.props.changeEffectsEx({ modulation: { vibe: { boost: enabled } } });
     }
 
     private onChangeDepth(depth: Percent) {
-        this.props.changeEffects({ modulation: { vibe: { depth: depth } } });
+        this.props.changeEffectsEx({ modulation: { vibe: { depth: depth } } });
     }
 
     private onChangePhase(phase: PhaseShift) {
-        this.props.changeEffects({ modulation: { vibe: { phase: phase } } });
+        this.props.changeEffectsEx({ modulation: { vibe: { phase: phase } } });
     }
 
     private onChangeWave(wave: ModulationWaveForm) {
-        this.props.changeEffects({ modulation: { vibe: { wave: wave } } });
+        this.props.changeEffectsEx({ modulation: { vibe: { wave: wave } } });
     }
 
     private onChangeTempo(tempo: TempoSpeed) {
-        this.props.changeEffects({ modulation: { vibe: { tempo: tempo } } });
+        this.props.changeEffectsEx({ modulation: { vibe: { tempo: tempo } } });
     }
 }

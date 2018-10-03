@@ -22,14 +22,14 @@ export function changeEffectsUI(effectsOrEx: EffectsOrEx, effectName: EffectName
     throw new Error("Could not determine Effects or EffectsEx");
 }
 
-export function mergeEffects(source: Effects, merge: RecursivePartial<Effects>): Effects {
+export function mergeEffects(source: Effects, ...merges: RecursivePartial<Effects>[]): Effects {
     const builder = new EffectsBuilder(source);
-    builder.merge(merge);
+    merges.forEach(m => builder.merge(m));
     return builder.detach();
 }
 
-export function mergeEffectsEx(source: EffectsEx, merge: RecursivePartial<EffectsEx>): EffectsEx {
+export function mergeEffectsEx(source: EffectsEx, ...merges: RecursivePartial<EffectsEx>[]): EffectsEx {
     const builder = new EffectsExBuilder(source);
-    builder.merge(merge);
+    merges.forEach(m => builder.merge(m));
     return builder.detach();
 }

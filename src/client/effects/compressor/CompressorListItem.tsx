@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Compressor } from "./Compressor";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffects } from "../ChangeEffectsAction";
+import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { SelectEffect } from "../SelectEffectAction";
 import { EffectNames } from "../Effects";
 
 type CompressorListItemProps = {
     compressor: Compressor;
 };
-type CompressorListItemActions = ChangeEffects & SelectEffect;
+type CompressorListItemActions = ChangeEffectsEx & SelectEffect;
 type CompressorListItemAllProps = CompressorListItemProps & CompressorListItemActions;
 type CompressorListItemState = {};
 
@@ -33,6 +33,6 @@ export class CompressorListItem extends React.Component<CompressorListItemAllPro
     }
 
     private onEnabled(enabled: boolean) {
-        this.props.changeEffects({ compressor: { enabled: enabled } });
+        this.props.changeEffectsEx({ compressor: { enabled: enabled } });
     }
 }

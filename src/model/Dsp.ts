@@ -23,23 +23,31 @@ export enum DspType {
 
 // 0-100 step 1
 export type DspDelayLevel = number;
+
 // -100 - +100 step 1
 export type DspDelayFeedback = number;
+
 // 98 - 20159 step = table
 export type DspPassFrequency = number;
+
 // -50 - +50 step 1 (+/-50 displayed as left/right resp.)
 export type DspBalance = number;
+
 // 0 - +100 step 1
 export type DspPrecent = number;
+
 // 401 - 20159 step = table
 export type DspFrequency = number;
+
 // 72 - 326 step 1
 export type DspTempo = number;
 
 // 10-40 step 1
 export type DoubleDelayDelay = number;
+
 // 100-250 step 1
 export type DoubleDelayDelay3 = number;
+
 // 200-500 step 1
 export type DoubleDelayDelay4 = number;
 
@@ -76,10 +84,13 @@ export interface DspDoubleDelay extends DspTwinMix {
 
 // 10 - 80 step 1
 export type CaveDelayDelay1 = number;
+
 // 10 - 160 step 1
 export type CaveDelayDelay2 = number;
+
 // 50 - 240 step 1
 export type CaveDelayDelay3 = number;
+
 // 50 - 320 step 1
 export type CaveDelayDelay4 = number;
 
