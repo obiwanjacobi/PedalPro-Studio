@@ -1,10 +1,9 @@
-import { RecursivePartial } from "../../../TypeExtensions";
 import * as Model from "../../../model/Dsp";
 import { ItemUI } from "../../ItemUI";
 
-export function isNullForType(dsp: RecursivePartial<Dsp> | undefined): boolean {
-    if (dsp && dsp.type) {
-        switch (dsp.type) {
+export function isNullForType(dsp: Dsp, type: Model.DspType | undefined): boolean {
+    if (type) {
+        switch (type) {
             case Model.DspType.DoubleDelay:
                 return !dsp.doubleDelay;
             case Model.DspType.CaveDelay:

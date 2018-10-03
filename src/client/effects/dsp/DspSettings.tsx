@@ -8,6 +8,7 @@ import { PercentSlider } from "../PercentSlider";
 import { DspTypeOptions } from "./DspTypeOptions";
 import { DspType } from "../../../model/Dsp";
 import { DspDoubleDelaySettings } from "./DspDoubleDelaySettings";
+import { DspCaveDelaySettings } from "./DspCaveDelaySettings";
 
 type DspSettingsProps = {
     dsp: Dsp;
@@ -28,7 +29,7 @@ export class DspSettings extends React.Component<DspSettingsAllProps, DspSetting
     
     public render() {
         return (
-            <Grid container={true}>
+            <Grid container={true} direction="column" spacing={8}>
                 <Grid item={true} xs={12}>
                     <Typography variant="headline">Digital Signal Processing</Typography>
                 </Grid>
@@ -73,6 +74,12 @@ export class DspSettings extends React.Component<DspSettingsAllProps, DspSetting
                     />
                 );
             case DspType.CaveDelay:
+                return (
+                    <DspCaveDelaySettings
+                        caveDelay={this.props.dsp.caveDelay} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             case DspType.SingleTap:
             case DspType.FourTapsDelay:
             case DspType.TripleDelay:

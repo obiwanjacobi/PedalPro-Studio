@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Paper } from "@material-ui/core";
 
 import { 
     DspDelay, DspDelayFeedback, DspDelayLevel,
@@ -38,46 +38,48 @@ export class DspDelaySettings extends React.Component<DspDelaySettingsAllProps, 
     
     public render() {
         return (
-            <Grid container={true}>
-                <Grid item={true} xs={12}>
-                    <Typography variant="subheading">{this.props.label}</Typography>
-                </Grid>
-                <Grid item={true} xs={12}>
-                    <DspSlider
-                        label="Delay" 
-                        min={this.props.delayMin}
-                        max={this.props.delayMax}
-                        value={this.props.delay.delay} 
-                        onChange={this.props.onChangeDelay}
-                    />
-                </Grid>
-                {this.props.filter && this.props.onChangeFilter &&
+            <Paper elevation={8} square={true} style={{padding: "8px"}}>
+                <Grid container={true}>
                     <Grid item={true} xs={12}>
-                        <DspPassFrequencySlider
-                            label="Frequency"
-                            value={this.props.filter}
-                            onChange={this.props.onChangeFilter}
+                        <Typography variant="subheading">{this.props.label}</Typography>
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                        <DspSlider
+                            label="Delay" 
+                            min={this.props.delayMin}
+                            max={this.props.delayMax}
+                            value={this.props.delay.delay} 
+                            onChange={this.props.onChangeDelay}
                         />
-                    </Grid>}
-                <Grid item={true} xs={12}>
-                    <DspSlider
-                        label="Feedback" 
-                        min={-100}
-                        max={100}
-                        value={this.props.delay.feedback} 
-                        onChange={this.props.onChangeFeedback}
-                    />
+                    </Grid>
+                    {this.props.filter && this.props.onChangeFilter &&
+                        <Grid item={true} xs={12}>
+                            <DspPassFrequencySlider
+                                label="Frequency"
+                                value={this.props.filter}
+                                onChange={this.props.onChangeFilter}
+                            />
+                        </Grid>}
+                    <Grid item={true} xs={12}>
+                        <DspSlider
+                            label="Feedback" 
+                            min={-100}
+                            max={100}
+                            value={this.props.delay.feedback} 
+                            onChange={this.props.onChangeFeedback}
+                        />
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                        <DspSlider
+                            label="Level" 
+                            min={0}
+                            max={100}
+                            value={this.props.delay.level} 
+                            onChange={this.props.onChangeLevel}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item={true} xs={12}>
-                    <DspSlider
-                        label="Level" 
-                        min={0}
-                        max={100}
-                        value={this.props.delay.level} 
-                        onChange={this.props.onChangeLevel}
-                    />
-                </Grid>
-            </Grid>
+            </Paper>
         );
     }
 }

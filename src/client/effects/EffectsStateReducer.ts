@@ -32,13 +32,13 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
         }
 
         if (action.effectsEx) {
+            const effectsEx = <EffectsEx> state.editEffects.effectsOrEx;
             // DSP special case
             // make sure the data structure exists for the selected dsp type/mode
-            if (action.effectsEx.dsp && isNullForType(action.effectsEx.dsp)) {
+            if (action.effectsEx.dsp && isNullForType(effectsEx.dsp, action.effectsEx.dsp.type)) {
                 return { ...state, editEffects: { 
                     preset: state.editEffects.preset, 
-                    effectsOrEx: mergeEffectsEx(<EffectsEx> state.editEffects.effectsOrEx, 
-                                                action.effectsEx, 
+                    effectsOrEx: mergeEffectsEx(effectsEx, action.effectsEx, 
                                                 EffectsExBuilder.createForDspType(action.effectsEx.dsp.type)),
                     selected: state.editEffects.selected
                 }};
@@ -46,7 +46,7 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
 
             return { ...state, editEffects: { 
                 preset: state.editEffects.preset, 
-                effectsOrEx: mergeEffectsEx(<EffectsEx> state.editEffects.effectsOrEx, action.effectsEx),
+                effectsOrEx: mergeEffectsEx(effectsEx, action.effectsEx),
                 selected: state.editEffects.selected
             }};
         }
