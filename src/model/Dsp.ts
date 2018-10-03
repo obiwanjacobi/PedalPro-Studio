@@ -34,7 +34,7 @@ export type DspPassFrequency = number;
 export type DspBalance = number;
 
 // 0 - +100 step 1
-export type DspPrecent = number;
+export type DspPercent = number;
 
 // 401 - 20159 step = table
 export type DspFrequency = number;
@@ -116,27 +116,27 @@ export interface DspCaveDelay extends DspTwinMix {
 
 export interface DspSingleTap {
     tempo: DspTempo;
-    feedback: DspPrecent;
-    lowPassFrequency: DspFrequency;
+    feedback: DspPercent;
+    frequency: DspFrequency;
 }
 
 export interface DspFourTapsDelay {
     tempo: DspTempo;
     frequency: DspFrequency;
-    feedback: DspPrecent;
-    tap1: DspPrecent;
-    tap2: DspPrecent;
-    tap3: DspPrecent;
-    tap4: DspPrecent;
+    feedback: DspPercent;
+    tap1: DspPercent;
+    tap2: DspPercent;
+    tap3: DspPercent;
+    tap4: DspPercent;
 }
 
 export interface DspTripleDelay {
     tempo: DspTempo;
     frequency: DspFrequency;
-    feedback: DspPrecent;
-    tap1: DspPrecent;
-    tap2: DspPrecent;
-    tap3: DspPrecent;
+    feedback: DspPercent;
+    tap1: DspPercent;
+    tap2: DspPercent;
+    tap3: DspPercent;
 }
 
 // 3 - 127 step 1

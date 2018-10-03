@@ -75,7 +75,7 @@ export const DspCaveDelayDefault: DspCaveDelay = {
 
 export const DspSingleTapDefault: DspSingleTap = {
     feedback: 0,
-    lowPassFrequency: 100,
+    frequency: 100,
     tempo: 120
 };
 

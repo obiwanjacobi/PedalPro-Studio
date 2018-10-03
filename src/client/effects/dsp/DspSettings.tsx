@@ -9,6 +9,9 @@ import { DspTypeOptions } from "./DspTypeOptions";
 import { DspType } from "../../../model/Dsp";
 import { DspDoubleDelaySettings } from "./DspDoubleDelaySettings";
 import { DspCaveDelaySettings } from "./DspCaveDelaySettings";
+import { DspSingleTapDelaySettings } from "./DspSingleTapDelaySettings";
+import { DspTripleTapDelaySettings } from "./DspTripleTapDelaySettings";
+import { DspFourTapDelaySettings } from "./DspFourTapDelaySettings";
 
 type DspSettingsProps = {
     dsp: Dsp;
@@ -81,8 +84,26 @@ export class DspSettings extends React.Component<DspSettingsAllProps, DspSetting
                     />
                 );
             case DspType.SingleTap:
+                return (
+                    <DspSingleTapDelaySettings
+                        singleTap={this.props.dsp.singleTap} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             case DspType.FourTapsDelay:
+                return (
+                    <DspFourTapDelaySettings
+                        fourTap={this.props.dsp.fourTapsDelay} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             case DspType.TripleDelay:
+                return (
+                    <DspTripleTapDelaySettings
+                        tripleTap={this.props.dsp.tripleDelay} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             case DspType.Plate:
             case DspType.CustomSpring:
             case DspType.Hall:

@@ -28,7 +28,8 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
         return (
             <Card raised={this.props.enabled} onClick={this.onSelectEffect}>
                 <CardHeader
-                    avatar={<Avatar>{this.props.avatar}</Avatar>}
+                    avatar={this.props.enabled ? <Avatar style={{background: "orange"}}>{this.props.avatar}</Avatar> :
+                        <Avatar>{this.props.avatar}</Avatar>}
                     action={this.props.onEnabled && 
                         <Switch checked={this.props.enabled} onChange={this.onChange} />}
                     title={this.props.title}

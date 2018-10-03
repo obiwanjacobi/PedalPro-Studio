@@ -130,7 +130,7 @@ export class PresetSerializerEx extends CommonPresetSerializer<PresetBufferExFie
             case DspType.SingleTap:
             if (dsp.singleTap) {
                 buffer.setField(this.fields.Dsp.SingleTap.Feedback, dsp.singleTap.feedback);
-                buffer.setField(this.fields.Dsp.SingleTap.LoPassFrequency, dsp.singleTap.lowPassFrequency);
+                buffer.setField(this.fields.Dsp.SingleTap.LoPassFrequency, dsp.singleTap.frequency);
                 buffer.setField(this.fields.Dsp.SingleTap.Tempo, dsp.singleTap.tempo);
                 buffer.setField(this.fields.Dsp.SingleTap.Fixed0x50_1, 0x50);
                 buffer.setField(this.fields.Dsp.SingleTap.Fixed0x50_2, 0x50);

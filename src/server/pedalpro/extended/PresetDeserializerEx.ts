@@ -156,7 +156,7 @@ export class PresetDeserializerEx extends CommonPresetDeserializer<PresetBufferE
             case DspType.SingleTap:
             dsp.singleTap = <DspSingleTap> { };
             dsp.singleTap.feedback = buffer.getField(this.fields.Dsp.SingleTap.Feedback);
-            dsp.singleTap.lowPassFrequency = buffer.getField(this.fields.Dsp.SingleTap.LoPassFrequency);
+            dsp.singleTap.frequency = buffer.getField(this.fields.Dsp.SingleTap.LoPassFrequency);
             dsp.singleTap.tempo = buffer.getField(this.fields.Dsp.SingleTap.Tempo);
             break;
             case DspType.FourTapsDelay:

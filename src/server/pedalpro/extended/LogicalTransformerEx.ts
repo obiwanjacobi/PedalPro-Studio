@@ -193,7 +193,7 @@ export class LogicalTransformerEx {
             case DspType.SingleTap:
             if (dsp.singleTap) {
                 dsp.singleTap.feedback = DspConvert.restrictPercent(dsp.singleTap.feedback);
-                dsp.singleTap.lowPassFrequency = DspConvert.toFrequency2(dsp.singleTap.lowPassFrequency);
+                dsp.singleTap.frequency = DspConvert.toFrequency2(dsp.singleTap.frequency);
                 dsp.singleTap.tempo = DspConvert.toTempo(dsp.singleTap.tempo);
             }
             break;
@@ -304,7 +304,7 @@ export class LogicalTransformerEx {
             case DspType.SingleTap:
             if (dsp.singleTap) {
                 dsp.singleTap.feedback = DspConvert.restrictPercent(dsp.singleTap.feedback);
-                dsp.singleTap.lowPassFrequency = DspConvert.fromFrequency2(dsp.singleTap.lowPassFrequency);
+                dsp.singleTap.frequency = DspConvert.fromFrequency2(dsp.singleTap.frequency);
                 dsp.singleTap.tempo = DspConvert.fromTempo(dsp.singleTap.tempo);
             }
             break;
