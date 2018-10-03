@@ -54,6 +54,7 @@ export class DspDelaySettings extends React.Component<DspDelaySettingsAllProps, 
                 {this.props.filter && this.props.onChangeFilter &&
                     <Grid item={true} xs={12}>
                         <DspPassFrequencySlider
+                            label="Frequency"
                             value={this.props.filter}
                             onChange={this.props.onChangeFilter}
                         />

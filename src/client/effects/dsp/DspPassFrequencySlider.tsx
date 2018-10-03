@@ -8,6 +8,7 @@ import { DspConvert } from "../../../server/pedalpro/extended/DspConvert";
 
 type DspPassFrequencySliderProps = {
     value: DspPassFrequency;
+    label: string;
 };
 type DspPassFrequencySliderEvents = {
     onChange: (value: DspPassFrequency) => void;
@@ -27,7 +28,7 @@ export class DspPassFrequencySlider
             <SettingsValueLayout
                 formattedValue={this.formattedValue}
                 unit={""}
-                label="Filter"
+                label={this.props.label}
                 control={
                     <Slider 
                         value={DspConvert.fromFrequency(this.props.value)} 

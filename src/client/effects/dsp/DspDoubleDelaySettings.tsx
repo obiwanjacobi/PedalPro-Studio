@@ -3,10 +3,11 @@ import { Grid } from "@material-ui/core";
 
 import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { 
-    DspDoubleDelay, DoubleDelayDelay, DspDelayFeedback, DspDelayLevel, DspPassFrequency, DspBalance 
+    DspDoubleDelay, DoubleDelayDelay, DspDelayFeedback, DspDelayLevel, DspPassFrequency, DspBalance, DoubleDelayDelay3, DoubleDelayDelay4 
 } from "../../../model/Dsp";
 import { DspDelaySettings } from "./DspDelaySettings";
 import { DspBalanceSlider } from "./DspBalanceSlider";
+import { DspPassFrequencySlider } from "./DspPassFrequencySlider";
 
 type DspDoubleDelaySettingsProps = {
     doubleDelay?: DspDoubleDelay;
@@ -31,6 +32,16 @@ export class DspDoubleDelaySettings
         this.onChangeLevel2 = this.onChangeLevel2.bind(this);
         this.onChangeFilter2 = this.onChangeFilter2.bind(this);
 
+        this.onChangeDelay3 = this.onChangeDelay3.bind(this);
+        this.onChangeFeedback3 = this.onChangeFeedback3.bind(this);
+        this.onChangeLevel3 = this.onChangeLevel3.bind(this);
+
+        this.onChangeDelay4 = this.onChangeDelay4.bind(this);
+        this.onChangeFeedback4 = this.onChangeFeedback4.bind(this);
+        this.onChangeLevel4 = this.onChangeLevel4.bind(this);
+
+        this.onChangeFilterL = this.onChangeFilterL.bind(this);
+        this.onChangeFilterR = this.onChangeFilterR.bind(this);
         this.onChangeLeft = this.onChangeLeft.bind(this);
         this.onChangeRight = this.onChangeRight.bind(this);
     }
@@ -55,6 +66,17 @@ export class DspDoubleDelaySettings
                 </Grid>
                 <Grid item={true} xs={12}>
                     <DspDelaySettings 
+                        label="Left 2nd Delay - Right Feedback (3)"
+                        delayMin={100} 
+                        delayMax={250}
+                        delay={this.props.doubleDelay.delay3} 
+                        onChangeDelay={this.onChangeDelay3}
+                        onChangeFeedback={this.onChangeFeedback3}
+                        onChangeLevel={this.onChangeLevel3}
+                    />
+                </Grid>
+                <Grid item={true} xs={12}>
+                    <DspDelaySettings 
                         label="Right Delay (2)"
                         delayMin={10} 
                         delayMax={40}
@@ -66,6 +88,32 @@ export class DspDoubleDelaySettings
                         onChangeFilter={this.onChangeFilter2}
                     />
                 </Grid>
+                <Grid item={true} xs={12}>
+                    <DspDelaySettings 
+                        label="Right 2nd Delay - Left Feedback (4)"
+                        delayMin={200} 
+                        delayMax={500}
+                        delay={this.props.doubleDelay.delay4} 
+                        onChangeDelay={this.onChangeDelay4}
+                        onChangeFeedback={this.onChangeFeedback4}
+                        onChangeLevel={this.onChangeLevel4}
+                    />
+                </Grid>
+                <Grid item={true} xs={12}>
+                    <DspPassFrequencySlider
+                        label="Filter Left"
+                        value={this.props.doubleDelay.frequencyL} 
+                        onChange={this.onChangeFilterL}
+                    />
+                </Grid>
+                <Grid item={true} xs={12}>
+                    <DspPassFrequencySlider
+                        label="Filter Right"
+                        value={this.props.doubleDelay.frequencyR} 
+                        onChange={this.onChangeFilterR}
+                    />
+                </Grid>
+                
                 <Grid item={true} xs={12}>
                     <DspBalanceSlider 
                         maxLabel="Left" 
@@ -116,6 +164,38 @@ export class DspDoubleDelaySettings
 
     private onChangeFilter2(value: DspPassFrequency) {
         this.props.changeEffectsEx({ dsp: { doubleDelay: { frequency2: value  } } });
+    }
+
+    private onChangeDelay3(value: DoubleDelayDelay3) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { delay3: { delay: value } } } });
+    }
+
+    private onChangeFeedback3(value: DspDelayFeedback) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { delay3: { feedback: value } } } });
+    }
+
+    private onChangeLevel3(value: DspDelayLevel) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { delay3: { level: value } } } });
+    }
+
+    private onChangeDelay4(value: DoubleDelayDelay4) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { delay4: { delay: value } } } });
+    }
+
+    private onChangeFeedback4(value: DspDelayFeedback) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { delay4: { feedback: value } } } });
+    }
+
+    private onChangeLevel4(value: DspDelayLevel) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { delay4: { level: value } } } });
+    }
+    
+    private onChangeFilterL(value: DspPassFrequency) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { frequencyL: value } } });
+    }
+
+    private onChangeFilterR(value: DspPassFrequency) {
+        this.props.changeEffectsEx({ dsp: { doubleDelay: { frequencyR: value } } });
     }
 
     private onChangeLeft(value: DspBalance) {
