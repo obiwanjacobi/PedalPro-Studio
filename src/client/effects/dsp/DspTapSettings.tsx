@@ -29,11 +29,6 @@ type DspTapSettingsAllProps = DspTapSettingsProps & DspTapSettingsEvents;
 type DspTapSettingsState = {};
 
 export class DspTapSettings extends React.Component<DspTapSettingsAllProps, DspTapSettingsState> {
-
-    public constructor(props: DspTapSettingsAllProps) {
-        super(props);
-    }
-    
     public render() {
         return (
             <Paper elevation={8} square={true} style={{padding: "8px"}}>

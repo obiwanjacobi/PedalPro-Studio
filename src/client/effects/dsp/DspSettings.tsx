@@ -12,6 +12,10 @@ import { DspCaveDelaySettings } from "./DspCaveDelaySettings";
 import { DspSingleTapDelaySettings } from "./DspSingleTapDelaySettings";
 import { DspTripleTapDelaySettings } from "./DspTripleTapDelaySettings";
 import { DspFourTapDelaySettings } from "./DspFourTapDelaySettings";
+import { DspPlateSettings } from "./DspPlateSettings";
+import { DspCustomSpringSettings } from "./DspCustomSpringSettings";
+import { DspHallSettings } from "./DspHallSettings";
+import { DspFreeVerbSettings } from "./DspFreeVerbSettings";
 
 type DspSettingsProps = {
     dsp: Dsp;
@@ -105,10 +109,33 @@ export class DspSettings extends React.Component<DspSettingsAllProps, DspSetting
                     />
                 );
             case DspType.Plate:
+                return (
+                    <DspPlateSettings
+                        plate={this.props.dsp.plate} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             case DspType.CustomSpring:
+                return (
+                    <DspCustomSpringSettings
+                        customSpring={this.props.dsp.customSpring} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             case DspType.Hall:
+                return (
+                    <DspHallSettings
+                        hall={this.props.dsp.hall} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             case DspType.FreeVerb:
-        
+                return (
+                    <DspFreeVerbSettings
+                        freeVerb={this.props.dsp.freeVerb} 
+                        changeEffectsEx={this.props.changeEffectsEx}
+                    />
+                );
             default:
                 return null;
         }

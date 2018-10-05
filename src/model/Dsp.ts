@@ -160,9 +160,12 @@ export interface DspCustomSpring {
 // 20 - 100 step 1
 export type DspDelayTime = number;
 
+// 20 - 127 step 1
+export type DspReverbTime2 = number;
+
 export interface DspHall {
     preDelayTime: DspDelayTime;
-    reverbTime: DspDelayTime;
+    reverbTime: DspReverbTime2;
     lowPassFrequency: DspPassFrequency;
     hiPassFrequency: DspPassFrequency;
 }
