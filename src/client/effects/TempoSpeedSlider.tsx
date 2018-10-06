@@ -34,6 +34,7 @@ export class TempoSpeedSlider extends React.Component<TempoSpeedSliderAllProps, 
                         max={550.0} 
                         step={0.1}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />
                 }
             />

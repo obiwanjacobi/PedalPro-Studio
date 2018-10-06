@@ -28,7 +28,15 @@ export class DelayRelativeTimeSlider
                 formattedValue={this.formattedValue}
                 label="Delay Time"
                 unit="ms"
-                control={<Slider value={this.value} min={0} max={255} step={1} onChange={this.onChange} />}
+                control={
+                    <Slider 
+                        value={this.value} 
+                        min={0} 
+                        max={255} 
+                        step={1} 
+                        onChange={this.onChange} 
+                        style={{width: "auto"}}
+                    />}
             />
         );
     }

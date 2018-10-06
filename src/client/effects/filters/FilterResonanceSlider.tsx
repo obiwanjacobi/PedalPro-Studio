@@ -31,6 +31,7 @@ export class FilterResonanceSlider extends React.Component<FilterResonanceSlider
                         max={18} 
                         step={0.5}
                         onChange={this.onChangeResonance}
+                        style={{width: "auto"}}
                     />}
             />        
         );

@@ -13,6 +13,25 @@ export class SettingsValueLayout extends React.Component<SettingsValueLayoutProp
     
     public render() {
         return (
+            <div>
+                <div>
+                    <Typography>{this.props.label}</Typography>
+                </div>
+                <div>
+                    {this.props.control}
+                </div>
+                <div style={{marginLeft: "auto", marginRight: "12px", textAlign: "right"}}>
+                    <Typography color="secondary" style={{display: "inline", marginRight: "8px"}}>
+                        {this.props.formattedValue}
+                    </Typography>
+                    <Typography style={{display: "inline"}}>{this.props.unit}</Typography>
+                </div>
+            </div>
+        );
+    }
+
+    public _render() {
+        return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
                     <Typography>{this.props.label}</Typography>

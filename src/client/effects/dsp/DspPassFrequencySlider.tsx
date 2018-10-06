@@ -36,6 +36,7 @@ export class DspPassFrequencySlider
                         max={DspConvert.frequencyValueSteps} 
                         step={1}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />
                 }
             />

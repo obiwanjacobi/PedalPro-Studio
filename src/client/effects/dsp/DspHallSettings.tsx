@@ -35,7 +35,7 @@ export class DspHallSettings
                             label="Pre Delay" 
                             min={20}
                             max={100}
-                            value={this.props.hall.reverbTime} 
+                            value={this.props.hall.preDelayTime} 
                             onChange={this.onChangePreDelay}
                         />
                     </Grid>
@@ -72,7 +72,7 @@ export class DspHallSettings
     }
 
     private onChangePreDelay(value: DspDelayTime) {
-        this.props.changeEffectsEx({ dsp: { hall: { reverbTime: value }}});
+        this.props.changeEffectsEx({ dsp: { hall: { preDelayTime: value }}});
     }
 
     private onChangeTime(value: DspReverbTime2) {

@@ -32,6 +32,7 @@ export class AttenuationGainSlider extends React.Component<AttenuationGainSlider
                         max={AttenuationGainValues.length} 
                         step={1}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />}
             />
         );

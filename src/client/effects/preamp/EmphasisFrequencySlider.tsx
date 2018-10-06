@@ -34,6 +34,7 @@ export class EmphasisFrequencySlider
                     max={2000} 
                     step={4}
                     onChange={this.onChange}
+                    style={{width: "auto"}}
                 />}
             />
         );

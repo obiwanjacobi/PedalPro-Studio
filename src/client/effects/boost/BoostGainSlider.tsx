@@ -31,6 +31,7 @@ export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, Bo
                         max={12} 
                         step={0.5}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />}
             />        
         );

@@ -35,6 +35,7 @@ export class DspBalanceSlider extends React.Component<DspBalanceSliderAllProps, 
                         max={50} 
                         step={1}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />
                 }
             />

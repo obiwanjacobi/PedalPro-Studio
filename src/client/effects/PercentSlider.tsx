@@ -34,6 +34,7 @@ export class PercentSlider extends React.Component<PercentSliderAllProps, Percen
                         max={100.0} 
                         step={0.4}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />
                 }
             />

@@ -34,6 +34,7 @@ export class Frequency2Slider
                         max={2697} 
                         step={1}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />}
             />        
         );

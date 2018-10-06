@@ -36,6 +36,7 @@ export class DspSlider extends React.Component<DspSliderAllProps, DspSliderState
                         max={this.props.max} 
                         step={1}
                         onChange={this.onChange}
+                        style={{width: "auto"}}
                     />
                 }
             />
