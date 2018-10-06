@@ -2,6 +2,7 @@ import * as React from "react";
 import { Card, CardHeader, CardContent, Avatar, Switch } from "@material-ui/core";
 import { EffectComponentName } from "./EffectsState";
 import { SelectEffect } from "./SelectEffectAction";
+import { EffectNames } from "./Effects";
 
 type EffectsItemCardProps = {
     enabled: boolean;
@@ -46,7 +47,7 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
 
     private onSelectEffect() {
         if (!this.props.content && this.props.enabled) {
-            this.selectEffect();
+            this.selectEffect(true);
         }
     }
 
@@ -54,12 +55,16 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
         if (this.props.onEnabled) {
             this.props.onEnabled(enabled);
         }
-        if (enabled) { this.selectEffect(); }
+        this.selectEffect(enabled);
     }
 
-    private selectEffect() {
-        if (this.props.selectEffect && this.props.effectName) {
-            this.props.selectEffect(this.props.effectName.effectName, this.props.effectName.componentName);
+    private selectEffect(enabled: boolean) {
+        if (this.props.selectEffect && this.props.effectName) { 
+            if (enabled) {
+                this.props.selectEffect(this.props.effectName.effectName, this.props.effectName.componentName);
+            } else {
+                this.props.selectEffect(EffectNames.None);
+            }
         }
     }
 }

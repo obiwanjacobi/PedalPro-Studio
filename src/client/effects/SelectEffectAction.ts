@@ -6,15 +6,15 @@ export enum SelectEffectActionKey {
 
 export interface SelectEffectAction {
     readonly type: SelectEffectActionKey.type;
-    readonly selected: EffectNames;
+    readonly effectName: EffectNames;
     readonly component?: string;
 }
 
 export function createSelectEffectAction 
-    (selected: EffectNames, component?: string): SelectEffectAction {
-        return { type: SelectEffectActionKey.type, selected: selected, component: component };
+    (effectName: EffectNames, component?: string): SelectEffectAction {
+        return { type: SelectEffectActionKey.type, effectName: effectName, component: component };
 }
 
 export interface SelectEffect {
-    selectEffect(selected: EffectNames, component?: string): void;
+    selectEffect(effectName: EffectNames, component?: string): void;
 }

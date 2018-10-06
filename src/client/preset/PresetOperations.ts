@@ -3,7 +3,6 @@ import * as lodash from "lodash";
 import { numberToString } from "../../StringExtensions";
 import { Preset as ModelPreset } from "../../model/Preset";
 import { PresetTraits } from "../../model/PresetTraits";
-// import { Effects, EffectsEx } from "../../model/Effects";
 import { PresetMeta } from "../../model/PresetMeta";
 import { Preset } from "./Preset";
 
@@ -14,24 +13,6 @@ function traitsEqual(traits1: PresetTraits, traits2: PresetTraits): boolean {
 function metaEqual(meta1: PresetMeta, meta2: PresetMeta): boolean {
     return lodash.isEqual(meta1, meta2);
 }
-
-// function isEffectsEx(effects: EffectsOrEx): boolean {
-//     const ex = effects as EffectsEx;
-//     if (ex.pre && ex.dsp) { return true; }
-//     return false;
-// }
-
-// function effectsEqual(
-//     effects1: EffectsOrEx | undefined, 
-//     effects2: EffectsOrEx | undefined): boolean {
-
-//     if (!effects1 || !effects2) { return effects1 === effects2; }
-
-//     if (isEffectsEx(effects1) === isEffectsEx(effects2)) {
-//         return lodash.isEqual(effects1, effects2);
-//     }
-//     return false;
-// }
 
 function presetGroupAreEqual(preset1: Preset, preset2: Preset): boolean {
     if (preset1.group && preset2.group) {

@@ -1,6 +1,7 @@
 import * as Lodash from "lodash";
 
 import { ItemBuilder, CopyOption } from "../StateBuilder";
+import { EffectsBuilderCommon } from "./EffectsBuilderCommon";
 import { EffectsEx, EffectNames } from "./Effects";
 import { RecursivePartial } from "../../TypeExtensions";
 import { ItemUI, itemUiModify } from "../ItemUI";
@@ -10,7 +11,7 @@ import {
     DspTripleDelayDefault, DspPlateDefault, DspCustomSpringDefault, DspHallDefault, DspFreeVerbDefault 
 } from "./dsp/DspDefaults";
 
-export class EffectsExBuilder extends ItemBuilder<EffectsEx> {
+export class EffectsExBuilder extends ItemBuilder<EffectsEx> implements EffectsBuilderCommon {
     public static createForDspType(type: DspType | undefined): RecursivePartial<EffectsEx> {
         if (type) {
             switch (type) {

@@ -2,7 +2,7 @@ import { ApplicationDocument } from "../ApplicationDocument";
 import { EditEffectsAction, EditEffectsActionKey } from "./EditEffectsAction";
 import { Effects, EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { ChangeEffectsActionKey, ChangeEffectsAction } from "./ChangeEffectsAction";
-import { mergeEffects, mergeEffectsEx, changeEffectsUI } from "./EffectsOperations";
+import { mergeEffects, mergeEffectsEx, selectEffect, determineSelectedEffect } from "./EffectsOperations";
 import { SelectEffectActionKey, SelectEffectAction } from "./SelectEffectAction";
 import { isNullForType } from "./dsp/Dsp";
 import { EffectsExBuilder } from "./EffectsExBuilder";
@@ -59,8 +59,9 @@ function reduceSelectEffect(state: ApplicationDocument, action: SelectEffectActi
         return { ...state, 
             editEffects: { 
                 preset: state.editEffects.preset,
-                effectsOrEx: changeEffectsUI(state.editEffects.effectsOrEx, action.selected, {}),
-                selected: { effectName: action.selected, componentName: action.component }
+                effectsOrEx: selectEffect(
+                    state.editEffects.effectsOrEx, action.effectName, state.editEffects.selected.effectName),
+                selected: determineSelectedEffect(state.editEffects.effectsOrEx, action.effectName, action.component)
             }
         };
     }
