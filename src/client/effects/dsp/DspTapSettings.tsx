@@ -31,7 +31,7 @@ type DspTapSettingsState = {};
 export class DspTapSettings extends React.Component<DspTapSettingsAllProps, DspTapSettingsState> {
     public render() {
         return (
-            <Paper elevation={8} square={true} style={{padding: "8px"}}>
+            <Paper elevation={8} square={true} style={{margin: "16px"}}>
                 <Grid container={true}>
                     <Grid item={true} xs={12}>
                         <DspSlider

@@ -23,7 +23,7 @@ export class DspListItem extends React.Component<DspListItemAllProps, DspListIte
         return (
             <EffectsItemCard
                 enabled={this.props.dsp.enabled}
-                title="Digital Signal Processing"
+                title="Digital Delay &amp; Reverb"
                 avatar="Dsp"
                 onEnabled={this.onEnabled}
                 effectName={{ effectName: EffectNames.Dsp }}

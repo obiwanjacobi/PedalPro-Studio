@@ -36,9 +36,9 @@ export class DspSettings extends React.Component<DspSettingsAllProps, DspSetting
     
     public render() {
         return (
-            <Grid container={true} direction="column" spacing={8}>
+            <Grid container={true} spacing={8}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Digital Signal Processing</Typography>
+                    <Typography variant="headline">Digital Delay &amp; Reverb</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <DspTypeOptions type={this.props.dsp.type} onChange={this.onChangeType} />
