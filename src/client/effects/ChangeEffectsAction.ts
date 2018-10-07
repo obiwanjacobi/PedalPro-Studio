@@ -23,14 +23,14 @@ export interface ChangeEffectsEx {
     changeEffectsEx(effects: RecursivePartial<EffectsEx>): void;
 }
 
-// export function createChangeEffectsAction 
-//     (effects: RecursivePartial<Effects>): ChangeEffectsAction {
-//         return { 
-//             type: ChangeEffectsActionKey.type, 
-//             effects: effects, 
-//         };
-// }
+export function createChangeEffectsAction 
+    (effects: RecursivePartial<Effects>): ChangeEffectsAction {
+        return { 
+            type: ChangeEffectsActionKey.type, 
+            effects: effects, 
+        };
+}
 
-// export interface ChangeEffects {
-//     changeEffects(effects: RecursivePartial<Effects>): void;
-// }
+export interface ChangeEffects {
+    changeEffects(effects: RecursivePartial<Effects>): void;
+}

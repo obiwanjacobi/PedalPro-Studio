@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Boost } from "./Boost";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 
 type BoostListItemProps = {
     boost: Boost;
 };
-type BoostListItemActions = ChangeEffectsEx & SelectEffect;
+type BoostListItemActions = ChangeEffects & SelectEffect;
 type BoostListItemAllProps = BoostListItemProps & BoostListItemActions;
 type BoostListItemState = {};
 
@@ -34,6 +34,6 @@ export class BoostListItem extends React.Component<BoostListItemAllProps, BoostL
     }
     
     private onEnabled(enabled: boolean) {
-        this.props.changeEffectsEx({ boost: { enabled: enabled } });
+        this.props.changeEffects({ boost: { enabled: enabled } });
     }
 }

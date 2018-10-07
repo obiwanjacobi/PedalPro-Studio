@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { Grid, Typography } from "@material-ui/core";
 import { Delay } from "./Delay";
 import { DelayRangeOptions } from "./DelayRangeOptions";
@@ -13,7 +13,7 @@ import { ToggleSwitch } from "../ToggleSwitch";
 type DelaySettingsProps = {
     delay: Delay;
 };
-type DelaySettingsActions = ChangeEffectsEx;
+type DelaySettingsActions = ChangeEffects;
 type DelaySettingsAllProps = DelaySettingsProps & DelaySettingsActions;
 type DelaySettingsState = {};
 
@@ -104,38 +104,38 @@ export class DelaySettings extends React.Component<DelaySettingsAllProps, DelayS
     }
 
     private onChangeRange(range: DelayRange) {
-        this.props.changeEffectsEx({ delay: { range: range } });
+        this.props.changeEffects({ delay: { range: range } });
     }
 
     private onChangeTime(time: RelativeDelay) {
-        this.props.changeEffectsEx({ delay: { time: time } });
+        this.props.changeEffects({ delay: { time: time } });
     }
 
     private onChangeInput(value: Percent) {
-        this.props.changeEffectsEx({ delay: { inputLevel: value } });
+        this.props.changeEffects({ delay: { inputLevel: value } });
     }
 
     private onChangeOutput(value: Percent) {
-        this.props.changeEffectsEx({ delay: { outputLevel: value } });
+        this.props.changeEffects({ delay: { outputLevel: value } });
     }
 
     private onChangeWet(value: Percent) {
-        this.props.changeEffectsEx({ delay: { wet: value } });
+        this.props.changeEffects({ delay: { wet: value } });
     }
 
     private onChangeFeedback(value: Percent) {
-        this.props.changeEffectsEx({ delay: { feedback: value } });
+        this.props.changeEffects({ delay: { feedback: value } });
     }
 
     private onChangeModulation(value: boolean) {
-        this.props.changeEffectsEx({ delay: { modulation: value } });
+        this.props.changeEffects({ delay: { modulation: value } });
     }
 
     private onChangeModDepth(value: Percent) {
-        this.props.changeEffectsEx({ delay: { modDepth: value } });
+        this.props.changeEffects({ delay: { modDepth: value } });
     }
 
     private onChangeModSpeed(value: Percent) {
-        this.props.changeEffectsEx({ delay: { modSpeed: value } });
+        this.props.changeEffects({ delay: { modSpeed: value } });
     }
 }

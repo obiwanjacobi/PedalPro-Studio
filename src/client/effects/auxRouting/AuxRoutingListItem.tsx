@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, ListItemSecondaryAction, Switch } from "@
 
 import { Aux, AuxRoutingComponentNames } from "./AuxRouting";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { AuxRouting } from "../../../model/AuxRouting";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
@@ -11,7 +11,7 @@ import { SelectEffect } from "../SelectEffectAction";
 type AuxRoutingListItemProps = {
     aux: Aux;
 };
-type AuxRoutingListItemActions = ChangeEffectsEx & SelectEffect;
+type AuxRoutingListItemActions = ChangeEffects & SelectEffect;
 type AuxRoutingListItemAllProps = AuxRoutingListItemProps & AuxRoutingListItemActions;
 type AuxRoutingListItemState = {};
 
@@ -69,7 +69,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
 
     private onChangePedals(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.LeftOnly : AuxRouting.None;
-        this.props.changeEffectsEx({ aux: { routing: auxRouting } });
+        this.props.changeEffects({ aux: { routing: auxRouting } });
         this.selectEffect(enabled, AuxRoutingComponentNames.Pedals);
     }
 
@@ -84,7 +84,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
 
     private onChangeMixer(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.Mixer : AuxRouting.None;
-        this.props.changeEffectsEx({ aux: { routing: auxRouting } });
+        this.props.changeEffects({ aux: { routing: auxRouting } });
         this.selectEffect(enabled, AuxRoutingComponentNames.Mixer);
     }
 

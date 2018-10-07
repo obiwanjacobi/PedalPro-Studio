@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Phaser } from "./Phaser";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { PercentSlider } from "../PercentSlider";
 import { Grid, Typography } from "@material-ui/core";
 import { Percent, TempoSpeed, PhaseShift, WaveForm } from "../../../model/Types";
@@ -12,7 +12,7 @@ import { TempoSpeedSlider } from "../TempoSpeedSlider";
 type PhaserSettingsProps = {
     phaser: Phaser;
 };
-type PhaserSettingsActions = ChangeEffectsEx;
+type PhaserSettingsActions = ChangeEffects;
 type PhaserSettingsAllProps = PhaserSettingsProps & PhaserSettingsActions;
 type PhaserSettingsState = {};
 
@@ -53,22 +53,22 @@ export class PhaserSettings extends React.Component<PhaserSettingsAllProps, Phas
     }
 
     private onChangeTempo(value: TempoSpeed) {
-        this.props.changeEffectsEx({ phaser: { tempo: value } });
+        this.props.changeEffects({ phaser: { tempo: value } });
     }
 
     private onChangeManual(value: Percent) {
-        this.props.changeEffectsEx({ phaser: { manual: value } });
+        this.props.changeEffects({ phaser: { manual: value } });
     }
 
     private onChangeDepth(value: Percent) {
-        this.props.changeEffectsEx({ phaser: { depth: value } });
+        this.props.changeEffects({ phaser: { depth: value } });
     }
 
     private onChangePhase(value: PhaseShift) {
-        this.props.changeEffectsEx({ phaser: { phase: value } });
+        this.props.changeEffects({ phaser: { phase: value } });
     }
 
     private onChangeWave(value: WaveForm) {
-        this.props.changeEffectsEx({ phaser: { wave: value } });
+        this.props.changeEffects({ phaser: { wave: value } });
     }
 }

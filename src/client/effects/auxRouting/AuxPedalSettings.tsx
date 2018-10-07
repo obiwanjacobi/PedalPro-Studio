@@ -2,14 +2,14 @@ import * as React from "react";
 import { Grid, Typography } from "@material-ui/core";
 
 import { Aux } from "./AuxRouting";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { AuxRouting } from "../../../model/AuxRouting";
 import { AuxPedalRoutingOptions } from "./AuxPedalRoutingOptions";
 
 type AuxPedalSettingsProps = {
     aux: Aux;
 };
-type AuxPedalSettingsActions = ChangeEffectsEx;
+type AuxPedalSettingsActions = ChangeEffects;
 type AuxPedalSettingsAllProps = AuxPedalSettingsProps & AuxPedalSettingsActions;
 type AuxPedalSettingsState = {};
 
@@ -34,6 +34,6 @@ export class AuxPedalSettings extends React.Component<AuxPedalSettingsAllProps, 
     }
 
     private onChange(value: AuxRouting) {
-        this.props.changeEffectsEx({ aux: { routing: value } });
+        this.props.changeEffects({ aux: { routing: value } });
     }
 }

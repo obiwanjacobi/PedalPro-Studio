@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Boost } from "./Boost";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { BoostGainSlider } from "./BoostGainSlider";
 import { Grid, Typography } from "@material-ui/core";
 import { BoostGain } from "../../../model/Boost";
@@ -9,7 +9,7 @@ import { BoostGain } from "../../../model/Boost";
 type BoostSettingsProps = {
     boost: Boost;
 };
-type BoostSettingsActions = ChangeEffectsEx;
+type BoostSettingsActions = ChangeEffects;
 type BoostSettingsAllProps = BoostSettingsProps & BoostSettingsActions;
 type BoostSettingsState = {};
 
@@ -37,6 +37,6 @@ export class BoostSettings extends React.Component<BoostSettingsAllProps, BoostS
     }
 
     private onChangeGain(gain: BoostGain) {
-        this.props.changeEffectsEx({ boost: { gain: gain } });
+        this.props.changeEffects({ boost: { gain: gain } });
     }
 }

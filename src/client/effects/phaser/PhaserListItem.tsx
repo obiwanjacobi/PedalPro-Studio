@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Phaser } from "./Phaser";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 
 type PhaserListItemProps = {
     phaser: Phaser;
 };
-type PhaserListItemActions = ChangeEffectsEx & SelectEffect;
+type PhaserListItemActions = ChangeEffects & SelectEffect;
 type PhaserListItemAllProps = PhaserListItemProps & PhaserListItemActions;
 type PhaserListItemState = {};
 
@@ -34,6 +34,6 @@ export class PhaserListItem extends React.Component<PhaserListItemAllProps, Phas
     }
 
     private onEnabled(enabled: boolean) {
-        this.props.changeEffectsEx({ phaser: { enabled: enabled } });
+        this.props.changeEffects({ phaser: { enabled: enabled } });
     }
 }

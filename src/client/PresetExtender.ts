@@ -1,5 +1,6 @@
 import { PresetCollectionType } from "./ApplicationDocument";
 import { ItemUI } from "./ItemUI";
+import { asEffects, asEffectsEx } from "./effects/EffectsOperations";
 
 import { Preset as ModelPreset } from "../model/Preset";
 import { Effects as ModelEffects, EffectsEx as ModelEffectsEx } from "../model/Effects";
@@ -102,9 +103,9 @@ function extendVolume(effect: ModelVolume): Volume {
 }
 
 function extendEffects(effectsOrEx?: ModelEffects | ModelEffectsEx): Effects | EffectsEx | undefined {
-    if (!effectsOrEx) return undefined;
+    if (!effectsOrEx) { return undefined; }
 
-    const effectsEx = effectsOrEx as ModelEffectsEx;
+    const effectsEx = asEffectsEx(effectsOrEx);
     if (effectsEx) {
         return {
             aux: extendAux(effectsEx.aux),
@@ -121,25 +122,29 @@ function extendEffects(effectsOrEx?: ModelEffects | ModelEffectsEx): Effects | E
             tap: extendTapTempo(effectsEx.tap),
             vca: extendVca(effectsEx.vca),
             volume: extendVolume(effectsEx.volume)
-        }
+        };
     }
 
-    const effects = effectsOrEx as ModelEffects;
-    return {
-        aux: extendAux(effects.aux),
-        boost: extendBoost(effects.boost),
-        compressor: extendCompressor(effects.compressor),
-        delay: extendDelay(effects.delay),
-        distortion: extendDistortion(effects.distortion),
-        filters: extendFilters(effects.filters),
-        midi: extendMidi(effects.midi),
-        modulation: extendModulation(effects.modulation),
-        noiseGate: extendNoiseGate(effects.noiseGate),
-        phaser: extendPhaser(effects.phaser),
-        tap: extendTapTempo(effects.tap),
-        vca: extendVca(effects.vca),
-        volume: extendVolume(effects.volume)
-    };
+    const effects = asEffects(effectsOrEx);
+    if (effects) {
+        return {
+            aux: extendAux(effects.aux),
+            boost: extendBoost(effects.boost),
+            compressor: extendCompressor(effects.compressor),
+            delay: extendDelay(effects.delay),
+            distortion: extendDistortion(effects.distortion),
+            filters: extendFilters(effects.filters),
+            midi: extendMidi(effects.midi),
+            modulation: extendModulation(effects.modulation),
+            noiseGate: extendNoiseGate(effects.noiseGate),
+            phaser: extendPhaser(effects.phaser),
+            tap: extendTapTempo(effects.tap),
+            vca: extendVca(effects.vca),
+            volume: extendVolume(effects.volume)
+        };
+    }
+
+    return undefined;
 }
 
 export function extendPreset(preset: ModelPreset, collection: PresetCollectionType): Preset {
@@ -150,4 +155,4 @@ export function extendPreset(preset: ModelPreset, collection: PresetCollectionTy
         source: collection,
         ui: newItemUI()
     };
-};
+}

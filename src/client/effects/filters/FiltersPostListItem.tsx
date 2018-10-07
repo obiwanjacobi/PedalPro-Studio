@@ -3,7 +3,7 @@ import { List } from "@material-ui/core";
 
 import { Filters, FiltersComponentNames } from "./Filters";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
@@ -12,7 +12,7 @@ import { EffectsListItemOption } from "../EffectsListItemOption";
 type FiltersPostListItemProps = {
     filters: Filters;
 };
-type FiltersPostListItemActions = ChangeEffectsEx & SelectEffect;
+type FiltersPostListItemActions = ChangeEffects & SelectEffect;
 type FiltersPostListItemAllProps = FiltersPostListItemProps & FiltersPostListItemActions;
 type FiltersPostListItemState = {};
 
@@ -77,7 +77,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
     }
 
     private onChangeFilter1(checked: boolean) {
-        this.props.changeEffectsEx({ filters: { routing: this.routing.setPostFilter1Left(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter1Left(checked) }});
         this.selectComponent(checked, FiltersComponentNames.Filter1);
     }
 
@@ -88,12 +88,12 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
     }
 
     private onChangeFilter2(checked: boolean) {
-        this.props.changeEffectsEx({ filters: { routing: this.routing.setPostFilter2Right(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Right(checked) }});
         this.selectComponent(checked, FiltersComponentNames.Filter2);
     }
 
     private onChangeFilter2Left(checked: boolean) {
-        this.props.changeEffectsEx({ filters: { routing: this.routing.setPostFilter2Left(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Left(checked) }});
         this.selectComponent(checked, FiltersComponentNames.Filter2);
     }
 

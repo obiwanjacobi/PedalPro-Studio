@@ -3,12 +3,9 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction /*, MapStateToProps*/ } from "react-redux";
 import { AutoSizer } from "react-virtualized";
 
-import { EffectsEx, EffectNames, Effects } from "./Effects";
+import { EffectNames, Effects } from "./Effects";
 import { CompressorListItem } from "./compressor/CompressorListItem";
-import { 
-    ChangeEffects, createChangeEffectsAction,
-    ChangeEffectsEx, createChangeEffectsExAction 
-} from "./ChangeEffectsAction";
+import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
 // import { ApplicationDocument } from "../ApplicationDocument";
 import { RecursivePartial } from "../../TypeExtensions";
 import { BoostListItem } from "./boost/BoostListItem";
@@ -16,24 +13,22 @@ import { PhaserListItem } from "./phaser/PhaserListItem";
 import { AuxRoutingListItem } from "./auxRouting/AuxRoutingListItem";
 import { NoiseGateListItem } from "./noiseGate/NoiseGateListItem";
 import { VolumeListItem } from "./volume/VolumeListItem";
-import { PreAmpListItem } from "./preamp/PreAmpListItem";
 import { FiltersPreListItem } from "./filters/FiltersPreListItem";
 import { SelectEffect, createSelectEffectAction } from "./SelectEffectAction";
 import { FiltersPostListItem } from "./filters/FiltersPostListItem";
 import { DelayListItem } from "./delay/DelayListItem";
 import { ModulationListItem } from "./modulation/ModulationListItem";
 import { VcaListItem } from "./vca/VcaListItem";
-import { DspListItem } from "./dsp/DspListItem";
 
-type EffectsExListProps = {
-    effectsEx: EffectsEx;
+type EffectsListProps = {
+    effects: Effects;
 };
-type EffectsExListStoreProps = {};
-type EffectsExListActions = ChangeEffectsEx & ChangeEffects & SelectEffect;
-type EffectsExListAllProps = EffectsExListProps & EffectsExListStoreProps & EffectsExListActions;
-type EffectsExListState = {};
+type EffectsListStoreProps = {};
+type EffectsListActions = ChangeEffects & SelectEffect;
+type EffectsListAllProps = EffectsListProps & EffectsListStoreProps & EffectsListActions;
+type EffectsListState = {};
 
-class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExListState> {
+class EffectsList extends React.Component<EffectsListAllProps, EffectsListState> {
     public render() {
         return (
             <div style={{flexGrow: 1}}>
@@ -66,91 +61,84 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
 
         components.push(
             <CompressorListItem
-                compressor={this.props.effectsEx.compressor}
+                compressor={this.props.effects.compressor}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <FiltersPreListItem
-                filters={this.props.effectsEx.filters}
+                filters={this.props.effects.filters}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <BoostListItem
-                boost={this.props.effectsEx.boost}
+                boost={this.props.effects.boost}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
-        components.push(
-            <PreAmpListItem
-                pre={this.props.effectsEx.pre}
-                changeEffectsEx={this.props.changeEffectsEx}
-                selectEffect={this.props.selectEffect}
-            />
-        );
+        // components.push(
+        //     <DistortionListItem
+        //         distortion={this.props.effects.distortion}
+        //         changeEffectsEx={this.props.changeEffects}
+        //         selectEffect={this.props.selectEffect}
+        //     />
+        // );
         components.push(
             <VcaListItem
-                vca={this.props.effectsEx.vca}
+                vca={this.props.effects.vca}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <PhaserListItem
-                phaser={this.props.effectsEx.phaser}
+                phaser={this.props.effects.phaser}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <FiltersPostListItem
-                filters={this.props.effectsEx.filters}
+                filters={this.props.effects.filters}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <ModulationListItem
-                modulation={this.props.effectsEx.modulation}
+                modulation={this.props.effects.modulation}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <DelayListItem
-                delay={this.props.effectsEx.delay}
+                delay={this.props.effects.delay}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
-            <DspListItem
-                dsp={this.props.effectsEx.dsp}
-                changeEffectsEx={this.props.changeEffectsEx}
-                selectEffect={this.props.selectEffect}
-            />
-        );
-        components.push(
             <AuxRoutingListItem
-                aux={this.props.effectsEx.aux}
+                aux={this.props.effects.aux}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <VolumeListItem
-                volume={this.props.effectsEx.volume}
+                volume={this.props.effects.volume}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
         );
         components.push(
             <NoiseGateListItem
-                noiseGate={this.props.effectsEx.noiseGate}
+                noiseGate={this.props.effects.noiseGate}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
             />
@@ -160,21 +148,18 @@ class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExList
     }
 }
 
-// type ExtractStatePropFunc = MapStateToProps<EffectsExListStoreProps, EffectsExListProps, ApplicationDocument>;
+// type ExtractStatePropFunc = MapStateToProps<EffectsListStoreProps, EffectsListProps, ApplicationDocument>;
 // const extractComponentPropsFromState: ExtractStatePropFunc = (
-//     state: ApplicationDocument, _: EffectsExListProps): EffectsExListStoreProps => {
+//     state: ApplicationDocument, _: EffectsListProps): EffectsListStoreProps => {
 //         return  { };
 // };
 
-type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsExListActions, EffectsExListProps>;
+type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsListActions, EffectsListProps>;
 const createActionObject: ActionDispatchFunc =
-    (dispatch: Dispatch, _: EffectsExListProps): EffectsExListActions => {
+    (dispatch: Dispatch, _: EffectsListProps): EffectsListActions => {
         return {
             changeEffects: (effects: RecursivePartial<Effects>): void => {
                 dispatch(createChangeEffectsAction(effects));
-            },
-            changeEffectsEx: (effectsEx: RecursivePartial<EffectsEx>): void => {
-                dispatch(createChangeEffectsExAction(effectsEx));
             },
             selectEffect : (effectName: EffectNames, component?: string) => {
                 dispatch(createSelectEffectAction(effectName, component));
@@ -182,4 +167,4 @@ const createActionObject: ActionDispatchFunc =
         };
     };
 
-export default connect(undefined /*extractComponentPropsFromState*/, createActionObject)(EffectsExList);
+export default connect(undefined /*extractComponentPropsFromState*/, createActionObject)(EffectsList);

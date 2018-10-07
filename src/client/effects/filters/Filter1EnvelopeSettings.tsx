@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid } from "@material-ui/core";
 
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { Frequency1, EnvelopeFilter1, EnvelopeFunction } from "../../../model/Filters";
 import { Frequency1Slider } from "./Frequency1Slider";
 import { PercentSlider } from "../PercentSlider";
@@ -11,7 +11,7 @@ import { Percent } from "../../../model/Types";
 type Filter1EnvelopeSettingsProps = {
     envelope: EnvelopeFilter1;
 };
-type Filter1EnvelopeSettingsActions = ChangeEffectsEx;
+type Filter1EnvelopeSettingsActions = ChangeEffects;
 type Filter1EnvelopeSettingsAllProps = Filter1EnvelopeSettingsProps & Filter1EnvelopeSettingsActions;
 type Filter1EnvelopeSettingsState = {};
 
@@ -50,14 +50,14 @@ export class Filter1EnvelopeSettings
     }
 
     private onChangeFrequency(value: Frequency1) {
-        this.props.changeEffectsEx({ filters: { filter1: { envelope: { frequency: value } } } });
+        this.props.changeEffects({ filters: { filter1: { envelope: { frequency: value } } } });
     }
 
     private onChangeSensitivity(value: Percent) {
-        this.props.changeEffectsEx({ filters: { filter1: { envelope: { sensitivity: value } } } });
+        this.props.changeEffects({ filters: { filter1: { envelope: { sensitivity: value } } } });
     }
 
     private onChangeFunction(value: EnvelopeFunction) {
-        this.props.changeEffectsEx({ filters: { filter1: { envelope: { function: value } } } });
+        this.props.changeEffects({ filters: { filter1: { envelope: { function: value } } } });
     }
 }

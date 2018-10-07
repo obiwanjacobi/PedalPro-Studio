@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { VoltageControlledAmp } from "./VoltageControlledAmp";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 
 type VcaListItemProps = {
     vca: VoltageControlledAmp;
 };
-type VcaListItemActions = ChangeEffectsEx & SelectEffect;
+type VcaListItemActions = ChangeEffects & SelectEffect;
 type VcaListItemAllProps = VcaListItemProps & VcaListItemActions;
 type VcaListItemState = {};
 
@@ -34,6 +34,6 @@ export class VcaListItem extends React.Component<VcaListItemAllProps, VcaListIte
     }
 
     private onEnabled(enabled: boolean) {
-        this.props.changeEffectsEx({ vca: { enabled: enabled } });
+        this.props.changeEffects({ vca: { enabled: enabled } });
     }
 }

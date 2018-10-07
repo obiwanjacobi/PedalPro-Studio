@@ -12,7 +12,9 @@ import { Title } from "../controls/Title";
 import { Preset } from "../preset/Preset";
 import { Effects, EffectsEx } from "./Effects";
 import { EditEffects, createEditEffectsAction } from "./EditEffectsAction";
+import { EffectsView } from "./EffectsView";
 import { EffectsExView } from "./EffectsExView";
+import { asEffects, asEffectsEx } from "./EffectsOperations";
 
 type EffectsPageProps = {};
 type EffectsPageStoreProps = {
@@ -45,6 +47,8 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                 </ApplicationToolbar>
                 {this.props.effectsEx &&
                     <EffectsExView effectsEx={this.props.effectsEx} />}
+                {this.props.effects &&
+                    <EffectsView effects={this.props.effects} />}
             </Dialog>
         );
     }
@@ -63,8 +67,8 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
         if (state.editEffects) {
             return  { 
                 preset: state.editEffects.preset,
-                effects: state.editEffects.effectsOrEx as Effects,
-                effectsEx: state.editEffects.effectsOrEx as EffectsEx,
+                effects: asEffects(state.editEffects.effectsOrEx) as Effects,
+                effectsEx: asEffectsEx(state.editEffects.effectsOrEx) as EffectsEx,
             };
         }
         return {};

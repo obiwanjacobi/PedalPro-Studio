@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Volume } from "./Volume";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 
 type VolumeListItemProps = {
     volume: Volume;
 };
-type VolumeListItemActions = ChangeEffectsEx & SelectEffect;
+type VolumeListItemActions = ChangeEffects & SelectEffect;
 type VolumeListItemAllProps = VolumeListItemProps & VolumeListItemActions;
 type VolumeListItemState = {};
 
@@ -34,6 +34,6 @@ export class VolumeListItem extends React.Component<VolumeListItemAllProps, Volu
     }
 
     private onEnabled(enabled: boolean) {
-        this.props.changeEffectsEx({ volume: { enabled: enabled } });
+        this.props.changeEffects({ volume: { enabled: enabled } });
     }
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Volume } from "./Volume";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { PercentSlider } from "../PercentSlider";
 import { Grid, Typography } from "@material-ui/core";
 import { Percent } from "../../../model/Types";
@@ -9,7 +9,7 @@ import { Percent } from "../../../model/Types";
 type VolumeSettingsProps = {
     volume: Volume;
 };
-type VolumeSettingsActions = ChangeEffectsEx;
+type VolumeSettingsActions = ChangeEffects;
 type VolumeSettingsAllProps = VolumeSettingsProps & VolumeSettingsActions;
 type VolumeSettingsState = {};
 
@@ -46,10 +46,10 @@ export class VolumeSettings extends React.Component<VolumeSettingsAllProps, Volu
     }
 
     private onChangeLeft(value: Percent) {
-        this.props.changeEffectsEx({ volume: { levelL: value } });
+        this.props.changeEffects({ volume: { levelL: value } });
     }
 
     private onChangeRight(value: Percent) {
-        this.props.changeEffectsEx({ volume: { levelR: value } });
+        this.props.changeEffects({ volume: { levelR: value } });
     }
 }

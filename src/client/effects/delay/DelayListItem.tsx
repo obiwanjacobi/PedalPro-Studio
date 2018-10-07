@@ -3,7 +3,7 @@ import { List } from "@material-ui/core";
 
 import { Delay } from "./Delay";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { EffectsListItemOption } from "../EffectsListItemOption";
@@ -12,7 +12,7 @@ import { DelayRouting } from "../../../model/Delay";
 type DelayListItemProps = {
     delay: Delay;
 };
-type DelayListItemActions = ChangeEffectsEx & SelectEffect;
+type DelayListItemActions = ChangeEffects & SelectEffect;
 type DelayListItemAllProps = DelayListItemProps & DelayListItemActions;
 type DelayListItemState = {};
 
@@ -58,12 +58,12 @@ export class DelayListItem extends React.Component<DelayListItemAllProps, DelayL
     }
 
     private onChangeDelayRight(checked: boolean) {
-        this.props.changeEffectsEx({ delay: { routing: checked ? DelayRouting.Right : DelayRouting.None }});
+        this.props.changeEffects({ delay: { routing: checked ? DelayRouting.Right : DelayRouting.None }});
         this.selectComponent(checked);
     }
 
     private onChangeDelayLeft(checked: boolean) {
-        this.props.changeEffectsEx({ delay: { routing: checked ? DelayRouting.Left : DelayRouting.None }});
+        this.props.changeEffects({ delay: { routing: checked ? DelayRouting.Left : DelayRouting.None }});
         this.selectComponent(checked);
     }
 

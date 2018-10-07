@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, ListItemSecondaryAction, Switch } from "@
 
 import { Filters, FiltersComponentNames } from "./Filters";
 import { EffectsItemCard } from "../EffectsItemCard";
-import { ChangeEffectsEx } from "../ChangeEffectsAction";
+import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
@@ -11,7 +11,7 @@ import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
 type FiltersPreListItemProps = {
     filters: Filters;
 };
-type FiltersPreListItemActions = ChangeEffectsEx & SelectEffect;
+type FiltersPreListItemActions = ChangeEffects & SelectEffect;
 type FiltersPreListItemAllProps = FiltersPreListItemProps & FiltersPreListItemActions;
 type FiltersPreListItemState = {};
 
@@ -72,7 +72,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
     }
 
     private onChangeFilter1(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffectsEx({ filters: { routing: this.routing.setPreFilter1(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPreFilter1(checked) }});
         this.selectComponent(checked, FiltersComponentNames.Filter1);
     }
 
@@ -83,7 +83,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
     }
 
     private onChangeFilter2(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffectsEx({ filters: { routing: this.routing.setPreFilter2(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPreFilter2(checked) }});
         this.selectComponent(checked, FiltersComponentNames.Filter2);
     }
 

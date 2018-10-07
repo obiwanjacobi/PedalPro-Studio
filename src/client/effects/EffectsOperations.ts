@@ -1,3 +1,4 @@
+import * as Model from "../../model/Effects";
 import { Effects, EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { EffectsBuilder } from "./EffectsBuilder";
 import { EffectsExBuilder } from "./EffectsExBuilder";
@@ -9,14 +10,22 @@ import { FilterRouting } from "../../model/Filters";
 import { DelayRouting } from "../../model/Delay";
 import { AuxRouting } from "../../model/AuxRouting";
 
-export function isEffectsEx(effects: EffectsOrEx): boolean {
-    const ex = effects as EffectsEx;
+export function isEffectsEx(effects: Model.Effects | Model.EffectsEx): boolean {
+    const ex = effects as Model.EffectsEx;
     return !!ex.pre && !!ex.dsp;
 }
 
-export function isEffects(effects: EffectsOrEx): boolean {
-    const eff = effects as Effects;
+export function isEffects(effects: Model.Effects | Model.EffectsEx): boolean {
+    const eff = effects as Model.Effects;
     return !!eff.distortion;
+}
+
+export function asEffects(effectsOrEx: Model.Effects | Model.EffectsEx): Model.Effects | undefined {
+    return isEffects(effectsOrEx) ? <Model.Effects> effectsOrEx : undefined;
+}
+
+export function asEffectsEx(effectsOrEx: Model.Effects | Model.EffectsEx): Model.EffectsEx | undefined {
+    return isEffectsEx(effectsOrEx) ? <Model.EffectsEx> effectsOrEx : undefined;
 }
 
 // function effectsEqual(

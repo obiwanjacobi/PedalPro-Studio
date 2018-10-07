@@ -3,8 +3,11 @@ import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 
 import { ApplicationDocument } from "../ApplicationDocument";
-import { EffectNames, EffectsOrEx, EffectsEx } from "./Effects";
-import { ChangeEffectsEx, createChangeEffectsExAction } from "./ChangeEffectsAction";
+import { EffectNames, Effects, EffectsEx } from "./Effects";
+import { 
+    ChangeEffects, createChangeEffectsAction, 
+    ChangeEffectsEx, createChangeEffectsExAction 
+} from "./ChangeEffectsAction";
 import { RecursivePartial } from "../../TypeExtensions";
 import { BoostSettings } from "./boost/BoostSettings";
 import { EmphasisSettings } from "./preamp/EmphasisSettings";
@@ -37,7 +40,7 @@ type EffectsExSettingsStoreProps = {
     effectName: EffectNames;
     componentName?: string;
 };
-type EffectsExSettingsActions = ChangeEffectsEx;
+type EffectsExSettingsActions = ChangeEffectsEx & ChangeEffects;
 type EffectsExSettingsAllProps = EffectsExSettingsProps & EffectsExSettingsStoreProps & EffectsExSettingsActions;
 type EffectsExSettingsState = {};
 
@@ -48,7 +51,7 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                 return (
                     <CompressorSettings 
                         compressor={this.props.effects.compressor} 
-                        changeEffectsEx={this.props.changeEffectsEx}
+                        changeEffects={this.props.changeEffects}
                     />
                 );
                 
@@ -57,7 +60,7 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
             case EffectNames.Boost:
                 return (
-                    <BoostSettings boost={this.props.effects.boost} changeEffectsEx={this.props.changeEffectsEx} />
+                    <BoostSettings boost={this.props.effects.boost} changeEffects={this.props.changeEffects} />
                 );
         
             case EffectNames.PreAmp:
@@ -65,12 +68,12 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
             case EffectNames.Vca:
                 return (
-                    <VcaSettings vca={this.props.effects.vca} changeEffectsEx={this.props.changeEffectsEx} />
+                    <VcaSettings vca={this.props.effects.vca} changeEffects={this.props.changeEffects} />
                 );
 
             case EffectNames.Phaser:
                 return (
-                    <PhaserSettings phaser={this.props.effects.phaser} changeEffectsEx={this.props.changeEffectsEx} />
+                    <PhaserSettings phaser={this.props.effects.phaser} changeEffects={this.props.changeEffects} />
                 );
 
             case EffectNames.Modulation:    
@@ -78,7 +81,7 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
             case EffectNames.Delay:
                 return (
-                    <DelaySettings delay={this.props.effects.delay} changeEffectsEx={this.props.changeEffectsEx} />
+                    <DelaySettings delay={this.props.effects.delay} changeEffects={this.props.changeEffects} />
                 );
 
             case EffectNames.Dsp:
@@ -91,14 +94,14 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
 
             case EffectNames.Volume:
                 return (
-                    <VolumeSettings volume={this.props.effects.volume} changeEffectsEx={this.props.changeEffectsEx} />
+                    <VolumeSettings volume={this.props.effects.volume} changeEffects={this.props.changeEffects} />
                 );
 
             case EffectNames.NoiseGate:
                 return (
                     <NoiseGateSettings 
                         noiseGate={this.props.effects.noiseGate} 
-                        changeEffectsEx={this.props.changeEffectsEx}
+                        changeEffects={this.props.changeEffects}
                     />
                 );
 
@@ -113,14 +116,14 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                 return (
                     <Filter1Settings
                         filter={this.props.effects.filters.filter1}
-                        changeEffectsEx={this.props.changeEffectsEx}
+                        changeEffects={this.props.changeEffects}
                     />
                 );
             case FiltersComponentNames.Filter2:
                 return (
                     <Filter2Settings
                         filter={this.props.effects.filters.filter2}
-                        changeEffectsEx={this.props.changeEffectsEx}
+                        changeEffects={this.props.changeEffects}
                     />
                 );
             default:
@@ -176,21 +179,21 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
                 return (
                     <ChorusSettings
                         chorus={this.props.effects.modulation.chorus} 
-                        changeEffectsEx={this.props.changeEffectsEx} 
+                        changeEffects={this.props.changeEffects} 
                     />
                 );
             case ModulationComponentNames.Flanger:
                 return (
                     <FlangerSettings 
                         flanger={this.props.effects.modulation.flanger} 
-                        changeEffectsEx={this.props.changeEffectsEx}
+                        changeEffects={this.props.changeEffects}
                     />
                 );
             case ModulationComponentNames.Vibe:
                 return (
                     <VibeSettings 
                         vibe={this.props.effects.modulation.vibe} 
-                        changeEffectsEx={this.props.changeEffectsEx}
+                        changeEffects={this.props.changeEffects}
                     />
                 );
         }
@@ -200,9 +203,9 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, Effec
         switch (this.props.componentName) {
             default:
             case AuxRoutingComponentNames.Mixer:
-                return (<AuxMixerSettings aux={this.props.effects.aux} changeEffectsEx={this.props.changeEffectsEx} />);
+                return (<AuxMixerSettings aux={this.props.effects.aux} changeEffects={this.props.changeEffects} />);
             case AuxRoutingComponentNames.Pedals:
-                return (<AuxPedalSettings aux={this.props.effects.aux} changeEffectsEx={this.props.changeEffectsEx} />);
+                return (<AuxPedalSettings aux={this.props.effects.aux} changeEffects={this.props.changeEffects} />);
         }
     }
 }
@@ -226,8 +229,11 @@ type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsExSettingsActions, E
 const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: EffectsExSettingsProps): EffectsExSettingsActions => {
         return {
-            changeEffectsEx: (effectsOrEx: RecursivePartial<EffectsOrEx>) => {
-                dispatch(createChangeEffectsExAction(effectsOrEx));
+            changeEffects: (effects: RecursivePartial<Effects>) => {
+                dispatch(createChangeEffectsAction(effects));
+            },
+            changeEffectsEx: (effectsEx: RecursivePartial<EffectsEx>) => {
+                dispatch(createChangeEffectsExAction(effectsEx));
             }
         };
     };
