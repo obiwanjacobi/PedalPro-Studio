@@ -41,6 +41,7 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
         return (
             <EffectsItemCard
                 enabled={this.props.pre.enabled}
+                selected={this.props.pre.ui.selected}
                 title="PreAmp"
                 avatar="Pre"
                 onEnabled={this.onEnabled}
@@ -99,17 +100,17 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
 
     private onChangeDistortionDiode(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionDiode(checked) }});
-        if (checked) { this.selectComponent(PreAmpComponentNames.DistortionDiode); }
+        this.selectComponent(checked, PreAmpComponentNames.DistortionDiode);
     }
 
     private onChangeDistortionFet(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionFet(checked) }});
-        if (checked) { this.selectComponent(PreAmpComponentNames.DistortionFet); }
+        this.selectComponent(checked, PreAmpComponentNames.DistortionFet);
     }
 
     private onChangeFuzz(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffectsEx({ pre: { routing: this.routingValue.setFuzz(checked) }});
-        if (checked) { this.selectComponent(PreAmpComponentNames.Fuzz); }
+        this.selectComponent(checked, PreAmpComponentNames.Fuzz);
     }
 
     private onEnabled(enabled: boolean) {
@@ -117,32 +118,36 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
     }
 
     private onEmphasis() {
-        this.selectComponent(PreAmpComponentNames.Emphasis);
+        this.selectComponent(true, PreAmpComponentNames.Emphasis);
     }
 
     private onDistortionDiode() {
         if (this.routingValue.distortionDiode) {
-            this.selectComponent(PreAmpComponentNames.DistortionDiode);
+            this.selectComponent(true, PreAmpComponentNames.DistortionDiode);
         }
     }
 
     private onDistortionFet() {
         if (this.routingValue.distortionFet) {
-            this.selectComponent(PreAmpComponentNames.DistortionFet);
+            this.selectComponent(true, PreAmpComponentNames.DistortionFet);
         }
     }
 
     private onFuzz() {
         if (this.routingValue.fuzz) {
-            this.selectComponent(PreAmpComponentNames.Fuzz);
+            this.selectComponent(true, PreAmpComponentNames.Fuzz);
         }
     }
 
     private onEqualizer() {
-        this.selectComponent(PreAmpComponentNames.Equalizer);
+        this.selectComponent(true, PreAmpComponentNames.Equalizer);
     }
 
-    private selectComponent(componentName: PreAmpComponentNames) {
-        this.props.selectEffect(EffectNames.PreAmp, componentName);
+    private selectComponent(enabled: boolean, componentName: PreAmpComponentNames) {
+        if (enabled) {
+            this.props.selectEffect(EffectNames.PreAmp, componentName);
+        } else {
+            this.props.selectEffect(EffectNames.None);
+        }
     }
 }

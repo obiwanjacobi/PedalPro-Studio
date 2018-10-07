@@ -23,6 +23,7 @@ export class CompressorListItem extends React.Component<CompressorListItemAllPro
         return (
             <EffectsItemCard
                 enabled={this.props.compressor.enabled}
+                selected={this.props.compressor.ui.selected}
                 title="Compressor"
                 avatar="Com"
                 onEnabled={this.onEnabled}

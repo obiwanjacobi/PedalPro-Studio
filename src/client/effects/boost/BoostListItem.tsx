@@ -23,6 +23,7 @@ export class BoostListItem extends React.Component<BoostListItemAllProps, BoostL
         return (
             <EffectsItemCard
                 enabled={this.props.boost.enabled}
+                selected={this.props.boost.ui.selected}
                 title="Boost"
                 avatar="Bst"
                 onEnabled={this.onEnabled}

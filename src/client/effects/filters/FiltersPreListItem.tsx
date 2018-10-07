@@ -36,6 +36,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
         return (
             <EffectsItemCard
                 enabled={this.props.filters.routing !== FilterRouting.Bypass}
+                selected={this.props.filters.ui.selected}
                 title="FIlters (pre)"
                 avatar="Fil"
                 effectName={{ effectName: EffectNames.Filters }}
@@ -66,27 +67,31 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
 
     private onFilter1() {
         if (this.routing.preFilter1) {
-            this.selectComponent(FiltersComponentNames.Filter1);
+            this.selectComponent(true, FiltersComponentNames.Filter1);
         }
     }
 
     private onChangeFilter1(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffectsEx({ filters: { routing: this.routing.setPreFilter1(checked) }});
-        if (checked) { this.selectComponent(FiltersComponentNames.Filter1); }
+        this.selectComponent(checked, FiltersComponentNames.Filter1);
     }
 
     private onFilter2() {
         if (this.routing.preFilter2) {
-            this.selectComponent(FiltersComponentNames.Filter2);
+            this.selectComponent(true, FiltersComponentNames.Filter2);
         }
     }
 
     private onChangeFilter2(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
         this.props.changeEffectsEx({ filters: { routing: this.routing.setPreFilter2(checked) }});
-        if (checked) { this.selectComponent(FiltersComponentNames.Filter2); }
+        this.selectComponent(checked, FiltersComponentNames.Filter2);
     }
 
-    private selectComponent(componentName: FiltersComponentNames) {
-        this.props.selectEffect(EffectNames.Filters, componentName);
+    private selectComponent(enabled: boolean, componentName: FiltersComponentNames) {
+        if (enabled) {
+            this.props.selectEffect(EffectNames.Filters, componentName);
+        } else {
+            this.props.selectEffect(EffectNames.None);
+        }
     }
 }

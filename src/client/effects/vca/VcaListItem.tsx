@@ -23,6 +23,7 @@ export class VcaListItem extends React.Component<VcaListItemAllProps, VcaListIte
         return (
             <EffectsItemCard
                 enabled={this.props.vca.enabled}
+                selected={this.props.vca.ui.selected}
                 title="Voltage Controlled Amp"
                 avatar="Vca"
                 onEnabled={this.onEnabled}

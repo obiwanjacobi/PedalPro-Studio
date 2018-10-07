@@ -28,6 +28,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
         return (
             <EffectsItemCard
                 enabled={this.props.aux.routing !== AuxRouting.None}
+                selected={this.props.aux.ui.selected}
                 title="Aux Routing"
                 avatar="Aux"
                 content={this.renderActionList()}
@@ -64,29 +65,33 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
     
     private onPedals() {
         if (this.isPedals) {
-            this.selectEffect(AuxRoutingComponentNames.Pedals);
+            this.selectEffect(true, AuxRoutingComponentNames.Pedals);
         }
     }
 
     private onChangePedals(enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.LeftOnly : AuxRouting.None;
         this.props.changeEffectsEx({ aux: { routing: auxRouting } });
-        if (enabled) { this.selectEffect(AuxRoutingComponentNames.Pedals); }
+        this.selectEffect(enabled, AuxRoutingComponentNames.Pedals);
     }
 
     private onMixer() {
         if (this.props.aux.routing === AuxRouting.Mixer) {
-            this.selectEffect(AuxRoutingComponentNames.Mixer);
+            this.selectEffect(true, AuxRoutingComponentNames.Mixer);
         }
     }
 
     private onChangeMixer(enabled: boolean) {
         const auxRouting = enabled ? AuxRouting.Mixer : AuxRouting.None;
         this.props.changeEffectsEx({ aux: { routing: auxRouting } });
-        if (enabled) { this.selectEffect(AuxRoutingComponentNames.Mixer); }
+        this.selectEffect(enabled, AuxRoutingComponentNames.Mixer);
     }
 
-    private selectEffect(componentName: AuxRoutingComponentNames) {
-        this.props.selectEffect(EffectNames.AuxRouting, componentName);
+    private selectEffect(enabled: boolean, componentName: AuxRoutingComponentNames) {
+        if (enabled) {
+            this.props.selectEffect(EffectNames.AuxRouting, componentName);
+        } else {
+            this.props.selectEffect(EffectNames.None);
+        }
     }
 }

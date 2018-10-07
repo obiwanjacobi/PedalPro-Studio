@@ -23,6 +23,7 @@ export class VolumeListItem extends React.Component<VolumeListItemAllProps, Volu
         return (
             <EffectsItemCard
                 enabled={this.props.volume.enabled}
+                selected={this.props.volume.ui.selected}
                 title="Volume"
                 avatar="Vol"
                 onEnabled={this.onEnabled}

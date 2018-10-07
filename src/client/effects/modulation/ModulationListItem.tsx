@@ -30,6 +30,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
         return (
             <EffectsItemCard
                 enabled={this.props.modulation.mode !== ModulationMode.None}
+                selected={this.props.modulation.ui.selected}
                 title="Modulation"
                 avatar="Mod"
                 content={this.renderActionList()}
@@ -68,12 +69,12 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
     
     private onChorus() {
         if (this.isChorus) {
-            this.selectEffect(ModulationComponentNames.Chorus);
+            this.selectEffect(true, ModulationComponentNames.Chorus);
         }
     }
     private onChangeChorus(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
         this.props.changeEffectsEx({ modulation: { mode: enabled ? ModulationMode.Chorus : ModulationMode.None } });
-        if (enabled) { this.selectEffect(ModulationComponentNames.Chorus); }
+        this.selectEffect(enabled, ModulationComponentNames.Chorus);
     }
 
     private get isFlanger(): boolean {
@@ -82,12 +83,12 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
     
     private onFlanger() {
         if (this.isFlanger) {
-            this.selectEffect(ModulationComponentNames.Flanger);
+            this.selectEffect(true, ModulationComponentNames.Flanger);
         }
     }
     private onChangeFlanger(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
         this.props.changeEffectsEx({ modulation: { mode: enabled ? ModulationMode.Flanger : ModulationMode.None } });
-        if (enabled) { this.selectEffect(ModulationComponentNames.Flanger); }
+        this.selectEffect(enabled, ModulationComponentNames.Flanger);
     }
 
     private get isVibe(): boolean {
@@ -96,15 +97,19 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
     
     private onVibe() {
         if (this.isVibe) {
-            this.selectEffect(ModulationComponentNames.Vibe);
+            this.selectEffect(true, ModulationComponentNames.Vibe);
         }
     }
     private onChangeVibe(_: React.ChangeEvent<HTMLInputElement>, enabled: boolean) {
         this.props.changeEffectsEx({ modulation: { mode: enabled ? ModulationMode.ChorusVibe : ModulationMode.None } });
-        if (enabled) { this.selectEffect(ModulationComponentNames.Vibe); }
+        this.selectEffect(enabled, ModulationComponentNames.Vibe);
     }
 
-    private selectEffect(componentName: ModulationComponentNames) {
-        this.props.selectEffect(EffectNames.Modulation, componentName);
+    private selectEffect(enabled: boolean, componentName: ModulationComponentNames) {
+        if (enabled) {
+            this.props.selectEffect(EffectNames.Modulation, componentName);
+        } else {
+            this.props.selectEffect(EffectNames.None);
+        }
     }
 }

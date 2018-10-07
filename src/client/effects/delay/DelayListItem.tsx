@@ -26,6 +26,7 @@ export class DelayListItem extends React.Component<DelayListItemAllProps, DelayL
         return (
             <EffectsItemCard
                 enabled={this.props.delay.routing !== DelayRouting.None}
+                selected={this.props.delay.ui.selected}
                 title="Delay"
                 avatar="Dly"
                 effectName={{ effectName: EffectNames.Delay }}
@@ -44,21 +45,21 @@ export class DelayListItem extends React.Component<DelayListItemAllProps, DelayL
 
     private onDelay() {
         if (this.props.delay.routing !== DelayRouting.None) {
-            this.selectComponent();
+            this.selectComponent(true);
         }
     }
 
     private onChangeDelayRight(checked: boolean) {
         this.props.changeEffectsEx({ delay: { routing: checked ? DelayRouting.Right : DelayRouting.None }});
-        if (checked) { this.selectComponent(); }
+        this.selectComponent(checked);
     }
 
     private onChangeDelayLeft(checked: boolean) {
         this.props.changeEffectsEx({ delay: { routing: checked ? DelayRouting.Left : DelayRouting.None }});
-        if (checked) { this.selectComponent(); }
+        this.selectComponent(checked);
     }
 
-    private selectComponent() {
-        this.props.selectEffect(EffectNames.Delay);
+    private selectComponent(enabled: boolean) {
+        this.props.selectEffect(enabled ? EffectNames.Delay : EffectNames.None);
     }
 }

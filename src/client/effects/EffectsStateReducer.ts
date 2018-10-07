@@ -56,12 +56,16 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
 
 function reduceSelectEffect(state: ApplicationDocument, action: SelectEffectAction): ApplicationDocument {
     if (state.editEffects) {
+        const selected = 
+            determineSelectedEffect(state.editEffects.effectsOrEx, action.effectName, action.component);
+        const effectsOrEx = 
+            selectEffect(state.editEffects.effectsOrEx, selected.effectName, state.editEffects.selected.effectName);
+
         return { ...state, 
             editEffects: { 
                 preset: state.editEffects.preset,
-                effectsOrEx: selectEffect(
-                    state.editEffects.effectsOrEx, action.effectName, state.editEffects.selected.effectName),
-                selected: determineSelectedEffect(state.editEffects.effectsOrEx, action.effectName, action.component)
+                effectsOrEx: effectsOrEx,
+                selected: selected
             }
         };
     }

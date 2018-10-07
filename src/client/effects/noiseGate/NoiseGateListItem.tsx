@@ -23,6 +23,7 @@ export class NoiseGateListItem extends React.Component<NoiseGateListItemAllProps
         return (
             <EffectsItemCard
                 enabled={this.props.noiseGate.enabled}
+                selected={this.props.noiseGate.ui.selected}                
                 title="Noise Gate"
                 avatar="NGt"
                 onEnabled={this.onEnabled}

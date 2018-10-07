@@ -23,6 +23,7 @@ export class PhaserListItem extends React.Component<PhaserListItemAllProps, Phas
         return (
             <EffectsItemCard
                 enabled={this.props.phaser.enabled}
+                selected={this.props.phaser.ui.selected}
                 title="Phaser"
                 avatar="Phr"
                 onEnabled={this.onEnabled}
