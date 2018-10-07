@@ -1,7 +1,7 @@
 import { Preset } from "../preset/Preset";
 
 export enum EditEffectsActionKey {
-    type = "U/*/presets[*]/effects"
+    type = "R/*/presets[*]/effects"
 }
 
 export interface EditEffectsAction {
@@ -14,7 +14,7 @@ export function createEditEffectsAction(preset?: Preset): EditEffectsAction {
         type: EditEffectsActionKey.type, 
         preset: preset, 
     };
-};
+}
 
 export interface EditEffects {
     editEffects(preset?: Preset): void;

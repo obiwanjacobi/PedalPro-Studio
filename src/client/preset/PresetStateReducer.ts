@@ -1,4 +1,3 @@
-import * as ModelPreset from "../../model/Preset";
 import { Preset } from "./Preset";
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { LoadPresetsAction } from "./LoadPresetsAction";
@@ -162,7 +161,8 @@ export const reduceDeletePresets = (
     builder.transformPresets(source, (originalPresets: Preset[]): Preset[] => {
         const deleteBuilder = new PresetArrayBuilder(deleted);
         deleteBuilder.forEach((p: Preset, index: number) => {
-            deleteBuilder.mutable[index] = PresetBuilder.delete(p, <ModelPreset.Preset> state.empty);
+            // @ts-ignore: undefined
+            deleteBuilder.mutable[index] = PresetBuilder.delete(p, state.empty);
         });
 
         const presetBuilder = new PresetArrayBuilder(originalPresets);

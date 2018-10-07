@@ -21,7 +21,7 @@ import { VoltageControlledAmp as ModelVoltageControlledAmp } from "../model/Volt
 import { Volume as ModelVolume } from "../model/Volume";
 
 import { Preset } from "./preset/Preset";
-import { Effects, EffectsEx } from "./effects/Effects";
+import { EffectsOrEx } from "./effects/Effects";
 import { Aux } from "./effects/auxRouting/AuxRouting";
 import { Boost } from "./effects/boost/Boost";
 import { Compressor } from "./effects/compressor/Compressor";
@@ -102,8 +102,8 @@ function extendVolume(effect: ModelVolume): Volume {
     return { ...effect, origin: effect, ui: newItemUI() };
 }
 
-function extendEffects(effectsOrEx?: ModelEffects | ModelEffectsEx): Effects | EffectsEx | undefined {
-    if (!effectsOrEx) { return undefined; }
+function extendEffects(effectsOrEx?: ModelEffects | ModelEffectsEx): EffectsOrEx {
+    if (!effectsOrEx) { throw new Error("Effects were not set."); }
 
     const effectsEx = asEffectsEx(effectsOrEx);
     if (effectsEx) {
@@ -144,7 +144,7 @@ function extendEffects(effectsOrEx?: ModelEffects | ModelEffectsEx): Effects | E
         };
     }
 
-    return undefined;
+    throw new Error("Effects type not determined.");
 }
 
 export function extendPreset(preset: ModelPreset, collection: PresetCollectionType): Preset {

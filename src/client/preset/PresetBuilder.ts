@@ -11,7 +11,7 @@ export class PresetBuilder extends ItemBuilder<Preset> {
         return { ...preset, ...update };
     }
 
-    public static delete(preset: Preset, empty: ModelPreset.Preset) {
+    public static delete(preset: Preset, empty: Partial<Preset>): Preset {
         return { ...preset, ...empty, ui: itemUiModify(preset.ui, { markedDeleted: true })};
     }
 

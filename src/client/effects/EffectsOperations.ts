@@ -1,3 +1,5 @@
+import * as Lodash from "lodash";
+
 import * as Model from "../../model/Effects";
 import { Effects, EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
 import { EffectsBuilder } from "./EffectsBuilder";
@@ -131,4 +133,8 @@ export function mergeEffectsEx(source: EffectsEx, ...merges: RecursivePartial<Ef
     const builder = new EffectsExBuilder(source);
     merges.forEach(m => builder.merge(m));
     return builder.detach();
+}
+
+export function compareEffects(source: EffectsOrEx, to: EffectsOrEx): boolean {
+    return Lodash.isEqual(source, to);
 }

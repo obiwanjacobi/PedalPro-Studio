@@ -22,7 +22,7 @@ export const NotFoundPreset: Preset = {
     ui: { selected: false, expanded: false, markedDeleted: false },
     meta: { device: "" },
     traits: { singleCoil: false, humbucker: false, stereo: false, expression: false, empty: false },
-};
+} as Preset;    // force => no effects!
 
 export interface PreviewListItemProps {
     preset: Preset;

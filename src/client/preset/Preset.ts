@@ -1,6 +1,7 @@
 import { PresetCollectionType } from "../ApplicationDocument";
 import { ItemUI } from "../ItemUI";
 import * as ModelPreset from "../../model/Preset";
+import { EffectsOrEx } from "../effects/Effects";
 
 export interface PresetGroup {
     /**
@@ -16,6 +17,11 @@ export interface PresetGroup {
 // ui extensions
 export interface Preset extends ModelPreset.Preset {
     
+    /**
+     * extended effects model
+     */
+    effects: EffectsOrEx;
+
     /**
      * current source of the preset
      */

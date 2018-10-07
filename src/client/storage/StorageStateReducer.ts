@@ -1,6 +1,5 @@
 import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
-import * as ModelPreset from "../../model/Preset";
 import { Preset } from "../preset/Preset";
 import { PresetArrayBuilder, PresetBuilder } from "../preset/PresetBuilder";
 import { presetsExceptIndexAreEqual } from "../preset/PresetOperations";
@@ -180,7 +179,7 @@ const reduceDeleteStoragePresets =
         builder.transformPresets(PresetCollectionType.storage, (originalPresets: Preset[]): Preset[] => {
             const deleteBuilder = new PresetArrayBuilder(deleted);
             deleteBuilder.forEach((p: Preset, index: number) => {
-                deleteBuilder.mutable[index] = PresetBuilder.delete(p, <ModelPreset.Preset> ToBeDeletedPreset);
+                deleteBuilder.mutable[index] = PresetBuilder.delete(p, ToBeDeletedPreset);
             });
     
             const presetBuilder = new PresetArrayBuilder(originalPresets);

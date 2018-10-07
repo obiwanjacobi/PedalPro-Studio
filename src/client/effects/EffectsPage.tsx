@@ -12,6 +12,7 @@ import { Title } from "../controls/Title";
 import { Preset } from "../preset/Preset";
 import { Effects, EffectsEx } from "./Effects";
 import { EditEffects, createEditEffectsAction } from "./EditEffectsAction";
+import { SaveEffects, SaveEffectsEx, createSaveEffectsAction, createSaveEffectsExAction } from "./SaveEffectsAction";
 import { EffectsView } from "./EffectsView";
 import { EffectsExView } from "./EffectsExView";
 import { asEffects, asEffectsEx } from "./EffectsOperations";
@@ -22,7 +23,7 @@ type EffectsPageStoreProps = {
     effects?: Effects;
     effectsEx?: EffectsEx;
 };
-type EffectsPageActions = EditEffects;
+type EffectsPageActions = SaveEffects & SaveEffectsEx & EditEffects;
 type EffectsPageAllProps = EffectsPageActions & EffectsPageStoreProps & EffectsPageProps;
 type EffectsPageState = {};
 
@@ -31,6 +32,7 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
         super(props);
 
         this.close = this.close.bind(this);
+        this.save = this.save.bind(this);
     }
 
     public render() {
@@ -41,7 +43,7 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                         <Clear />
                     </IconButton>
                     <Title caption="Edit Effects" prelude="" />
-                    <Button>
+                    <Button onClick={this.save}>
                         Save
                     </Button>
                 </ApplicationToolbar>
@@ -56,6 +58,17 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
     private close() {
         this.props.editEffects(undefined);
     }
+
+    private save() {
+        if (this.props.effects) {
+            this.props.saveEffects(this.props.effects);
+        }
+        if (this.props.effectsEx) {
+            this.props.saveEffectsEx(this.props.effectsEx);
+        }
+        this.close();
+    }
+
     private get isOpen(): boolean {
         return !!this.props.effects || !!this.props.effectsEx;
     }
@@ -80,6 +93,12 @@ const createActionObject: ActionDispatchFunc =
         return {
             editEffects: (preset?: Preset) => {
                 dispatch(createEditEffectsAction(preset));
+            },
+            saveEffects: (effects: Effects) => {
+                dispatch(createSaveEffectsAction(effects));
+            },
+            saveEffectsEx: (effectsEx: EffectsEx) => {
+                dispatch(createSaveEffectsExAction(effectsEx));
             }
         };
 };
