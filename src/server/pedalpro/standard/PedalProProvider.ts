@@ -90,7 +90,7 @@ export class PedalProProvider extends DevicePresetProvider {
     }
 
     protected createMeta(): PresetMeta {
-        return { device: `${this.identity.model}` };
+        return { device: this.identity.model.toString() };
     }
 
     protected serialize(buffer: PresetBuffer, preset: Preset): void {

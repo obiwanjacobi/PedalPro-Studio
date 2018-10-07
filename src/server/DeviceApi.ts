@@ -13,26 +13,16 @@ export const getDeviceInfo = (): PedalProDeviceIdentity => {
     const device = new PedalProDevice();
     const isProd = Environment.isProduction;
     const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device, isProd);
+    
     if (!deviceInfo) {
-        if (isProd) {
-            return {
-                vendor: "<unknown>",
-                device: "<unknown>",
-                version: "0.0",
-                model: PedalProDeviceModel.Unspecified,
-                supported: false,
-                presetCount: 0
-            };
-        } else {
-            return {
-                vendor: "Development",
-                device: "Offline",
-                version: "0.0",
-                model: PedalProDeviceModel.PedalProEx,
-                supported: true,
-                presetCount: 400
-            };
-        }
+        return {
+            vendor: "<unknown>",
+            device: "<unknown>",
+            version: "0.0",
+            model: PedalProDeviceModel.Unspecified,
+            supported: false,
+            presetCount: 0
+        };
     }
     return deviceInfo;
 };

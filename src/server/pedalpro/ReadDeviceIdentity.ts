@@ -60,11 +60,9 @@ export class ReadDeviceIdentity {
         const vutData = this.device.read();
         if (vutData && vutData.length > 0) {
             let id = vutData[1];
-            if (id > 0 && id < 5) {
-                deviceId.model = <PedalProDeviceModel> id;
-                deviceId.supported = 
-                    deviceId.model === PedalProDeviceModel.PedalPro ||
-                    deviceId.model === PedalProDeviceModel.PedalProEx;
+            deviceId.model = this.toPedalProDeviceModel(id);
+            if (deviceId.model !== PedalProDeviceModel.Unspecified) {                
+                deviceId.supported = true;
             } else {
                 id = vutData[2];
                 if (id === 1) {
@@ -86,6 +84,17 @@ export class ReadDeviceIdentity {
         const vutData = this.device.read();
         if (vutData && vutData.length > 0) {
             deviceId.version = `${vutData[1]}.${vutData[2]}`;
+        }
+    }
+
+    private toPedalProDeviceModel(id: number): PedalProDeviceModel {
+        switch (id) {
+            case 2:
+                return PedalProDeviceModel.PedalPro;
+            case 4:
+                return PedalProDeviceModel.PedalProEx;
+            default:
+                return PedalProDeviceModel.Unspecified;
         }
     }
 }

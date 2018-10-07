@@ -1,26 +1,33 @@
 import * as Path from "path";
 
 import { Program } from "../../Program";
-import { PedalProProvider } from "./standard/PedalProProvider";
+import { Configuration } from "../../Configuration";
+import { PresetProvider } from "../PresetProvider";
+import { DevicePresetProvider } from "./DevicePresetProvider";
 import { PedalProDevice } from "./PedalProDevice";
 import { ReadDeviceIdentity } from "./ReadDeviceIdentity";
 import { PedalProDeviceIdentity, PedalProDeviceModel } from "./PedalProDeviceIdentity";
+import { PedalProProvider } from "./standard/PedalProProvider";
 import { PedalProExProvider } from "./extended/PedalProExProvider";
-import { PresetProvider } from "../PresetProvider";
-import { OfflinePresetProviderEx } from "./_tests/OfflinePresetProviderEx";
-import { Configuration } from "../../Configuration";
+
+import { OfflinePresetProvider } from "./_tests/OfflinePresetProvider";
+// import { OfflinePresetProviderEx } from "./_tests/OfflinePresetProviderEx";
 
 export class PedalProProviderFactory {
-    public static offlineProvider?: OfflinePresetProviderEx;
+    public static offlineProvider?: DevicePresetProvider;
 
     public static create(throwOnError: boolean): PresetProvider {
         const device = new PedalProDevice();
-        const deviceId = PedalProProviderFactory.getDeviceIdentity(device, throwOnError);
+        const deviceId = PedalProProviderFactory.getDeviceIdentityInternal(device, throwOnError);
 
         if (!deviceId) {
             if (!this.offlineProvider) {
-                const filePathEx = Path.join(Program.locations.application, Configuration.pedalpro.factoryFileEx);
-                this.offlineProvider = new OfflinePresetProviderEx(filePathEx);
+                // PedalPro (standard)
+                const filePath = Path.join(Program.locations.application, Configuration.pedalpro.factoryFile);
+                this.offlineProvider = new OfflinePresetProvider(filePath);
+                // PedalPro Ex
+                // const filePathEx = Path.join(Program.locations.application, Configuration.pedalpro.factoryFileEx);
+                // this.offlineProvider = new OfflinePresetProviderEx(filePathEx);
             }
             return this.offlineProvider;
         }
@@ -38,6 +45,36 @@ export class PedalProProviderFactory {
     }
 
     public static getDeviceIdentity(device: PedalProDevice, throwOnError: boolean): PedalProDeviceIdentity | undefined {
+        const deviceId = PedalProProviderFactory.getDeviceIdentityInternal(device, throwOnError);
+        
+        if (!deviceId && !throwOnError) {
+            // PedalPro (standard)
+            return {
+                vendor: "Development",
+                device: "Offline",
+                version: "0.0",
+                model: PedalProDeviceModel.PedalPro,
+                supported: true,
+                presetCount: 500
+            };
+
+            // PedalPro Ex
+            // return {
+            //     vendor: "Development",
+            //     device: "Offline",
+            //     version: "0.0",
+            //     model: PedalProDeviceModel.PedalProEx,
+            //     supported: true,
+            //     presetCount: 400;
+            // };
+        }
+
+        return deviceId;
+    }
+
+    private static getDeviceIdentityInternal(
+        device: PedalProDevice, throwOnError: boolean): PedalProDeviceIdentity | undefined {
+
         try {
             const reader = new ReadDeviceIdentity(device);
             return reader.read();
