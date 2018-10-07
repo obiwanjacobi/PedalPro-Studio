@@ -1,4 +1,5 @@
 import * as React from "react";
+import { List } from "@material-ui/core";
 
 import { Filters, FiltersComponentNames } from "./Filters";
 import { EffectsItemCard } from "../EffectsItemCard";
@@ -49,7 +50,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
 
     private renderActionList(): React.ReactNode {
         return (
-            <div>
+            <List>
                 <EffectsListItemOption
                     label="Filter 1"
                     enabledRight={false}
@@ -65,7 +66,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
                     onChangeLeft={this.onChangeFilter2Left}
                     onSelect={this.onFilter2}
                 />
-            </div>
+            </List>
         );
     }
 

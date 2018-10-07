@@ -1,5 +1,9 @@
 import * as React from "react";
-import { Card, CardHeader, CardContent, Avatar, Switch } from "@material-ui/core";
+import { 
+    List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, 
+    Card, CardContent, Avatar, Switch 
+} from "@material-ui/core";
+
 import { EffectComponentName } from "./EffectsState";
 import { SelectEffect } from "./SelectEffectAction";
 import { EffectNames } from "./Effects";
@@ -28,20 +32,29 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
 
     public render() {
         return (
-            <Card raised={this.props.enabled} onClick={this.onSelectEffect}>
-                <CardHeader
-                    avatar={this.props.selected ? <Avatar style={{background: "orange"}}>{this.props.avatar}</Avatar> :
-                        <Avatar>{this.props.avatar}</Avatar>}
-                    action={this.props.onEnabled && 
-                        <Switch checked={this.props.enabled} onChange={this.onChange} />}
-                    title={this.props.title}
-                />
+            <Card raised={this.props.enabled}>
+                <List>
+                    <ListItem button={this.props.enabled && !this.props.content} onClick={this.onSelectEffect}>
+                        <ListItemAvatar>{this.renderAvatar()}</ListItemAvatar>
+                        <ListItemText>{this.props.title}</ListItemText>
+                        {this.props.onEnabled && 
+                            <ListItemSecondaryAction>
+                                <Switch checked={this.props.enabled} onChange={this.onChange} />
+                            </ListItemSecondaryAction>}
+                    </ListItem>
+                </List>
                 {this.showContent &&
-                    <CardContent>{this.props.content}</CardContent>}
+                    <CardContent style={{paddingTop: "0px", paddingBottom: "0px"}}>
+                        {this.props.content}
+                    </CardContent>}
             </Card>
         );
     }
 
+    private renderAvatar(): React.ReactNode {
+        return (this.props.selected ? <Avatar style={{background: "orange"}}>{this.props.avatar}</Avatar> :
+            <Avatar>{this.props.avatar}</Avatar>);
+    }
     private get showContent(): boolean {
         return (this.props.enabled && !!this.props.content) || !this.props.onEnabled;
     }

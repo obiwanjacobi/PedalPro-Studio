@@ -1,4 +1,5 @@
 import * as React from "react";
+import { List } from "@material-ui/core";
 
 import { Delay } from "./Delay";
 import { EffectsItemCard } from "../EffectsItemCard";
@@ -31,18 +32,25 @@ export class DelayListItem extends React.Component<DelayListItemAllProps, DelayL
                 avatar="Dly"
                 effectName={{ effectName: EffectNames.Delay }}
                 selectEffect={this.props.selectEffect}
-                content={<EffectsListItemOption
+                content={this.renderActionList()}
+            />
+        );
+    }
+
+    private renderActionList(): React.ReactNode {
+        return (
+            <List>
+                <EffectsListItemOption
                     label="Delay"
                     enabledLeft={this.props.delay.routing === DelayRouting.Left}
                     enabledRight={this.props.delay.routing === DelayRouting.Right}
                     onChangeLeft={this.onChangeDelayLeft}
                     onChangeRight={this.onChangeDelayRight}
                     onSelect={this.onDelay}
-                />}
-            />
+                />
+            </List>
         );
     }
-
     private onDelay() {
         if (this.props.delay.routing !== DelayRouting.None) {
             this.selectComponent(true);

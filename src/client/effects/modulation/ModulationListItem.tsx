@@ -41,7 +41,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
     private renderActionList(): React.ReactNode {
         return (
             <List>
-                <ListItem button={this.isFlanger} onClick={this.onChorus}>
+                <ListItem button={this.isChorus} onClick={this.onChorus}>
                     <ListItemText>Chorus</ListItemText>
                     <ListItemSecondaryAction>
                         <Switch checked={this.isChorus} onChange={this.onChangeChorus}/>
