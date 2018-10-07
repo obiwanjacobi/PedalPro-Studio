@@ -1,9 +1,9 @@
 import * as React from "react";
+import { Grid, Typography } from "@material-ui/core";
 
 import { Boost } from "./Boost";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { BoostGainSlider } from "./BoostGainSlider";
-import { Grid, Typography } from "@material-ui/core";
 import { BoostGain } from "../../../model/Boost";
 
 type BoostSettingsProps = {

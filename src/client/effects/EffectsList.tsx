@@ -4,10 +4,11 @@ import { connect, MapDispatchToPropsFunction /*, MapStateToProps*/ } from "react
 import { AutoSizer } from "react-virtualized";
 
 import { EffectNames, Effects } from "./Effects";
-import { CompressorListItem } from "./compressor/CompressorListItem";
 import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
 // import { ApplicationDocument } from "../ApplicationDocument";
 import { RecursivePartial } from "../../TypeExtensions";
+import { CompressorListItem } from "./compressor/CompressorListItem";
+import { DistortionListItem } from "./distortion/DistortionListItem";
 import { BoostListItem } from "./boost/BoostListItem";
 import { PhaserListItem } from "./phaser/PhaserListItem";
 import { AuxRoutingListItem } from "./auxRouting/AuxRoutingListItem";
@@ -80,13 +81,13 @@ class EffectsList extends React.Component<EffectsListAllProps, EffectsListState>
                 selectEffect={this.props.selectEffect}
             />
         );
-        // components.push(
-        //     <DistortionListItem
-        //         distortion={this.props.effects.distortion}
-        //         changeEffectsEx={this.props.changeEffects}
-        //         selectEffect={this.props.selectEffect}
-        //     />
-        // );
+        components.push(
+            <DistortionListItem
+                distortion={this.props.effects.distortion}
+                changeEffects={this.props.changeEffects}
+                selectEffect={this.props.selectEffect}
+            />
+        );
         components.push(
             <VcaListItem
                 vca={this.props.effects.vca}
