@@ -38,7 +38,8 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                             onChange={this.onBankSelectedChanged}
                         />
                     </Grid>
-                    <Grid xs={7} item={true}>
+                    <Grid xs={1} item={true}/>
+                    <Grid xs={6} item={true}>
                         <Typography variant="subheading">
                             {this.props.bank.name}
                         </Typography>

@@ -44,7 +44,7 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                     </IconButton>
                     {this.props.preset &&
                         <Title 
-                            // pre="Edit Effects"
+                            pre={this.props.preset.group ? this.props.preset.group.name : undefined}
                             caption={this.props.preset.name}
                             sub={this.props.preset.source.toString().toUpperCase()}
                         />}
