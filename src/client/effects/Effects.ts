@@ -70,3 +70,8 @@ export enum EffectNames {
 }
 
 export type EffectsOrEx = Effects | EffectsEx;
+
+export type AnyEffect = 
+    Aux | Boost | Compressor | Delay | Distortion | Dsp | Filters | 
+    Midi | Modulation | NoiseGate | Phaser | PreAmp | TapTempo | 
+    VoltageControlledAmp | Volume;

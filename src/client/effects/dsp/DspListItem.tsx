@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type DspListItemProps = {
     dsp: Dsp;
@@ -24,6 +25,7 @@ export class DspListItem extends React.Component<DspListItemAllProps, DspListIte
             <EffectsItemCard
                 enabled={this.props.dsp.enabled}
                 selected={this.props.dsp.ui.selected}
+                changed={effectHasChanged(this.props.dsp)}
                 title="Digital Delay &amp; Reverb"
                 avatar="Dsp"
                 onEnabled={this.onEnabled}

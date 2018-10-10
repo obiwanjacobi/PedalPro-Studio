@@ -7,6 +7,7 @@ import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { ModulationMode } from "../../../model/Modulation";
 import { List, ListItem, ListItemText, ListItemSecondaryAction, Switch } from "@material-ui/core";
+import { effectHasChanged } from "../EffectsOperations";
 
 type ModulationListItemProps = {
     modulation: Modulation;
@@ -31,6 +32,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
             <EffectsItemCard
                 enabled={this.props.modulation.mode !== ModulationMode.None}
                 selected={this.props.modulation.ui.selected}
+                changed={effectHasChanged(this.props.modulation)}
                 title="Modulation"
                 avatar="Mod"
                 content={this.renderActionList()}

@@ -15,7 +15,7 @@ import { EditEffects, createEditEffectsAction } from "./EditEffectsAction";
 import { SaveEffects, SaveEffectsEx, createSaveEffectsAction, createSaveEffectsExAction } from "./SaveEffectsAction";
 import { EffectsView } from "./EffectsView";
 import { EffectsExView } from "./EffectsExView";
-import { asEffects, asEffectsEx } from "./EffectsOperations";
+import { asEffects, asEffectsEx, hasChanged } from "./EffectsOperations";
 
 type EffectsPageProps = {};
 type EffectsPageStoreProps = {
@@ -48,7 +48,7 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                             caption={this.props.preset.name}
                             sub={this.props.preset.source.toString().toUpperCase()}
                         />}
-                    <Button onClick={this.save}>
+                    <Button disabled={!this.effectsHasChanged} onClick={this.save}>
                         Save
                     </Button>
                 </ApplicationToolbar>
@@ -60,8 +60,20 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
         );
     }
 
+    private get effectsHasChanged(): boolean {
+        if (this.props.effects) {
+            return hasChanged(this.props.effects);
+        }
+        if (this.props.effectsEx) {
+            return hasChanged(this.props.effectsEx);
+        }
+
+        return false;
+    }
+
     private close() {
-        this.props.editEffects(undefined);
+        // clear edit
+        this.props.editEffects();
     }
 
     private save() {

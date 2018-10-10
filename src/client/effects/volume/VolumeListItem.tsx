@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type VolumeListItemProps = {
     volume: Volume;
@@ -24,6 +25,7 @@ export class VolumeListItem extends React.Component<VolumeListItemAllProps, Volu
             <EffectsItemCard
                 enabled={this.props.volume.enabled}
                 selected={this.props.volume.ui.selected}
+                changed={effectHasChanged(this.props.volume)}
                 title="Volume"
                 avatar="Vol"
                 onEnabled={this.onEnabled}

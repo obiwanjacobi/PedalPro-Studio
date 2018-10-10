@@ -8,6 +8,7 @@ import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { EffectsListItemOption } from "../EffectsListItemOption";
 import { DelayRouting } from "../../../model/Delay";
+import { effectHasChanged } from "../EffectsOperations";
 
 type DelayListItemProps = {
     delay: Delay;
@@ -28,6 +29,7 @@ export class DelayListItem extends React.Component<DelayListItemAllProps, DelayL
             <EffectsItemCard
                 enabled={this.props.delay.routing !== DelayRouting.None}
                 selected={this.props.delay.ui.selected}
+                changed={effectHasChanged(this.props.delay)}
                 title="Delay"
                 avatar="Dly"
                 effectName={{ effectName: EffectNames.Delay }}

@@ -11,6 +11,7 @@ import { EffectNames } from "./Effects";
 type EffectsItemCardProps = {
     enabled: boolean;
     selected: boolean;
+    changed: boolean;
     title: string;
     avatar: string;
     content?: React.ReactNode;
@@ -34,7 +35,11 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, Ef
         return (
             <Card raised={this.props.enabled}>
                 <List>
-                    <ListItem button={this.props.enabled && !this.props.content} onClick={this.onSelectEffect}>
+                    <ListItem 
+                        selected={this.props.changed}
+                        button={this.props.enabled && !this.props.content} 
+                        onClick={this.onSelectEffect}
+                    >
                         <ListItemAvatar>{this.renderAvatar()}</ListItemAvatar>
                         <ListItemText>{this.props.title}</ListItemText>
                         {this.props.onEnabled && 

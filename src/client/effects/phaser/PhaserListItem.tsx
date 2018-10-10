@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type PhaserListItemProps = {
     phaser: Phaser;
@@ -24,6 +25,7 @@ export class PhaserListItem extends React.Component<PhaserListItemAllProps, Phas
             <EffectsItemCard
                 enabled={this.props.phaser.enabled}
                 selected={this.props.phaser.ui.selected}
+                changed={effectHasChanged(this.props.phaser)}
                 title="Phaser"
                 avatar="Phr"
                 onEnabled={this.onEnabled}

@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type BoostListItemProps = {
     boost: Boost;
@@ -24,6 +25,7 @@ export class BoostListItem extends React.Component<BoostListItemAllProps, BoostL
             <EffectsItemCard
                 enabled={this.props.boost.enabled}
                 selected={this.props.boost.ui.selected}
+                changed={effectHasChanged(this.props.boost)}
                 title="Boost"
                 avatar="Bst"
                 onEnabled={this.onEnabled}

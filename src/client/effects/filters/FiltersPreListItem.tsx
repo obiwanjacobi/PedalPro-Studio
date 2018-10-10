@@ -7,6 +7,7 @@ import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
+import { effectHasChanged } from "../EffectsOperations";
 
 type FiltersPreListItemProps = {
     filters: Filters;
@@ -37,6 +38,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
             <EffectsItemCard
                 enabled={this.props.filters.routing !== FilterRouting.Bypass}
                 selected={this.props.filters.ui.selected}
+                changed={effectHasChanged(this.props.filters)}
                 title="FIlters (pre)"
                 avatar="Fil"
                 effectName={{ effectName: EffectNames.Filters }}

@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type NoiseGateListItemProps = {
     noiseGate: NoiseGate;
@@ -23,7 +24,8 @@ export class NoiseGateListItem extends React.Component<NoiseGateListItemAllProps
         return (
             <EffectsItemCard
                 enabled={this.props.noiseGate.enabled}
-                selected={this.props.noiseGate.ui.selected}                
+                selected={this.props.noiseGate.ui.selected}
+                changed={effectHasChanged(this.props.noiseGate)}            
                 title="Noise Gate"
                 avatar="NGt"
                 onEnabled={this.onEnabled}

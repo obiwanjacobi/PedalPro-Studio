@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type VcaListItemProps = {
     vca: VoltageControlledAmp;
@@ -24,6 +25,7 @@ export class VcaListItem extends React.Component<VcaListItemAllProps, VcaListIte
             <EffectsItemCard
                 enabled={this.props.vca.enabled}
                 selected={this.props.vca.ui.selected}
+                changed={effectHasChanged(this.props.vca)}
                 title="Voltage Controlled Amp"
                 avatar="Vca"
                 onEnabled={this.onEnabled}

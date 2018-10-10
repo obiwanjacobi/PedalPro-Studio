@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { SelectEffect } from "../SelectEffectAction";
 import { EffectNames } from "../Effects";
+import { effectHasChanged } from "../EffectsOperations";
 
 type CompressorListItemProps = {
     compressor: Compressor;
@@ -24,6 +25,7 @@ export class CompressorListItem extends React.Component<CompressorListItemAllPro
             <EffectsItemCard
                 enabled={this.props.compressor.enabled}
                 selected={this.props.compressor.ui.selected}
+                changed={effectHasChanged(this.props.compressor)}
                 title="Compressor"
                 avatar="Com"
                 onEnabled={this.onEnabled}

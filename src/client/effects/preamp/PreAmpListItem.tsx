@@ -7,6 +7,7 @@ import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { PreAmpRoutingValue } from "../../../model/PreAmp";
+import { effectHasChanged } from "../EffectsOperations";
 
 type PreAmpListItemProps = {
     pre: PreAmp;
@@ -42,6 +43,7 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
             <EffectsItemCard
                 enabled={this.props.pre.enabled}
                 selected={this.props.pre.ui.selected}
+                changed={effectHasChanged(this.props.pre)}
                 title="PreAmp"
                 avatar="Pre"
                 onEnabled={this.onEnabled}

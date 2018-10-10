@@ -5,6 +5,7 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type DistortionListItemProps = {
     distortion: Distortion;
@@ -24,6 +25,7 @@ export class DistortionListItem extends React.Component<DistortionListItemAllPro
             <EffectsItemCard
                 enabled={this.props.distortion.enabled}
                 selected={this.props.distortion.ui.selected}
+                changed={effectHasChanged(this.props.distortion)}
                 title="Distortion"
                 avatar="Dst"
                 onEnabled={this.onEnabled}

@@ -7,6 +7,7 @@ import { ChangeEffects } from "../ChangeEffectsAction";
 import { AuxRouting } from "../../../model/AuxRouting";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
+import { effectHasChanged } from "../EffectsOperations";
 
 type AuxRoutingListItemProps = {
     aux: Aux;
@@ -29,6 +30,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
             <EffectsItemCard
                 enabled={this.props.aux.routing !== AuxRouting.None}
                 selected={this.props.aux.ui.selected}
+                changed={effectHasChanged(this.props.aux)}
                 title="Aux Routing"
                 avatar="Aux"
                 content={this.renderActionList()}

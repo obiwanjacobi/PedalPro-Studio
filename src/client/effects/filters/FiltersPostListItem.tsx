@@ -8,6 +8,7 @@ import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
 import { EffectsListItemOption } from "../EffectsListItemOption";
+import { effectHasChanged } from "../EffectsOperations";
 
 type FiltersPostListItemProps = {
     filters: Filters;
@@ -39,6 +40,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
             <EffectsItemCard
                 enabled={this.props.filters.routing !== FilterRouting.Bypass}
                 selected={this.props.filters.ui.selected}
+                changed={effectHasChanged(this.props.filters)}
                 title="FIlters (post)"
                 avatar="Fil"
                 effectName={{ effectName: EffectNames.Filters }}
