@@ -30,12 +30,22 @@ export class EffectsListItemOption
                 {this.props.onChangeLeft ?
                     <Switch checked={this.props.enabledLeft} onChange={this.onChangeLeft} />
                     : <span style={{width: "62px"}}/>}
-                <Typography style={{paddingLeft: "8px"}}>{this.props.label}</Typography>
+                <Typography style={{paddingLeft: "8px"}}>{this.title}</Typography>
                 {this.props.onChangeRight ?
                     <Switch checked={this.props.enabledRight} onChange={this.onChangeRight} />
                     : <span style={{width: "62px"}}/>}
             </ListItem>
         );
+    }
+
+    private get title(): string {
+        if (this.props.onChangeLeft && this.props.enabledLeft) {
+            return `${this.props.label} Left`;
+        }
+        if (this.props.onChangeRight && this.props.enabledRight) {
+            return `${this.props.label} Right`;
+        }
+        return this.props.label;
     }
 
     private get isEnabled(): boolean {
