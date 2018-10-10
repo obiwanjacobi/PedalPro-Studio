@@ -16,3 +16,8 @@ export function isTypeOf<T>(variable: any, type: TypeDefaultConstructor<T>) {
 export type RecursivePartial<T> = {
     [P in keyof T]?: RecursivePartial<T[P]>;
 };
+
+// tslint:disable-next-line:no-any
+export function isObject(obj: any): boolean {
+    return obj !== null && obj instanceof Object;
+}

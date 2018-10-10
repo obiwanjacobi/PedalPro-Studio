@@ -4,10 +4,10 @@ import { Preset } from "../preset/Preset";
 import { PresetBuilder, PresetArrayBuilder } from "../preset/PresetBuilder";
 import { EditEffectsAction, EditEffectsActionKey } from "./EditEffectsAction";
 import { SaveEffectsAction, SaveEffectsActionKey } from "./SaveEffectsAction";
-import { Effects, EffectsEx, EffectNames, EffectsOrEx } from "./Effects";
+import { Effects, EffectsEx, EffectNames } from "./Effects";
 import { ChangeEffectsActionKey, ChangeEffectsAction } from "./ChangeEffectsAction";
 import { 
-    compareEffects, mergeEffects, mergeEffectsEx, selectEffect, determineSelectedEffect 
+    compareEffects, mergeEffects, mergeEffectsEx, selectEffect, determineSelectedEffect, makeWorkingCopy 
 } from "./EffectsOperations";
 import { SelectEffectActionKey, SelectEffectAction } from "./SelectEffectAction";
 import { isNullForType } from "./dsp/Dsp";
@@ -15,11 +15,9 @@ import { EffectsExBuilder } from "./EffectsExBuilder";
 
 function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction): ApplicationDocument {
     if (!!action.preset) {
-        // from model to extended
-        const effects = { ...action.preset.effects } as EffectsOrEx;
         return { ...state, editEffects: { 
             preset: action.preset, 
-            effectsOrEx: effects, 
+            effectsOrEx: makeWorkingCopy(action.preset.effects), 
             selected: { effectName: EffectNames.None } 
         } };
     }

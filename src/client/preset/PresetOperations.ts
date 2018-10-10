@@ -5,6 +5,7 @@ import { Preset as ModelPreset } from "../../model/Preset";
 import { PresetTraits } from "../../model/PresetTraits";
 import { PresetMeta } from "../../model/PresetMeta";
 import { Preset } from "./Preset";
+import { effectsEqual } from "../effects/EffectsOperations";
 
 function traitsEqual(traits1: PresetTraits, traits2: PresetTraits): boolean {
     return lodash.isEqual(traits1, traits2);
@@ -45,9 +46,8 @@ export function formatPresetFullName(preset: ModelPreset): string {
 export function presetsExceptIndexAreEqual(preset1: ModelPreset, preset2: ModelPreset): boolean {
     return lodash.isEqual(preset1.name, preset2.name) &&
            metaEqual(preset1.meta, preset2.meta) &&
-           traitsEqual(preset1.traits, preset2.traits)
-           // && effectsEqual(preset1.effects, preset2.effects)
-           ;
+           traitsEqual(preset1.traits, preset2.traits) &&
+           effectsEqual(preset1.effects, preset2.effects);
 }
 
 export function onlyIndexHasChanged(preset: Preset): boolean {

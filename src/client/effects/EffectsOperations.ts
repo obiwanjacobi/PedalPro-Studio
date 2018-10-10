@@ -11,6 +11,7 @@ import { ModulationMode } from "../../model/Modulation";
 import { FilterRouting } from "../../model/Filters";
 import { DelayRouting } from "../../model/Delay";
 import { AuxRouting } from "../../model/AuxRouting";
+import { isObject } from "../../TypeExtensions";
 
 export function isEffectsEx(effects: Model.Effects | Model.EffectsEx): boolean {
     const ex = effects as Model.EffectsEx;
@@ -30,17 +31,40 @@ export function asEffectsEx(effectsOrEx: Model.Effects | Model.EffectsEx): Model
     return isEffectsEx(effectsOrEx) ? <Model.EffectsEx> effectsOrEx : undefined;
 }
 
-// function effectsEqual(
-//     effects1: EffectsOrEx | undefined, 
-//     effects2: EffectsOrEx | undefined): boolean {
+// https://github.com/lodash/lodash/issues/72
+// tslint:disable-next-line:no-any
+function commonIsEqual(obj1: any, obj2: any): boolean {
+    const keys = Lodash.intersection(Object.keys(obj1), Object.keys(obj2));
+    let equal = false;
 
-//     if (!effects1 || !effects2) { return effects1 === effects2; }
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const prop1 = obj1[key];
+        const prop2 = obj2[key];
 
-//     if (isEffectsEx(effects1) === isEffectsEx(effects2)) {
-//         return lodash.isEqual(effects1, effects2);
-//     }
-//     return false;
-// }
+        if (isObject(prop1) && isObject(prop2)) {
+            equal = commonIsEqual(prop1, prop2);
+        } else {
+            equal = Lodash.isEqual(prop1, prop2);
+        }
+
+        if (!equal) { break; }
+    }
+    return equal;
+}
+export function effectsEqual(
+    effects1: Model.Effects | Model.EffectsEx | undefined, 
+    effects2: Model.Effects | Model.EffectsEx | undefined): boolean {
+
+    if (!effects1 || !effects2) { return effects1 === effects2; }
+    if (effects1 === effects2) { return true; }
+
+    if (isEffectsEx(effects1) === isEffectsEx(effects2)) {
+        return commonIsEqual(effects1, effects2);
+    }
+
+    return false;
+}
 
 function getFirstSelected(effectsOrEx: EffectsOrEx): EffectNames {
     if (isEffects(effectsOrEx)) {
@@ -137,4 +161,24 @@ export function mergeEffectsEx(source: EffectsEx, ...merges: RecursivePartial<Ef
 
 export function compareEffects(source: EffectsOrEx, to: EffectsOrEx): boolean {
     return Lodash.isEqual(source, to);
+}
+
+// tslint:disable-next-line:no-any
+function conditionalCloneHandler(value: any, key: any): any {
+    // do not clone original
+    switch (key) {
+        case "origin":
+            return value;
+
+        case "ui":
+            return { selected: false, expanded: false, markedDeleted: false };
+        
+        default:
+            // let lodash handle cloning
+            return undefined;
+    }
+}
+
+export function makeWorkingCopy(effectsOrEx: EffectsOrEx): EffectsOrEx {
+    return Lodash.cloneDeepWith(effectsOrEx, conditionalCloneHandler);
 }
