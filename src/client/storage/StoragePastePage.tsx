@@ -70,7 +70,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
-                    <Title caption="Paste Presets" prelude="STORAGE - " />
+                    <Title caption="Paste Presets" pre="STORAGE - " />
                     <Button onClick={this.pasteAndClose} disabled={this.hasResult}>
                         Paste
                     </Button>

@@ -70,7 +70,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
-                    <Title caption="Paste Presets" prelude="DEVICE - " />
+                    <Title caption="Paste Presets" pre="DEVICE - " />
                     <Button onClick={this.overwrite} disabled={this.hasResult}>
                         Overwrite
                     </Button>

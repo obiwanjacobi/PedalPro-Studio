@@ -8,7 +8,7 @@ export const Configuration = {
         languageFile: "../assets/Texts.${lang}.json"
     },
     development: {
-        simulate: "PedalPro"
-        // simulate: "PedalProEx"
+        // simulate: "PedalPro"
+        simulate: "PedalProEx"
     }
 };

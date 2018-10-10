@@ -71,7 +71,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
-                    <Title caption="Move Presets" prelude="DEVICE - " />
+                    <Title caption="Move Presets" pre="DEVICE - " />
                     <Button onClick={this.moveAndClose} disabled={!this.hasResult}>
                         Move
                     </Button>

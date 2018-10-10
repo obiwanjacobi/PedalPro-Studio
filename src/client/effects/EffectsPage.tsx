@@ -42,7 +42,12 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                     <IconButton onClick={this.close}>
                         <Clear />
                     </IconButton>
-                    <Title caption="Edit Effects" prelude="" />
+                    {this.props.preset &&
+                        <Title 
+                            // pre="Edit Effects"
+                            caption={this.props.preset.name}
+                            sub={this.props.preset.source.toString().toUpperCase()}
+                        />}
                     <Button onClick={this.save}>
                         Save
                     </Button>
