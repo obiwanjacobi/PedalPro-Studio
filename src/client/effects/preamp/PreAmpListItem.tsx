@@ -14,9 +14,8 @@ type PreAmpListItemProps = {
 };
 type PreAmpListItemActions = ChangeEffectsEx & SelectEffect;
 type PreAmpListItemAllProps = PreAmpListItemProps & PreAmpListItemActions;
-type PreAmpListItemState = {};
 
-export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreAmpListItemState> {
+export class PreAmpListItem extends React.Component<PreAmpListItemAllProps> {
     private routingValue: PreAmpRoutingValue;
 
     public constructor(props: PreAmpListItemAllProps) {
@@ -34,7 +33,7 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps, PreA
         this.routingValue = new PreAmpRoutingValue(props.pre.routing);
     }
     
-    public componentWillReceiveProps(newProps: PreAmpListItemAllProps, _: PreAmpListItemState) {
+    public componentWillReceiveProps(newProps: PreAmpListItemAllProps) {
         this.routingValue = new PreAmpRoutingValue(newProps.pre.routing);
     }
 

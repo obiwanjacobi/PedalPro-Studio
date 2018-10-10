@@ -10,10 +10,9 @@ type ModulationWaveFormOptionsEvents = {
     onChange: (value: ModulationWaveForm) => void;
 };
 type ModulationWaveFormOptionsAllProps = ModulationWaveFormOptionsProps & ModulationWaveFormOptionsEvents;
-type ModulationWaveFormOptionsState = {};
 
 export class ModulationWaveFormOptions
-    extends React.Component<ModulationWaveFormOptionsAllProps, ModulationWaveFormOptionsState> {
+    extends React.Component<ModulationWaveFormOptionsAllProps> {
 
     public constructor(props: ModulationWaveFormOptionsAllProps) {
         super(props);

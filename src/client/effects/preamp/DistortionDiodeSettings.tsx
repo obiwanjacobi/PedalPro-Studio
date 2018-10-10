@@ -12,10 +12,8 @@ type DistortionDiodeSettingsProps = {
 };
 type DistortionDiodeSettingsActions = ChangeEffectsEx;
 type DistortionDiodeSettingsAllProps = DistortionDiodeSettingsProps & DistortionDiodeSettingsActions;
-type DistortionDiodeSettingsState = {};
 
-export class DistortionDiodeSettings 
-    extends React.Component<DistortionDiodeSettingsAllProps, DistortionDiodeSettingsState> {
+export class DistortionDiodeSettings extends React.Component<DistortionDiodeSettingsAllProps> {
 
     public constructor(props: DistortionDiodeSettingsAllProps) {
         super(props);

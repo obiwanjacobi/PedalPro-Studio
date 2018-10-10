@@ -15,9 +15,8 @@ type EmphasisSettingsProps = {
 };
 type EmphasisSettingsActions = ChangeEffectsEx;
 type EmphasisSettingsAllProps = EmphasisSettingsProps & EmphasisSettingsActions;
-type EmphasisSettingsState = {};
 
-export class EmphasisSettings extends React.Component<EmphasisSettingsAllProps, EmphasisSettingsState> {
+export class EmphasisSettings extends React.Component<EmphasisSettingsAllProps> {
     public constructor(props: EmphasisSettingsAllProps) {
         super(props);
         this.onChangeBoost = this.onChangeBoost.bind(this);

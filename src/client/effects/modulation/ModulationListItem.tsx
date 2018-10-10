@@ -14,9 +14,8 @@ type ModulationListItemProps = {
 };
 type ModulationListItemActions = ChangeEffects & SelectEffect;
 type ModulationListItemAllProps = ModulationListItemProps & ModulationListItemActions;
-type ModulationListItemState = {};
 
-export class ModulationListItem extends React.Component<ModulationListItemAllProps, ModulationListItemState> {
+export class ModulationListItem extends React.Component<ModulationListItemAllProps> {
     public constructor(props: ModulationListItemAllProps) {
         super(props);
         this.onChorus = this.onChorus.bind(this);

@@ -1,10 +1,7 @@
 import * as React from "react";
 import { Grid } from "@material-ui/core";
 
-type SignalPathMonoProps = {};
-type SignalPathMonoState = {};
-
-export class SignalPathMono extends React.Component<SignalPathMonoProps, SignalPathMonoState> {
+export class SignalPathMono extends React.Component {
     public render() {
         return (
             <Grid container={true}>

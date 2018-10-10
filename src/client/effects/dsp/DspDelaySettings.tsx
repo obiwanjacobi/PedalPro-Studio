@@ -28,9 +28,8 @@ type DspDelaySettingsEvents = {
     onChangeFilter?: (frequency: DspPassFrequency) => void;
 };
 type DspDelaySettingsAllProps = DspDelaySettingsProps & DspDelaySettingsEvents;
-type DspDelaySettingsState = {};
 
-export class DspDelaySettings extends React.Component<DspDelaySettingsAllProps, DspDelaySettingsState> {
+export class DspDelaySettings extends React.Component<DspDelaySettingsAllProps> {
 
     public constructor(props: DspDelaySettingsAllProps) {
         super(props);

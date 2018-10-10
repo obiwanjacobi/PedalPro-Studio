@@ -7,9 +7,8 @@ type SettingsValueLayoutProps = {
     label: string;
     control: React.ReactNode;
 };
-type SettingsValueLayoutState = {};
 
-export class SettingsValueLayout extends React.Component<SettingsValueLayoutProps, SettingsValueLayoutState> {
+export class SettingsValueLayout extends React.Component<SettingsValueLayoutProps> {
     
     public render() {
         return (

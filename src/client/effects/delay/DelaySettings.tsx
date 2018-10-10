@@ -15,9 +15,8 @@ type DelaySettingsProps = {
 };
 type DelaySettingsActions = ChangeEffects;
 type DelaySettingsAllProps = DelaySettingsProps & DelaySettingsActions;
-type DelaySettingsState = {};
 
-export class DelaySettings extends React.Component<DelaySettingsAllProps, DelaySettingsState> {
+export class DelaySettings extends React.Component<DelaySettingsAllProps> {
 
     public constructor(props: DelaySettingsAllProps) {
         super(props);

@@ -11,10 +11,8 @@ type EmphasisFrequencySliderEvents = {
     onChange: (value: EmphasisFrequency) => void;
 };
 type EmphasisFrequencySliderAllProps = EmphasisFrequencySliderProps & EmphasisFrequencySliderEvents;
-type EmphasisFrequencySliderState = {};
 
-export class EmphasisFrequencySlider 
-    extends React.Component<EmphasisFrequencySliderAllProps, EmphasisFrequencySliderState> {
+export class EmphasisFrequencySlider extends React.Component<EmphasisFrequencySliderAllProps> {
     
     public constructor(props: EmphasisFrequencySliderAllProps) {
         super(props);

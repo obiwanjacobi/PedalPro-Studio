@@ -10,10 +10,9 @@ type FlangerHarmonicsOptionsEvents = {
     onChange: (value: Harmonics) => void;
 };
 type FlangerHarmonicsOptionsAllProps = FlangerHarmonicsOptionsProps & FlangerHarmonicsOptionsEvents;
-type FlangerHarmonicsOptionsState = {};
 
 export class FlangerHarmonicsOptions
-    extends React.Component<FlangerHarmonicsOptionsAllProps, FlangerHarmonicsOptionsState> {
+    extends React.Component<FlangerHarmonicsOptionsAllProps> {
 
     public constructor(props: FlangerHarmonicsOptionsAllProps) {
         super(props);

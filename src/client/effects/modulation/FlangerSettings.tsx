@@ -14,9 +14,8 @@ type FlangerSettingsProps = {
 };
 type FlangerSettingsActions = ChangeEffects;
 type FlangerSettingsAllProps = FlangerSettingsProps & FlangerSettingsActions;
-type FlangerSettingsState = {};
 
-export class FlangerSettings extends React.Component<FlangerSettingsAllProps, FlangerSettingsState> {
+export class FlangerSettings extends React.Component<FlangerSettingsAllProps> {
 
     public constructor(props: FlangerSettingsAllProps) {
         super(props);

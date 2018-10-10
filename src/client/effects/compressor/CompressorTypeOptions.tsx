@@ -9,10 +9,9 @@ type CompressorTypeOptionsEvents = {
     onChange: (value: CompressorModelType) => void;
 };
 type CompressorTypeOptionsAllProps = CompressorTypeOptionsProps & CompressorTypeOptionsEvents;
-type CompressorTypeOptionsState = {};
 
 export class CompressorTypeOptions
-    extends React.Component<CompressorTypeOptionsAllProps, CompressorTypeOptionsState> {
+    extends React.Component<CompressorTypeOptionsAllProps> {
 
     public constructor(props: CompressorTypeOptionsAllProps) {
         super(props);

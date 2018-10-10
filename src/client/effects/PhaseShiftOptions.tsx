@@ -10,10 +10,9 @@ type PhaseShiftOptionsEvents = {
     onChange: (value: PhaseShift) => void;
 };
 type PhaseShiftOptionsAllProps = PhaseShiftOptionsProps & PhaseShiftOptionsEvents;
-type PhaseShiftOptionsState = {};
 
 export class PhaseShiftOptions
-    extends React.Component<PhaseShiftOptionsAllProps, PhaseShiftOptionsState> {
+    extends React.Component<PhaseShiftOptionsAllProps> {
 
     public constructor(props: PhaseShiftOptionsAllProps) {
         super(props);

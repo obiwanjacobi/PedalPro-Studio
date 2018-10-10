@@ -10,9 +10,8 @@ type DspFreeVerbSettingsProps = {
 };
 type DspFreeVerbSettingsActions = ChangeEffectsEx;
 type DspFreeVerbSettingsAllProps = DspFreeVerbSettingsProps & DspFreeVerbSettingsActions;
-type DspFreeVerbSettingsState = {};
 
-export class DspFreeVerbSettings extends React.Component<DspFreeVerbSettingsAllProps, DspFreeVerbSettingsState> {
+export class DspFreeVerbSettings extends React.Component<DspFreeVerbSettingsAllProps> {
 
     public constructor(props: DspFreeVerbSettingsAllProps) {
         super(props);

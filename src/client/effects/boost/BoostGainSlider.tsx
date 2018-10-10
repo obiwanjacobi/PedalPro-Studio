@@ -11,8 +11,8 @@ type BoostGainSliderEvents = {
     onChange: (gain: BoostGain) => void;
 };
 type BoostGainSliderAllProps = BoostGainSliderProps & BoostGainSliderEvents;
-type BoostGainSliderState = {};
-export class BoostGainSlider extends React.Component<BoostGainSliderAllProps, BoostGainSliderState> {
+
+export class BoostGainSlider extends React.Component<BoostGainSliderAllProps> {
     public constructor(props: BoostGainSliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

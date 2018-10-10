@@ -28,12 +28,10 @@ import { DspListItem } from "./dsp/DspListItem";
 type EffectsExListProps = {
     effectsEx: EffectsEx;
 };
-type EffectsExListStoreProps = {};
 type EffectsExListActions = ChangeEffectsEx & ChangeEffects & SelectEffect;
-type EffectsExListAllProps = EffectsExListProps & EffectsExListStoreProps & EffectsExListActions;
-type EffectsExListState = {};
+type EffectsExListAllProps = EffectsExListProps & EffectsExListActions;
 
-class EffectsExList extends React.Component<EffectsExListAllProps, EffectsExListState> {
+class EffectsExList extends React.Component<EffectsExListAllProps> {
     public render() {
         return (
             <div style={{flexGrow: 1}}>

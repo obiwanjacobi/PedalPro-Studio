@@ -12,9 +12,8 @@ type VolumeListItemProps = {
 };
 type VolumeListItemActions = ChangeEffects & SelectEffect;
 type VolumeListItemAllProps = VolumeListItemProps & VolumeListItemActions;
-type VolumeListItemState = {};
 
-export class VolumeListItem extends React.Component<VolumeListItemAllProps, VolumeListItemState> {
+export class VolumeListItem extends React.Component<VolumeListItemAllProps> {
     constructor(props: VolumeListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);

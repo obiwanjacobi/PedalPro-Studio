@@ -10,10 +10,8 @@ type EmphasisResonanceOptionsEvents = {
     onChange: (value: EmphasisResonance) => void;
 };
 type EmphasisResonanceOptionsAllProps = EmphasisResonanceOptionsProps & EmphasisResonanceOptionsEvents;
-type EmphasisResonanceOptionsState = {};
 
-export class EmphasisResonanceOptions
-    extends React.Component<EmphasisResonanceOptionsAllProps, EmphasisResonanceOptionsState> {
+export class EmphasisResonanceOptions extends React.Component<EmphasisResonanceOptionsAllProps> {
 
     public constructor(props: EmphasisResonanceOptionsAllProps) {
         super(props);

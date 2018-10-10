@@ -13,10 +13,8 @@ type Filter1EnvelopeSettingsProps = {
 };
 type Filter1EnvelopeSettingsActions = ChangeEffects;
 type Filter1EnvelopeSettingsAllProps = Filter1EnvelopeSettingsProps & Filter1EnvelopeSettingsActions;
-type Filter1EnvelopeSettingsState = {};
 
-export class Filter1EnvelopeSettings 
-    extends React.Component<Filter1EnvelopeSettingsAllProps, Filter1EnvelopeSettingsState> {
+export class Filter1EnvelopeSettings extends React.Component<Filter1EnvelopeSettingsAllProps> {
 
     public constructor(props: Filter1EnvelopeSettingsAllProps) {
         super(props);

@@ -9,10 +9,9 @@ type DistortionLowPassOptionsEvents = {
     onChange: (value: DistortionLowPass) => void;
 };
 type DistortionLowPassOptionsAllProps = DistortionLowPassOptionsProps & DistortionLowPassOptionsEvents;
-type DistortionLowPassOptionsState = {};
 
 export class DistortionLowPassOptions
-    extends React.Component<DistortionLowPassOptionsAllProps, DistortionLowPassOptionsState> {
+    extends React.Component<DistortionLowPassOptionsAllProps> {
 
     public constructor(props: DistortionLowPassOptionsAllProps) {
         super(props);

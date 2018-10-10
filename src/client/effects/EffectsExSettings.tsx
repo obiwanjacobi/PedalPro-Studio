@@ -35,7 +35,6 @@ import { NoiseGateSettings } from "./noiseGate/NoiseGateSettings";
 import { PhaserSettings } from "./phaser/PhaserSettings";
 import { DspSettings } from "./dsp/DspSettings";
 import { DistortionSettings } from "./distortion/DistortionSettings";
-
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
     effects: EffectsOrEx;
@@ -44,9 +43,8 @@ type EffectsExSettingsStoreProps = {
 };
 type EffectsExSettingsActions = ChangeEffectsEx & ChangeEffects;
 type EffectsExSettingsAllProps = EffectsExSettingsProps & EffectsExSettingsStoreProps & EffectsExSettingsActions;
-type EffectsExSettingsState = {};
 
-class EffectsExSettings extends React.Component<EffectsExSettingsAllProps, EffectsExSettingsState> {
+class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
     public render() {
         switch (this.props.effectName) {
             case EffectNames.Compressor:

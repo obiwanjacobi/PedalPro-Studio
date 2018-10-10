@@ -15,9 +15,8 @@ type DelayListItemProps = {
 };
 type DelayListItemActions = ChangeEffects & SelectEffect;
 type DelayListItemAllProps = DelayListItemProps & DelayListItemActions;
-type DelayListItemState = {};
 
-export class DelayListItem extends React.Component<DelayListItemAllProps, DelayListItemState> {
+export class DelayListItem extends React.Component<DelayListItemAllProps> {
     public constructor(props: DelayListItemAllProps) {
         super(props);
         this.onDelay = this.onDelay.bind(this);

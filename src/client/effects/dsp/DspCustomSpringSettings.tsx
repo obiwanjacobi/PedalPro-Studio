@@ -10,10 +10,9 @@ type DspCustomSpringSettingsProps = {
 };
 type DspCustomSpringSettingsActions = ChangeEffectsEx;
 type DspCustomSpringSettingsAllProps = DspCustomSpringSettingsProps & DspCustomSpringSettingsActions;
-type DspCustomSpringSettingsState = {};
 
 export class DspCustomSpringSettings 
-    extends React.Component<DspCustomSpringSettingsAllProps, DspCustomSpringSettingsState> {
+    extends React.Component<DspCustomSpringSettingsAllProps> {
 
     public constructor(props: DspCustomSpringSettingsAllProps) {
         super(props);

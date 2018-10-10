@@ -22,9 +22,8 @@ type EffectsItemCardEvents = {
     onEnabled?: (enabled: boolean) => void;
 };
 type EffectsItemCardAllProps = EffectsItemCardProps & EffectsItemCardEvents & EffectItemCardActions;
-type EffectsItemCardState = {};
 
-export class EffectsItemCard extends React.Component<EffectsItemCardAllProps, EffectsItemCardState> {
+export class EffectsItemCard extends React.Component<EffectsItemCardAllProps> {
     public constructor(props: EffectsItemCardAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

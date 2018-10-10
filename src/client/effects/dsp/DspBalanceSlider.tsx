@@ -14,9 +14,8 @@ type DspBalanceSliderEvents = {
     onChange: (value: DspBalance) => void;
 };
 type DspBalanceSliderAllProps = DspBalanceSliderProps & DspBalanceSliderEvents;
-type DspBalanceSliderState = {};
 
-export class DspBalanceSlider extends React.Component<DspBalanceSliderAllProps, DspBalanceSliderState> {
+export class DspBalanceSlider extends React.Component<DspBalanceSliderAllProps> {
     constructor(props: DspBalanceSliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

@@ -9,10 +9,9 @@ type AuxPedalRoutingOptionsEvents = {
     onChange: (value: AuxRouting) => void;
 };
 type AuxPedalRoutingOptionsAllProps = AuxPedalRoutingOptionsProps & AuxPedalRoutingOptionsEvents;
-type AuxPedalRoutingOptionsState = {};
 
 export class AuxPedalRoutingOptions
-    extends React.Component<AuxPedalRoutingOptionsAllProps, AuxPedalRoutingOptionsState> {
+    extends React.Component<AuxPedalRoutingOptionsAllProps> {
 
     public constructor(props: AuxPedalRoutingOptionsAllProps) {
         super(props);

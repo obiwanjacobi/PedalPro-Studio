@@ -11,9 +11,8 @@ type VolumeSettingsProps = {
 };
 type VolumeSettingsActions = ChangeEffects;
 type VolumeSettingsAllProps = VolumeSettingsProps & VolumeSettingsActions;
-type VolumeSettingsState = {};
 
-export class VolumeSettings extends React.Component<VolumeSettingsAllProps, VolumeSettingsState> {
+export class VolumeSettings extends React.Component<VolumeSettingsAllProps> {
 
     public constructor(props: VolumeSettingsAllProps) {
         super(props);

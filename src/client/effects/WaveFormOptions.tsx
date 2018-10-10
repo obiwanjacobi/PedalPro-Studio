@@ -10,10 +10,8 @@ type WaveFormOptionsEvents = {
     onChange: (value: WaveForm) => void;
 };
 type WaveFormOptionsAllProps = WaveFormOptionsProps & WaveFormOptionsEvents;
-type WaveFormOptionsState = {};
 
-export class WaveFormOptions
-    extends React.Component<WaveFormOptionsAllProps, WaveFormOptionsState> {
+export class WaveFormOptions extends React.Component<WaveFormOptionsAllProps> {
 
     public constructor(props: WaveFormOptionsAllProps) {
         super(props);

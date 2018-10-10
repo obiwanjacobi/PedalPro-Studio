@@ -9,10 +9,9 @@ type CompressorAttackOptionsEvents = {
     onChange: (value: CompressorAttackTime) => void;
 };
 type CompressorAttackOptionsAllProps = CompressorAttackOptionsProps & CompressorAttackOptionsEvents;
-type CompressorAttackOptionsState = {};
 
 export class CompressorAttackOptions
-    extends React.Component<CompressorAttackOptionsAllProps, CompressorAttackOptionsState> {
+    extends React.Component<CompressorAttackOptionsAllProps> {
 
     public constructor(props: CompressorAttackOptionsAllProps) {
         super(props);

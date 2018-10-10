@@ -12,9 +12,8 @@ type AttenuationGainSliderEvents = {
     onChange: (value: AttenuationGain) => void;
 };
 type AttenuationGainSliderAllProps = AttenuationGainSliderProps & AttenuationGainSliderEvents;
-type AttenuationGainSliderState = {};
 
-export class AttenuationGainSlider extends React.Component<AttenuationGainSliderAllProps, AttenuationGainSliderState> {
+export class AttenuationGainSlider extends React.Component<AttenuationGainSliderAllProps> {
     constructor(props: AttenuationGainSliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

@@ -12,9 +12,8 @@ type DistortionListItemProps = {
 };
 type DistortionListItemActions = ChangeEffects & SelectEffect;
 type DistortionListItemAllProps = DistortionListItemProps & DistortionListItemActions;
-type DistortionListItemState = {};
 
-export class DistortionListItem extends React.Component<DistortionListItemAllProps, DistortionListItemState> {
+export class DistortionListItem extends React.Component<DistortionListItemAllProps> {
     public constructor(props: DistortionListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);

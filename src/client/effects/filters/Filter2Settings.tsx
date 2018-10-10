@@ -15,9 +15,8 @@ type Filter2SettingsProps = {
 };
 type Filter2SettingsActions = ChangeEffects;
 type Filter2SettingsAllProps = Filter2SettingsProps & Filter2SettingsActions;
-type Filter2SettingsState = {};
 
-export class Filter2Settings extends React.Component<Filter2SettingsAllProps, Filter2SettingsState> {
+export class Filter2Settings extends React.Component<Filter2SettingsAllProps> {
 
     public constructor(props: Filter2SettingsAllProps) {
         super(props);

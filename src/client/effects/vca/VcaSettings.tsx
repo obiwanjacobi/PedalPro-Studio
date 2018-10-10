@@ -16,9 +16,8 @@ type VcaSettingsProps = {
 };
 type VcaSettingsActions = ChangeEffects;
 type VcaSettingsAllProps = VcaSettingsProps & VcaSettingsActions;
-type VcaSettingsState = {};
 
-export class VcaSettings extends React.Component<VcaSettingsAllProps, VcaSettingsState> {
+export class VcaSettings extends React.Component<VcaSettingsAllProps> {
 
     public constructor(props: VcaSettingsAllProps) {
         super(props);

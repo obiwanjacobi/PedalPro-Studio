@@ -10,10 +10,8 @@ type DistortionDiodeTypeOptionsEvents = {
     onChange: (value: DistortionDiodeType) => void;
 };
 type DistortionDiodeTypeOptionsAllProps = DistortionDiodeTypeOptionsProps & DistortionDiodeTypeOptionsEvents;
-type DistortionDiodeTypeOptionsState = {};
 
-export class DistortionDiodeTypeOptions
-    extends React.Component<DistortionDiodeTypeOptionsAllProps, DistortionDiodeTypeOptionsState> {
+export class DistortionDiodeTypeOptions extends React.Component<DistortionDiodeTypeOptionsAllProps> {
 
     public constructor(props: DistortionDiodeTypeOptionsAllProps) {
         super(props);

@@ -16,7 +16,6 @@ import { SaveEffects, SaveEffectsEx, createSaveEffectsAction, createSaveEffectsE
 import { EffectsView } from "./EffectsView";
 import { EffectsExView } from "./EffectsExView";
 import { asEffects, asEffectsEx, hasChanged } from "./EffectsOperations";
-
 type EffectsPageProps = {};
 type EffectsPageStoreProps = {
     preset?: Preset;
@@ -25,9 +24,8 @@ type EffectsPageStoreProps = {
 };
 type EffectsPageActions = SaveEffects & SaveEffectsEx & EditEffects;
 type EffectsPageAllProps = EffectsPageActions & EffectsPageStoreProps & EffectsPageProps;
-type EffectsPageState = {};
 
-class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState> {
+class EffectsPage extends React.Component<EffectsPageAllProps> {
     constructor(props: EffectsPageAllProps) {
         super(props);
 

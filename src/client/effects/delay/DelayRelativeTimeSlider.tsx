@@ -13,9 +13,9 @@ type DelayRelativeTimeSliderEvents = {
     onChange: (value: RelativeDelay) => void;
 };
 type DelayRelativeTimeSliderAllProps = DelayRelativeTimeSliderProps & DelayRelativeTimeSliderEvents;
-type DelayRelativeTimeSliderState = {};
+
 export class DelayRelativeTimeSlider 
-    extends React.Component<DelayRelativeTimeSliderAllProps, DelayRelativeTimeSliderState> {
+    extends React.Component<DelayRelativeTimeSliderAllProps> {
 
     public constructor(props: DelayRelativeTimeSliderAllProps) {
         super(props);

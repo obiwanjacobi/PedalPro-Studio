@@ -12,9 +12,8 @@ type NoiseGateSettingsProps = {
 };
 type NoiseGateSettingsActions = ChangeEffects;
 type NoiseGateSettingsAllProps = NoiseGateSettingsProps & NoiseGateSettingsActions;
-type NoiseGateSettingsState = {};
 
-export class NoiseGateSettings extends React.Component<NoiseGateSettingsAllProps, NoiseGateSettingsState> {
+export class NoiseGateSettings extends React.Component<NoiseGateSettingsAllProps> {
 
     public constructor(props: NoiseGateSettingsAllProps) {
         super(props);

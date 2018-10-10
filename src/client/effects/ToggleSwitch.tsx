@@ -10,9 +10,8 @@ type ToggleSwitchEvents = {
     onChange: (checked: boolean) => void;
 };
 type ToggleSwitchAllProps = ToggleSwitchProps & ToggleSwitchEvents;
-type ToggleSwitchState = {};
 
-export class ToggleSwitch extends React.Component<ToggleSwitchAllProps, ToggleSwitchState> {
+export class ToggleSwitch extends React.Component<ToggleSwitchAllProps> {
     constructor(props: ToggleSwitchAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

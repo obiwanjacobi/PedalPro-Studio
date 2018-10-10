@@ -9,9 +9,8 @@ type EffectsViewProps = {
     effects: Effects;
 };
 type EffectsViewAllProps = EffectsViewProps;
-type EffectsViewState = {};
 
-export class EffectsView extends React.Component<EffectsViewAllProps, EffectsViewState> {
+export class EffectsView extends React.Component<EffectsViewAllProps> {
     public render() {
         return (
             <Grid container={true} style={{height: "100%"}}>

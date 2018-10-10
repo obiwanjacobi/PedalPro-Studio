@@ -12,9 +12,8 @@ type VcaListItemProps = {
 };
 type VcaListItemActions = ChangeEffects & SelectEffect;
 type VcaListItemAllProps = VcaListItemProps & VcaListItemActions;
-type VcaListItemState = {};
 
-export class VcaListItem extends React.Component<VcaListItemAllProps, VcaListItemState> {
+export class VcaListItem extends React.Component<VcaListItemAllProps> {
     public constructor(props: VcaListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);

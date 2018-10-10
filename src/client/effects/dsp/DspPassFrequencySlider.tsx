@@ -14,10 +14,9 @@ type DspPassFrequencySliderEvents = {
     onChange: (value: DspPassFrequency) => void;
 };
 type DspPassFrequencySliderAllProps = DspPassFrequencySliderProps & DspPassFrequencySliderEvents;
-type DspPassFrequencySliderState = {};
 
 export class DspPassFrequencySlider 
-    extends React.Component<DspPassFrequencySliderAllProps, DspPassFrequencySliderState> {
+    extends React.Component<DspPassFrequencySliderAllProps> {
     public constructor(props: DspPassFrequencySliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

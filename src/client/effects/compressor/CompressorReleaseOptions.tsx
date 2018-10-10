@@ -9,10 +9,9 @@ type CompressorReleaseOptionsEvents = {
     onChange: (value: CompressorReleaseTime) => void;
 };
 type CompressorReleaseOptionsAllProps = CompressorReleaseOptionsProps & CompressorReleaseOptionsEvents;
-type CompressorReleaseOptionsState = {};
 
 export class CompressorReleaseOptions
-    extends React.Component<CompressorReleaseOptionsAllProps, CompressorReleaseOptionsState> {
+    extends React.Component<CompressorReleaseOptionsAllProps> {
 
     public constructor(props: CompressorReleaseOptionsAllProps) {
         super(props);

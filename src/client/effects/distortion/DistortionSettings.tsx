@@ -14,9 +14,8 @@ type DistortionSettingsProps = {
 };
 type DistortionSettingsActions = ChangeEffects;
 type DistortionSettingsAllProps = DistortionSettingsProps & DistortionSettingsActions;
-type DistortionSettingsState = {};
 
-export class DistortionSettings extends React.Component<DistortionSettingsAllProps, DistortionSettingsState> {
+export class DistortionSettings extends React.Component<DistortionSettingsAllProps> {
 
     public constructor(props: DistortionSettingsAllProps) {
         super(props);

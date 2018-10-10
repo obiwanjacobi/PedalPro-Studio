@@ -10,10 +10,8 @@ type DspTypeOptionsEvents = {
     onChange: (value: DspType) => void;
 };
 type DspTypeOptionsAllProps = DspTypeOptionsProps & DspTypeOptionsEvents;
-type DspTypeOptionsState = {};
 
-export class DspTypeOptions
-    extends React.Component<DspTypeOptionsAllProps, DspTypeOptionsState> {
+export class DspTypeOptions extends React.Component<DspTypeOptionsAllProps> {
 
     public constructor(props: DspTypeOptionsAllProps) {
         super(props);

@@ -13,9 +13,8 @@ type PercentSliderEvents = {
     onChange: (value: Percent) => void;
 };
 type PercentSliderAllProps = PercentSliderProps & PercentSliderEvents;
-type PercentSliderState = {};
 
-export class PercentSlider extends React.Component<PercentSliderAllProps, PercentSliderState> {
+export class PercentSlider extends React.Component<PercentSliderAllProps> {
     constructor(props: PercentSliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

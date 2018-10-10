@@ -15,10 +15,8 @@ type DspCaveDelaySettingsProps = {
 };
 type DspCaveDelaySettingsActions = ChangeEffectsEx;
 type DspCaveDelaySettingsAllProps = DspCaveDelaySettingsProps & DspCaveDelaySettingsActions;
-type DspCaveDelaySettingsState = {};
 
-export class DspCaveDelaySettings 
-    extends React.Component<DspCaveDelaySettingsAllProps, DspCaveDelaySettingsState> {
+export class DspCaveDelaySettings extends React.Component<DspCaveDelaySettingsAllProps> {
 
     public constructor(props: DspCaveDelaySettingsAllProps) {
         super(props);

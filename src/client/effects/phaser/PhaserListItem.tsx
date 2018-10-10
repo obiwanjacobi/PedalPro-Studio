@@ -12,9 +12,8 @@ type PhaserListItemProps = {
 };
 type PhaserListItemActions = ChangeEffects & SelectEffect;
 type PhaserListItemAllProps = PhaserListItemProps & PhaserListItemActions;
-type PhaserListItemState = {};
 
-export class PhaserListItem extends React.Component<PhaserListItemAllProps, PhaserListItemState> {
+export class PhaserListItem extends React.Component<PhaserListItemAllProps> {
     public constructor(props: PhaserListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);

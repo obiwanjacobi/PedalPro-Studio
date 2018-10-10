@@ -11,8 +11,8 @@ type FilterResonanceSliderEvents = {
     onChange: (resonance: ResonanceFilter1) => void;
 };
 type FilterResonanceSliderAllProps = FilterResonanceSliderProps & FilterResonanceSliderEvents;
-type FilterResonanceSliderState = {};
-export class FilterResonanceSlider extends React.Component<FilterResonanceSliderAllProps, FilterResonanceSliderState> {
+
+export class FilterResonanceSlider extends React.Component<FilterResonanceSliderAllProps> {
     public constructor(props: FilterResonanceSliderAllProps) {
         super(props);
         this.onChangeResonance = this.onChangeResonance.bind(this);

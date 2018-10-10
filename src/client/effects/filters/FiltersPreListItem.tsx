@@ -14,9 +14,8 @@ type FiltersPreListItemProps = {
 };
 type FiltersPreListItemActions = ChangeEffects & SelectEffect;
 type FiltersPreListItemAllProps = FiltersPreListItemProps & FiltersPreListItemActions;
-type FiltersPreListItemState = {};
 
-export class FiltersPreListItem extends React.Component<FiltersPreListItemAllProps, FiltersPreListItemState> {
+export class FiltersPreListItem extends React.Component<FiltersPreListItemAllProps> {
     private routing: FilterRoutingValue;
 
     public constructor(props: FiltersPreListItemAllProps) {
@@ -29,7 +28,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
         this.routing = new FilterRoutingValue(props.filters.routing);
     }
     
-    public componentWillReceiveProps(newProps: FiltersPreListItemAllProps, _: FiltersPreListItemState) {
+    public componentWillReceiveProps(newProps: FiltersPreListItemAllProps) {
         this.routing = new FilterRoutingValue(newProps.filters.routing);
     }
 

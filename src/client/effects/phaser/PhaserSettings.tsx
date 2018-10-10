@@ -14,9 +14,8 @@ type PhaserSettingsProps = {
 };
 type PhaserSettingsActions = ChangeEffects;
 type PhaserSettingsAllProps = PhaserSettingsProps & PhaserSettingsActions;
-type PhaserSettingsState = {};
 
-export class PhaserSettings extends React.Component<PhaserSettingsAllProps, PhaserSettingsState> {
+export class PhaserSettings extends React.Component<PhaserSettingsAllProps> {
 
     public constructor(props: PhaserSettingsAllProps) {
         super(props);

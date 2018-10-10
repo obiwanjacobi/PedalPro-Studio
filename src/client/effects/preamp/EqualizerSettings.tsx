@@ -11,9 +11,8 @@ type EqualizerSettingsProps = {
 };
 type EqualizerSettingsActions = ChangeEffectsEx;
 type EqualizerSettingsAllProps = EqualizerSettingsProps & EqualizerSettingsActions;
-type EqualizerSettingsState = {};
 
-export class EqualizerSettings extends React.Component<EqualizerSettingsAllProps, EqualizerSettingsState> {
+export class EqualizerSettings extends React.Component<EqualizerSettingsAllProps> {
     constructor(props: EqualizerSettingsAllProps) {
         super(props);
         this.onChangeBand60 = this.onChangeBand60.bind(this);

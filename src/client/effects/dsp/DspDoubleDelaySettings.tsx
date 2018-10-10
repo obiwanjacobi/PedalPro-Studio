@@ -15,10 +15,9 @@ type DspDoubleDelaySettingsProps = {
 };
 type DspDoubleDelaySettingsActions = ChangeEffectsEx;
 type DspDoubleDelaySettingsAllProps = DspDoubleDelaySettingsProps & DspDoubleDelaySettingsActions;
-type DspDoubleDelaySettingsState = {};
 
 export class DspDoubleDelaySettings 
-    extends React.Component<DspDoubleDelaySettingsAllProps, DspDoubleDelaySettingsState> {
+    extends React.Component<DspDoubleDelaySettingsAllProps> {
 
     public constructor(props: DspDoubleDelaySettingsAllProps) {
         super(props);

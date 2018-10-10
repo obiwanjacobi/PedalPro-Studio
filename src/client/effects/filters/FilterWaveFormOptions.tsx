@@ -10,10 +10,8 @@ type FilterWaveFromOptionsEvents = {
     onChange: (value: FilterWaveForm) => void;
 };
 type FilterWaveFromOptionsAllProps = FilterWaveFromOptionsProps & FilterWaveFromOptionsEvents;
-type FilterWaveFromOptionsState = {};
 
-export class FilterWaveFromOptions
-    extends React.Component<FilterWaveFromOptionsAllProps, FilterWaveFromOptionsState> {
+export class FilterWaveFromOptions extends React.Component<FilterWaveFromOptionsAllProps> {
 
     public constructor(props: FilterWaveFromOptionsAllProps) {
         super(props);

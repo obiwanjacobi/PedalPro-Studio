@@ -9,10 +9,9 @@ type DspFourTapDelaySettingsProps = {
 };
 type DspFourTapDelaySettingsActions = ChangeEffectsEx;
 type DspFourTapDelaySettingsAllProps = DspFourTapDelaySettingsProps & DspFourTapDelaySettingsActions;
-type DspFourTapDelaySettingsState = {};
 
 export class DspFourTapDelaySettings 
-    extends React.Component<DspFourTapDelaySettingsAllProps, DspFourTapDelaySettingsState> {
+    extends React.Component<DspFourTapDelaySettingsAllProps> {
 
     public constructor(props: DspFourTapDelaySettingsAllProps) {
         super(props);

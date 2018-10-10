@@ -12,9 +12,8 @@ type FuzzSettingsProps = {
 };
 type FuzzSettingsActions = ChangeEffectsEx;
 type FuzzSettingsAllProps = FuzzSettingsProps & FuzzSettingsActions;
-type FuzzSettingsState = {};
 
-export class FuzzSettings extends React.Component<FuzzSettingsAllProps, FuzzSettingsState> {
+export class FuzzSettings extends React.Component<FuzzSettingsAllProps> {
     constructor(props: FuzzSettingsAllProps) {
         super(props);
         this.onChangeBoost = this.onChangeBoost.bind(this);

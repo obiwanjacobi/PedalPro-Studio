@@ -10,10 +10,8 @@ type Filter2TypeOptionsEvents = {
     onChange: (value: Filter2Type) => void;
 };
 type Filter2TypeOptionsAllProps = Filter2TypeOptionsProps & Filter2TypeOptionsEvents;
-type Filter2TypeOptionsState = {};
 
-export class Filter2TypeOptions
-    extends React.Component<Filter2TypeOptionsAllProps, Filter2TypeOptionsState> {
+export class Filter2TypeOptions extends React.Component<Filter2TypeOptionsAllProps> {
 
     public constructor(props: Filter2TypeOptionsAllProps) {
         super(props);

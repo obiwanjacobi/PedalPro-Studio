@@ -14,9 +14,8 @@ type AuxRoutingListItemProps = {
 };
 type AuxRoutingListItemActions = ChangeEffects & SelectEffect;
 type AuxRoutingListItemAllProps = AuxRoutingListItemProps & AuxRoutingListItemActions;
-type AuxRoutingListItemState = {};
 
-export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllProps, AuxRoutingListItemState> {
+export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllProps> {
     public constructor(props: AuxRoutingListItemAllProps) {
         super(props);
         this.onChangeMixer = this.onChangeMixer.bind(this);

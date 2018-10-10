@@ -11,9 +11,8 @@ type AuxMixerSettingsProps = {
 };
 type AuxMixerSettingsActions = ChangeEffects;
 type AuxMixerSettingsAllProps = AuxMixerSettingsProps & AuxMixerSettingsActions;
-type AuxMixerSettingsState = {};
 
-export class AuxMixerSettings extends React.Component<AuxMixerSettingsAllProps, AuxMixerSettingsState> {
+export class AuxMixerSettings extends React.Component<AuxMixerSettingsAllProps> {
 
     public constructor(props: AuxMixerSettingsAllProps) {
         super(props);

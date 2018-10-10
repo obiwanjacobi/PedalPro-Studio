@@ -12,9 +12,8 @@ type Frequency2SliderEvents = {
     onChange: (value: Frequency2) => void;
 };
 type Frequency2SliderAllProps = Frequency2SliderProps & Frequency2SliderEvents;
-type Frequency2SliderState = {};
-export class Frequency2Slider 
-    extends React.Component<Frequency2SliderAllProps, Frequency2SliderState> {
+
+export class Frequency2Slider extends React.Component<Frequency2SliderAllProps> {
 
     public constructor(props: Frequency2SliderAllProps) {
         super(props);

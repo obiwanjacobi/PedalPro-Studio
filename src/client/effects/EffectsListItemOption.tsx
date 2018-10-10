@@ -12,10 +12,8 @@ type EffectsListItemOptionEvents = {
     onChangeRight?: (enabled: boolean) => void;
 };
 type EffectsListItemOptionAllProps = EffectsListItemOptionProps & EffectsListItemOptionEvents;
-type EffectsListItemOptionState = {};
 
-export class EffectsListItemOption
-    extends React.Component<EffectsListItemOptionAllProps, EffectsListItemOptionState> {
+export class EffectsListItemOption extends React.Component<EffectsListItemOptionAllProps> {
 
     public constructor(props: EffectsListItemOptionAllProps) {
         super(props);

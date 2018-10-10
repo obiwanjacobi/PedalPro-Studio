@@ -11,9 +11,8 @@ type DistortionFetSettingsProps = {
 };
 type DistortionFetSettingsActions = ChangeEffectsEx;
 type DistortionFetSettingsAllProps = DistortionFetSettingsProps & DistortionFetSettingsActions;
-type DistortionFetSettingsState = {};
 
-export class DistortionFetSettings extends React.Component<DistortionFetSettingsAllProps, DistortionFetSettingsState> {
+export class DistortionFetSettings extends React.Component<DistortionFetSettingsAllProps> {
     constructor(props: DistortionFetSettingsAllProps) {
         super(props);
         this.onChangeContour = this.onChangeContour.bind(this);

@@ -10,10 +10,8 @@ type Filter2EqualizerSettingsProps = {
 };
 type Filter2EqualizerSettingsActions = ChangeEffects;
 type Filter2EqualizerSettingsAllProps = Filter2EqualizerSettingsProps & Filter2EqualizerSettingsActions;
-type Filter2EqualizerSettingsState = {};
 
-export class Filter2EqualizerSettings 
-    extends React.Component<Filter2EqualizerSettingsAllProps, Filter2EqualizerSettingsState> {
+export class Filter2EqualizerSettings extends React.Component<Filter2EqualizerSettingsAllProps> {
 
     public constructor(props: Filter2EqualizerSettingsAllProps) {
         super(props);

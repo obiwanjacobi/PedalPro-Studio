@@ -12,9 +12,8 @@ type NoiseGateListItemProps = {
 };
 type NoiseGateListItemActions = ChangeEffects & SelectEffect;
 type NoiseGateListItemAllProps = NoiseGateListItemProps & NoiseGateListItemActions;
-type NoiseGateListItemState = {};
 
-export class NoiseGateListItem extends React.Component<NoiseGateListItemAllProps, NoiseGateListItemState> {
+export class NoiseGateListItem extends React.Component<NoiseGateListItemAllProps> {
     constructor(props: NoiseGateListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);

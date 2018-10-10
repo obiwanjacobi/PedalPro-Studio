@@ -15,9 +15,8 @@ type CompressorSettingsProps = {
 };
 type CompressorSettingsActions = ChangeEffects;
 type CompressorSettingsAllProps = CompressorSettingsProps & CompressorSettingsActions;
-type CompressorSettingsState = {};
 
-export class CompressorSettings extends React.Component<CompressorSettingsAllProps, CompressorSettingsState> {
+export class CompressorSettings extends React.Component<CompressorSettingsAllProps> {
 
     public constructor(props: CompressorSettingsAllProps) {
         super(props);

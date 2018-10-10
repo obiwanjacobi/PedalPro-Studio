@@ -13,9 +13,8 @@ type TempoSpeedSliderEvents = {
     onChange: (value: TempoSpeed) => void;
 };
 type TempoSpeedSliderAllProps = TempoSpeedSliderProps & TempoSpeedSliderEvents;
-type TempoSpeedSliderState = {};
 
-export class TempoSpeedSlider extends React.Component<TempoSpeedSliderAllProps, TempoSpeedSliderState> {
+export class TempoSpeedSlider extends React.Component<TempoSpeedSliderAllProps> {
     constructor(props: TempoSpeedSliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

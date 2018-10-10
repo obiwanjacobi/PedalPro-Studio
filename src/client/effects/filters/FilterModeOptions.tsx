@@ -10,10 +10,8 @@ type FilterModeOptionsEvents = {
     onChange: (value: FilterMode) => void;
 };
 type FilterModeOptionsAllProps = FilterModeOptionsProps & FilterModeOptionsEvents;
-type FilterModeOptionsState = {};
 
-export class FilterModeOptions
-    extends React.Component<FilterModeOptionsAllProps, FilterModeOptionsState> {
+export class FilterModeOptions extends React.Component<FilterModeOptionsAllProps> {
 
     public constructor(props: FilterModeOptionsAllProps) {
         super(props);

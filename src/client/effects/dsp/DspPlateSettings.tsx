@@ -10,9 +10,8 @@ type DspPlateSettingsProps = {
 };
 type DspPlateSettingsActions = ChangeEffectsEx;
 type DspPlateSettingsAllProps = DspPlateSettingsProps & DspPlateSettingsActions;
-type DspPlateSettingsState = {};
 
-export class DspPlateSettings extends React.Component<DspPlateSettingsAllProps, DspPlateSettingsState> {
+export class DspPlateSettings extends React.Component<DspPlateSettingsAllProps> {
 
     public constructor(props: DspPlateSettingsAllProps) {
         super(props);

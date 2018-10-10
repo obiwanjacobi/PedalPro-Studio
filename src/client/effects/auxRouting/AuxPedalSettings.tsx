@@ -11,9 +11,8 @@ type AuxPedalSettingsProps = {
 };
 type AuxPedalSettingsActions = ChangeEffects;
 type AuxPedalSettingsAllProps = AuxPedalSettingsProps & AuxPedalSettingsActions;
-type AuxPedalSettingsState = {};
 
-export class AuxPedalSettings extends React.Component<AuxPedalSettingsAllProps, AuxPedalSettingsState> {
+export class AuxPedalSettings extends React.Component<AuxPedalSettingsAllProps> {
 
     public constructor(props: AuxPedalSettingsAllProps) {
         super(props);

@@ -15,9 +15,8 @@ type DspSliderEvents = {
     onChange: (value: number) => void;
 };
 type DspSliderAllProps = DspSliderProps & DspSliderEvents;
-type DspSliderState = {};
 
-export class DspSlider extends React.Component<DspSliderAllProps, DspSliderState> {
+export class DspSlider extends React.Component<DspSliderAllProps> {
     constructor(props: DspSliderAllProps) {
         super(props);
         this.onChange = this.onChange.bind(this);

@@ -10,10 +10,9 @@ type DspHallSettingsProps = {
 };
 type DspHallSettingsActions = ChangeEffectsEx;
 type DspHallSettingsAllProps = DspHallSettingsProps & DspHallSettingsActions;
-type DspHallSettingsState = {};
 
 export class DspHallSettings 
-    extends React.Component<DspHallSettingsAllProps, DspHallSettingsState> {
+    extends React.Component<DspHallSettingsAllProps> {
 
     public constructor(props: DspHallSettingsAllProps) {
         super(props);

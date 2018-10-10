@@ -26,9 +26,8 @@ type DspTapSettingsEvents = {
     onChangeTap4?: (level: DspPercent) => void;
 };
 type DspTapSettingsAllProps = DspTapSettingsProps & DspTapSettingsEvents;
-type DspTapSettingsState = {};
 
-export class DspTapSettings extends React.Component<DspTapSettingsAllProps, DspTapSettingsState> {
+export class DspTapSettings extends React.Component<DspTapSettingsAllProps> {
     public render() {
         return (
             <Paper elevation={8} square={true} style={{padding: "8px"}}>

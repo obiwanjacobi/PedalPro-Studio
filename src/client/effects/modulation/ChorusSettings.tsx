@@ -15,9 +15,8 @@ type ChorusSettingsProps = {
 };
 type ChorusSettingsActions = ChangeEffects;
 type ChorusSettingsAllProps = ChorusSettingsProps & ChorusSettingsActions;
-type ChorusSettingsState = {};
 
-export class ChorusSettings extends React.Component<ChorusSettingsAllProps, ChorusSettingsState> {
+export class ChorusSettings extends React.Component<ChorusSettingsAllProps> {
 
     public constructor(props: ChorusSettingsAllProps) {
         super(props);

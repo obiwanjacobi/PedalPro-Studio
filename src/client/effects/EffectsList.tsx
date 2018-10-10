@@ -24,12 +24,10 @@ import { VcaListItem } from "./vca/VcaListItem";
 type EffectsListProps = {
     effects: Effects;
 };
-type EffectsListStoreProps = {};
 type EffectsListActions = ChangeEffects & SelectEffect;
-type EffectsListAllProps = EffectsListProps & EffectsListStoreProps & EffectsListActions;
-type EffectsListState = {};
+type EffectsListAllProps = EffectsListProps & EffectsListActions;
 
-class EffectsList extends React.Component<EffectsListAllProps, EffectsListState> {
+class EffectsList extends React.Component<EffectsListAllProps> {
     public render() {
         return (
             <div style={{flexGrow: 1}}>

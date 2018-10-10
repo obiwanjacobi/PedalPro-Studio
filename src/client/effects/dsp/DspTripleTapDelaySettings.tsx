@@ -9,10 +9,9 @@ type DspTripleTapDelaySettingsProps = {
 };
 type DspTripleTapDelaySettingsActions = ChangeEffectsEx;
 type DspTripleTapDelaySettingsAllProps = DspTripleTapDelaySettingsProps & DspTripleTapDelaySettingsActions;
-type DspTripleTapDelaySettingsState = {};
 
 export class DspTripleTapDelaySettings 
-    extends React.Component<DspTripleTapDelaySettingsAllProps, DspTripleTapDelaySettingsState> {
+    extends React.Component<DspTripleTapDelaySettingsAllProps> {
 
     public constructor(props: DspTripleTapDelaySettingsAllProps) {
         super(props);

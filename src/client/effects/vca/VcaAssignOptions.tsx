@@ -10,10 +10,8 @@ type VcaAssignOptionsEvents = {
     onChange: (value: VcaAssign) => void;
 };
 type VcaAssignOptionsAllProps = VcaAssignOptionsProps & VcaAssignOptionsEvents;
-type VcaAssignOptionsState = {};
 
-export class VcaAssignOptions
-    extends React.Component<VcaAssignOptionsAllProps, VcaAssignOptionsState> {
+export class VcaAssignOptions extends React.Component<VcaAssignOptionsAllProps> {
 
     public constructor(props: VcaAssignOptionsAllProps) {
         super(props);

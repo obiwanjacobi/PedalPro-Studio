@@ -11,9 +11,8 @@ type EffectsExViewProps = {
     effectsEx: EffectsEx;
 };
 type EffectsExViewAllProps = EffectsExViewProps;
-type EffectsExViewState = {};
 
-export class EffectsExView extends React.Component<EffectsExViewAllProps, EffectsExViewState> {
+export class EffectsExView extends React.Component<EffectsExViewAllProps> {
     public _render() {
         return (
             <div style={{height: "100%", display: "flex"}}>

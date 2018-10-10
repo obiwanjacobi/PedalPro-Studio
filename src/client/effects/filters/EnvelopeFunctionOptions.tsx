@@ -10,10 +10,8 @@ type EnvelopeFunctionOptionsEvents = {
     onChange: (value: EnvelopeFunction) => void;
 };
 type EnvelopeFunctionOptionsAllProps = EnvelopeFunctionOptionsProps & EnvelopeFunctionOptionsEvents;
-type EnvelopeFunctionOptionsState = {};
 
-export class EnvelopeFunctionOptions
-    extends React.Component<EnvelopeFunctionOptionsAllProps, EnvelopeFunctionOptionsState> {
+export class EnvelopeFunctionOptions extends React.Component<EnvelopeFunctionOptionsAllProps> {
 
     public constructor(props: EnvelopeFunctionOptionsAllProps) {
         super(props);

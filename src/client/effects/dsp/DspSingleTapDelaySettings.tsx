@@ -9,10 +9,9 @@ type DspSingleTapDelaySettingsProps = {
 };
 type DspSingleTapDelaySettingsActions = ChangeEffectsEx;
 type DspSingleTapDelaySettingsAllProps = DspSingleTapDelaySettingsProps & DspSingleTapDelaySettingsActions;
-type DspSingleTapDelaySettingsState = {};
 
 export class DspSingleTapDelaySettings 
-    extends React.Component<DspSingleTapDelaySettingsAllProps, DspSingleTapDelaySettingsState> {
+    extends React.Component<DspSingleTapDelaySettingsAllProps> {
 
     public constructor(props: DspSingleTapDelaySettingsAllProps) {
         super(props);

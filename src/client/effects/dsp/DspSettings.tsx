@@ -22,9 +22,8 @@ type DspSettingsProps = {
 };
 type DspSettingsActions = ChangeEffectsEx;
 type DspSettingsAllProps = DspSettingsProps & DspSettingsActions;
-type DspSettingsState = {};
 
-export class DspSettings extends React.Component<DspSettingsAllProps, DspSettingsState> {
+export class DspSettings extends React.Component<DspSettingsAllProps> {
 
     public constructor(props: DspSettingsAllProps) {
         super(props);

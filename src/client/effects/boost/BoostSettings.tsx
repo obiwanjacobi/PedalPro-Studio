@@ -11,9 +11,8 @@ type BoostSettingsProps = {
 };
 type BoostSettingsActions = ChangeEffects;
 type BoostSettingsAllProps = BoostSettingsProps & BoostSettingsActions;
-type BoostSettingsState = {};
 
-export class BoostSettings extends React.Component<BoostSettingsAllProps, BoostSettingsState> {
+export class BoostSettings extends React.Component<BoostSettingsAllProps> {
 
     public constructor(props: BoostSettingsAllProps) {
         super(props);

@@ -15,9 +15,8 @@ type VibeSettingsProps = {
 };
 type VibeSettingsActions = ChangeEffects;
 type VibeSettingsAllProps = VibeSettingsProps & VibeSettingsActions;
-type VibeSettingsState = {};
 
-export class VibeSettings extends React.Component<VibeSettingsAllProps, VibeSettingsState> {
+export class VibeSettings extends React.Component<VibeSettingsAllProps> {
 
     public constructor(props: VibeSettingsAllProps) {
         super(props);

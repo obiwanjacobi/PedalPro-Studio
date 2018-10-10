@@ -15,9 +15,8 @@ type FiltersPostListItemProps = {
 };
 type FiltersPostListItemActions = ChangeEffects & SelectEffect;
 type FiltersPostListItemAllProps = FiltersPostListItemProps & FiltersPostListItemActions;
-type FiltersPostListItemState = {};
 
-export class FiltersPostListItem extends React.Component<FiltersPostListItemAllProps, FiltersPostListItemState> {
+export class FiltersPostListItem extends React.Component<FiltersPostListItemAllProps> {
     private routing: FilterRoutingValue;
 
     public constructor(props: FiltersPostListItemAllProps) {
@@ -31,7 +30,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
         this.routing = new FilterRoutingValue(props.filters.routing);
     }
     
-    public componentWillReceiveProps(newProps: FiltersPostListItemAllProps, _: FiltersPostListItemState) {
+    public componentWillReceiveProps(newProps: FiltersPostListItemAllProps) {
         this.routing = new FilterRoutingValue(newProps.filters.routing);
     }
 

@@ -12,9 +12,8 @@ type CompressorListItemProps = {
 };
 type CompressorListItemActions = ChangeEffects & SelectEffect;
 type CompressorListItemAllProps = CompressorListItemProps & CompressorListItemActions;
-type CompressorListItemState = {};
 
-export class CompressorListItem extends React.Component<CompressorListItemAllProps, CompressorListItemState> {
+export class CompressorListItem extends React.Component<CompressorListItemAllProps> {
     public constructor(props: CompressorListItemAllProps) {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);

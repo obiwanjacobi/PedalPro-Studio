@@ -14,9 +14,8 @@ type Filter2AutoSettingsProps = {
 };
 type Filter2AutoSettingsActions = ChangeEffects;
 type Filter2AutoSettingsAllProps = Filter2AutoSettingsProps & Filter2AutoSettingsActions;
-type Filter2AutoSettingsState = {};
 
-export class Filter2AutoSettings extends React.Component<Filter2AutoSettingsAllProps, Filter2AutoSettingsState> {
+export class Filter2AutoSettings extends React.Component<Filter2AutoSettingsAllProps> {
 
     public constructor(props: Filter2AutoSettingsAllProps) {
         super(props);

@@ -10,10 +10,9 @@ type DelayRangeOptionsEvents = {
     onChange: (value: DelayRange) => void;
 };
 type DelayRangeOptionsAllProps = DelayRangeOptionsProps & DelayRangeOptionsEvents;
-type DelayRangeOptionsState = {};
 
 export class DelayRangeOptions
-    extends React.Component<DelayRangeOptionsAllProps, DelayRangeOptionsState> {
+    extends React.Component<DelayRangeOptionsAllProps> {
 
     public constructor(props: DelayRangeOptionsAllProps) {
         super(props);
