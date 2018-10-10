@@ -35,6 +35,7 @@ import { NoiseGateSettings } from "./noiseGate/NoiseGateSettings";
 import { PhaserSettings } from "./phaser/PhaserSettings";
 import { DspSettings } from "./dsp/DspSettings";
 import { DistortionSettings } from "./distortion/DistortionSettings";
+
 type EffectsExSettingsProps = {};
 type EffectsExSettingsStoreProps = {
     effects: EffectsOrEx;

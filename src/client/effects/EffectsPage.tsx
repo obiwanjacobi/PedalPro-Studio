@@ -2,9 +2,9 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
 import {
-    IconButton, Dialog, Button
+    IconButton, Dialog, Button, Drawer
 } from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
+import { Clear, Settings } from "@material-ui/icons";
 
 import { ApplicationDocument } from "../ApplicationDocument";
 import { ApplicationToolbar } from "../controls/ApplicationToolbar";
@@ -16,21 +16,31 @@ import { SaveEffects, SaveEffectsEx, createSaveEffectsAction, createSaveEffectsE
 import { EffectsView } from "./EffectsView";
 import { EffectsExView } from "./EffectsExView";
 import { asEffects, asEffectsEx, hasChanged } from "./EffectsOperations";
+import { EffectsSettings } from "./EffectsSettings";
+import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
+import { RecursivePartial } from "../../TypeExtensions";
+
 type EffectsPageProps = {};
 type EffectsPageStoreProps = {
     preset?: Preset;
     effects?: Effects;
     effectsEx?: EffectsEx;
 };
-type EffectsPageActions = SaveEffects & SaveEffectsEx & EditEffects;
+type EffectsPageActions = SaveEffects & SaveEffectsEx & ChangeEffects & EditEffects;
 type EffectsPageAllProps = EffectsPageActions & EffectsPageStoreProps & EffectsPageProps;
-
-class EffectsPage extends React.Component<EffectsPageAllProps> {
+type EffectsPageState = {
+    drawerOpen: boolean;
+};
+class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState> {
     constructor(props: EffectsPageAllProps) {
         super(props);
+        this.state = { drawerOpen: false };
 
         this.close = this.close.bind(this);
         this.save = this.save.bind(this);
+
+        this.openDrawer = this.openDrawer.bind(this);
+        this.closeDrawer = this.closeDrawer.bind(this);
     }
 
     public render() {
@@ -46,6 +56,9 @@ class EffectsPage extends React.Component<EffectsPageAllProps> {
                             caption={this.props.preset.name}
                             sub={this.props.preset.source.toString().toUpperCase()}
                         />}
+                    <IconButton onClick={this.openDrawer}>
+                        <Settings/>
+                    </IconButton>
                     <Button disabled={!this.effectsHasChanged} onClick={this.save}>
                         Save
                     </Button>
@@ -54,6 +67,18 @@ class EffectsPage extends React.Component<EffectsPageAllProps> {
                     <EffectsExView effectsEx={this.props.effectsEx} />}
                 {this.props.effects &&
                     <EffectsView effects={this.props.effects} />}
+                <Drawer anchor="right" open={this.state.drawerOpen}>
+                    <ApplicationToolbar>
+                        <IconButton onClick={this.closeDrawer}>
+                            <Clear />
+                        </IconButton>
+                        <Title caption="Preset Control" />
+                    </ApplicationToolbar>
+                    <EffectsSettings 
+                        effects={this.props.effects || this.props.effectsEx} 
+                        changeEffects={this.props.changeEffects} 
+                    />
+                </Drawer>
             </Dialog>
         );
     }
@@ -67,6 +92,14 @@ class EffectsPage extends React.Component<EffectsPageAllProps> {
         }
 
         return false;
+    }
+
+    private openDrawer() {
+        this.setState({ drawerOpen: true });
+    }
+
+    private closeDrawer() {
+        this.setState({ drawerOpen: false });
     }
 
     private close() {
@@ -108,6 +141,9 @@ const createActionObject: ActionDispatchFunc =
         return {
             editEffects: (preset?: Preset) => {
                 dispatch(createEditEffectsAction(preset));
+            },
+            changeEffects: (effects: RecursivePartial<Effects>) => {
+                dispatch(createChangeEffectsAction(effects));
             },
             saveEffects: (effects: Effects) => {
                 dispatch(createSaveEffectsAction(effects));
