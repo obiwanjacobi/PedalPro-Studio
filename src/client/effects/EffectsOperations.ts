@@ -127,7 +127,7 @@ function getFirstSelected(effectsOrEx: EffectsOrEx): EffectNames {
 }
 
 export function determineSelectedEffect(
-    effectsOrEx: EffectsOrEx, effectName: EffectNames, componentName?: string): EffectComponentName {
+    effectsOrEx: EffectsOrEx, effectName: EffectNames = EffectNames.None, componentName?: string): EffectComponentName {
 
     if (effectName === EffectNames.None) {
         return { effectName: getFirstSelected(effectsOrEx) };
@@ -136,7 +136,9 @@ export function determineSelectedEffect(
     return { effectName: effectName, componentName: componentName };
 }
 
-export function selectEffect(effectsOrEx: EffectsOrEx, select: EffectNames, deselect: EffectNames): EffectsOrEx {
+export function selectEffect(
+    effectsOrEx: EffectsOrEx, select: EffectNames, deselect: EffectNames = EffectNames.None): EffectsOrEx {
+        
     const builder = createBuilder(effectsOrEx);
     if (deselect !== EffectNames.None) {
         builder.changeUIByName(deselect, { selected: false });

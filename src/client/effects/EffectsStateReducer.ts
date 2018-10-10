@@ -4,7 +4,7 @@ import { Preset } from "../preset/Preset";
 import { PresetBuilder, PresetArrayBuilder } from "../preset/PresetBuilder";
 import { EditEffectsAction, EditEffectsActionKey } from "./EditEffectsAction";
 import { SaveEffectsAction, SaveEffectsActionKey } from "./SaveEffectsAction";
-import { Effects, EffectsEx, EffectNames } from "./Effects";
+import { Effects, EffectsEx } from "./Effects";
 import { ChangeEffectsActionKey, ChangeEffectsAction } from "./ChangeEffectsAction";
 import { 
     compareEffects, mergeEffects, mergeEffectsEx, selectEffect, determineSelectedEffect, makeWorkingCopy 
@@ -15,10 +15,13 @@ import { EffectsExBuilder } from "./EffectsExBuilder";
 
 function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction): ApplicationDocument {
     if (!!action.preset) {
+        const selected = determineSelectedEffect(action.preset.effects);
+        const effectsOrEx = selectEffect(makeWorkingCopy(action.preset.effects), selected.effectName);
+
         return { ...state, editEffects: { 
             preset: action.preset, 
-            effectsOrEx: makeWorkingCopy(action.preset.effects), 
-            selected: { effectName: EffectNames.None } 
+            effectsOrEx: effectsOrEx, 
+            selected: selected
         } };
     }
     return { ...state, editEffects: undefined };
