@@ -191,28 +191,28 @@ export function effectHasChanged(effect: AnyEffect): boolean {
     return !commonIsEqual(effect, effect.origin);
 }
 export function hasChanged(effectsOrEx: EffectsOrEx): boolean {
-    if (!effectHasChanged(effectsOrEx.aux)) { return true; }
-    if (!effectHasChanged(effectsOrEx.boost)) { return true; }
-    if (!effectHasChanged(effectsOrEx.compressor)) { return true; }
-    if (!effectHasChanged(effectsOrEx.delay)) { return true; }
-    if (!effectHasChanged(effectsOrEx.filters)) { return true; }
-    if (!effectHasChanged(effectsOrEx.midi)) { return true; }
-    if (!effectHasChanged(effectsOrEx.modulation)) { return true; }
-    if (!effectHasChanged(effectsOrEx.noiseGate)) { return true; }
-    if (!effectHasChanged(effectsOrEx.phaser)) { return true; }
-    if (!effectHasChanged(effectsOrEx.tap)) { return true; }
-    if (!effectHasChanged(effectsOrEx.vca)) { return true; }
-    if (!effectHasChanged(effectsOrEx.volume)) { return true; }
+    if (effectHasChanged(effectsOrEx.aux)) { return true; }
+    if (effectHasChanged(effectsOrEx.boost)) { return true; }
+    if (effectHasChanged(effectsOrEx.compressor)) { return true; }
+    if (effectHasChanged(effectsOrEx.delay)) { return true; }
+    if (effectHasChanged(effectsOrEx.filters)) { return true; }
+    if (effectHasChanged(effectsOrEx.midi)) { return true; }
+    if (effectHasChanged(effectsOrEx.modulation)) { return true; }
+    if (effectHasChanged(effectsOrEx.noiseGate)) { return true; }
+    if (effectHasChanged(effectsOrEx.phaser)) { return true; }
+    if (effectHasChanged(effectsOrEx.tap)) { return true; }
+    if (effectHasChanged(effectsOrEx.vca)) { return true; }
+    if (effectHasChanged(effectsOrEx.volume)) { return true; }
 
     const effects = asEffects(effectsOrEx) as Effects;
     if (effects) {
-        if (!effectHasChanged(effects.distortion)) { return true; }
+        if (effectHasChanged(effects.distortion)) { return true; }
     }
 
     const effectsEx = asEffectsEx(effectsOrEx) as EffectsEx;
     if (effectsEx) {
-        if (!effectHasChanged(effectsEx.pre)) { return true; }
-        if (!effectHasChanged(effectsEx.dsp)) { return true; }
+        if (effectHasChanged(effectsEx.pre)) { return true; }
+        if (effectHasChanged(effectsEx.dsp)) { return true; }
     }
 
     return false;

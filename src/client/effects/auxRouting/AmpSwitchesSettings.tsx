@@ -28,16 +28,16 @@ export class AmpSwitchesSettings extends React.Component<AmpSwitchesSettingsAllP
                 <Grid item={true} xs={12}>
                     <Typography variant="headline">Amp Switches</Typography>
                 </Grid>
-                <Grid item={true} xs={3}>
+                <Grid item={true} xs={12}>
                     <ToggleSwitch label="Switch 1" checked={this.switches.switch1} onChange={this.onChangeSwitch1} />
                 </Grid>
-                <Grid item={true} xs={3}>
+                <Grid item={true} xs={12}>
                     <ToggleSwitch label="Switch 2" checked={this.switches.switch2} onChange={this.onChangeSwitch2} />
                 </Grid>
-                <Grid item={true} xs={3}>
+                <Grid item={true} xs={12}>
                     <ToggleSwitch label="Switch 3" checked={this.switches.switch3} onChange={this.onChangeSwitch3} />
                 </Grid>
-                <Grid item={true} xs={3}>
+                <Grid item={true} xs={12}>
                     <ToggleSwitch label="Switch 4" checked={this.switches.switch4} onChange={this.onChangeSwitch4} />
                 </Grid>
             </Grid>

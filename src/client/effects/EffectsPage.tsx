@@ -16,7 +16,7 @@ import { SaveEffects, SaveEffectsEx, createSaveEffectsAction, createSaveEffectsE
 import { EffectsView } from "./EffectsView";
 import { EffectsExView } from "./EffectsExView";
 import { asEffects, asEffectsEx, hasChanged } from "./EffectsOperations";
-import { EffectsSettings } from "./EffectsSettings";
+import { EffectsControlSettings } from "./EffectsControlSettings";
 import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
 import { RecursivePartial } from "../../TypeExtensions";
 
@@ -74,7 +74,7 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                         </IconButton>
                         <Title caption="Preset Control" />
                     </ApplicationToolbar>
-                    <EffectsSettings 
+                    <EffectsControlSettings 
                         effects={this.props.effects || this.props.effectsEx} 
                         changeEffects={this.props.changeEffects} 
                     />
