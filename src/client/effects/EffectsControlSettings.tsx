@@ -21,7 +21,7 @@ export class EffectsControlSettings extends React.Component<EffectsControlSettin
             <Grid 
                 container={true} 
                 direction="column" 
-                style={{overflowX: "hidden", overflowY: "scroll", padding: "16px", width: "300px", flexWrap: "nowrap"}}
+                style={{overflowX: "hidden", overflowY: "scroll", padding: "16px", width: "460px", flexWrap: "nowrap"}}
             >
                 <Grid item={true} xs={12}>
                     <Paper elevation={8} square={true} style={{ padding: "8px", margin: "8px"}}>
