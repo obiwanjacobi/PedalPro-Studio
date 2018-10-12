@@ -2,9 +2,7 @@
 
 ## Release/Deployemnt Issues
 
-- minify webpack output for prod
-- assets loaded at runtime (vr-files) are not installed on disk.
-- could not locate binding file HID.node.
+- make Mac deployment
 
 ## TODO Task List
 
@@ -21,6 +19,8 @@
 - [Done] Implement Storage Bank delete.
 - [Done] Implement delete storage presets toolbar button (all selected presets).
 - [Done] Remove fireXxxx from PresetToolbar - use props.Xxxx directly
+- [Done] Fix layout of move dialog
+- [Done] Fix layout of paste dialogs (device/storage)
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 - Ask conformation before removing changed presets (delete, download).
@@ -29,8 +29,6 @@
 - Add locallization, translated strings.
 - Storage presets should be shown in the same order as the banks they belong to.
 - PresetView should have sorting (byIndex, byName, asc/desc).
-- Fix layout of move dialog
-- Fix layout of paste dialogs (device/storage)
 - Fix layout (padding) of notification popup.
 - Paste Empty shows garbage-can (x) target in the preview list.
 
@@ -40,9 +38,9 @@
 - Storage banks are only saved when they have presets.
 - Device Presets do not have 'meta' set (undefined).
 - Paste By Index may generate conflicts: multiple clipboard presets targeted at the same index.
-- [Done] onClick / onChange handlers must check if value is 'on' before dispatching action. 
+- [Done] onClick / onChange handlers must check if value is 'on' before dispatching action.
     Replace onClick with onChange.
-- [Fixed: use onClick not onChange on buttons] Preset expand does not work (anymore).
+- [Fixed] use onClick not onChange on buttons.
 - [Fixed] After selecting a preset and changing views (device/storage/factory) the view-filter for selection is not enabled anymore.
 - [Fixed] Convert.toLogDB yields wrong results. Range is not linear.
 - [Done] Refactor (Load/Save) Actions with error property. Simply dispatch an error-action when error is caught.
@@ -77,6 +75,7 @@ All device presets are automatically saved when uploaded to the device.
 - upload a complete preset (160b for PPE) and make that active (load) - but not store into eprom.
 - [PPE] exit button does not exit USB Remote Terminal mode (PP does it - but that is also a little too sensitive - bug?)
 - [PPE] DSP parameters: navigation should work the same as other settings (1/x) (don't use Exit)
+- open-source manual text so I can refernce it in the app (also make typo-changes => pull request).
 
 ## Code
 
@@ -87,11 +86,11 @@ All device presets are automatically saved when uploaded to the device.
 
 ## performance
 
-- [Done] remove/refactor all anonymous event handlers (start with PresetList/Item) - bind in ctor.
 - add tslib
+- [Done] remove/refactor all anonymous event handlers (start with PresetList/Item) - bind in ctor.
 - [Done] use a virtual preset list: https://github.com/bvaughn/react-virtualized
 - [Done] implement ShouldComponentUpdate()
-- [Done ]Redux connect at list item level. Bind list with number of presets and instantiate each list item with its index.
+- [Done] Redux connect at list item level. Bind list with number of presets and instantiate each list item with its index.
     How will this work with filtering? Filtering is done at list-level and a ListItem is instantiated for each preset index.
 - [Done] Use production build of React. Have no idea how to change that in electron/ts.
 - [Done] use a pack tool (webpack/babel/rollup) to optimize startup time (which is also pretty bad)
@@ -100,10 +99,6 @@ All device presets are automatically saved when uploaded to the device.
 react: https://medium.com/@arikmaor/react-redux-performance-tuning-tips-cef1a6c50759
 https://reactjs.org/docs/optimizing-performance.html#use-the-production-build
 https://medium.com/@paularmstrong/twitter-lite-and-high-performance-react-progressive-web-apps-at-scale-d28a00e780a3
-
-## Project Setup
-
-- Hot Reload in Electron
 
 ## Libraries
 
