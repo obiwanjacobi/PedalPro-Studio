@@ -22,14 +22,14 @@ export class PhaseShiftOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Phase</Typography>
+                <Typography variant="body2">Phase</Typography>
                 <Select value={this.props.phase} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={PhaseShift.Degrees0}>0</MenuItem>
                     <MenuItem value={PhaseShift.Degrees90}>90</MenuItem>
                     <MenuItem value={PhaseShift.Degrees180}>180</MenuItem>
                     <MenuItem value={PhaseShift.Degrees270}>270</MenuItem>
                 </Select>
-                <Typography>degrees</Typography>
+                <Typography variant="body2">degrees</Typography>
             </Grid>
         );
     }

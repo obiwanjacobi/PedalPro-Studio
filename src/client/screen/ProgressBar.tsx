@@ -33,7 +33,9 @@ export class ProgressBar extends React.Component<ProgressBarAllProps, ProgressBa
         if (!this.props.progress) { return <span />; }
         return (
             <div style={{ padding: 16 }}>
-                <Typography align="center" gutterBottom={true} variant="body2">{this.props.progress.title}</Typography>
+                <Typography align="center" gutterBottom={true} variant="body2">
+                    {this.props.progress.title}
+                </Typography>
                 <Typography align="center" color="secondary">{this.props.progress.message}</Typography>
                 <LinearProgress variant="determinate" value={this.props.progress.percent} />
             </div>

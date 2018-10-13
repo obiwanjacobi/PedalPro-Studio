@@ -26,7 +26,7 @@ export class NoiseGateSettings extends React.Component<NoiseGateSettingsAllProps
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Noise Gate</Typography>
+                    <Typography variant="h5">Noise Gate</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <ToggleSwitch

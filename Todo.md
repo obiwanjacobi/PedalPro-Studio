@@ -2,7 +2,7 @@
 
 ## Release/Deployemnt Issues
 
-- make Mac deployment
+- make Mac deployment https://www.techplustips.com/install-macos-mojave-virtualbox/
 
 ## TODO Task List
 

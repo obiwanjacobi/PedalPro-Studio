@@ -53,7 +53,7 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                     </Grid>
                     <Grid xs={1} item={true}/>
                     <Grid xs={4} item={true}>
-                        <Typography variant="subheading">
+                        <Typography variant="subtitle1">
                             {this.props.preset.name}
                         </Typography>
                         {this.props.preset.group && 

@@ -28,7 +28,7 @@ export class AuxMixerSettings extends React.Component<AuxMixerSettingsAllProps> 
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Aux Mixer</Typography>
+                    <Typography variant="h5">Aux Mixer</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <PercentSlider 

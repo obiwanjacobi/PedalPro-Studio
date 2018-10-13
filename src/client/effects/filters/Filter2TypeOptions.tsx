@@ -21,7 +21,7 @@ export class Filter2TypeOptions extends React.Component<Filter2TypeOptionsAllPro
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Type</Typography>
+                <Typography variant="body2">Type</Typography>
                 <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={Filter2Type.LowPass}>Low Pass</MenuItem>
                     <MenuItem value={Filter2Type.BandPass}>Band Pass</MenuItem>

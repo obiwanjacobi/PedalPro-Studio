@@ -21,7 +21,7 @@ export class AuxPedalRoutingOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Pedal Routing</Typography>
+                <Typography variant="body2">Pedal Routing</Typography>
                 <Select value={this.props.routing} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={AuxRouting.LeftOnly}>Left Send/Return on Left channel</MenuItem>
                     <MenuItem value={AuxRouting.RightOnly}>Right Send/Return on Right channel</MenuItem>

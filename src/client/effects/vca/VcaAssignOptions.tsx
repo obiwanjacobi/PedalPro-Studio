@@ -21,7 +21,7 @@ export class VcaAssignOptions extends React.Component<VcaAssignOptionsAllProps> 
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Mode</Typography>
+                <Typography variant="body2">Mode</Typography>
                 <Select value={this.props.assign} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={VcaAssign.Tremolo}>Tremolo</MenuItem>
                     <MenuItem value={VcaAssign.Panner}>Panner</MenuItem>

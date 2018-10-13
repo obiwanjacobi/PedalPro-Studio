@@ -40,7 +40,7 @@ export class StorageBankListItem extends React.Component<StorageBankListItemAllP
                     </Grid>
                     <Grid xs={1} item={true}/>
                     <Grid xs={6} item={true}>
-                        <Typography variant="subheading">
+                        <Typography variant="subtitle1">
                             {this.props.bank.name}
                         </Typography>
                     </Grid>

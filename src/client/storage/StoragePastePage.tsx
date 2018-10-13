@@ -93,7 +93,7 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
                             {this.props.banks.map((bank: StorageBank, index: number) => {
                                 return (
                                     <MenuItem key={index} value={bank.name}>
-                                        <Typography>{bank.name}</Typography>
+                                        <Typography variant="body2">{bank.name}</Typography>
                                     </MenuItem>
                                 );
                             })}

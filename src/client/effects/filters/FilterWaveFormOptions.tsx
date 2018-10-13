@@ -21,7 +21,7 @@ export class FilterWaveFromOptions extends React.Component<FilterWaveFromOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Mode</Typography>
+                <Typography variant="body2">Mode</Typography>
                 <Select value={this.props.wave} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={FilterWaveForm.Sine}>Sine</MenuItem>
                     <MenuItem value={FilterWaveForm.Triangle}>Triangle</MenuItem>

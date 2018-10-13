@@ -32,7 +32,7 @@ export class VcaSettings extends React.Component<VcaSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Voltage Controlled Amplifier</Typography>
+                    <Typography variant="h5">Voltage Controlled Amplifier</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <VcaAssignOptions assign={this.props.vca.assign} onChange={this.onChangeAssign} />

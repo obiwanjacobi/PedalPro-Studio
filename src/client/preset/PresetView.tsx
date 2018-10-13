@@ -204,7 +204,7 @@ export class PresetView extends React.PureComponent<PresetViewAllProps, PresetVi
 
     private renderNoResults() {
         return (
-            <Typography>
+            <Typography variant="body2">
                 No results, adjust filter.
             </Typography>
         );

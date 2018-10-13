@@ -26,7 +26,7 @@ export class AmpSwitchesSettings extends React.Component<AmpSwitchesSettingsAllP
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Amp Switches</Typography>
+                    <Typography variant="h5">Amp Switches</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <ToggleSwitch label="Switch 1" checked={this.switches.switch1} onChange={this.onChangeSwitch1} />

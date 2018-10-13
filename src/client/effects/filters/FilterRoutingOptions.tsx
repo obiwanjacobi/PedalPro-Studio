@@ -21,7 +21,7 @@ export class FilterRoutingOptions extends React.Component<FilterRoutingOptionsAl
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Filter Routing</Typography>
+                <Typography variant="body2">Filter Routing</Typography>
                 <Select value={this.props.routing} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={FilterRouting.Bypass}>None</MenuItem>
                     <MenuItem value={FilterRouting.PreF1}>Filter 1 Pre</MenuItem>

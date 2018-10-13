@@ -21,7 +21,7 @@ export class EnvelopeFunctionOptions extends React.Component<EnvelopeFunctionOpt
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Function</Typography>
+                <Typography variant="body2">Function</Typography>
                 <Select value={this.props.function} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={EnvelopeFunction.Linear}>Linear</MenuItem>
                     <MenuItem value={EnvelopeFunction.ExponentialPos}>Exponential Pos.</MenuItem>

@@ -7,7 +7,7 @@
     "name": "Jacobi Software",
     "url": "https://github.com/obiwanjacobi/PedalPro-Studio/wiki"
   },
-  "main": "./app/program.js",
+  "main": "./app/Startup.js",
   "private": true,
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.dev.config.js",

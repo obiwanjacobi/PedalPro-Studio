@@ -39,7 +39,7 @@ export class StorageBankView extends React.Component<StorageBankViewAllProps, St
         return (
             <FlexContainer vertical={true}>
                 <Toolbar>
-                    <Typography variant="subheading">Banks</Typography>
+                    <Typography variant="subtitle1">Banks</Typography>
                     <Button 
                         onClick={this.addBank} 
                         disabled={this.disableAddBank()} 

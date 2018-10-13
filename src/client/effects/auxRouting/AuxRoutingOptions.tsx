@@ -21,7 +21,7 @@ export class AuxRoutingOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Aux Routing</Typography>
+                <Typography variant="body2">Aux Routing</Typography>
                 <Select value={this.props.routing} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={AuxRouting.None}>None</MenuItem>
                     <MenuItem value={AuxRouting.Mixer}>Stereo Send/Return &amp; Mixer</MenuItem>

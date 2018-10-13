@@ -28,7 +28,7 @@ export class EffectsListItemOption extends React.Component<EffectsListItemOption
                 {this.props.onChangeLeft ?
                     <Switch checked={this.props.enabledLeft} onChange={this.onChangeLeft} />
                     : <span style={{width: "62px"}}/>}
-                <Typography style={{paddingLeft: "8px"}}>{this.title}</Typography>
+                <Typography variant="body1" style={{paddingLeft: "8px"}}>{this.title}</Typography>
                 {this.props.onChangeRight ?
                     <Switch checked={this.props.enabledRight} onChange={this.onChangeRight} />
                     : <span style={{width: "62px"}}/>}

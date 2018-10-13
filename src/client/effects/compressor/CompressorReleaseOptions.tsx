@@ -21,7 +21,7 @@ export class CompressorReleaseOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Release</Typography>
+                <Typography variant="body2">Release</Typography>
                 <Select value={this.props.release} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={CompressorReleaseTime.ms100}>0.1</MenuItem>
                     <MenuItem value={CompressorReleaseTime.ms200}>0.2</MenuItem>
@@ -32,7 +32,7 @@ export class CompressorReleaseOptions
                     <MenuItem value={CompressorReleaseTime.ms1000}>1.0</MenuItem>
                     <MenuItem value={CompressorReleaseTime.ms1800}>1.8</MenuItem>
                 </Select>
-                <Typography>seconds</Typography>
+                <Typography variant="body2">seconds</Typography>
             </Grid>
         );
     }

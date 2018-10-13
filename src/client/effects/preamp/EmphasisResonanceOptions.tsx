@@ -21,7 +21,7 @@ export class EmphasisResonanceOptions extends React.Component<EmphasisResonanceO
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Resonance</Typography>
+                <Typography variant="body2">Resonance</Typography>
                 <Select value={this.props.resonance} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={EmphasisResonance.Low}>Low</MenuItem>
                     <MenuItem value={EmphasisResonance.MidLow}>Mid-Low</MenuItem>

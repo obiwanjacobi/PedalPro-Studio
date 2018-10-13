@@ -23,7 +23,7 @@ export class TapTempoDivisionOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>{this.props.label}</Typography>
+                <Typography variant="body2">{this.props.label}</Typography>
                 <Select value={this.props.division} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={TapTempoDivision.Quarter}>1/4</MenuItem>
                     <MenuItem value={TapTempoDivision.Eighth}>1/8</MenuItem>

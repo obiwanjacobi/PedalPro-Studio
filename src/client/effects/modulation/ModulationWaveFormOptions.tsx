@@ -22,7 +22,7 @@ export class ModulationWaveFormOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Wave</Typography>
+                <Typography variant="body2">Wave</Typography>
                 <Select value={this.props.wave} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={ModulationWaveForm.Sine}>Sine</MenuItem>
                     <MenuItem value={ModulationWaveForm.Triangle}>Triangle</MenuItem>

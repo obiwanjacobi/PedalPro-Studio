@@ -161,7 +161,7 @@ export abstract class VirtualList<T, P extends VirtualListProps<T>, S> extends R
     protected renderEmpty() {
         return (
             <div style={{...containerStyles, textAlign: "center"}}>
-                <Typography>No items.</Typography>
+                <Typography variant="body2">No items.</Typography>
             </div>
         );
     }

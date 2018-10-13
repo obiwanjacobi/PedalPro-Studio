@@ -32,7 +32,7 @@ export class FlangerSettings extends React.Component<FlangerSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Flanger</Typography>
+                    <Typography variant="h5">Flanger</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <FlangerHarmonicsOptions 

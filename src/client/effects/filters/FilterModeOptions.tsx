@@ -21,7 +21,7 @@ export class FilterModeOptions extends React.Component<FilterModeOptionsAllProps
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Mode</Typography>
+                <Typography variant="body2">Mode</Typography>
                 <Select value={this.props.mode} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={FilterMode.Auto}>Auto</MenuItem>
                     <MenuItem value={FilterMode.Equalizer}>Equalizer</MenuItem>

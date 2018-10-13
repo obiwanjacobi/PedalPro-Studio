@@ -10,6 +10,9 @@ const appTheme = createMuiTheme({
       secondary: amber,
       error: orange,
     },
+    typography: {
+        useNextVariants: true
+    },
     overrides: {
         MuiCheckbox: {
             checked: {

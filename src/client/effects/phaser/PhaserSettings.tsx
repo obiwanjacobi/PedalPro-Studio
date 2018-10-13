@@ -30,7 +30,7 @@ export class PhaserSettings extends React.Component<PhaserSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Phaser</Typography>
+                    <Typography variant="h5">Phaser</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <TempoSpeedSlider value={this.props.phaser.tempo} onChange={this.onChangeTempo} />

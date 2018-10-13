@@ -23,7 +23,7 @@ export class DistortionFetSettings extends React.Component<DistortionFetSettings
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Pre Amp - Distortion (jfet)</Typography>
+                    <Typography variant="h5">Pre Amp - Distortion (jfet)</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                 <PercentSlider label="Contour" value={this.props.distortion.contour} onChange={this.onChangeContour} />

@@ -32,8 +32,8 @@ export class UserNotificationItem extends
                     padding: "16 0 0 12"}}
             >
                 {this.renderNotificationType(this.props.notification)}
-                <Typography>{this.props.notification.message}</Typography>
-                <Typography>{this.props.notification.context}</Typography>
+                <Typography variant="body2">{this.props.notification.message}</Typography>
+                <Typography variant="body2">{this.props.notification.context}</Typography>
                 <IconButton onClick={this.remove}>
                     <Clear />
                 </IconButton>

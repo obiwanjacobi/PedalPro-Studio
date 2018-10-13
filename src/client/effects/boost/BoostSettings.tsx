@@ -23,7 +23,7 @@ export class BoostSettings extends React.Component<BoostSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Boost</Typography>
+                    <Typography variant="h5">Boost</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <BoostGainSlider 

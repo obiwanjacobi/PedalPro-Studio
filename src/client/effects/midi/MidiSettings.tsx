@@ -33,7 +33,7 @@ export class MidiSettings extends React.Component<MidiSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Midi Routing</Typography>
+                    <Typography variant="h5">Midi Routing</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <FilterRoutingOptions routing={this.routing.filter} onChange={this.onChangeFilter} />

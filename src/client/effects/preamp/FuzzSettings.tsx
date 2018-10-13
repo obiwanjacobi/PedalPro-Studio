@@ -24,7 +24,7 @@ export class FuzzSettings extends React.Component<FuzzSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Pre Amp - Fuzz</Typography>
+                    <Typography variant="h5">Pre Amp - Fuzz</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <ToggleSwitch

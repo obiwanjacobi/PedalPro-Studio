@@ -26,7 +26,7 @@ export class DistortionSettings extends React.Component<DistortionSettingsAllPro
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Distortion</Typography>
+                    <Typography variant="h5">Distortion</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <ToggleSwitch 

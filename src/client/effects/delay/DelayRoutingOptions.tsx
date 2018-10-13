@@ -22,7 +22,7 @@ export class DelayRoutingOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Delay Routing</Typography>
+                <Typography variant="body2">Delay Routing</Typography>
                 <Select value={this.props.routing} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={DelayRouting.None}>None</MenuItem>
                     <MenuItem value={DelayRouting.Left}>Left</MenuItem>

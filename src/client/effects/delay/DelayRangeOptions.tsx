@@ -22,13 +22,13 @@ export class DelayRangeOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Range</Typography>
+                <Typography variant="body2">Range</Typography>
                 <Select value={this.props.range} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={DelayRange.Short}>Short: 23-99</MenuItem>
                     <MenuItem value={DelayRange.Medium}>Medium: 40-409</MenuItem>
                     <MenuItem value={DelayRange.Long}>Long: 61-614</MenuItem>
                 </Select>
-                <Typography>ms</Typography>
+                <Typography variant="body2">ms</Typography>
             </Grid>
         );
     }

@@ -21,7 +21,7 @@ export class DspTypeOptions extends React.Component<DspTypeOptionsAllProps> {
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Mode</Typography>
+                <Typography variant="body2">Mode</Typography>
                 <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={DspType.MedHall}>Medium Hall</MenuItem>
                     <MenuItem value={DspType.BigHall}>Big Hall</MenuItem>

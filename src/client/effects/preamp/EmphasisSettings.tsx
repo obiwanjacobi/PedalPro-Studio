@@ -32,7 +32,7 @@ export class EmphasisSettings extends React.Component<EmphasisSettingsAllProps> 
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Pre Amp - Emphasis</Typography>
+                    <Typography variant="h5">Pre Amp - Emphasis</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <ToggleSwitch

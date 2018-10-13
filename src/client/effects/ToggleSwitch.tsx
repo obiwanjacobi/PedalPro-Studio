@@ -20,10 +20,10 @@ export class ToggleSwitch extends React.Component<ToggleSwitchAllProps> {
     public render() {
         return (
             <Grid container={true} direction="row" alignItems="center">
-                <Typography>{this.props.label}</Typography>
+                <Typography variant="body2">{this.props.label}</Typography>
                 <Switch checked={this.props.checked} onChange={this.onChange} />
                 {this.props.unit &&
-                    <Typography>{this.props.unit}</Typography>}
+                    <Typography variant="body2">{this.props.unit}</Typography>}
             </Grid>
         );
     }

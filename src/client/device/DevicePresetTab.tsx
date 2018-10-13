@@ -93,7 +93,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     movePresets={this.actions.movePresets}
                     deletePresets={this.actions.deletePresets}
                     canMoveDown={this.canMoveDown}
-                    empty={<Typography>
+                    empty={<Typography variant="body2">
                         Press <Download/> to retrieve the presets.
                     </Typography>}
                 />

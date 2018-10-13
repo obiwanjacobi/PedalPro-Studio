@@ -29,7 +29,7 @@ export class Filter2Settings extends React.Component<Filter2SettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Filter 2</Typography>
+                    <Typography variant="h5">Filter 2</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <Filter2TypeOptions type={this.props.filter.type} onChange={this.onChangeType} />

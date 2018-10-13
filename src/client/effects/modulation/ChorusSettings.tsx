@@ -33,7 +33,7 @@ export class ChorusSettings extends React.Component<ChorusSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Chorus</Typography>
+                    <Typography variant="h5">Chorus</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <ToggleSwitch label="Bright" checked={this.props.chorus.bright} onChange={this.onChangeBright} />

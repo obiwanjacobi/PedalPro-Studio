@@ -22,7 +22,7 @@ export class FlangerHarmonicsOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Harmonics</Typography>
+                <Typography variant="body2">Harmonics</Typography>
                 <Select value={this.props.harmonics} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={Harmonics.Odd}>Odd (water)</MenuItem>
                     <MenuItem value={Harmonics.Even}>Even (jet)</MenuItem>

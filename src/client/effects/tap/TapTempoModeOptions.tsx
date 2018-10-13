@@ -22,7 +22,7 @@ export class TapTempoModeOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Tap Tempo Mode</Typography>
+                <Typography variant="body2">Tap Tempo Mode</Typography>
                 <Select value={this.props.mode} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={TapTempoMode.None}>Off</MenuItem>
                     <MenuItem value={TapTempoMode.Master}>Master</MenuItem>

@@ -12,38 +12,20 @@ export class SettingsValueLayout extends React.Component<SettingsValueLayoutProp
     
     public render() {
         return (
-            <div>
-                <div>
-                    <Typography>{this.props.label}</Typography>
-                </div>
-                <div>
-                    {this.props.control}
-                </div>
-                <div style={{marginLeft: "auto", marginRight: "12px", textAlign: "right"}}>
-                    <Typography color="secondary" style={{display: "inline", marginRight: "8px"}}>
-                        {this.props.formattedValue}
-                    </Typography>
-                    <Typography style={{display: "inline"}}>{this.props.unit}</Typography>
-                </div>
-            </div>
-        );
-    }
-
-    public _render() {
-        return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography>{this.props.label}</Typography>
+                    <Typography variant="body2">{this.props.label}</Typography>
                 </Grid>
-                <Grid item={true} xs={12}>
+                <Grid item={true} xs={12} style={{padding: "16px"}}>
                     {this.props.control}
                 </Grid>
-                <Grid item={true} xs={10} />
-                <Grid item={true} xs={1}>
-                    <Typography color="secondary">{this.props.formattedValue}</Typography>
-                </Grid>
-                <Grid item={true} xs={1}>
-                    <Typography>{this.props.unit}</Typography>
+                <Grid item={true} xs={12}>
+                    <div style={{marginLeft: "auto", marginRight: "12px", textAlign: "right"}}>
+                        <Typography variant="body2" color="secondary" style={{display: "inline", marginRight: "8px"}}>
+                            {this.props.formattedValue}
+                        </Typography>
+                        <Typography variant="body2" style={{display: "inline"}}>{this.props.unit}</Typography>
+                    </div>
                 </Grid>
             </Grid>
         );

@@ -27,7 +27,7 @@ export class Filter1Settings extends React.Component<Filter1SettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Filter 1</Typography>
+                    <Typography variant="h5">Filter 1</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <FilterResonanceSlider resonance={this.props.filter.resonance} onChange={this.onChangeResonance} />

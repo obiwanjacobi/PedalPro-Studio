@@ -217,13 +217,13 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     private renderEmpty(): React.ReactNode {
         if (this.banks.length > 0) {
             return (
-                <Typography>
+                <Typography variant="body2">
                     Select a bank (left) to see its presets.
                 </Typography>
             );
         } else {
             return (
-                <Typography>
+                <Typography variant="body2">
                     Press <Download/> to retrieve the preset banks.
                 </Typography>
             );

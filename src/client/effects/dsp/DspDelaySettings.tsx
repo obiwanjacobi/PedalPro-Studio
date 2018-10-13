@@ -40,7 +40,7 @@ export class DspDelaySettings extends React.Component<DspDelaySettingsAllProps> 
             <Paper elevation={8} square={true} style={{padding: "8px"}}>
                 <Grid container={true}>
                     <Grid item={true} xs={12}>
-                        <Typography variant="subheading">{this.props.label}</Typography>
+                        <Typography variant="subtitle1">{this.props.label}</Typography>
                     </Grid>
                     <Grid item={true} xs={12}>
                         <DspSlider

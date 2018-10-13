@@ -26,7 +26,7 @@ export class TapTempoSettings extends React.Component<TapTempoSettingsAllProps> 
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Tap Tempo</Typography>
+                    <Typography variant="h5">Tap Tempo</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <TapTempoModeOptions mode={this.props.tap.mode} onChange={this.onChangeMode} />

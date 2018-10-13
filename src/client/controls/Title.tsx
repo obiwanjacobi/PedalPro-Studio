@@ -16,11 +16,11 @@ export class Title extends React.Component<TitleProps> {
         return (
             <div style={{margin: "0 auto"}}>
                 {this.props.pre && 
-                    <Typography variant="subheading" style={{display: "inline-block"}}>{this.props.pre}</Typography>}
+                    <Typography variant="subtitle1" style={{display: "inline-block"}}>{this.props.pre}</Typography>}
                 {this.props.pre && this.props.caption && 
                     <div style={{display: "inline-block", width: "12px"}}/>}
                 {this.props.caption &&
-                    <Typography variant="title" style={{display: "inline-block"}}>{this.props.caption}</Typography>}
+                    <Typography variant="h6" style={{display: "inline-block"}}>{this.props.caption}</Typography>}
                 {this.props.caption && this.props.sub &&
                     <div style={{display: "inline-block", width: "12px"}}/>}
                 {this.props.sub &&

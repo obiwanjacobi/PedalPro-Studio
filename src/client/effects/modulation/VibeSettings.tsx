@@ -31,7 +31,7 @@ export class VibeSettings extends React.Component<VibeSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Vibe</Typography>
+                    <Typography variant="h5">Vibe</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <ToggleSwitch label="Boost" checked={this.props.vibe.boost} onChange={this.onChangeBoost} />

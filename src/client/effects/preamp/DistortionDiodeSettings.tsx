@@ -28,7 +28,7 @@ export class DistortionDiodeSettings extends React.Component<DistortionDiodeSett
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Pre Amp - Distortion (diode)</Typography>
+                    <Typography variant="h5">Pre Amp - Distortion (diode)</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <DistortionDiodeTypeOptions type={this.props.distortion.type} onChange={this.onChangeType} />

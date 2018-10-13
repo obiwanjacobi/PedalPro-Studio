@@ -22,7 +22,7 @@ export class ModulationModeOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Modulation Mode</Typography>
+                <Typography variant="body2">Modulation Mode</Typography>
                 <Select value={this.props.mode} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={ModulationMode.None}>None</MenuItem>
                     <MenuItem value={ModulationMode.Chorus}>Chorus</MenuItem>

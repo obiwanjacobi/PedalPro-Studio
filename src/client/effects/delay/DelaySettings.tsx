@@ -35,7 +35,7 @@ export class DelaySettings extends React.Component<DelaySettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Delay</Typography>
+                    <Typography variant="h5">Delay</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <DelayRangeOptions range={this.props.delay.range} onChange={this.onChangeRange} />

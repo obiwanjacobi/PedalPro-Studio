@@ -21,7 +21,7 @@ export class CompressorAttackOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Attack</Typography>
+                <Typography variant="body2">Attack</Typography>
                 <Select value={this.props.attack} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={CompressorAttackTime.ms3}>3</MenuItem>
                     <MenuItem value={CompressorAttackTime.ms8}>8</MenuItem>
@@ -32,7 +32,7 @@ export class CompressorAttackOptions
                     <MenuItem value={CompressorAttackTime.ms57}>57</MenuItem>
                     <MenuItem value={CompressorAttackTime.ms80}>80</MenuItem>
                 </Select>
-                <Typography>ms</Typography>
+                <Typography variant="body2">milliseconds</Typography>
             </Grid>
         );
     }

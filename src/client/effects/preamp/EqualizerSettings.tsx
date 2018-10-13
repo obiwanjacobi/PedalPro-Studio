@@ -29,7 +29,7 @@ export class EqualizerSettings extends React.Component<EqualizerSettingsAllProps
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Pre Amp - Equalizer</Typography>
+                    <Typography variant="h5">Pre Amp - Equalizer</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <AttenuationGainSlider

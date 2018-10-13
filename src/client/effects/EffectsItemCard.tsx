@@ -56,7 +56,7 @@ export class EffectsItemCard extends React.Component<EffectsItemCardAllProps> {
     }
 
     private renderAvatar(): React.ReactNode {
-        return (this.props.selected ? <Avatar style={{background: "orange"}}>{this.props.avatar}</Avatar> :
+        return (this.props.selected ? <Avatar style={{background: "#FFC107"}}>{this.props.avatar}</Avatar> :
             <Avatar>{this.props.avatar}</Avatar>);
     }
     private get showContent(): boolean {

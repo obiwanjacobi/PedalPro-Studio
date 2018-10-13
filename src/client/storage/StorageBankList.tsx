@@ -42,7 +42,7 @@ export class StorageBankList extends VirtualList<StorageBank, StorageBankListAll
     protected renderEmpty() {
         return (
             <div style={{textAlign: "center"}}>
-                <Typography>No banks found.</Typography>
+                <Typography variant="body2">No banks found.</Typography>
             </div>
         );
     }   

@@ -21,7 +21,7 @@ export class DistortionLowPassOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Low-pass Filter</Typography>
+                <Typography variant="body2">Low-pass Filter</Typography>
                 <Select value={this.props.value} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={DistortionLowPass.Low}>Low</MenuItem>
                     <MenuItem value={DistortionLowPass.Mid}>Mid</MenuItem>

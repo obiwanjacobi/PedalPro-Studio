@@ -21,7 +21,7 @@ export class DistortionDiodeTypeOptions extends React.Component<DistortionDiodeT
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Type</Typography>
+                <Typography variant="body2">Type</Typography>
                 <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     {this.renderMenuItem(DistortionDiodeType.Guvnor)}
                     {this.renderMenuItem(DistortionDiodeType.DumbleDrive)}

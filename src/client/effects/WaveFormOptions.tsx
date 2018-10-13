@@ -21,7 +21,7 @@ export class WaveFormOptions extends React.Component<WaveFormOptionsAllProps> {
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Wave</Typography>
+                <Typography variant="body2">Wave</Typography>
                 <Select value={this.props.wave} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={WaveForm.Sine}>Sine</MenuItem>
                     <MenuItem value={WaveForm.Triangle}>Triangle</MenuItem>

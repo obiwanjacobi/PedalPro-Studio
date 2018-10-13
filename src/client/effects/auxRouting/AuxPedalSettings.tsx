@@ -23,7 +23,7 @@ export class AuxPedalSettings extends React.Component<AuxPedalSettingsAllProps> 
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Aux Pedals</Typography>
+                    <Typography variant="h5">Aux Pedals</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <AuxPedalRoutingOptions routing={this.props.aux.routing} onChange={this.onChange} />

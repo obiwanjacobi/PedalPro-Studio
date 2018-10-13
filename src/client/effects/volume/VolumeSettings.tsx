@@ -24,7 +24,7 @@ export class VolumeSettings extends React.Component<VolumeSettingsAllProps> {
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Volume</Typography>
+                    <Typography variant="h5">Volume</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <PercentSlider

@@ -21,7 +21,7 @@ export class CompressorTypeOptions
     public render() {
         return (
             <Grid container={true} alignItems="center">
-                <Typography>Type</Typography>
+                <Typography variant="body2">Type</Typography>
                 <Select value={this.props.type} onChange={this.onChange} style={{ margin: "8px"}}>
                     <MenuItem value={CompressorModelType.TubeGen}>Tube Compression</MenuItem>
                     <MenuItem value={CompressorModelType.VariMu}>Tube Sustain</MenuItem>

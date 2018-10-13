@@ -31,7 +31,7 @@ export class CompressorSettings extends React.Component<CompressorSettingsAllPro
         return (
             <Grid container={true}>
                 <Grid item={true} xs={12}>
-                    <Typography variant="headline">Compressor</Typography>
+                    <Typography variant="h5">Compressor</Typography>
                 </Grid>
                 <Grid item={true} xs={12}>
                     <CompressorTypeOptions
