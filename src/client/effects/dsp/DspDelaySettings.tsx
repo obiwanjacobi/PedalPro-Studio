@@ -71,6 +71,7 @@ export class DspDelaySettings extends React.Component<DspDelaySettingsAllProps> 
                     <Grid item={true} xs={12}>
                         <DspSlider
                             label="Level" 
+                            unit="%"
                             min={0}
                             max={100}
                             value={this.props.delay.level} 

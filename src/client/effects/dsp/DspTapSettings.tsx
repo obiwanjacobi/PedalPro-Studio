@@ -35,6 +35,7 @@ export class DspTapSettings extends React.Component<DspTapSettingsAllProps> {
                     <Grid item={true} xs={12}>
                         <DspSlider
                             label="Tempo" 
+                            unit="bmp"
                             min={72}
                             max={326}
                             value={this.props.tap.tempo} 
@@ -44,6 +45,7 @@ export class DspTapSettings extends React.Component<DspTapSettingsAllProps> {
                     <Grid item={true} xs={12}>
                         <DspSlider
                             label="Frequency"
+                            unit="Hz"
                             min={401}
                             max={20159}
                             value={this.props.tap.frequency}
@@ -63,6 +65,7 @@ export class DspTapSettings extends React.Component<DspTapSettingsAllProps> {
                         <Grid item={true} xs={12}>
                             <DspSlider
                                 label="Tap 1" 
+                                unit="%"
                                 min={0}
                                 max={100}
                                 value={this.props.tap.tap1} 
@@ -73,6 +76,7 @@ export class DspTapSettings extends React.Component<DspTapSettingsAllProps> {
                         <Grid item={true} xs={12}>
                             <DspSlider
                                 label="Tap 2" 
+                                unit="%"
                                 min={0}
                                 max={100}
                                 value={this.props.tap.tap2} 
@@ -83,6 +87,7 @@ export class DspTapSettings extends React.Component<DspTapSettingsAllProps> {
                         <Grid item={true} xs={12}>
                             <DspSlider
                                 label="Tap 3" 
+                                unit="%"
                                 min={0}
                                 max={100}
                                 value={this.props.tap.tap3} 
@@ -93,6 +98,7 @@ export class DspTapSettings extends React.Component<DspTapSettingsAllProps> {
                         <Grid item={true} xs={12}>
                             <DspSlider
                                 label="Tap 4" 
+                                unit="%"
                                 min={0}
                                 max={100}
                                 value={this.props.tap.tap4} 

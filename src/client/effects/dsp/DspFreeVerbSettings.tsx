@@ -37,7 +37,8 @@ export class DspFreeVerbSettings extends React.Component<DspFreeVerbSettingsAllP
                     </Grid>
                     <Grid item={true} xs={12}>
                         <DspSlider
-                            label="High-pass Frequency" 
+                            label="High-pass Frequency"
+                            unit="Hz"
                             min={98}
                             max={20159}
                             value={this.props.freeVerb.hiPassFrequency} 

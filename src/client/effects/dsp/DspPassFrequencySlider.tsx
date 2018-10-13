@@ -26,7 +26,7 @@ export class DspPassFrequencySlider
         return (
             <SettingsValueLayout
                 formattedValue={this.formattedValue}
-                unit={""}
+                unit={"Hz"}
                 label={this.props.label}
                 control={
                     <Slider 

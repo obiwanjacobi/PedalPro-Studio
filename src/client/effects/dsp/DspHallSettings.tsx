@@ -50,6 +50,7 @@ export class DspHallSettings
                     <Grid item={true} xs={12}>
                         <DspSlider
                             label="Low-pass Frequency"
+                            unit="Hz"
                             min={98}
                             max={20159}
                             value={this.props.hall.lowPassFrequency}
@@ -59,6 +60,7 @@ export class DspHallSettings
                     <Grid item={true} xs={12}>
                         <DspSlider
                             label="High-pass Frequency" 
+                            unit="Hz"
                             min={98}
                             max={20159}
                             value={this.props.hall.hiPassFrequency} 

@@ -1,5 +1,7 @@
 # PedalPro Studio - TODO
 
+- Test if all settings values for all effects reflect the value range on the device.
+
 ## Release/Deployemnt Issues
 
 - make Mac deployment https://www.techplustips.com/install-macos-mojave-virtualbox/
@@ -34,6 +36,7 @@
 
 ## Bugs
 
+- Left panes in Storage (banks) and Edit Effects need to be limited in width (max-width).
 - Move storage preset errors out when target index was deleted.
 - Storage banks are only saved when they have presets.
 - Device Presets do not have 'meta' set (undefined).
