@@ -11,16 +11,16 @@ const commonConfig = {
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        enforce: "pre",
-        loader: "tslint-loader",
-        options: {
-          typeCheck: true,
-          emitErrors: true
-        }
-      },
+      // {
+      //   test: /\.tsx?$/,
+      //   exclude: /node_modules/,
+      //   enforce: "pre",
+      //   loader: "tslint-loader",
+      //   options: {
+      //     typeCheck: true,
+      //     emitErrors: true
+      //   }
+      // },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
@@ -36,16 +36,18 @@ const commonConfig = {
     extensions: [".js", ".ts", ".tsx", ".jsx", ".json", ".node"],
   },
   externals: {
-    "node-hid": 'commonjs node-hid'
+    "node-hid": "commonjs node-hid"
   }
 };
 
 module.exports = [
     Object.assign({
+        mode: "production",
         target: "electron-main",
         entry: { program: path.join(__dirname, "src", "Startup.ts") }
     }, commonConfig),
     Object.assign({
+        mode: "production",
         target: "electron-renderer",
         entry: { app: path.join(__dirname, "src", "Autostart.ts") }
     }, commonConfig)

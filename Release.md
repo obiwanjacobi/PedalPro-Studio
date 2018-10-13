@@ -27,6 +27,6 @@ to
 
 ## _npm_
 
-- `npm run build:production`
+- `npm run build:prod`
 - `npm run build:native`
 - `npm run release`

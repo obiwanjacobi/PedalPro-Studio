@@ -9,22 +9,21 @@ const commonConfig = {
     __dirname: false,
     __filename: false,
   },
-  devtool: "inline-source-map",
   module: {
     rules: [
+      // {
+      //   test: /\.tsx?$/,
+      //   exclude: /node_modules/,
+      //   enforce: "pre",
+      //   loader: "tslint-loader",
+      //   options: {
+      //     typeCheck: true,
+      //     emitErrors: true
+      //   }
+      // },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        enforce: "pre",
-        loader: "tslint-loader",
-        options: {
-          typeCheck: true,
-          emitErrors: true
-        }
-      },
-      {
-        test: /\.tsx?$/,
-        // exclude: /node_modules/,
         loader: "ts-loader"
       },
       {
@@ -42,13 +41,13 @@ const commonConfig = {
 };
 
 module.exports = [
+    // Object.assign({
+    //     mode: "production",
+    //     target: "electron-main",
+    //     entry: { program: path.join(__dirname, "src", "Startup.ts") }
+    // }, commonConfig),
     Object.assign({
-        mode: "development",
-        target: "electron-main",
-        entry: { program: path.join(__dirname, "src", "Startup.ts") }
-    }, commonConfig),
-    Object.assign({
-        mode: "development",
+        mode: "production",
         target: "electron-renderer",
         entry: { app: path.join(__dirname, "src", "Autostart.ts") }
     }, commonConfig)
