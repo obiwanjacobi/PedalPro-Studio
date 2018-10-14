@@ -24,12 +24,12 @@ export class UserNotificationItem extends
         return (
             <div
                 style={{
-                    display: "flex", 
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "16 0 0 12"}}
+                display: "flex", 
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                paddingLeft: "16px"}}
             >
                 {this.renderNotificationType(this.props.notification)}
                 <Typography variant="body2">{this.props.notification.message}</Typography>

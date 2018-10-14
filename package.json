@@ -12,6 +12,8 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.dev.config.js",
     "build:prod": "./node_modules/.bin/webpack --config webpack.prod.config.js",
+    "build:prod:prog": "./node_modules/.bin/webpack --config webpack.prod.prog.config.js",
+    "build:prod:app": "./node_modules/.bin/webpack --config webpack.prod.app.config.js",
     "test": "jest",
     "test-electron": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest",
     "test-w": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest --watchAll",

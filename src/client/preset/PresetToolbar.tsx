@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IconButton, Badge } from "@material-ui/core";
+import { IconButton, Badge, Hidden } from "@material-ui/core";
 import { Delete, ImportExport } from "@material-ui/icons";
 import { Download, Upload, ContentPaste, ContentCopy } from "mdi-material-ui";
 
@@ -14,7 +14,7 @@ export interface PresetToolbarProps {
     uploadCount?: number;
     enableMove?: boolean;
 }
-export interface PresetToolbarEvents { 
+export interface PresetToolbarEvents {
     onCopy?(): void;
     onPaste?(): void;
     onDelete?(): void;
@@ -23,7 +23,7 @@ export interface PresetToolbarEvents {
     onMove?(): void;
 }
 
-export type PresetToolbarAllProps = 
+export type PresetToolbarAllProps =
     PresetToolbarEvents & PresetToolbarProps & SelectAllButtonProps & SelectAllButtonEvents;
 
 export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
@@ -40,27 +40,27 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
                     onSelectAllChanged={this.props.onSelectAllChanged}
                 />
                 {this.props.onCopy &&
-                <IconButton disabled={!this.props.enableCopy} onClick={this.props.onCopy}>
-                    <ContentCopy />
-                </IconButton>}
+                    <IconButton disabled={!this.props.enableCopy} onClick={this.props.onCopy}>
+                        <ContentCopy />
+                    </IconButton>}
                 {this.props.onPaste &&
-                <IconButton disabled={!this.props.enablePaste} onClick={this.props.onPaste}>
-                    <ContentPaste />
-                </IconButton>}
+                    <IconButton disabled={!this.props.enablePaste} onClick={this.props.onPaste}>
+                        <ContentPaste />
+                    </IconButton>}
                 {this.props.onMove &&
-                <IconButton disabled={!this.props.enableMove} onClick={this.props.onMove}>
-                    <ImportExport />
-                </IconButton>}
+                    <IconButton disabled={!this.props.enableMove} onClick={this.props.onMove}>
+                        <ImportExport />
+                    </IconButton>}
                 {this.props.onDelete &&
-                <IconButton disabled={!this.props.enableDelete} onClick={this.props.onDelete}>
-                    <Delete />
-                </IconButton>}
+                    <IconButton disabled={!this.props.enableDelete} onClick={this.props.onDelete}>
+                        <Delete />
+                    </IconButton>}
                 {this.props.onDownload &&
-                <IconButton disabled={!this.props.enableDownload} onClick={this.props.onDownload}>
-                    <Download />
-                </IconButton>}
+                    <IconButton disabled={!this.props.enableDownload} onClick={this.props.onDownload}>
+                        <Download />
+                    </IconButton>}
                 {this.props.onUpload ? (
-                    this.enableUpload ? 
+                    this.enableUpload ?
                         <Badge badgeContent={this.uploadCount} color="default">
                             <IconButton onClick={this.props.onUpload}>
                                 <Upload />
@@ -70,7 +70,11 @@ export class PresetToolbar extends React.PureComponent<PresetToolbarAllProps> {
                             <Upload />
                         </IconButton>
                 ) : null}
-                <img src="../assets/VintageRevolutionLogoText.jpg" alt="logo" className="vrlogo" />
+                <Hidden smDown={true}>
+                    <div style={{ marginRight: "0px", marginLeft: "auto" }}>
+                        <img src="../assets/VintageRevolutionLogoText.jpg" alt="logo" style={{ height: "62px" }} />
+                    </div>
+                </Hidden>
             </ApplicationToolbar>
         );
     }

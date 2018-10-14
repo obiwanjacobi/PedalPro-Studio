@@ -17,12 +17,6 @@ div[tabindex]:focus {
   height: 100%;
 }
 
-.vrlogo {
-  height: 48px;
-  right: 0;
-  position: absolute;
-}
-
 .loading {
   height: 100%;
   width: 100%;

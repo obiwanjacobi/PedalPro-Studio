@@ -23,7 +23,8 @@ export interface StorageBankViewState { }
 
 const styles = {
     small: { 
-        marginLeft: "8px",
+        marginLeft: "auto",
+        marginRight: "8px",
         width: 34,
         height: 20,
     }

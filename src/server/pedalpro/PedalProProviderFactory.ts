@@ -25,14 +25,17 @@ export class PedalProProviderFactory {
                 if (Configuration.development.simulate === PedalProDeviceModel.PedalPro) {
                     const filePath = Path.join(Program.locations.application, Configuration.pedalpro.factoryFile);
                     this.offlineProvider = new OfflinePresetProvider(filePath);
-                } else {
-                // if (Configuration.development.simulate === PedalProDeviceModel.PedalProEx) {
+                } else if (Configuration.development.simulate === PedalProDeviceModel.PedalProEx) {
                     const filePathEx = Path.join(Program.locations.application, Configuration.pedalpro.factoryFileEx);
                     this.offlineProvider = new OfflinePresetProviderEx(filePathEx);
                 }
             }
 
-            return this.offlineProvider;
+            if (this.offlineProvider) {
+                return this.offlineProvider;
+            }
+
+            throw new Error("No Device was connected and no Simulation configuration settings was found.");
         }
 
         switch (deviceId.model) {
@@ -60,8 +63,7 @@ export class PedalProProviderFactory {
                     supported: true,
                     presetCount: 500
                 };
-            } else {
-            // if (Configuration.development.simulate === PedalProDeviceModel.PedalProEx) {
+            } else if (Configuration.development.simulate === PedalProDeviceModel.PedalProEx) {
                 return {
                     vendor: "Development",
                     device: "Offline",
@@ -73,7 +75,11 @@ export class PedalProProviderFactory {
             }
         }
 
-        return deviceId;
+        if (deviceId) {
+            return deviceId;
+        }
+
+        throw new Error("No Device was connected and no Simulation configuration settings was found.");
     }
 
     private static getDeviceIdentityInternal(

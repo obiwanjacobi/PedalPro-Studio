@@ -23,6 +23,8 @@
 - [Done] Remove fireXxxx from PresetToolbar - use props.Xxxx directly
 - [Done] Fix layout of move dialog
 - [Done] Fix layout of paste dialogs (device/storage)
+- [Done] Fix layout (padding) of notification popup.
+- [Done] VR logo should be hidden when width too small.
 - drag & drop (react-sortable-hoc)
 - undo preset name text should change to redo when history.name is restored. redo will then simply copy in the current preset name.
 - Ask conformation before removing changed presets (delete, download).
@@ -31,11 +33,13 @@
 - Add locallization, translated strings.
 - Storage presets should be shown in the same order as the banks they belong to.
 - PresetView should have sorting (byIndex, byName, asc/desc).
-- Fix layout (padding) of notification popup.
 - Paste Empty shows garbage-can (x) target in the preview list.
+- Paste (and Move) dlg should have option to perform action on a selected subset and not close dlg.
 
 ## Bugs
 
+- Selected PresetListItems are a fraction smaller in height.
+- Edit Effects on Factory presets must be read-only (all settings disabled).
 - Left panes in Storage (banks) and Edit Effects need to be limited in width (max-width).
 - Move storage preset errors out when target index was deleted.
 - Storage banks are only saved when they have presets.
@@ -78,14 +82,14 @@ All device presets are automatically saved when uploaded to the device.
 - upload a complete preset (160b for PPE) and make that active (load) - but not store into eprom.
 - [PPE] exit button does not exit USB Remote Terminal mode (PP does it - but that is also a little too sensitive - bug?)
 - [PPE] DSP parameters: navigation should work the same as other settings (1/x) (don't use Exit)
-- open-source manual text so I can refernce it in the app (also make typo-changes => pull request).
+- open-source manual text so I can reference it in the app (also make typo-changes => pull request).
+- Supply raw artwork for better integration.
 
 ## Code
 
-- [Done] react-redux connect method: investigate
-- dense on List does not work when a checkbox is in ListItem https://github.com/mui-org/material-ui/issues/9274
-- [Fixed] Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
 - reorderable/drag&drop list: https://gist.github.com/jlroettger/2d6d7ae572f985fa176c27a63cadf292
+- [Done] react-redux connect method: investigate
+- [Fixed] Vertical Scrollbars wrong on tabs. (Split)Pane is too big and runs behind the tabs-control.
 
 ## performance
 
