@@ -14,6 +14,11 @@ export type EffectComponentName = {
 
 export interface EffectState {
     /**
+     * Indicates if the editor can write.
+     */
+    readonly: boolean;
+
+    /**
      * The Preset being edited.
      */
     preset: Preset;

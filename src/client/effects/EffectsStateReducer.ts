@@ -1,4 +1,4 @@
-import { ApplicationDocument } from "../ApplicationDocument";
+import { ApplicationDocument, PresetCollectionType } from "../ApplicationDocument";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
 import { Preset } from "../preset/Preset";
 import { PresetBuilder, PresetArrayBuilder } from "../preset/PresetBuilder";
@@ -19,6 +19,9 @@ function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction
         const effectsOrEx = selectEffect(makeWorkingCopy(action.preset.effects), selected.effectName);
 
         return { ...state, editEffects: { 
+            readonly: 
+                !(action.preset.source === PresetCollectionType.device ||
+                  action.preset.source === PresetCollectionType.storage),
             preset: action.preset, 
             effectsOrEx: effectsOrEx, 
             selected: selected
@@ -30,6 +33,10 @@ function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction
 function reduceSaveEffects(state: ApplicationDocument, _: SaveEffectsAction): ApplicationDocument {
     if (state.editEffects && 
         state.editEffects.preset) {
+
+        if (state.editEffects.readonly) {
+            return state;
+        }
 
         // A copy of the effects was made, compare-by-value recursively to determine if anything has changed
         if (compareEffects(state.editEffects.preset.effects, state.editEffects.effectsOrEx)) {
@@ -60,6 +67,7 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
         state.editEffects.effectsOrEx) {
         if (action.effects) {
             return { ...state, editEffects: { 
+                readonly: state.editEffects.readonly,
                 preset: state.editEffects.preset, 
                 effectsOrEx: mergeEffects(<Effects> state.editEffects.effectsOrEx, action.effects),
                 selected: state.editEffects.selected
@@ -72,6 +80,7 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
             // make sure the data structure exists for the selected dsp type/mode
             if (action.effectsEx.dsp && isNullForType(effectsEx.dsp, action.effectsEx.dsp.type)) {
                 return { ...state, editEffects: { 
+                    readonly: state.editEffects.readonly,
                     preset: state.editEffects.preset, 
                     effectsOrEx: mergeEffectsEx(effectsEx, action.effectsEx, 
                                                 EffectsExBuilder.createForDspType(action.effectsEx.dsp.type)),
@@ -80,6 +89,7 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
             }
 
             return { ...state, editEffects: { 
+                readonly: state.editEffects.readonly,
                 preset: state.editEffects.preset, 
                 effectsOrEx: mergeEffectsEx(effectsEx, action.effectsEx),
                 selected: state.editEffects.selected
@@ -98,6 +108,7 @@ function reduceSelectEffect(state: ApplicationDocument, action: SelectEffectActi
 
         return { ...state, 
             editEffects: { 
+                readonly: state.editEffects.readonly,
                 preset: state.editEffects.preset,
                 effectsOrEx: effectsOrEx,
                 selected: selected

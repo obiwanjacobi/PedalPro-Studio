@@ -22,6 +22,7 @@ import { RecursivePartial } from "../../TypeExtensions";
 
 type EffectsPageProps = {};
 type EffectsPageStoreProps = {
+    readonly: boolean,
     preset?: Preset;
     effects?: Effects;
     effectsEx?: EffectsEx;
@@ -59,9 +60,10 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                     <IconButton onClick={this.openDrawer}>
                         <Settings/>
                     </IconButton>
+                    {!this.props.readonly &&
                     <Button disabled={!this.effectsHasChanged} onClick={this.save}>
                         Save
-                    </Button>
+                    </Button>}
                 </ApplicationToolbar>
                 {this.props.effectsEx &&
                     <EffectsExView effectsEx={this.props.effectsEx} />}
@@ -127,12 +129,13 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: EffectsPageProps): EffectsPageStoreProps => {
         if (state.editEffects) {
             return  { 
+                readonly: state.editEffects.readonly,
                 preset: state.editEffects.preset,
                 effects: asEffects(state.editEffects.effectsOrEx) as Effects,
                 effectsEx: asEffectsEx(state.editEffects.effectsOrEx) as EffectsEx,
             };
         }
-        return {};
+        return { readonly: true };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsPageActions, EffectsPageProps>;
