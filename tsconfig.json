@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "importHelpers": true,
     "outDir": "app",
     "module": "commonjs",
     "target": "es5",
