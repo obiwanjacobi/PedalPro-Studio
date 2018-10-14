@@ -80,40 +80,29 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         });
     }
 
-    public reIndexPresets(startIndex: number, endIndex: number) {
-        this.throwIfIndexNotValid(startIndex);
-        this.throwIfIndexNotValid(endIndex);
-        const min = Math.min(startIndex, endIndex);
-        const max = Math.max(startIndex, endIndex);
-
-        for (let index = min; index <= max; index++) {
-            this.mutable[index] = PresetBuilder.modify(this.mutable[index], { index: index });
-        }
-    }
-
-    public movePresets(presetsToMove: Preset[], targetIndex: number) {
+    public movePresets(presetsToMove: Preset[], targetIndex: ModelPreset.PresetIndex) {
         if (presetsToMove.length === 0) { return; }
-        this.throwIfIndexNotValid(targetIndex);
-
         const sourceIndex = minPresetIndex(presetsToMove);
+        const arraySourceIndex = this.findArrayIndex(sourceIndex);
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
+        this.throwIfIndexNotValid(arrayTargetIndex);
 
         this.removeRange(presetsToMove, presetsAreEqual);
         this.insertRange(arrayTargetIndex, presetsToMove);
-        this.reIndexPresets(sourceIndex, targetIndex + presetsToMove.length - 1);
+        this.reIndexPresets(arraySourceIndex, arrayTargetIndex, presetsToMove.length);
     }
 
-    public swapPresets(presetsToSwap: Preset[], targetIndex: number) {
+    public swapPresets(presetsToSwap: Preset[], targetIndex: ModelPreset.PresetIndex) {
         if (presetsToSwap.length === 0) { return; }
-        this.throwIfIndexNotValid(targetIndex);
-        
         const sourceIndex = minPresetIndex(presetsToSwap);
+        const arraySourceIndex = this.findArrayIndex(sourceIndex);
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
+        this.throwIfIndexNotValid(arrayTargetIndex);
 
         this.removeRange(presetsToSwap, presetsAreEqual);
         const swappedPresets = this.mutable.splice(arrayTargetIndex, presetsToSwap.length, ...presetsToSwap);
-        this.insertRange(sourceIndex, swappedPresets);
-        this.reIndexPresets(sourceIndex, targetIndex + presetsToSwap.length - 1);
+        this.insertRange(arraySourceIndex, swappedPresets);
+        this.reIndexPresets(arraySourceIndex, arrayTargetIndex, presetsToSwap.length);
     }
 
     public acceptChanges() {
@@ -126,7 +115,18 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
             });
     }
 
-    private findArrayIndex(presetIndex: number): number {
+    private reIndexPresets(startIndex: number, endIndex: number, count: number) {
+        this.throwIfIndexNotValid(startIndex);
+        this.throwIfIndexNotValid(endIndex);
+        const min = Math.min(startIndex, endIndex);
+        const max = Math.max(startIndex, endIndex) + count - 1;
+
+        for (let index = min; index <= max; index++) {
+            this.mutable[index] = PresetBuilder.modify(this.mutable[index], { index: index });
+        }
+    }
+
+    private findArrayIndex(presetIndex: ModelPreset.PresetIndex): number {
         return this.mutable.findIndex(p => p.index === presetIndex);
     }
 }

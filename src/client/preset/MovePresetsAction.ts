@@ -1,14 +1,17 @@
 import { Preset } from "./Preset";
+import { PresetIndex } from "../../model/Preset";
 
 export interface MovePresetsAction {
     readonly type: "U/*/presets/[]";
 
     readonly presets: Preset[];
-    readonly targetIndex: number;
+    readonly targetIndex: PresetIndex;
     readonly swap: boolean;
 }
 
-export const createMovePresetsAction = (presets: Preset[], targetIndex: number, swap?: boolean): MovePresetsAction => {
+export const createMovePresetsAction = (
+    presets: Preset[], targetIndex: PresetIndex, swap?: boolean): MovePresetsAction => {
+
     return { 
         type: "U/*/presets/[]", 
         presets: presets, 
@@ -18,7 +21,7 @@ export const createMovePresetsAction = (presets: Preset[], targetIndex: number, 
 };
 
 export interface MovePresets {
-    movePresets(presets: Preset[], targetIndex: number, swap?: boolean): void;
+    movePresets(presets: Preset[], targetIndex: PresetIndex, swap?: boolean): void;
 }
 
 // used in display list

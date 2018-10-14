@@ -1,7 +1,7 @@
 import * as lodash from "lodash";
 
 import { numberToString } from "../../StringExtensions";
-import { Preset as ModelPreset } from "../../model/Preset";
+import { Preset as ModelPreset, PresetIndex } from "../../model/Preset";
 import { PresetTraits } from "../../model/PresetTraits";
 import { PresetMeta } from "../../model/PresetMeta";
 import { Preset } from "./Preset";
@@ -75,10 +75,10 @@ export function presetsAreEqual(preset1: Preset, preset2: Preset): boolean {
         presetsExceptIndexAreEqual(preset1, preset2);
 }
 
-export function minPresetIndex(presets: Preset[]): number {
+export function minPresetIndex(presets: Preset[]): PresetIndex {
     return presets.map(p => p.index).reduce((i1, i2) => Math.min(i1, i2));
 }
 
-export function maxPresetIndex(presets: Preset[]): number {
+export function maxPresetIndex(presets: Preset[]): PresetIndex {
     return presets.map(p => p.index).reduce((i1, i2) => Math.max(i1, i2));
 }

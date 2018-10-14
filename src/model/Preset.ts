@@ -2,6 +2,10 @@ import { Effects, EffectsEx } from "./Effects";
 import { PresetTraits } from "./PresetTraits";
 import { PresetMeta } from "./PresetMeta";
 
+// PedalPro => 0 - 500
+// PedalProEx => 0 - 400
+export type PresetIndex = number;
+
 export interface Preset {
     /**
      * Metadata about the preset.
@@ -11,7 +15,7 @@ export interface Preset {
     /**
      * The index or position of this preset in the collection (order).
      */
-    index: number;
+    index: PresetIndex;
 
     /**
      * The name of the preset - does not have to be unique.
