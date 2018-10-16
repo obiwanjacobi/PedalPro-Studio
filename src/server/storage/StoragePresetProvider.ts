@@ -1,5 +1,5 @@
 import { PresetProvider } from "../PresetProvider";
-import { Preset } from "../../model/Preset";
+import { Preset, PresetIndex } from "../../model/Preset";
 import { StorageManager } from "./StorageManager";
 import { StorageBankManager } from "./StorageBankManager";
 
@@ -20,7 +20,7 @@ export class StoragePresetProvider implements PresetProvider {
     }
 
     // @ts-ignore: optional ret val
-    public getPreset(presetIndex: number): Preset {
+    public getPreset(presetIndex: PresetIndex): Preset {
         const presets = this.getPresets();
         this.throwPresetIndexNotValid(presetIndex, presets.length);
         return presets[presetIndex];
@@ -56,14 +56,14 @@ export class StoragePresetProvider implements PresetProvider {
         this.cache = undefined;
     }
 
-    public deletePreset(presetIndex: number): Preset {
+    public deletePreset(presetIndex: PresetIndex): Preset {
         const preset = this.getPresets()[presetIndex];
         this.bankMgr.deletePreset(presetIndex);
         this.cache = undefined;
         return preset;
     }
 
-    private throwPresetIndexNotValid(presetIndex: number, count: number) {
+    private throwPresetIndexNotValid(presetIndex: PresetIndex, count: number) {
         throw new RangeError(`The Preset Index ${presetIndex} is not valid (0-${count - 1}).`);
     }
 }

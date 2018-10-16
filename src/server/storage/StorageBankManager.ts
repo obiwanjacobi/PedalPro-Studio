@@ -1,4 +1,4 @@
-import { Preset } from "../../model/Preset";
+import { Preset, PresetIndex } from "../../model/Preset";
 import { StorageManager } from "./StorageManager";
 
 export class StorageBankManager {
@@ -22,7 +22,7 @@ export class StorageBankManager {
         }
     }
 
-    public deletePreset(presetIndex: number) {
+    public deletePreset(presetIndex: PresetIndex) {
         this.storageMgr.deletePreset(this.bank, presetIndex);
     }
 }

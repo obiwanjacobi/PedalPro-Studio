@@ -1,3 +1,5 @@
+import * as Lodash from "lodash";
+
 import { PresetCollectionType } from "./ApplicationDocument";
 import { ItemUI } from "./ItemUI";
 import { asEffects, asEffectsEx } from "./effects/EffectsOperations";
@@ -21,7 +23,7 @@ import { VoltageControlledAmp as ModelVoltageControlledAmp } from "../model/Volt
 import { Volume as ModelVolume } from "../model/Volume";
 
 import { Preset } from "./preset/Preset";
-import { EffectsOrEx } from "./effects/Effects";
+import { EffectsOrEx, EffectsEx, Effects } from "./effects/Effects";
 import { Aux } from "./effects/auxRouting/AuxRouting";
 import { Boost } from "./effects/boost/Boost";
 import { Compressor } from "./effects/compressor/Compressor";
@@ -149,10 +151,70 @@ function extendEffects(effectsOrEx?: ModelEffects | ModelEffectsEx): EffectsOrEx
 
 export function extendPreset(preset: ModelPreset, collection: PresetCollectionType): Preset {
     return {
-        ...preset, 
+        ...preset,
         effects: extendEffects(preset.effects),
         origin: preset,
         source: collection,
         ui: newItemUI()
+    };
+}
+
+// tslint:disable-next-line:no-any
+function unextendEffect(effect: any): any {
+    return Lodash.omit(effect, "origin", "ui");
+}
+
+function unextendEffects(effectsOrEx: EffectsOrEx): ModelEffects | ModelEffectsEx {
+    if (!effectsOrEx) { throw new Error("Effects were not set."); }
+
+    const effectsEx = asEffectsEx(effectsOrEx) as EffectsEx;
+    if (effectsEx) {
+        return {
+            aux: unextendEffect(effectsEx.aux),
+            boost: unextendEffect(effectsEx.boost),
+            compressor: unextendEffect(effectsEx.compressor),
+            delay: unextendEffect(effectsEx.delay),
+            dsp: unextendEffect(effectsEx.dsp),
+            filters: unextendEffect(effectsEx.filters),
+            midi: unextendEffect(effectsEx.midi),
+            modulation: unextendEffect(effectsEx.modulation),
+            noiseGate: unextendEffect(effectsEx.noiseGate),
+            phaser: unextendEffect(effectsEx.phaser),
+            pre: unextendEffect(effectsEx.pre),
+            tap: unextendEffect(effectsEx.tap),
+            vca: unextendEffect(effectsEx.vca),
+            volume: unextendEffect(effectsEx.volume)
+        };
+    }
+
+    const effects = asEffects(effectsOrEx) as Effects;
+    if (effects) {
+        return {
+            aux: unextendEffect(effects.aux),
+            boost: unextendEffect(effects.boost),
+            compressor: unextendEffect(effects.compressor),
+            delay: unextendEffect(effects.delay),
+            distortion: unextendEffect(effects.distortion),
+            filters: unextendEffect(effects.filters),
+            midi: unextendEffect(effects.midi),
+            modulation: unextendEffect(effects.modulation),
+            noiseGate: unextendEffect(effects.noiseGate),
+            phaser: unextendEffect(effects.phaser),
+            tap: unextendEffect(effects.tap),
+            vca: unextendEffect(effects.vca),
+            volume: unextendEffect(effects.volume)
+        };
+    }
+
+    throw new Error("Effects type not determined.");
+}
+
+export function unextendPreset(preset: Preset): ModelPreset {
+    return {
+        index: preset.index,
+        name: preset.name,
+        meta: preset.meta,
+        traits: preset.traits,
+        effects: unextendEffects(preset.effects)
     };
 }

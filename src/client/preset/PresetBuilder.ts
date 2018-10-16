@@ -5,6 +5,20 @@ import * as ModelPreset from "../../model/Preset";
 import { ArrayBuilder, ItemBuilder, CopyOption, MatchItemFn, ItemFn } from "../StateBuilder";
 import { itemUiModify } from "../ItemUI";
 import { presetsAreEqual, presetHasChanged, minPresetIndex } from "./PresetOperations";
+import { PresetCollectionType } from "../ApplicationDocument";
+
+const ToBeDeletedPreset: Partial<Preset> = {
+    name: "{to_be_deleted}",
+    index: -1,
+    meta: { device: PresetCollectionType.storage.toUpperCase() },
+    traits: {
+        empty: true,
+        expression: false,
+        humbucker: false,
+        singleCoil: false,
+        stereo: false
+    }
+};
 
 export class PresetBuilder extends ItemBuilder<Preset> {
     public static modify(preset: Preset, update: Partial<Preset>): Preset {
@@ -12,16 +26,17 @@ export class PresetBuilder extends ItemBuilder<Preset> {
     }
 
     public static delete(preset: Preset, empty: Partial<Preset>): Preset {
-        return { ...preset, ...empty, ui: itemUiModify(preset.ui, { markedDeleted: true })};
+        return { ...preset, ...empty, ui: itemUiModify(preset.ui, { markedDeleted: true }) };
     }
 
     public static toModel(preset: Preset): ModelPreset.Preset {
-        return { 
-            effects: preset.effects, 
-            index: preset.index, 
-            name: preset.name, 
-            meta: preset.meta, 
-            traits: preset.traits };
+        return {
+            effects: preset.effects,
+            index: preset.index,
+            name: preset.name,
+            meta: preset.meta,
+            traits: preset.traits
+        };
     }
 
     public constructor(state: Preset, option: CopyOption = CopyOption.ByVal) {
@@ -64,11 +79,11 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         replacements.forEach(replacement => {
             const replacementGroupName = replacement.group ? replacement.group.name : "";
 
-            const index = this.mutable.findIndex(p => 
-                (p.group && 
-                    p.group.name === replacementGroupName && 
-                    p.index === replacement.index) 
-                    ||
+            const index = this.mutable.findIndex(p =>
+                (p.group &&
+                    p.group.name === replacementGroupName &&
+                    p.index === replacement.index)
+                ||
                 (!p.group && replacementGroupName.length === 0 &&
                     p.index === replacement.index)
             );
@@ -89,7 +104,7 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
 
         this.removeRange(presetsToMove, presetsAreEqual);
         this.insertRange(arrayTargetIndex, presetsToMove);
-        this.reIndexPresets(arraySourceIndex, arrayTargetIndex, presetsToMove.length);
+        this.reIndexPresetsArray(arraySourceIndex, arrayTargetIndex, presetsToMove.length);
     }
 
     public swapPresets(presetsToSwap: Preset[], targetIndex: ModelPreset.PresetIndex) {
@@ -102,7 +117,15 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         this.removeRange(presetsToSwap, presetsAreEqual);
         const swappedPresets = this.mutable.splice(arrayTargetIndex, presetsToSwap.length, ...presetsToSwap);
         this.insertRange(arraySourceIndex, swappedPresets);
-        this.reIndexPresets(arraySourceIndex, arrayTargetIndex, presetsToSwap.length);
+        this.reIndexPresetsArray(arraySourceIndex, arrayTargetIndex, presetsToSwap.length);
+    }
+
+    public delete(presetsToDelete: Preset[]) {
+        this.removeRange(presetsToDelete);
+        this.reIndexPresets();
+        presetsToDelete.forEach(p => {
+            this.add(PresetBuilder.delete(p, ToBeDeletedPreset));
+        });
     }
 
     public acceptChanges() {
@@ -115,7 +138,18 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
             });
     }
 
-    private reIndexPresets(startIndex: number, endIndex: number, count: number) {
+    public reIndexPresets() {
+        let index = 0;
+        for (let i = 0; i < this.mutable.length; i++) {
+            const p = this.mutable[i];
+            if (p.index >= 0) {
+                this.mutable[i] = PresetBuilder.modify(p, { index: index });
+                index++;
+            }
+        }
+    }
+
+    private reIndexPresetsArray(startIndex: number, endIndex: number, count: number) {
         this.throwIfIndexNotValid(startIndex);
         this.throwIfIndexNotValid(endIndex);
         const min = Math.min(startIndex, endIndex);

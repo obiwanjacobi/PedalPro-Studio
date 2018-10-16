@@ -9,11 +9,11 @@ import * as ModelPreset from "../model/Preset";
 import * as Storage from "../model/Storage";
 import { StorageBank } from "./storage/StorageBank";
 import { storagePresetsForBank } from "./storage/BankOperations";
-import { extendPreset } from "./PresetExtender";
+import { extendPreset, unextendPreset } from "./PresetExtender";
 
 export class PresetsClient {
     public readonly collection: PresetCollectionType;
-    
+
     private readonly typedRest: TypedRestClient.RestClient;
     private readonly baseUrl: string;
 
@@ -23,7 +23,6 @@ export class PresetsClient {
         this.baseUrl = baseUrl;
 
         this.extendPreset = this.extendPreset.bind(this);
-        this.unextendPreset = this.unextendPreset.bind(this);
     }
 
     public async replacePresets(presets: Preset[]): Promise<Preset[]> {
@@ -117,30 +116,38 @@ export class PresetsClient {
 
     private async requestSavePreset(presets: Preset[], bank?: string): Promise<Preset[]> {
         const url = bank ? `${this.baseUrl}/${bank}/presets/` : `${this.baseUrl}/presets/`;
-        const msg = { presets: presets.map(this.unextendPreset) };
+        const result = await this.batchRequestSavePreset(presets.map(unextendPreset), url);
+        return result.map(this.extendPreset);
+    }
+
+    private async batchRequestSavePreset(presets: ModelPreset.Preset[], url: string): Promise<ModelPreset.Preset[]> {
+        const msg = { presets: presets };
         const response = await this.typedRest.replace<PresetResponse>(url, msg);
         this.throwIfErrorMessage(response);
         // @ts-ignore:[ts] Object is possibly 'null'.
-        return response.result.presets.map(this.extendPreset);
+        return response.result.presets;
     }
+
+    // private async unbatchRequestSavePreset(
+    //  presets: ModelPreset.Preset[], url: string): Promise<ModelPreset.Preset[]> {
+    //     const result = new Array<ModelPreset.Preset>(presets.length);
+    //     for (let i = 0; i < presets.length; i++) {
+    //         const msg = { presets: [presets[i]] };
+    //         const response = await this.typedRest.replace<PresetResponse>(url, msg);
+    //         this.throwIfErrorMessage(response);
+    //         // @ts-ignore:[ts] Object is possibly 'null'.
+    //         result.push(...response.result.presets);
+    //     }
+    //     return result;
+    // }
 
     private extendPreset(preset: ModelPreset.Preset): Preset {
         return extendPreset(preset, this.collection);
     }
 
-    private unextendPreset(clientPreset: Preset): ModelPreset.Preset {
-        return {
-            name: clientPreset.name,
-            index: clientPreset.index,
-            traits: clientPreset.traits,
-            effects: clientPreset.effects,
-            meta: clientPreset.meta
-        };
-    }
-
     private extendBank(bank: Storage.Bank): StorageBank {
         return {
-            name: bank.name, 
+            name: bank.name,
             loaded: false,
             created: true,
             empty: false,
@@ -173,7 +180,7 @@ export class PresetsClient {
 
 export class Client {
     private readonly typedRest: TypedRestClient.RestClient;
-    
+
     public constructor(port: number) {
         this.typedRest = new TypedRestClient.RestClient("internal", `http://localhost:${port}`);
     }

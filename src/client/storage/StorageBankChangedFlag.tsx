@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Flag, FlagOutline, DeleteForever  } from "mdi-material-ui";
+import { Alert, Flag, FlagOutline, DeleteForever  } from "mdi-material-ui";
 
 import { StorageBank } from "./StorageBank";
 import { bankNameHasChanged } from "./BankOperations";
@@ -14,7 +14,9 @@ export interface StorageBankChangedFlagProps {
 export class StorageBankChangedFlag extends React.Component<StorageBankChangedFlagProps> {
 
     public render() {
-        if (this.props.bank.ui.markedDeleted) {
+        if (this.props.bank.name.length === 0) {
+            return <Alert color="secondary" />;
+        } else if (this.props.bank.ui.markedDeleted) {
             return <DeleteForever color="secondary" />;
         } else if (presetsHaveChanged(this.props.presets)) { 
             return <Flag color="secondary" />;
