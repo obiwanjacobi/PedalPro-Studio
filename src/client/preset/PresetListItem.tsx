@@ -13,10 +13,10 @@ import { DeletePresets } from "./DeletePresetsAction";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { formatPresetIndex } from "./PresetOperations";
 
-export interface PresetListItemProps { 
+export interface PresetListItemProps {
     preset: Preset;
 }
-export type PresetListItemActions = 
+export type PresetListItemActions =
     ChangePresets & EditEffects &
     Partial<EditPreset> & Partial<MovePresets> & Partial<DeletePresets> & Partial<CanMoveDown>;
 export interface PresetListItemState { }
@@ -42,21 +42,22 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
 
     public render(): React.ReactNode {
         return (
-            <Paper elevation={2} style={{width: "100%"}}>
+            <Paper elevation={2} style={{ width: "100%" }}>
                 <Grid container={true} alignItems="center" spacing={8}>
                     <Grid xs={2} item={true}>
-                        <Checkbox 
-                            checked={this.props.preset.ui.selected} 
+                        <Checkbox
+                            style={{ height: "28px" }}
+                            checked={this.props.preset.ui.selected}
                             onChange={this.toggleSelected}
                             icon={this.formatIndex()}
                         />
                     </Grid>
-                    <Grid xs={1} item={true}/>
+                    <Grid xs={1} item={true} />
                     <Grid xs={4} item={true}>
                         <Typography variant="subtitle1">
                             {this.props.preset.name}
                         </Typography>
-                        {this.props.preset.group && 
+                        {this.props.preset.group &&
                             <Typography variant="caption">{this.props.preset.group.name}</Typography>}
                     </Grid>
                     <Grid xs={1} item={true}>
@@ -64,28 +65,28 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
                             <Edit />
                         </IconButton>
                     </Grid>
-                    <Grid xs={1} item={true}/>
+                    <Grid xs={1} item={true} />
                     <Grid xs={1} item={true}>
                         <PresetChangedFlag preset={this.props.preset} />
                     </Grid>
                     <Grid xs={1} item={true}>
                         {this.hasDetails &&
-                        <IconButton onClick={this.toggleExpanded} >
-                            {this.props.preset.ui.expanded ? <ExpandLess /> : <ExpandMore />}
-                        </IconButton>}
+                            <IconButton onClick={this.toggleExpanded} >
+                                {this.props.preset.ui.expanded ? <ExpandLess /> : <ExpandMore />}
+                            </IconButton>}
                     </Grid>
                 </Grid>
                 {this.hasDetails &&
-                <Collapse in={this.props.preset.ui.expanded}>
-                    {this.props.preset.ui.expanded &&
-                        <PresetListItemDetail
-                            preset={this.props.preset}
-                            editPreset={this.editPreset}
-                            movePresets={this.movePresets}
-                            deletePresets={this.deletePresets}
-                            canMoveDown={this.canMoveDown}
-                        />}
-                </Collapse>}
+                    <Collapse in={this.props.preset.ui.expanded}>
+                        {this.props.preset.ui.expanded &&
+                            <PresetListItemDetail
+                                preset={this.props.preset}
+                                editPreset={this.editPreset}
+                                movePresets={this.movePresets}
+                                deletePresets={this.deletePresets}
+                                canMoveDown={this.canMoveDown}
+                            />}
+                    </Collapse>}
             </Paper>
         );
     }
@@ -96,17 +97,17 @@ export class PresetListItem extends React.Component<PresetListItemAllProps, Pres
     private formatIndex(): string {
         return formatPresetIndex(this.props.preset);
     }
-    
+
     private toggleExpanded() {
         this.props.changePresets(
             [this.props.preset], this.props.preset.source,
-            {expanded: !this.props.preset.ui.expanded});
+            { expanded: !this.props.preset.ui.expanded });
     }
 
     private toggleSelected() {
         this.props.changePresets(
             [this.props.preset], this.props.preset.source,
-            {selected: !this.props.preset.ui.selected});
+            { selected: !this.props.preset.ui.selected });
     }
 
     private canMoveDown(preset: Preset): boolean {

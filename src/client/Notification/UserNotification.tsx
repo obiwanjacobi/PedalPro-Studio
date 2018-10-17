@@ -27,7 +27,7 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
         super(props);
         this.state = { open: false, count: 0 };
 
-        this.renderNotification = this.renderNotification.bind(this);
+        // this.renderNotification = this.renderNotification.bind(this);
         this.removeNotification = this.removeNotification.bind(this);
         this.close = this.close.bind(this);
     }
