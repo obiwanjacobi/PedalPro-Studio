@@ -24,11 +24,11 @@ export function isEffects(effects: Model.Effects | Model.EffectsEx): boolean {
 }
 
 export function asEffects(effectsOrEx: Model.Effects | Model.EffectsEx): Model.Effects | undefined {
-    return isEffects(effectsOrEx) ? <Model.Effects> effectsOrEx : undefined;
+    return isEffects(effectsOrEx) ? <Model.Effects>effectsOrEx : undefined;
 }
 
 export function asEffectsEx(effectsOrEx: Model.Effects | Model.EffectsEx): Model.EffectsEx | undefined {
-    return isEffectsEx(effectsOrEx) ? <Model.EffectsEx> effectsOrEx : undefined;
+    return isEffectsEx(effectsOrEx) ? <Model.EffectsEx>effectsOrEx : undefined;
 }
 
 // https://github.com/lodash/lodash/issues/72
@@ -53,7 +53,7 @@ function commonIsEqual(obj1: any, obj2: any): boolean {
     return equal;
 }
 export function effectsEqual(
-    effects1: Model.Effects | Model.EffectsEx | undefined, 
+    effects1: Model.Effects | Model.EffectsEx | undefined,
     effects2: Model.Effects | Model.EffectsEx | undefined): boolean {
 
     if (!effects1 || !effects2) { return effects1 === effects2; }
@@ -69,18 +69,6 @@ export function effectsEqual(
 function getFirstSelected(effectsOrEx: EffectsOrEx): EffectNames {
     if (isEffects(effectsOrEx)) {
         const effects = effectsOrEx as Effects;
-        // if (effects.compressor.ui.selected) { return EffectNames.Compressor; }
-        // if (effects.boost.ui.selected) { return EffectNames.Boost; }
-        // if (effects.distortion.ui.selected) { return EffectNames.Distortion; }
-        // if (effects.vca.ui.selected) { return EffectNames.Vca; }
-        // if (effects.modulation.ui.selected) { return EffectNames.Modulation; }
-        // if (effects.filters.ui.selected) { return EffectNames.Filters; }
-        // if (effects.delay.ui.selected) { return EffectNames.Delay; }
-        // if (effects.aux.ui.selected) { return EffectNames.AuxRouting; }
-        // if (effects.phaser.ui.selected) { return EffectNames.Phaser; }
-        // if (effects.volume.ui.selected) { return EffectNames.Volume; }
-        // if (effects.noiseGate.ui.selected) { return EffectNames.NoiseGate; }
-
         if (effects.compressor.enabled) { return EffectNames.Compressor; }
         if (effects.boost.enabled) { return EffectNames.Boost; }
         if (effects.distortion.enabled) { return EffectNames.Distortion; }
@@ -96,19 +84,6 @@ function getFirstSelected(effectsOrEx: EffectsOrEx): EffectNames {
 
     if (isEffectsEx(effectsOrEx)) {
         const effectsEx = effectsOrEx as EffectsEx;
-        // if (effectsEx.compressor.ui.selected) { return EffectNames.Compressor; }
-        // if (effectsEx.boost.ui.selected) { return EffectNames.Boost; }
-        // if (effectsEx.pre.ui.selected) { return EffectNames.PreAmp; }
-        // if (effectsEx.vca.ui.selected) { return EffectNames.Vca; }
-        // if (effectsEx.modulation.ui.selected) { return EffectNames.Modulation; }
-        // if (effectsEx.filters.ui.selected) { return EffectNames.Filters; }
-        // if (effectsEx.delay.ui.selected) { return EffectNames.Delay; }
-        // if (effectsEx.dsp.ui.selected) { return EffectNames.Dsp; }
-        // if (effectsEx.aux.ui.selected) { return EffectNames.AuxRouting; }
-        // if (effectsEx.phaser.ui.selected) { return EffectNames.Phaser; }
-        // if (effectsEx.volume.ui.selected) { return EffectNames.Volume; }
-        // if (effectsEx.noiseGate.ui.selected) { return EffectNames.NoiseGate; }
-
         if (effectsEx.compressor.enabled) { return EffectNames.Compressor; }
         if (effectsEx.boost.enabled) { return EffectNames.Boost; }
         if (effectsEx.pre.enabled) { return EffectNames.PreAmp; }
@@ -138,7 +113,7 @@ export function determineSelectedEffect(
 
 export function selectEffect(
     effectsOrEx: EffectsOrEx, select: EffectNames, deselect: EffectNames = EffectNames.None): EffectsOrEx {
-        
+
     const builder = createBuilder(effectsOrEx);
     if (deselect !== EffectNames.None) {
         builder.changeUIByName(deselect, { selected: false });
@@ -167,7 +142,7 @@ export function compareEffects(source: EffectsOrEx, to: EffectsOrEx): boolean {
 
 // tslint:disable-next-line:no-any
 function conditionalCloneHandler(value: any, key: any): any {
-    
+
     switch (key) {
         case "origin":
             // do not clone original
@@ -176,7 +151,7 @@ function conditionalCloneHandler(value: any, key: any): any {
         case "ui":
             // provide fresh clean copy
             return { selected: false, expanded: false, markedDeleted: false };
-        
+
         default:
             // let lodash handle cloning
             return undefined;

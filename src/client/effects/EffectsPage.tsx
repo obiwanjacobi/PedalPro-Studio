@@ -15,7 +15,7 @@ import { EditEffects, createEditEffectsAction } from "./EditEffectsAction";
 import { SaveEffects, SaveEffectsEx, createSaveEffectsAction, createSaveEffectsExAction } from "./SaveEffectsAction";
 import { EffectsView } from "./EffectsView";
 import { EffectsExView } from "./EffectsExView";
-import { asEffects, asEffectsEx, hasChanged } from "./EffectsOperations";
+import { asEffects, asEffectsEx, effectsEqual } from "./EffectsOperations";
 import { EffectsControlSettings } from "./EffectsControlSettings";
 import { ChangeEffects, createChangeEffectsAction } from "./ChangeEffectsAction";
 import { RecursivePartial } from "../../TypeExtensions";
@@ -52,17 +52,17 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                         <Clear />
                     </IconButton>
                     {this.props.preset &&
-                        <Title 
+                        <Title
                             pre={this.props.preset.group ? this.props.preset.group.name : undefined}
                             caption={this.props.preset.name}
                             sub={this.props.preset.source.toString().toUpperCase()}
                         />}
                     <IconButton onClick={this.openDrawer}>
-                        <Settings/>
+                        <Settings />
                     </IconButton>
                     {!this.props.readonly &&
-                    <Button disabled={!this.effectsHasChanged} onClick={this.save}>
-                        Save
+                        <Button disabled={!this.effectsHasChanged} onClick={this.save}>
+                            Save
                     </Button>}
                 </ApplicationToolbar>
                 {this.props.effectsEx &&
@@ -76,9 +76,9 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                         </IconButton>
                         <Title caption="Preset Control" />
                     </ApplicationToolbar>
-                    <EffectsControlSettings 
-                        effects={this.props.effects || this.props.effectsEx} 
-                        changeEffects={this.props.changeEffects} 
+                    <EffectsControlSettings
+                        effects={this.props.effects || this.props.effectsEx}
+                        changeEffects={this.props.changeEffects}
                     />
                 </Drawer>
             </Dialog>
@@ -86,11 +86,11 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
     }
 
     private get effectsHasChanged(): boolean {
-        if (this.props.effects) {
-            return hasChanged(this.props.effects);
+        if (this.props.preset && this.props.effects) {
+            return !effectsEqual(this.props.preset.effects, this.props.effects);
         }
-        if (this.props.effectsEx) {
-            return hasChanged(this.props.effectsEx);
+        if (this.props.preset && this.props.effectsEx) {
+            return !effectsEqual(this.props.preset.effects, this.props.effectsEx);
         }
 
         return false;
@@ -127,15 +127,15 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
 type ExtractStatePropFunc = MapStateToProps<EffectsPageStoreProps, EffectsPageProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: EffectsPageProps): EffectsPageStoreProps => {
-        if (state.editEffects) {
-            return  { 
-                readonly: state.editEffects.readonly,
-                preset: state.editEffects.preset,
-                effects: asEffects(state.editEffects.effectsOrEx) as Effects,
-                effectsEx: asEffectsEx(state.editEffects.effectsOrEx) as EffectsEx,
-            };
-        }
-        return { readonly: true };
+    if (state.editEffects) {
+        return {
+            readonly: state.editEffects.readonly,
+            preset: state.editEffects.preset,
+            effects: asEffects(state.editEffects.effectsOrEx) as Effects,
+            effectsEx: asEffectsEx(state.editEffects.effectsOrEx) as EffectsEx,
+        };
+    }
+    return { readonly: true };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsPageActions, EffectsPageProps>;
@@ -155,6 +155,6 @@ const createActionObject: ActionDispatchFunc =
                 dispatch(createSaveEffectsExAction(effectsEx));
             }
         };
-};
+    };
 
 export default connect(extractComponentPropsFromState, createActionObject)(EffectsPage);
