@@ -1,5 +1,5 @@
 import * as React from "react";
-import { 
+import {
     Paper, ListItemText, ListItemSecondaryAction, Icon
 } from "@material-ui/core";
 import { KeyboardArrowLeft } from "@material-ui/icons";
@@ -36,12 +36,14 @@ export class PreviewListItem extends React.Component<PreviewListItemProps> {
 
     public render() {
         return (
-            <Paper elevation={2} style={{width: "100%"}}>
+            <Paper
+                elevation={this.props.match ? 6 : 2}
+                style={{ width: "100%", paddingLeft: "8px", paddingTop: "4px", paddingBottom: "4px" }}
+            >
                 <ListItemText primary={this.title} secondary={this.subTitle} />
-                {this.props.match && <Icon color="secondary"><KeyboardArrowLeft /></Icon>}
                 <ListItemSecondaryAction>
-                    {!this.notFound &&
-                    <PresetChangedFlag preset={this.props.preset} />}
+                    {this.props.match && <Icon color="secondary"><KeyboardArrowLeft /></Icon>}
+                    {!this.notFound && <PresetChangedFlag preset={this.props.preset} />}
                 </ListItemSecondaryAction>
             </Paper>
         );

@@ -8,7 +8,7 @@ import { presetsAreEqual, presetHasChanged, minPresetIndex } from "./PresetOpera
 import { PresetCollectionType } from "../ApplicationDocument";
 
 const ToBeDeletedPreset: Partial<Preset> = {
-    name: "{to_be_deleted}",
+    // name: "{to_be_deleted}",
     index: -1,
     meta: { device: PresetCollectionType.storage.toUpperCase() },
     traits: {
@@ -111,13 +111,15 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         if (presetsToSwap.length === 0) { return; }
         const sourceIndex = minPresetIndex(presetsToSwap);
         const arraySourceIndex = this.findArrayIndex(sourceIndex);
+        const reindexIndex = this.findArrayIndex(targetIndex);
+
+        this.removeRange(presetsToSwap, presetsAreEqual);
         const arrayTargetIndex = this.findArrayIndex(targetIndex);
         this.throwIfIndexNotValid(arrayTargetIndex);
 
-        this.removeRange(presetsToSwap, presetsAreEqual);
         const swappedPresets = this.mutable.splice(arrayTargetIndex, presetsToSwap.length, ...presetsToSwap);
         this.insertRange(arraySourceIndex, swappedPresets);
-        this.reIndexPresetsArray(arraySourceIndex, arrayTargetIndex, presetsToSwap.length);
+        this.reIndexPresetsArray(arraySourceIndex, reindexIndex, presetsToSwap.length);
     }
 
     public delete(presetsToDelete: Preset[]) {
@@ -156,7 +158,10 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         const max = Math.max(startIndex, endIndex) + count - 1;
 
         for (let index = min; index <= max; index++) {
-            this.mutable[index] = PresetBuilder.modify(this.mutable[index], { index: index });
+            const p = this.mutable[index];
+            if (p.index !== index) {
+                this.mutable[index] = PresetBuilder.modify(p, { index: index });
+            }
         }
     }
 

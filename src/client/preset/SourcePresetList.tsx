@@ -5,12 +5,12 @@ import { SourcePresetListItem } from "./SourcePresetListItem";
 import { ChangePresets } from "./ChangePresetsAction";
 import { Preset } from "./Preset";
 
-export interface SourcePresetListProps extends VirtualListProps<Preset> {}
+export interface SourcePresetListProps extends VirtualListProps<Preset> { }
 export type SourcePresetListAllProps = SourcePresetListProps & Partial<ChangePresets>;
 
 export interface SourcePresetListState { }
 
-const itemHeightCollapsed = 48;
+const itemHeightCollapsed = 58;
 
 export class SourcePresetList extends VirtualList<Preset, SourcePresetListAllProps, SourcePresetListState> {
     protected calcRowHeight(_: Preset[]): number {

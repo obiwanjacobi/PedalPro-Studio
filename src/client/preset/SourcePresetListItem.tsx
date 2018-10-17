@@ -1,5 +1,5 @@
 import * as React from "react";
-import { 
+import {
     Checkbox, Grid, Paper, ListItemText
 } from "@material-ui/core";
 
@@ -21,13 +21,16 @@ export class SourcePresetListItem extends React.Component<SourcePresetListItemAl
 
     public render() {
         return (
-            <Paper elevation={2} style={{width: "100%"}}>
+            <Paper
+                elevation={2}
+                style={{ width: "100%", paddingLeft: "8px", paddingTop: "4px", paddingBottom: "4px" }}
+            >
                 <Grid container={true}>
                     <Grid item={true} xs={3}>
                         {this.props.changePresets &&
-                            <Checkbox 
-                                tabIndex={-1} 
-                                checked={this.props.preset.ui.selected} 
+                            <Checkbox
+                                tabIndex={-1}
+                                checked={this.props.preset.ui.selected}
                                 onClick={this.onToggleSelectPreset}
                             />
                         }
@@ -47,7 +50,7 @@ export class SourcePresetListItem extends React.Component<SourcePresetListItemAl
     private onToggleSelectPreset(_: React.MouseEvent<HTMLElement>) {
         if (this.props.changePresets) {
             this.props.changePresets(
-                [this.props.preset], PresetCollectionType.clipboard, 
+                [this.props.preset], PresetCollectionType.clipboard,
                 { selected: !this.props.preset.ui.selected });
         }
     }
