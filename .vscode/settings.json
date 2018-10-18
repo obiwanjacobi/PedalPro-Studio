@@ -14,7 +14,6 @@
         "dist": true,
         "release": true
     },
-    "javascript.autoClosingTags": true,
     "javascript.preferences.quoteStyle": "double",
     "typescript.referencesCodeLens.enabled": true,
     "typescript.implementationsCodeLens.enabled": true

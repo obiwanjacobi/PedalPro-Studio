@@ -8,10 +8,10 @@ import { ApplicationDocument } from "../ApplicationDocument";
 
 import { Notification } from "./Notification";
 import { UserNotificationItem } from "./UserNotificationItem";
-import { RemoveNotificationAction, RemoveNotification, createRemoveNotificationAction } 
+import { RemoveNotificationAction, RemoveNotification, createRemoveNotificationAction }
     from "./RemoveNotificationAction";
 
-export interface UserNotificationProps {}
+export interface UserNotificationProps { }
 export interface UserNotificationStateProps {
     notifications: Notification[];
 }
@@ -27,14 +27,14 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
         super(props);
         this.state = { open: false, count: 0 };
 
-        // this.renderNotification = this.renderNotification.bind(this);
+        this.renderNotification = this.renderNotification.bind(this);
         this.removeNotification = this.removeNotification.bind(this);
         this.close = this.close.bind(this);
     }
 
     public componentWillReceiveProps(newProps: UserNotificationAllProps) {
         if (this.state.count < newProps.notifications.length &&
-            !this.state.open) { 
+            !this.state.open) {
             this.setState({ open: true, count: newProps.notifications.length });
         }
         if (newProps.notifications.length === 0 &&
@@ -49,16 +49,17 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
                 anchor="bottom"
                 open={this.state.open}
             >
-                <header 
+                <header
                     style={{
-                        display: "flex", 
-                        flexDirection: "row", 
+                        display: "flex",
+                        flexDirection: "row",
                         flexWrap: "nowrap",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        padding: "16 0 0 12"}}
+                        padding: "16 0 0 12"
+                    }}
                 >
-                    <Typography variant="h6" align="left" gutterBottom={true} style={{paddingLeft: "16px"}}>
+                    <Typography variant="h6" align="left" gutterBottom={true} style={{ paddingLeft: "16px" }}>
                         Notifications
                     </Typography>
                     <IconButton onClick={this.close}>
@@ -77,25 +78,25 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
 
     private renderNotification(item: Notification, index: number) {
         return (
-            <UserNotificationItem notification={item} key={index} removeNotification={this.removeNotification}/>
+            <UserNotificationItem notification={item} key={index} removeNotification={this.removeNotification} />
         );
     }
 
     private removeNotification(notification: Notification) {
         this.props.removeNotification(notification);
-        this.setState({ open: this.state.open, count: this.state.count - 1});
+        this.setState({ open: this.state.open, count: this.state.count - 1 });
     }
 
     private close() {
         this.setState({ open: false, count: this.state.count });
-    }    
+    }
 }
 
 const extractComponentPropsFromState: MapStateToProps<
-        UserNotificationStateProps, UserNotificationProps, ApplicationDocument
+    UserNotificationStateProps, UserNotificationProps, ApplicationDocument
     > = (state: ApplicationDocument, _: UserNotificationProps): UserNotificationStateProps => {
-        return  { notifications: state.notifications };
-};
+        return { notifications: state.notification.notifications };
+    };
 
 const createActionObject: MapDispatchToPropsFunction<UserNotificationActions, UserNotificationProps> =
     (dispatch: Dispatch<RemoveNotificationAction>, _: UserNotificationProps): UserNotificationActions => {
@@ -104,6 +105,6 @@ const createActionObject: MapDispatchToPropsFunction<UserNotificationActions, Us
                 dispatch(createRemoveNotificationAction(notification));
             }
         };
-};
+    };
 
 export default connect(extractComponentPropsFromState, createActionObject)(UserNotification);

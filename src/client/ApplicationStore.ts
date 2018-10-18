@@ -23,43 +23,37 @@ export class ApplicationStore {
     }
 
     private appReduce(state: ApplicationDocument, action: AnyAction): ApplicationDocument {
-        let actionType = <string> action.type;
-        
+        let actionType = <string>action.type;
+
         if (actionType.indexOf("fault") > 0) {
-            return FaultStateReducer.reduce(state, <FaultStateReducer.FaultAction> action);
+            return FaultStateReducer.reduce(state, <FaultStateReducer.FaultAction>action);
         }
-        
+
         if (actionType.indexOf("storage") > 0) {
-            return StorageStateReducer.reduce(state, <StorageStateReducer.StorageAction> action);
+            return StorageStateReducer.reduce(state, <StorageStateReducer.StorageAction>action);
         }
         if (actionType.indexOf("effects") > 0) {
-            return EffectStateReducer.reduce(state, <EffectStateReducer.EffectsAction> action);
+            return EffectStateReducer.reduce(state, <EffectStateReducer.EffectsAction>action);
         }
         if (actionType.indexOf("presets") > 0) {
-            return PresetStateReducer.reduce(state, <PresetStateReducer.PresetAction> action);
+            return PresetStateReducer.reduce(state, <PresetStateReducer.PresetAction>action);
         }
         // should come after 'presets'
         if (actionType.indexOf("device") > 0) {
-            return DeviceStateReducer.reduce(state, <DeviceStateReducer.DeviceAction> action);
+            return DeviceStateReducer.reduce(state, <DeviceStateReducer.DeviceAction>action);
         }
 
         if (actionType.indexOf("screen") > 0) {
-            const screen = ScreenStateReducer.reduce(state.screen, <ScreenStateReducer.ScreenAction> action);
+            const screen = ScreenStateReducer.reduce(state.screen, <ScreenStateReducer.ScreenAction>action);
             if (screen !== state.screen) {
                 const builder = new ApplicationDocumentBuilder(state);
                 builder.mutable.screen = screen;
                 return builder.detach();
             }
         }
-        
+
         if (actionType.indexOf("notification") > 0) {
-            const notifications = NotificationReducer.reduce(
-                state.notifications, <NotificationReducer.NotificationAction> action);
-            if (notifications !== state.notifications) {
-                const builder = new ApplicationDocumentBuilder(state);
-                builder.mutable.notifications = notifications;
-                return builder.detach();
-            }
+            return NotificationReducer.reduce(state, <NotificationReducer.NotificationAction>action);
         }
 
         return state;

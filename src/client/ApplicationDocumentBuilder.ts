@@ -9,7 +9,7 @@ export class ApplicationDocumentBuilder extends ItemBuilder<ApplicationDocument>
         device: [],
         factory: [],
         storage: [],
-        notifications: [],
+        notification: { notifications: [] },
         screen: { pasteOpen: false, moveOpen: false },
     };
 

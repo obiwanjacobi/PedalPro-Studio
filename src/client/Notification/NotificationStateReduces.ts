@@ -1,5 +1,7 @@
 import { RemoveNotificationAction } from "./RemoveNotificationAction";
 import { Notification } from "./Notification";
+import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
+import { ApplicationDocument } from "../ApplicationDocument";
 
 // all actions this reducer handles
 export type NotificationAction = RemoveNotificationAction;
@@ -13,12 +15,21 @@ const reduceRemoveNotification = (state: Notification[], notification: Notificat
     return newState;
 };
 
-export const reduce = (state: Notification[] = Array<Notification>(), action: NotificationAction): Notification[] => {
+export function reduce(state: ApplicationDocument, action: NotificationAction): ApplicationDocument {
+
+    const builder = new ApplicationDocumentBuilder(state);
+
+    let notifications = state.notification.notifications;
+
     switch (action.type) {
         case "D/notification/":
-        return reduceRemoveNotification(state, action.notification);
+            notifications = reduceRemoveNotification(state.notification.notifications, action.notification);
+            break;
 
         default:
-        return state;
+            return state;
     }
-};
+
+    builder.mutable.notification.notifications = notifications;
+    return builder.detach();
+}
