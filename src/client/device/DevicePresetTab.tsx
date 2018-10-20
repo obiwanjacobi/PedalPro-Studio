@@ -27,21 +27,24 @@ import { PresetView } from "../preset/PresetView";
 import DevicePastePage from "./DevicePastePage";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 import DeviceMovePage from "./DeviceMovePage";
+import { InteractiveOptions, Interactive } from "../notification/Interactive";
+import { SetInteractive, createSetInteractiveAction } from "../notification/SetInteractiveAction";
 
 export interface DevicePresetTabProps { }
-export interface DevicePresetTabStateProps { 
+export interface DevicePresetTabStoreProps {
     presets: Preset[];
     hasClipboard: boolean;
     maxPresetCount: number;
     moveOpen: boolean;
     pasteOpen: boolean;
+    downloadConfirmation?: InteractiveOptions;
 }
-export type DevicePresetTabActions = 
-    ChangePresets & EditEffects &
+export type DevicePresetTabActions =
+    ChangePresets & EditEffects & SetInteractive &
     LoadPresets & SavePresets & CopyPresets & EditPreset & MovePresets & UpdateScreen & DeletePresets;
-export type DevicePresetTabAllProps = 
-    DevicePresetTabProps & DevicePresetTabStateProps & DevicePresetTabActions;
-export interface DevicePresetTabState {}
+export type DevicePresetTabAllProps =
+    DevicePresetTabProps & DevicePresetTabStoreProps & DevicePresetTabActions;
+export interface DevicePresetTabState { }
 
 export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, DevicePresetTabState> {
     private selection: SelectedView<Preset>;
@@ -66,7 +69,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     public render() {
         return (
             <FlexContainer vertical={true}>
-                <PresetToolbar 
+                <PresetToolbar
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
                     enablePaste={this.props.hasClipboard}
@@ -83,7 +86,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     uploadCount={this.changedCount}
                     onUpload={this.upload}
                 />
-                <PresetView 
+                <PresetView
                     filterEmpty={true}
                     filterFlagged={true}
                     presets={this.props.presets}
@@ -94,7 +97,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
                     deletePresets={this.actions.deletePresets}
                     canMoveDown={this.canMoveDown}
                     empty={<Typography variant="body2">
-                        Press <Download/> to retrieve the presets.
+                        Press <Download /> to retrieve the presets.
                     </Typography>}
                 />
                 {this.props.moveOpen && <DeviceMovePage />}
@@ -103,17 +106,19 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
         );
     }
 
-    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps, _: DevicePresetTabState): boolean {
+    public shouldComponentUpdate(nextProps: DevicePresetTabAllProps): boolean {
         return (this.props.presets !== nextProps.presets ||
-                this.props.hasClipboard !== nextProps.hasClipboard ||
-                this.props.pasteOpen !== nextProps.pasteOpen ||
-                this.props.moveOpen !== nextProps.moveOpen
-            );
+            this.props.hasClipboard !== nextProps.hasClipboard ||
+            this.props.pasteOpen !== nextProps.pasteOpen ||
+            this.props.moveOpen !== nextProps.moveOpen ||
+            this.props.downloadConfirmation !== nextProps.downloadConfirmation
+        );
     }
 
     public componentWillReceiveProps(newProps: DevicePresetTabAllProps) {
         this.selection = new SelectedView(newProps.presets);
         this.changes = new ChangedView(newProps.presets);
+        this.continueDownload(newProps);
     }
 
     protected get actions(): Readonly<DevicePresetTabActions> {
@@ -137,19 +142,19 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     private toggleSelectAll(status: SelectAllButtonStatus) {
         const presetsToSelect = getPresetsToSelect(this.changes, status);
-        
-        this.actions.changePresets(this.props.presets, PresetCollectionType.device, {selected: false});
+
+        this.actions.changePresets(this.props.presets, PresetCollectionType.device, { selected: false });
         if (presetsToSelect.length) {
-            this.actions.changePresets(presetsToSelect, PresetCollectionType.device, {selected: true});
+            this.actions.changePresets(presetsToSelect, PresetCollectionType.device, { selected: true });
         }
     }
 
     private pasteClipboard() {
-        this.props.updateScreen({pasteOpen: true});
+        this.props.updateScreen({ pasteOpen: true });
     }
 
     private onMoveSelected() {
-        this.props.updateScreen({moveOpen: true});
+        this.props.updateScreen({ moveOpen: true });
     }
 
     private onDeleteSelected() {
@@ -161,9 +166,30 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     private download() {
         if (this.changes.anyChanged) {
-            // prompt for confirmation losing changes
+            this.askConfirmation();
+        } else {
+            this.actions.loadPresets(PresetCollectionType.device);
         }
-        this.actions.loadPresets(PresetCollectionType.device);
+    }
+
+    private continueDownload(props: DevicePresetTabStoreProps) {
+        if (props.downloadConfirmation) {
+            const action = props.downloadConfirmation;
+            this.actions.setInteractive(undefined);
+
+            if (action === InteractiveOptions.Ok) {
+                this.actions.loadPresets(PresetCollectionType.device);
+            }
+        }
+    }
+
+    private askConfirmation() {
+        const interactive: Interactive = {
+            caption: "Download Presets from Device",
+            message: "There are unsaved changes. Are you sure you want to overwrite them?",
+            buttons: InteractiveOptions.OkCancel
+        };
+        this.actions.setInteractive(interactive);
     }
 
     private upload() {
@@ -176,26 +202,29 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     }
 }
 
-type ExtractStatePropFunc = MapStateToProps<DevicePresetTabStateProps, DevicePresetTabProps, ApplicationDocument>;
+type ExtractStatePropFunc = MapStateToProps<DevicePresetTabStoreProps, DevicePresetTabProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
-    state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStateProps => {
-        return  { 
-            presets: state.device, 
-            hasClipboard: state.clipboard.length > 0,
-            maxPresetCount: state.deviceInfo ? state.deviceInfo.presetCount : 0,
-            moveOpen: state.screen.moveOpen,
-            pasteOpen: state.screen.pasteOpen
-        };
+    state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStoreProps => {
+    const interactive = state.notification.interactive ? state.notification.interactive.action : undefined;
+
+    return {
+        presets: state.device,
+        hasClipboard: state.clipboard.length > 0,
+        maxPresetCount: state.deviceInfo ? state.deviceInfo.presetCount : 0,
+        moveOpen: state.screen.moveOpen,
+        pasteOpen: state.screen.pasteOpen,
+        downloadConfirmation: interactive
+    };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps>;
 const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: DevicePresetTabProps): DevicePresetTabActions => {
         return {
-            loadPresets: (source: PresetCollectionType): void  => {
+            loadPresets: (source: PresetCollectionType): void => {
                 fulfillPromise(dispatchLoadPresetsAction(dispatch, source));
             },
-            savePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
+            savePresets: (source: PresetCollectionType, presets: Preset[]): void => {
                 fulfillPromise(dispatchSavePresetsAction(dispatch, source, presets));
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
@@ -210,7 +239,7 @@ const createActionObject: ActionDispatchFunc =
             movePresets: (presets: Preset[], targetIndex: number): void => {
                 dispatch(createMovePresetsAction(presets, targetIndex));
             },
-            deletePresets: (source: PresetCollectionType, presets: Preset[]): void  => {
+            deletePresets: (source: PresetCollectionType, presets: Preset[]): void => {
                 dispatch(createDeletePresetsAction(source, presets));
             },
             updateScreen: (state: Partial<ScreenState>): void => {
@@ -218,8 +247,11 @@ const createActionObject: ActionDispatchFunc =
             },
             editEffects: (preset: Preset): void => {
                 dispatch(createEditEffectsAction(preset));
+            },
+            setInteractive: (interactive?: Interactive): void => {
+                dispatch(createSetInteractiveAction(interactive));
             }
         };
-};
+    };
 
 export default connect(extractComponentPropsFromState, createActionObject)(DevicePresetTab);

@@ -3,6 +3,7 @@ import { Fault } from "../model/Fault";
 import { ApplicationDocumentBuilder } from "./ApplicationDocumentBuilder";
 import { NotificationArrayBuilder } from "./notification/NotificationArrayBuilder";
 import { AddFaultAction } from "./AddFaultAction";
+import { NotificationType } from "./notification/Notification";
 
 export const reduceFault = (
     state: ApplicationDocument, source: PresetCollectionType, fault: Fault): ApplicationDocument => {
@@ -11,7 +12,7 @@ export const reduceFault = (
     const notificationBuilder = new NotificationArrayBuilder(builder.mutable.notification.notifications);
 
     notificationBuilder.add({
-        type: "warning",
+        type: NotificationType.Warning,
         message: fault.message,
         context: source.toString().toUpperCase()
     });

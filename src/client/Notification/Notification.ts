@@ -1,13 +1,13 @@
-export enum NotificationActions {
-    Ok = 1,
-    Cancel = 2,
-    OkCancel = 3,
-    
+export enum NotificationType {
+    None,
+    Info,
+    Warning,
+    Error,
+    Critical
 }
 
 export interface Notification {
-    type: "question" | "info" | "warning" | "error" | "critical";
+    type: NotificationType;
     message: string;
     context?: string;
-    actions?: NotificationActions;
 }

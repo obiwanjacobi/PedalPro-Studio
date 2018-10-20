@@ -1,6 +1,8 @@
 import { Notification } from "./Notification";
+import { Interactive } from "./Interactive";
 
 export interface NotificationState {
     notifications: Notification[];
-    interactive?: Notification;
+
+    interactive?: Interactive;
 }

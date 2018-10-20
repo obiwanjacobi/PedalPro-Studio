@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Dispatch } from "redux";
 import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
-import { 
-    FormControl, FormControlLabel, RadioGroup, Radio, 
+import {
+    FormControl, FormControlLabel, RadioGroup, Radio,
     Grid, IconButton, Checkbox, Dialog, Typography, Button
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
@@ -28,7 +28,7 @@ enum PasteType {
     Empty = "empty"
 }
 
-export interface DevicePastePageProps {}
+export interface DevicePastePageProps { }
 export interface DevicePastePageState {
     pasteType: string;
     removeSelected: boolean;
@@ -51,7 +51,7 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
     public constructor(props: DevicePastePageAllProps) {
         super(props);
         this.selection = new SelectedView(props.clipboard);
-        
+
         this.state = { pasteType: PasteType.None, removeSelected: true };
         this.close = this.close.bind(this);
         this.onPasteTypeChange = this.onPasteTypeChange.bind(this);
@@ -75,26 +75,38 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
                         Overwrite
                     </Button>
                 </ApplicationToolbar>
-                <Grid container={true} style={{width: "100%", flexGrow: 1, overflow: "hidden"}}>
+                <Grid container={true} style={{ width: "100%", flexGrow: 1, overflow: "hidden" }}>
                     <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
                         <Typography variant="body2">Clipboard</Typography>
                         <FormControlLabel
-                            control={<Checkbox 
-                                checked={this.state.removeSelected} 
+                            control={<Checkbox
+                                checked={this.state.removeSelected}
                                 onChange={this.onRemoveSelectedChange}
                             />}
                             label="Remove after Paste"
                         />
                         <SourcePresetList items={this.props.clipboard} changePresets={this.props.changePresets} />
                     </Grid>
-                        
+
                     <Grid item={true} xs={4} style={Styles.MainColumn}>
                         <Typography variant="body2">Operation</Typography>
                         <FormControl component="fieldset">
                             <RadioGroup value={this.state.pasteType} onChange={this.onPasteTypeChange}>
-                    <FormControlLabel value={PasteType.Index} label="Replace by Index" control={<Radio/>} />
-                    <FormControlLabel value={PasteType.Name} label="Replace by Name" control={<Radio/>} />
-                    <FormControlLabel value={PasteType.Empty} label="Replace empty" control={<Radio/>} />}
+                                <FormControlLabel
+                                    value={PasteType.Index}
+                                    label="Replace by Index"
+                                    control={<Radio />}
+                                />
+                                <FormControlLabel
+                                    value={PasteType.Name}
+                                    label="Replace by Name"
+                                    control={<Radio />}
+                                />
+                                <FormControlLabel
+                                    value={PasteType.Empty}
+                                    label="Replace empty"
+                                    control={<Radio />}
+                                />}
                             </RadioGroup>
                         </FormControl>
                     </Grid>
@@ -113,11 +125,11 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
     }
 
     private onRemoveSelectedChange() {
-        this.setState({removeSelected: !this.state.removeSelected});
+        this.setState({ removeSelected: !this.state.removeSelected });
     }
-    
+
     private onPasteTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({pasteType: event.target.value});
+        this.setState({ pasteType: event.target.value });
     }
 
     private overwrittenPresets(): Preset[] {
@@ -190,10 +202,14 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
 }
 
 const extractComponentPropsFromState: MapStateToProps<
-        DevicePastePageStateProps, DevicePastePageProps, ApplicationDocument
+    DevicePastePageStateProps, DevicePastePageProps, ApplicationDocument
     > = (state: ApplicationDocument, _: DevicePastePageProps): DevicePastePageStateProps => {
-        return  { presets: state.device, clipboard: state.clipboard, open: state.screen.pasteOpen };
-};
+        return {
+            presets: state.device,
+            clipboard: state.clipboard,
+            open: state.screen.pasteOpen
+        };
+    };
 
 const createActionObject: MapDispatchToPropsFunction<DevicePastePageActions, DevicePastePageProps> =
     (dispatch: Dispatch, _: DevicePastePageProps): DevicePastePageActions => {
@@ -208,6 +224,6 @@ const createActionObject: MapDispatchToPropsFunction<DevicePastePageActions, Dev
                 dispatch(createUpdateScreenAction(state));
             }
         };
-};
+    };
 
 export default connect(extractComponentPropsFromState, createActionObject)(DevicePastePage);

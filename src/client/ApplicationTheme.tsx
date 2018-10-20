@@ -5,10 +5,10 @@ import { indigo, amber, orange } from "@material-ui/core/colors";
 // TODO: load Application.theme.json
 const appTheme = createMuiTheme({
     palette: {
-      type: "dark",
-      primary: indigo,
-      secondary: amber,
-      error: orange,
+        type: "dark",
+        primary: indigo,
+        secondary: amber,
+        error: orange,
     },
     typography: {
         useNextVariants: true
@@ -24,11 +24,6 @@ const appTheme = createMuiTheme({
                 top: "0px",
                 right: "0px"
             }
-        },
-        MuiDialog: {
-            root: {
-                background: "#303030"
-            }
         }
     }
 });
@@ -38,7 +33,7 @@ const globalStyles = (theme: Theme) => ({
         html: {
             background: theme.palette.background.default,
             fontFamily: "Roboto, sans-serif",
-      },
+        },
     },
 });
 

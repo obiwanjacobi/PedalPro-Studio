@@ -1,19 +1,19 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import { Drawer, Divider, IconButton, Typography } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 
 import { ApplicationDocument } from "../ApplicationDocument";
-
+import { NotificationState } from "./NotificationState";
 import { Notification } from "./Notification";
 import { UserNotificationItem } from "./UserNotificationItem";
-import { RemoveNotificationAction, RemoveNotification, createRemoveNotificationAction }
-    from "./RemoveNotificationAction";
+import { RemoveNotification, createRemoveNotificationAction } from "./RemoveNotificationAction";
+import UserInteractive from "./UserInteractive";
 
 export interface UserNotificationProps { }
 export interface UserNotificationStateProps {
-    notifications: Notification[];
+    notification: NotificationState;
 }
 export interface UserNotificationState {
     open: boolean;
@@ -33,22 +33,24 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
     }
 
     public componentWillReceiveProps(newProps: UserNotificationAllProps) {
-        if (this.state.count < newProps.notifications.length &&
+        if (newProps.notification.interactive && !this.state.open) {
+            this.setState({ open: true, count: newProps.notification.notifications.length });
+        } else if (this.state.count < newProps.notification.notifications.length &&
             !this.state.open) {
-            this.setState({ open: true, count: newProps.notifications.length });
-        }
-        if (newProps.notifications.length === 0 &&
+            this.setState({ open: true, count: newProps.notification.notifications.length });
+        } else if (newProps.notification.notifications.length === 0 &&
             this.state.open) {
             this.setState({ open: false, count: 0 });
         }
     }
 
     public render() {
+        if (this.props.notification.interactive && this.state.open) {
+            return (<UserInteractive />);
+        }
+
         return (
-            <Drawer
-                anchor="bottom"
-                open={this.state.open}
-            >
+            <Drawer anchor="bottom" open={this.state.open}>
                 <header
                     style={{
                         display: "flex",
@@ -73,7 +75,7 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
     }
 
     private renderNotifications() {
-        return this.props.notifications.map(this.renderNotification);
+        return this.props.notification.notifications.map(this.renderNotification);
     }
 
     private renderNotification(item: Notification, index: number) {
@@ -84,27 +86,24 @@ export class UserNotification extends React.Component<UserNotificationAllProps, 
 
     private removeNotification(notification: Notification) {
         this.props.removeNotification(notification);
-        this.setState({ open: this.state.open, count: this.state.count - 1 });
+        this.setState({ count: this.state.count - 1 });
     }
 
     private close() {
-        this.setState({ open: false, count: this.state.count });
+        this.setState({ open: false });
     }
 }
 
-const extractComponentPropsFromState: MapStateToProps<
-    UserNotificationStateProps, UserNotificationProps, ApplicationDocument
-    > = (state: ApplicationDocument, _: UserNotificationProps): UserNotificationStateProps => {
-        return { notifications: state.notification.notifications };
-    };
+const extractComponentPropsFromState = (state: ApplicationDocument): UserNotificationStateProps => {
+    return { notification: state.notification };
+};
 
-const createActionObject: MapDispatchToPropsFunction<UserNotificationActions, UserNotificationProps> =
-    (dispatch: Dispatch<RemoveNotificationAction>, _: UserNotificationProps): UserNotificationActions => {
-        return {
-            removeNotification: (notification: Notification): void => {
-                dispatch(createRemoveNotificationAction(notification));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): UserNotificationActions => {
+    return {
+        removeNotification: (notification: Notification): void => {
+            dispatch(createRemoveNotificationAction(notification));
+        }
     };
+};
 
 export default connect(extractComponentPropsFromState, createActionObject)(UserNotification);
