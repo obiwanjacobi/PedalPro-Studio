@@ -35,19 +35,22 @@ import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorag
 import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 import { DeleteStoragePresets, createDeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
 import { storagePresetsForBank, bankHasChanged } from "./BankOperations";
+import { Interactive, InteractiveOptions } from "../notification/Interactive";
+import { SetInteractive, createSetInteractiveAction } from "../notification/SetInteractiveAction";
 
-export interface StoragePresetTabProps {}
+export interface StoragePresetTabProps { }
 export interface StoragePresetTabStoreProps {
     banks?: StorageBank[];
     presets: Preset[];
     hasClipboard: boolean;
     pasteOpen: boolean;
+    downloadConfirmation?: InteractiveOptions;
 }
-export interface StoragePresetTabState {}
+export interface StoragePresetTabState { }
 export type StoragePresetTabActions =
-    EditEffects &
+    EditEffects & SetInteractive &
     ChangePresets & ChangeStorageBanks & AddStorageBank & RenameStorageBank &
-    LoadStorageBanks & LoadStorageBankPresets & SaveStoragePresets & 
+    LoadStorageBanks & LoadStorageBankPresets & SaveStoragePresets &
     CopyPresets & EditPreset & MovePresets & UpdateScreen & DeleteStoragePresets;
 
 export type StoragePresetTabAllProps = StoragePresetTabProps & StoragePresetTabStoreProps & StoragePresetTabActions;
@@ -76,9 +79,10 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 
     public shouldComponentUpdate(nextProps: StoragePresetTabAllProps, _: StoragePresetTabState): boolean {
         return (this.props.presets !== nextProps.presets ||
-               this.props.banks !== nextProps.banks) ||
-               this.props.hasClipboard !== nextProps.hasClipboard ||
-               this.props.pasteOpen !== nextProps.pasteOpen;
+            this.props.banks !== nextProps.banks) ||
+            this.props.hasClipboard !== nextProps.hasClipboard ||
+            this.props.pasteOpen !== nextProps.pasteOpen ||
+            this.props.downloadConfirmation !== nextProps.downloadConfirmation;
     }
 
     public componentWillReceiveProps(newProps: StoragePresetTabAllProps) {
@@ -87,6 +91,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         this.selection = new SelectedView(activePresets);
         this.changes = new ChangedView(activePresets);
         this.bankSelection = new SelectedView(banks);
+        this.continueDownload(newProps);
     }
 
     public componentWillMount() {
@@ -96,7 +101,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     public render() {
         return (
             <FlexContainer vertical={true}>
-                <PresetToolbar 
+                <PresetToolbar
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
                     enablePaste={this.props.hasClipboard}
@@ -121,7 +126,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         renameStorageBank={this.actions.renameStorageBank}
                         deleteStorageBank={this.deleteStorageBank}
                     />
-                    <PresetView 
+                    <PresetView
                         filterEmpty={false}
                         filterFlagged={true}
                         presets={this.bankPresets}
@@ -131,7 +136,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
                         movePresets={this.actions.movePresets}
                         deletePresets={this.deletePresets}
                         canMoveDown={this.canMoveDown}
-                        empty={this.renderEmpty()}                
+                        empty={this.renderEmpty()}
                     />
                 </FlexContainer>
                 {this.props.pasteOpen && <StoragePastePage />}
@@ -169,9 +174,9 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     private toggleSelectAll(status: SelectAllButtonStatus) {
         const presetsToSelect = getPresetsToSelect(this.changes, status);
 
-        this.actions.changePresets(this.bankPresets, PresetCollectionType.storage, {selected: false});
+        this.actions.changePresets(this.bankPresets, PresetCollectionType.storage, { selected: false });
         if (presetsToSelect.length) {
-            this.actions.changePresets(presetsToSelect, PresetCollectionType.storage, {selected: true});
+            this.actions.changePresets(presetsToSelect, PresetCollectionType.storage, { selected: true });
         }
     }
 
@@ -181,7 +186,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
             this.actions.copyPresets(selectedPresets);
         }
     }
-    
+
     private deleteStorageBank(bank: StorageBank) {
         this.actions.changeStorageBanks([bank], { markedDeleted: true });
     }
@@ -197,8 +202,31 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private download() {
-        // TODO: prompt for confirmation losing changes
-        this.props.loadStorageBanks();
+        if (this.changes.anyChanged) {
+            this.askConfirmation();
+        } else {
+            this.props.loadStorageBanks();
+        }
+    }
+
+    private continueDownload(props: StoragePresetTabStoreProps) {
+        if (props.downloadConfirmation) {
+            const action = props.downloadConfirmation;
+            this.actions.setInteractive(undefined);
+
+            if (action === InteractiveOptions.Ok) {
+                this.props.loadStorageBanks();
+            }
+        }
+    }
+
+    private askConfirmation() {
+        const interactive: Interactive = {
+            caption: "Download Presets from Storage",
+            message: "There are unsaved changes. Are you sure you want to overwrite them?",
+            buttons: InteractiveOptions.OkCancel
+        };
+        this.actions.setInteractive(interactive);
     }
 
     private uploadCount(): number {
@@ -211,7 +239,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     private pastePresets() {
-        this.props.updateScreen({pasteOpen: true});
+        this.props.updateScreen({ pasteOpen: true });
     }
 
     private renderEmpty(): React.ReactNode {
@@ -224,7 +252,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
         } else {
             return (
                 <Typography variant="body2">
-                    Press <Download/> to retrieve the preset banks.
+                    Press <Download /> to retrieve the preset banks.
                 </Typography>
             );
         }
@@ -238,19 +266,22 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 type ExtractStatePropFunc = MapStateToProps<StoragePresetTabStoreProps, StoragePresetTabProps, ApplicationDocument>;
 const extractComponentPropsFromState: ExtractStatePropFunc = (
     state: ApplicationDocument, _: StoragePresetTabProps): StoragePresetTabStoreProps => {
-        return  { 
-            banks: state.banks, 
-            presets: state.storage, 
-            hasClipboard: state.clipboard.length > 0,
-            pasteOpen: state.screen.pasteOpen
-        };
+
+    const interactive = state.notification.interactive ? state.notification.interactive.action : undefined;
+    return {
+        banks: state.banks,
+        presets: state.storage,
+        hasClipboard: state.clipboard.length > 0,
+        pasteOpen: state.screen.pasteOpen,
+        downloadConfirmation: interactive
+    };
 };
 
 type ActionDispatchFunc = MapDispatchToPropsFunction<StoragePresetTabActions, StoragePresetTabProps>;
 const createActionObject: ActionDispatchFunc =
     (dispatch: Dispatch, _: StoragePresetTabProps): StoragePresetTabActions => {
         return {
-            loadStorageBanks: (): void  => {
+            loadStorageBanks: (): void => {
                 fulfillPromise(dispatchLoadStorageBanksAction(dispatch));
             },
             loadStorageBankPresets: (bank: string): void => {
@@ -262,7 +293,7 @@ const createActionObject: ActionDispatchFunc =
             renameStorageBank: (bank: StorageBank, newName: string) => {
                 dispatch(createRenameStorageBankAction(bank, newName));
             },
-            saveStoragePresets: (banks: StorageBank[], presets: Preset[]): void  => {
+            saveStoragePresets: (banks: StorageBank[], presets: Preset[]): void => {
                 fulfillPromise(dispatchSaveStoragePresetsAction(dispatch, banks, presets));
             },
             changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
@@ -280,7 +311,7 @@ const createActionObject: ActionDispatchFunc =
             movePresets: (presets: Preset[], targetIndex: number): void => {
                 dispatch(createMovePresetsAction(presets, targetIndex));
             },
-            deleteStoragePresets: (presets: Preset[]): void  => {
+            deleteStoragePresets: (presets: Preset[]): void => {
                 dispatch(createDeleteStoragePresetsAction(presets));
             },
             updateScreen: (state: Partial<ScreenState>): void => {
@@ -288,8 +319,11 @@ const createActionObject: ActionDispatchFunc =
             },
             editEffects: (preset: Preset): void => {
                 dispatch(createEditEffectsAction(preset));
+            },
+            setInteractive: (interactive?: Interactive): void => {
+                dispatch(createSetInteractiveAction(interactive));
             }
         };
-};
+    };
 
 export default connect(extractComponentPropsFromState, createActionObject)(StoragePresetTab);
