@@ -5,7 +5,8 @@ import { DefaultClient } from "../Client";
 import { Preset } from "./Preset";
 import { ProgressInfo } from "../screen/ScreenState";
 import { progressLoadPresets, loadAllPresets } from "./LoadPresetsOperation";
-import { createAddFaultAction, AddFaultAction } from "../AddFaultAction";
+import { createAddFaultAction } from "../AddFaultAction";
+import { createCopyPresetsAction } from "./CopyPresetsAction";
 
 export interface LoadPresetsAction {
     readonly type: "R/*/presets/";
@@ -14,31 +15,35 @@ export interface LoadPresetsAction {
     readonly progress?: ProgressInfo;
 }
 
-export const createLoadPresetsAction = 
+export const createLoadPresetsAction =
     (source: PresetCollectionType, presets: Preset[], progress?: ProgressInfo): LoadPresetsAction => {
-    return {
-        type: "R/*/presets/", source: source, presets: presets, progress: progress
+        return {
+            type: "R/*/presets/", source: source, presets: presets, progress: progress
+        };
     };
-};
 
 export async function dispatchLoadPresetsAction(
-    dispatch: Dispatch<LoadPresetsAction | AddFaultAction>, source: PresetCollectionType): Promise<void> {
+    dispatch: Dispatch, source: PresetCollectionType): Promise<void> {
 
     const presetClient = DefaultClient.getSource(source);
 
     try {
         switch (source) {
             case PresetCollectionType.storage:
-            throw new Error("Invalid Operation: Storage has separate Actions.");
+                throw new Error("Invalid Operation: Storage has separate Actions.");
 
             case PresetCollectionType.device:
-            progressLoadPresets(presetClient, dispatch);
-            break;
-            
+                progressLoadPresets(presetClient, dispatch);
+                break;
+
             default:
-            await loadAllPresets(presetClient, dispatch);
-            break;
+                await loadAllPresets(presetClient, dispatch);
+                break;
         }
+
+        // clear clipboard
+        dispatch(createCopyPresetsAction([]));
+
     } catch (error) {
         dispatch(createAddFaultAction(presetClient.collection, error));
     }

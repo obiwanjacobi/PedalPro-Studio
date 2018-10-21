@@ -16,14 +16,14 @@ import { ScreenBuilder } from "../screen/ScreenBuilder";
 import { presetsExceptIndexAreEqual } from "./PresetOperations";
 
 // all actions this reducer handles
-export type PresetAction = 
+export type PresetAction =
     LoadPresetsAction | SavePresetsAction | DeletePresetsAction |
     ChangePresetsAction | CopyPresetsAction | PastePresetsAction |
     EditPresetAction | MovePresetsAction;
 
 const reduceMovePresets = (
-    state: ApplicationDocument, 
-    presets: Preset[], 
+    state: ApplicationDocument,
+    presets: Preset[],
     targetIndex: number,
     swap: boolean): ApplicationDocument => {
     if (presets.length === 0) { return state; }
@@ -43,8 +43,8 @@ const reduceMovePresets = (
 };
 
 const reduceEditPreset = (
-    state: ApplicationDocument, 
-    preset: Preset, 
+    state: ApplicationDocument,
+    preset: Preset,
     update: Partial<Preset>): ApplicationDocument => {
     if (!update) { return state; }
 
@@ -60,9 +60,8 @@ const reduceEditPreset = (
 };
 
 const reduceCopyPresets = (
-    state: ApplicationDocument, 
+    state: ApplicationDocument,
     presets: Preset[]): ApplicationDocument => {
-    if (presets.length === 0) { return state; }
 
     const builder = new ApplicationDocumentBuilder(state);
     builder.mutable.clipboard = presets;
@@ -70,8 +69,8 @@ const reduceCopyPresets = (
 };
 
 const reducePastePresets = (
-    state: ApplicationDocument, 
-    presets: Preset[], 
+    state: ApplicationDocument,
+    presets: Preset[],
     target: PresetCollectionType,
     deleteAfterPaste: boolean): ApplicationDocument => {
     if (presets.length === 0) { return state; }
@@ -82,19 +81,20 @@ const reducePastePresets = (
     builder.transformPresets(target, (originalPresets: Preset[]): Preset[] => {
         const presetBuilder = new PresetArrayBuilder(originalPresets);
         presetBuilder.forRange(
-            presets, 
+            presets,
             (pasted: Preset, index: number) => {
                 const overwritten = presetBuilder.mutable[index];
-                presetBuilder.mutable[index] = PresetBuilder.modify(pasted, { 
+                presetBuilder.mutable[index] = PresetBuilder.modify(pasted, {
                     origin: PresetBuilder.toModel(overwritten),
-                    source: target, 
-                    ui: itemUiModify(pasted.ui, {selected: true})});
+                    source: target,
+                    ui: itemUiModify(pasted.ui, { selected: true })
+                });
             },
             (p1: Preset, p2: Preset): boolean => p1.index === p2.index);
 
         return presetBuilder.detach();
     });
-    
+
     if (deleteAfterPaste) {
         builder.transformPresets(PresetCollectionType.clipboard, (clipboardPresets: Preset[]): Preset[] => {
             const presetBuilder = new PresetArrayBuilder(clipboardPresets);
@@ -107,8 +107,8 @@ const reducePastePresets = (
 };
 
 const reduceChangePresets = (
-    state: ApplicationDocument, 
-    presets: Preset[], 
+    state: ApplicationDocument,
+    presets: Preset[],
     source: PresetCollectionType,
     ui: Partial<ItemUI>): ApplicationDocument => {
     if (presets.length === 0) { return state; }
@@ -126,8 +126,8 @@ const reduceChangePresets = (
 };
 
 const reduceLoadPresets = (
-    state: ApplicationDocument, 
-    source: PresetCollectionType, 
+    state: ApplicationDocument,
+    source: PresetCollectionType,
     presets: Preset[],
     progress?: ProgressInfo): ApplicationDocument => {
     if (presets.length === 0) { return state; }
@@ -152,11 +152,11 @@ const reduceLoadPresets = (
 
 export const reduceDeletePresets = (
     state: ApplicationDocument, source: PresetCollectionType, deleted: Preset[]): ApplicationDocument => {
-    
+
     if (source === PresetCollectionType.factory) { return state; }
     if (source === PresetCollectionType.storage) { return state; }
     if (source === PresetCollectionType.device && !state.empty) { return state; }
-    
+
     const builder = new ApplicationDocumentBuilder(state);
     builder.transformPresets(source, (originalPresets: Preset[]): Preset[] => {
         const deleteBuilder = new PresetArrayBuilder(deleted);
@@ -176,31 +176,31 @@ export const reduceDeletePresets = (
 export const reduce = (state: ApplicationDocument, action: PresetAction): ApplicationDocument => {
     switch (action.type) {
         case "R/*/presets/":
-        return reduceLoadPresets(state, action.source, action.presets, action.progress);
+            return reduceLoadPresets(state, action.source, action.presets, action.progress);
 
         case "U/*/presets/":
-        return reduceLoadPresets(state, action.source, action.presets);
+            return reduceLoadPresets(state, action.source, action.presets);
 
         case "D/*/presets/":
-        return reduceDeletePresets(state, action.source, action.presets);
+            return reduceDeletePresets(state, action.source, action.presets);
 
         case "U/*/presets/ui":
-        return reduceChangePresets(state, action.presets, action.source, action.ui);
+            return reduceChangePresets(state, action.presets, action.source, action.ui);
 
         case "C/clipboard/presets/":
-        return reduceCopyPresets(state, action.presets);
+            return reduceCopyPresets(state, action.presets);
 
         case "C/*/presets/":
-        return reducePastePresets(state, action.presets, action.target, action.deleteAfterPaste);
+            return reducePastePresets(state, action.presets, action.target, action.deleteAfterPaste);
 
         case "U/*/presets/.*":
-        return reduceEditPreset(state, action.preset, action.update);
+            return reduceEditPreset(state, action.preset, action.update);
 
         case "U/*/presets/[]":
-        return reduceMovePresets(state, action.presets, action.targetIndex, action.swap);
+            return reduceMovePresets(state, action.presets, action.targetIndex, action.swap);
 
         default:
-        break;
+            break;
     }
 
     return state;

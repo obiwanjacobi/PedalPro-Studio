@@ -3,7 +3,8 @@ import { Dispatch } from "redux";
 import { StorageBank } from "./StorageBank";
 import { PresetCollectionType } from "../ApplicationDocument";
 import { DefaultClient } from "../Client";
-import { createAddFaultAction, AddFaultAction } from "../AddFaultAction";
+import { createAddFaultAction } from "../AddFaultAction";
+import { createCopyPresetsAction } from "../preset/CopyPresetsAction";
 
 export interface LoadStorageBanksAction {
     readonly type: "R/storage/*";
@@ -15,12 +16,16 @@ export const createLoadStorageBanksAction = (banks: StorageBank[]): LoadStorageB
 };
 
 export async function dispatchLoadStorageBanksAction(
-    dispatch: Dispatch<LoadStorageBanksAction | AddFaultAction>): Promise<void> {
+    dispatch: Dispatch): Promise<void> {
     const presetClient = DefaultClient.getSource(PresetCollectionType.storage);
 
     try {
         const banks = await presetClient.getStorageBanks();
         dispatch(createLoadStorageBanksAction(banks));
+
+        // clear clipboard
+        dispatch(createCopyPresetsAction([]));
+
     } catch (error) {
         dispatch(createAddFaultAction(PresetCollectionType.storage, error));
     }
