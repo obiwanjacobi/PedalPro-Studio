@@ -95,7 +95,9 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 
     public componentWillMount() {
-        this.download();
+        if (!this.props.banks || this.props.banks.length === 0) {
+            this.download();
+        }
     }
 
     public render() {
