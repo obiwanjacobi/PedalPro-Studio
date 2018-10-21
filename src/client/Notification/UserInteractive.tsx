@@ -2,10 +2,9 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Dialog, Button, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
-import { Error as ErrorIcon, Help as HelpIcon } from "@material-ui/icons";
 
 import { ApplicationDocument } from "../ApplicationDocument";
-import { Interactive, InteractiveOptions, InteractiveIcon } from "./Interactive";
+import { Interactive, InteractiveOptions } from "./Interactive";
 import { SetInteractive, createSetInteractiveAction } from "./SetInteractiveAction";
 
 type UserInteractiveStoreProps = {
