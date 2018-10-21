@@ -27,7 +27,7 @@ import { PresetView } from "../preset/PresetView";
 import DevicePastePage from "./DevicePastePage";
 import { calcSelectAllStatus, getPresetsToSelect } from "../controls/SelectedChanged";
 import DeviceMovePage from "./DeviceMovePage";
-import { InteractiveOptions, Interactive } from "../notification/Interactive";
+import { InteractiveOptions, Interactive, InteractiveIcon } from "../notification/Interactive";
 import { SetInteractive, createSetInteractiveAction } from "../notification/SetInteractiveAction";
 
 export interface DevicePresetTabProps { }
@@ -185,6 +185,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
 
     private askConfirmation() {
         const interactive: Interactive = {
+            icon: InteractiveIcon.Question,
             caption: "Download Presets from Device",
             message: "There are unsaved changes. Are you sure you want to overwrite them?",
             buttons: InteractiveOptions.OkCancel

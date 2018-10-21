@@ -35,7 +35,7 @@ import { createRenameStorageBankAction, RenameStorageBank } from "./RenameStorag
 import { SaveStoragePresets, dispatchSaveStoragePresetsAction } from "./SaveStoragePresetsAction";
 import { DeleteStoragePresets, createDeleteStoragePresetsAction } from "./DeleteStoragePresetsAction";
 import { storagePresetsForBank, bankHasChanged } from "./BankOperations";
-import { Interactive, InteractiveOptions } from "../notification/Interactive";
+import { Interactive, InteractiveOptions, InteractiveIcon } from "../notification/Interactive";
 import { SetInteractive, createSetInteractiveAction } from "../notification/SetInteractiveAction";
 
 export interface StoragePresetTabProps { }
@@ -222,6 +222,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
 
     private askConfirmation() {
         const interactive: Interactive = {
+            icon: InteractiveIcon.Question,
             caption: "Download Presets from Storage",
             message: "There are unsaved changes. Are you sure you want to overwrite them?",
             buttons: InteractiveOptions.OkCancel

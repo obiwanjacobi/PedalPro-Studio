@@ -6,8 +6,14 @@ export enum InteractiveOptions {
     OkCancel = 3,
 }
 
+export enum InteractiveIcon {
+    None,
+    Exclamation,
+    Question,
+}
+
 export interface Interactive {
-    icon?: React.ReactNode;
+    icon?: InteractiveIcon;
     message: string;
     caption: string;
     buttons: InteractiveOptions;

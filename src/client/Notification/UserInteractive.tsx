@@ -1,11 +1,12 @@
 import * as React from "react";
+import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Dialog, Button, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
+import { Error as ErrorIcon, Help as HelpIcon } from "@material-ui/icons";
 
 import { ApplicationDocument } from "../ApplicationDocument";
-import { Interactive, InteractiveOptions } from "./Interactive";
+import { Interactive, InteractiveOptions, InteractiveIcon } from "./Interactive";
 import { SetInteractive, createSetInteractiveAction } from "./SetInteractiveAction";
-import { Dispatch } from "redux";
 
 type UserInteractiveStoreProps = {
     interactive: Interactive;
@@ -25,6 +26,7 @@ class UserInteractive extends React.Component<UserInteractiveAllProps> {
             <Dialog open={true}>
                 <DialogTitle>{this.props.interactive.caption}</DialogTitle>
                 <DialogContent>
+                    {this.renderIcon()}
                     <DialogContentText>{this.props.interactive.message}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -37,6 +39,20 @@ class UserInteractive extends React.Component<UserInteractiveAllProps> {
                 </DialogActions>
             </Dialog>
         );
+    }
+
+    private renderIcon(): React.ReactNode {
+        // if (this.props.interactive.icon) {
+        //     switch (this.props.interactive.icon) {
+        //         case InteractiveIcon.Question:
+        //             return <HelpIcon />;
+        //         case InteractiveIcon.Exclamation:
+        //             return <ErrorIcon />;
+        //         default:
+        //             break;
+        //     }
+        // }
+        return null;
     }
 
     private ok() {
