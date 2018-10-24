@@ -3,7 +3,7 @@ import { Notification } from "./Notification";
 import { ApplicationDocumentBuilder } from "../ApplicationDocumentBuilder";
 import { ApplicationDocument } from "../ApplicationDocument";
 import { SetInteractiveAction, SetInteractiveActionKey } from "./SetInteractiveAction";
-import { NotificationArrayBuilder, NotificationBuilder } from "./NotificationArrayBuilder";
+import { NotificationArrayBuilder, NotificationBuilder } from "./NotificationBuilder";
 import { NotificationState } from "./NotificationState";
 import { Interactive } from "./Interactive";
 

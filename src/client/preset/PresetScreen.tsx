@@ -22,7 +22,8 @@ const containerStyles: React.CSSProperties = {
 export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetScreenState> {
     public constructor(props: PresetScreenProps) {
         super(props);
-        // bind event handlers
+        this.state = { selectedTab: 0 };
+        
         this.changePageHandler = this.changePageHandler.bind(this);
     }
 
@@ -63,7 +64,6 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
     }
     
     private get selectedTab(): number {
-        if (!this.state) { return 0; }
         return this.state.selectedTab;
     }
     
