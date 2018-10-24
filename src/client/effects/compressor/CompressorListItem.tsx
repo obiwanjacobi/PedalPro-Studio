@@ -5,10 +5,11 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { SelectEffect } from "../SelectEffectAction";
 import { EffectNames } from "../Effects";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type CompressorListItemProps = {
     compressor: Compressor;
+    origin: Compressor;
 };
 type CompressorListItemActions = ChangeEffects & SelectEffect;
 type CompressorListItemAllProps = CompressorListItemProps & CompressorListItemActions;
@@ -18,13 +19,13 @@ export class CompressorListItem extends React.Component<CompressorListItemAllPro
         super(props);
         this.onEnabled = this.onEnabled.bind(this);
     }
-    
+
     public render() {
         return (
             <EffectsItemCard
                 enabled={this.props.compressor.enabled}
                 selected={this.props.compressor.ui.selected}
-                changed={effectHasChanged(this.props.compressor)}
+                changed={!effectEqual(this.props.compressor, this.props.origin)}
                 title="Compressor"
                 avatar="Com"
                 onEnabled={this.onEnabled}

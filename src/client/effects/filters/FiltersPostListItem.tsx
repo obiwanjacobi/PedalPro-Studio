@@ -8,10 +8,11 @@ import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
 import { EffectsListItemOption } from "../EffectsListItemOption";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type FiltersPostListItemProps = {
     filters: Filters;
+    origin: Filters;
 };
 type FiltersPostListItemActions = ChangeEffects & SelectEffect;
 type FiltersPostListItemAllProps = FiltersPostListItemProps & FiltersPostListItemActions;
@@ -29,7 +30,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
 
         this.routing = new FilterRoutingValue(props.filters.routing);
     }
-    
+
     public componentWillReceiveProps(newProps: FiltersPostListItemAllProps) {
         this.routing = new FilterRoutingValue(newProps.filters.routing);
     }
@@ -39,7 +40,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
             <EffectsItemCard
                 enabled={this.props.filters.routing !== FilterRouting.Bypass}
                 selected={this.props.filters.ui.selected}
-                changed={effectHasChanged(this.props.filters)}
+                changed={!effectEqual(this.props.filters, this.props.origin)}
                 title="FIlters (post)"
                 avatar="Fil"
                 effectName={{ effectName: EffectNames.Filters }}
@@ -78,7 +79,7 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
     }
 
     private onChangeFilter1(checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter1Left(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter1Left(checked) } });
         this.selectComponent(checked, FiltersComponentNames.Filter1);
     }
 
@@ -89,12 +90,12 @@ export class FiltersPostListItem extends React.Component<FiltersPostListItemAllP
     }
 
     private onChangeFilter2(checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Right(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Right(checked) } });
         this.selectComponent(checked, FiltersComponentNames.Filter2);
     }
 
     private onChangeFilter2Left(checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Left(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPostFilter2Left(checked) } });
         this.selectComponent(checked, FiltersComponentNames.Filter2);
     }
 

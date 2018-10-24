@@ -5,10 +5,11 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type DistortionListItemProps = {
     distortion: Distortion;
+    origin: Distortion;
 };
 type DistortionListItemActions = ChangeEffects & SelectEffect;
 type DistortionListItemAllProps = DistortionListItemProps & DistortionListItemActions;
@@ -18,13 +19,13 @@ export class DistortionListItem extends React.Component<DistortionListItemAllPro
         super(props);
         this.onEnabled = this.onEnabled.bind(this);
     }
-    
+
     public render() {
         return (
             <EffectsItemCard
                 enabled={this.props.distortion.enabled}
                 selected={this.props.distortion.ui.selected}
-                changed={effectHasChanged(this.props.distortion)}
+                changed={!effectEqual(this.props.distortion, this.props.origin)}
                 title="Distortion"
                 avatar="Dst"
                 onEnabled={this.onEnabled}
@@ -33,7 +34,7 @@ export class DistortionListItem extends React.Component<DistortionListItemAllPro
             />
         );
     }
-    
+
     private onEnabled(enabled: boolean) {
         this.props.changeEffects({ distortion: { enabled: enabled } });
     }

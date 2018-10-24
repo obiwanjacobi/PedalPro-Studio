@@ -11,7 +11,6 @@ import {
 } from "./EffectsOperations";
 import { SelectEffectActionKey, SelectEffectAction } from "./SelectEffectAction";
 import { isNullForType } from "./dsp/Dsp";
-import { EffectsBuilder } from "./EffectsBuilder";
 import { createForDspType } from "./dsp/DspDefaults";
 
 function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction): ApplicationDocument {

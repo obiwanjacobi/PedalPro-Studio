@@ -64,6 +64,11 @@ export function effectsEqual(
     return false;
 }
 
+export function effectEqual(effect1: AnyEffect, effect2: AnyEffect): boolean {
+    if (effect1 === effect2) { return true; }
+    return commonIsEqual(effect1, effect2);
+}
+
 function getFirstSelected(effectsOrEx: EffectsOrEx): EffectNames {
     if (isEffects(effectsOrEx)) {
         const effects = effectsOrEx as Effects;

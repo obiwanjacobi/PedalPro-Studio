@@ -7,10 +7,11 @@ import { ChangeEffectsEx } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { PreAmpRoutingValue } from "../../../model/PreAmp";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type PreAmpListItemProps = {
     pre: PreAmp;
+    origin: PreAmp;
 };
 type PreAmpListItemActions = ChangeEffectsEx & SelectEffect;
 type PreAmpListItemAllProps = PreAmpListItemProps & PreAmpListItemActions;
@@ -32,7 +33,7 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps> {
 
         this.routingValue = new PreAmpRoutingValue(props.pre.routing);
     }
-    
+
     public componentWillReceiveProps(newProps: PreAmpListItemAllProps) {
         this.routingValue = new PreAmpRoutingValue(newProps.pre.routing);
     }
@@ -42,7 +43,7 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps> {
             <EffectsItemCard
                 enabled={this.props.pre.enabled}
                 selected={this.props.pre.ui.selected}
-                changed={effectHasChanged(this.props.pre)}
+                changed={!effectEqual(this.props.pre, this.props.origin)}
                 title="PreAmp"
                 avatar="Pre"
                 onEnabled={this.onEnabled}
@@ -65,28 +66,28 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps> {
                 <ListItem button={this.routingValue.distortionDiode} onClick={this.onDistortionDiode}>
                     <ListItemText primary="Distortion (diode)" />
                     <ListItemSecondaryAction>
-                        <Switch 
-                            checked={this.routingValue.distortionDiode} 
-                            onChange={this.onChangeDistortionDiode} 
+                        <Switch
+                            checked={this.routingValue.distortionDiode}
+                            onChange={this.onChangeDistortionDiode}
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem button={this.routingValue.distortionFet} onClick={this.onDistortionFet}>
                     <ListItemText primary="Distortion (jfet)" />
                     <ListItemSecondaryAction>
-                    <Switch 
-                        checked={this.routingValue.distortionFet} 
-                        onChange={this.onChangeDistortionFet} 
-                    />
+                        <Switch
+                            checked={this.routingValue.distortionFet}
+                            onChange={this.onChangeDistortionFet}
+                        />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem button={this.routingValue.fuzz} onClick={this.onFuzz}>
                     <ListItemText primary="Fuzz" />
                     <ListItemSecondaryAction>
-                    <Switch
-                        checked={this.routingValue.fuzz} 
-                        onChange={this.onChangeFuzz}
-                    />
+                        <Switch
+                            checked={this.routingValue.fuzz}
+                            onChange={this.onChangeFuzz}
+                        />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem button={true} onClick={this.onEqualizer}>
@@ -100,17 +101,17 @@ export class PreAmpListItem extends React.Component<PreAmpListItemAllProps> {
     }
 
     private onChangeDistortionDiode(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionDiode(checked) }});
+        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionDiode(checked) } });
         this.selectComponent(checked, PreAmpComponentNames.DistortionDiode);
     }
 
     private onChangeDistortionFet(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionFet(checked) }});
+        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setDistortionFet(checked) } });
         this.selectComponent(checked, PreAmpComponentNames.DistortionFet);
     }
 
     private onChangeFuzz(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setFuzz(checked) }});
+        this.props.changeEffectsEx({ pre: { routing: this.routingValue.setFuzz(checked) } });
         this.selectComponent(checked, PreAmpComponentNames.Fuzz);
     }
 

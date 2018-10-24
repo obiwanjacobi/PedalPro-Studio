@@ -5,10 +5,11 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type BoostListItemProps = {
     boost: Boost;
+    origin: Boost;
 };
 type BoostListItemActions = ChangeEffects & SelectEffect;
 type BoostListItemAllProps = BoostListItemProps & BoostListItemActions;
@@ -18,13 +19,13 @@ export class BoostListItem extends React.Component<BoostListItemAllProps> {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);
     }
-    
+
     public render() {
         return (
             <EffectsItemCard
                 enabled={this.props.boost.enabled}
                 selected={this.props.boost.ui.selected}
-                changed={effectHasChanged(this.props.boost)}
+                changed={!effectEqual(this.props.boost, this.props.origin)}
                 title="Boost"
                 avatar="Bst"
                 onEnabled={this.onEnabled}
@@ -33,7 +34,7 @@ export class BoostListItem extends React.Component<BoostListItemAllProps> {
             />
         );
     }
-    
+
     private onEnabled(enabled: boolean) {
         this.props.changeEffects({ boost: { enabled: enabled } });
     }

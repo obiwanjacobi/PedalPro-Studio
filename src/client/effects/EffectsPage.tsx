@@ -65,10 +65,10 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
                             Save
                     </Button>}
                 </ApplicationToolbar>
-                {this.props.effectsEx &&
-                    <EffectsExView effectsEx={this.props.effectsEx} />}
-                {this.props.effects &&
-                    <EffectsView effects={this.props.effects} />}
+                {this.props.effectsEx && this.props.preset &&
+                    <EffectsExView effectsEx={this.props.effectsEx} origin={this.props.preset.effects as EffectsEx} />}
+                {this.props.effects && this.props.preset &&
+                    <EffectsView effects={this.props.effects} origin={this.props.preset.effects as Effects} />}
                 <Drawer anchor="right" open={this.state.drawerOpen}>
                     <ApplicationToolbar>
                         <IconButton onClick={this.closeDrawer}>

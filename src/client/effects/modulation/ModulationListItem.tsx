@@ -7,10 +7,11 @@ import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { ModulationMode } from "../../../model/Modulation";
 import { List, ListItem, ListItemText, ListItemSecondaryAction, Switch } from "@material-ui/core";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type ModulationListItemProps = {
     modulation: Modulation;
+    origin: Modulation;
 };
 type ModulationListItemActions = ChangeEffects & SelectEffect;
 type ModulationListItemAllProps = ModulationListItemProps & ModulationListItemActions;
@@ -25,13 +26,13 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
         this.onVibe = this.onVibe.bind(this);
         this.onChangeVibe = this.onChangeVibe.bind(this);
     }
-    
+
     public render() {
         return (
             <EffectsItemCard
                 enabled={this.props.modulation.mode !== ModulationMode.None}
                 selected={this.props.modulation.ui.selected}
-                changed={effectHasChanged(this.props.modulation)}
+                changed={!effectEqual(this.props.modulation, this.props.origin)}
                 title="Modulation"
                 avatar="Mod"
                 content={this.renderActionList()}
@@ -45,19 +46,19 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
                 <ListItem button={this.isChorus} onClick={this.onChorus}>
                     <ListItemText>Chorus</ListItemText>
                     <ListItemSecondaryAction>
-                        <Switch checked={this.isChorus} onChange={this.onChangeChorus}/>
+                        <Switch checked={this.isChorus} onChange={this.onChangeChorus} />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem button={this.isFlanger} onClick={this.onFlanger}>
                     <ListItemText>Flanger</ListItemText>
                     <ListItemSecondaryAction>
-                        <Switch checked={this.isFlanger} onChange={this.onChangeFlanger}/>
+                        <Switch checked={this.isFlanger} onChange={this.onChangeFlanger} />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem button={this.isVibe} onClick={this.onVibe}>
                     <ListItemText>Vibe</ListItemText>
                     <ListItemSecondaryAction>
-                        <Switch checked={this.isVibe} onChange={this.onChangeVibe}/>
+                        <Switch checked={this.isVibe} onChange={this.onChangeVibe} />
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
@@ -67,7 +68,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
     private get isChorus(): boolean {
         return this.props.modulation.mode === ModulationMode.Chorus;
     }
-    
+
     private onChorus() {
         if (this.isChorus) {
             this.selectEffect(true, ModulationComponentNames.Chorus);
@@ -81,7 +82,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
     private get isFlanger(): boolean {
         return this.props.modulation.mode === ModulationMode.Flanger;
     }
-    
+
     private onFlanger() {
         if (this.isFlanger) {
             this.selectEffect(true, ModulationComponentNames.Flanger);
@@ -95,7 +96,7 @@ export class ModulationListItem extends React.Component<ModulationListItemAllPro
     private get isVibe(): boolean {
         return this.props.modulation.mode === ModulationMode.ChorusVibe;
     }
-    
+
     private onVibe() {
         if (this.isVibe) {
             this.selectEffect(true, ModulationComponentNames.Vibe);

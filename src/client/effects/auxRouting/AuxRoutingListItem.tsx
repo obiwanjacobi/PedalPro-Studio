@@ -7,10 +7,11 @@ import { ChangeEffects } from "../ChangeEffectsAction";
 import { AuxRouting } from "../../../model/AuxRouting";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type AuxRoutingListItemProps = {
     aux: Aux;
+    origin: Aux;
 };
 type AuxRoutingListItemActions = ChangeEffects & SelectEffect;
 type AuxRoutingListItemAllProps = AuxRoutingListItemProps & AuxRoutingListItemActions;
@@ -23,13 +24,13 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
         this.onMixer = this.onMixer.bind(this);
         this.onPedals = this.onPedals.bind(this);
     }
-    
+
     public render() {
         return (
             <EffectsItemCard
                 enabled={this.props.aux.routing !== AuxRouting.None}
                 selected={this.props.aux.ui.selected}
-                changed={effectHasChanged(this.props.aux)}
+                changed={!effectEqual(this.props.aux, this.props.origin)}
                 title="Aux Routing"
                 avatar="Aux"
                 content={this.renderActionList()}
@@ -43,13 +44,13 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
                 <ListItem button={this.isPedals} onClick={this.onPedals}>
                     <ListItemText>Pedals</ListItemText>
                     <ListItemSecondaryAction>
-                        <Switch checked={this.isPedals} onChange={this.onChangePedals}/>
+                        <Switch checked={this.isPedals} onChange={this.onChangePedals} />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem button={this.isMixer} onClick={this.onMixer}>
                     <ListItemText>Rack</ListItemText>
                     <ListItemSecondaryAction>
-                        <Switch checked={this.isMixer} onChange={this.onChangeMixer}/>
+                        <Switch checked={this.isMixer} onChange={this.onChangeMixer} />
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
@@ -61,7 +62,7 @@ export class AuxRoutingListItem extends React.Component<AuxRoutingListItemAllPro
             this.props.aux.routing === AuxRouting.RightOnly ||
             this.props.aux.routing === AuxRouting.SeriesLeft;
     }
-    
+
     private onPedals() {
         if (this.isPedals) {
             this.selectEffect(true, AuxRoutingComponentNames.Pedals);

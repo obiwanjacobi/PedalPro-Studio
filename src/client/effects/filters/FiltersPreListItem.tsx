@@ -7,10 +7,11 @@ import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { FilterRouting, FilterRoutingValue } from "../../../model/Filters";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type FiltersPreListItemProps = {
     filters: Filters;
+    origin: Filters;
 };
 type FiltersPreListItemActions = ChangeEffects & SelectEffect;
 type FiltersPreListItemAllProps = FiltersPreListItemProps & FiltersPreListItemActions;
@@ -27,7 +28,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
 
         this.routing = new FilterRoutingValue(props.filters.routing);
     }
-    
+
     public componentWillReceiveProps(newProps: FiltersPreListItemAllProps) {
         this.routing = new FilterRoutingValue(newProps.filters.routing);
     }
@@ -37,7 +38,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
             <EffectsItemCard
                 enabled={this.props.filters.routing !== FilterRouting.Bypass}
                 selected={this.props.filters.ui.selected}
-                changed={effectHasChanged(this.props.filters)}
+                changed={!effectEqual(this.props.filters, this.props.origin)}
                 title="FIlters (pre)"
                 avatar="Fil"
                 effectName={{ effectName: EffectNames.Filters }}
@@ -53,13 +54,13 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
                 <ListItem button={this.routing.preFilter1} onClick={this.onFilter1}>
                     <ListItemText>Filter 1</ListItemText>
                     <ListItemSecondaryAction>
-                        <Switch checked={this.routing.preFilter1} onChange={this.onChangeFilter1}/>
+                        <Switch checked={this.routing.preFilter1} onChange={this.onChangeFilter1} />
                     </ListItemSecondaryAction>
                 </ListItem>
                 <ListItem button={this.routing.preFilter2} onClick={this.onFilter2}>
                     <ListItemText>Filter 2</ListItemText>
                     <ListItemSecondaryAction>
-                        <Switch checked={this.routing.preFilter2} onChange={this.onChangeFilter2}/>
+                        <Switch checked={this.routing.preFilter2} onChange={this.onChangeFilter2} />
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
@@ -73,7 +74,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
     }
 
     private onChangeFilter1(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPreFilter1(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPreFilter1(checked) } });
         this.selectComponent(checked, FiltersComponentNames.Filter1);
     }
 
@@ -84,7 +85,7 @@ export class FiltersPreListItem extends React.Component<FiltersPreListItemAllPro
     }
 
     private onChangeFilter2(_: React.ChangeEvent<HTMLInputElement>, checked: boolean) {
-        this.props.changeEffects({ filters: { routing: this.routing.setPreFilter2(checked) }});
+        this.props.changeEffects({ filters: { routing: this.routing.setPreFilter2(checked) } });
         this.selectComponent(checked, FiltersComponentNames.Filter2);
     }
 

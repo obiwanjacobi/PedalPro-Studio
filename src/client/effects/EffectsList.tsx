@@ -23,6 +23,7 @@ import { VcaListItem } from "./vca/VcaListItem";
 
 type EffectsListProps = {
     effects: Effects;
+    origin: Effects;
 };
 type EffectsListActions = ChangeEffects & SelectEffect;
 type EffectsListAllProps = EffectsListProps & EffectsListActions;
@@ -30,7 +31,7 @@ type EffectsListAllProps = EffectsListProps & EffectsListActions;
 class EffectsList extends React.Component<EffectsListAllProps> {
     public render() {
         return (
-            <div style={{flexGrow: 1}}>
+            <div style={{ flexGrow: 1 }}>
                 <AutoSizer>
                     {({ height, width }) => {
                         return (
@@ -47,10 +48,10 @@ class EffectsList extends React.Component<EffectsListAllProps> {
     private renderEffectItems(): React.ReactNode {
         return (
             this.effectsComponents().map((effect, i) => (
-                    <div key={i} style={{ padding: "8px" }}>
-                        {effect}
-                    </div>
-                )
+                <div key={i} style={{ padding: "8px" }}>
+                    {effect}
+                </div>
+            )
             )
         );
     }
@@ -60,6 +61,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
 
         components.push(
             <CompressorListItem
+                origin={this.props.origin.compressor}
                 compressor={this.props.effects.compressor}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -67,6 +69,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <FiltersPreListItem
+                origin={this.props.origin.filters}
                 filters={this.props.effects.filters}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -74,6 +77,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <BoostListItem
+                origin={this.props.origin.boost}
                 boost={this.props.effects.boost}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -81,6 +85,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <DistortionListItem
+                origin={this.props.origin.distortion}
                 distortion={this.props.effects.distortion}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -88,6 +93,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <VcaListItem
+                origin={this.props.origin.vca}
                 vca={this.props.effects.vca}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -95,6 +101,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <PhaserListItem
+                origin={this.props.origin.phaser}
                 phaser={this.props.effects.phaser}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -102,6 +109,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <FiltersPostListItem
+                origin={this.props.origin.filters}
                 filters={this.props.effects.filters}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -109,6 +117,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <ModulationListItem
+                origin={this.props.origin.modulation}
                 modulation={this.props.effects.modulation}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -116,6 +125,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <DelayListItem
+                origin={this.props.origin.delay}
                 delay={this.props.effects.delay}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -123,6 +133,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <AuxRoutingListItem
+                origin={this.props.origin.aux}
                 aux={this.props.effects.aux}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -130,6 +141,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <VolumeListItem
+                origin={this.props.origin.volume}
                 volume={this.props.effects.volume}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -137,6 +149,7 @@ class EffectsList extends React.Component<EffectsListAllProps> {
         );
         components.push(
             <NoiseGateListItem
+                origin={this.props.origin.noiseGate}
                 noiseGate={this.props.effects.noiseGate}
                 changeEffects={this.props.changeEffects}
                 selectEffect={this.props.selectEffect}
@@ -160,7 +173,7 @@ const createActionObject: ActionDispatchFunc =
             changeEffects: (effects: RecursivePartial<Effects>): void => {
                 dispatch(createChangeEffectsAction(effects));
             },
-            selectEffect : (effectName: EffectNames, component?: string) => {
+            selectEffect: (effectName: EffectNames, component?: string) => {
                 dispatch(createSelectEffectAction(effectName, component));
             }
         };

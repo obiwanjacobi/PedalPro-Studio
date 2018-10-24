@@ -9,6 +9,7 @@ import EffectsExSettings from "./EffectsExSettings";
 
 type EffectsExViewProps = {
     effectsEx: EffectsEx;
+    origin: EffectsEx;
 };
 type EffectsExViewAllProps = EffectsExViewProps;
 
@@ -17,7 +18,7 @@ export class EffectsExView extends React.Component<EffectsExViewAllProps> {
         return (
             <Grid container={true} style={{height: "100%"}}>
                 <Grid item={true} xs={4} container={true} direction="column">
-                    <EffectsExList effectsEx={this.props.effectsEx} />
+                    <EffectsExList effectsEx={this.props.effectsEx} origin={this.props.origin} />
                 </Grid>
                 <Grid 
                     item={true} 

@@ -8,10 +8,11 @@ import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
 import { EffectsListItemOption } from "../EffectsListItemOption";
 import { DelayRouting } from "../../../model/Delay";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type DelayListItemProps = {
     delay: Delay;
+    origin: Delay;
 };
 type DelayListItemActions = ChangeEffects & SelectEffect;
 type DelayListItemAllProps = DelayListItemProps & DelayListItemActions;
@@ -28,7 +29,7 @@ export class DelayListItem extends React.Component<DelayListItemAllProps> {
             <EffectsItemCard
                 enabled={this.props.delay.routing !== DelayRouting.None}
                 selected={this.props.delay.ui.selected}
-                changed={effectHasChanged(this.props.delay)}
+                changed={!effectEqual(this.props.delay, this.props.origin)}
                 title="Delay"
                 avatar="Dly"
                 effectName={{ effectName: EffectNames.Delay }}
@@ -59,12 +60,12 @@ export class DelayListItem extends React.Component<DelayListItemAllProps> {
     }
 
     private onChangeDelayRight(checked: boolean) {
-        this.props.changeEffects({ delay: { routing: checked ? DelayRouting.Right : DelayRouting.None }});
+        this.props.changeEffects({ delay: { routing: checked ? DelayRouting.Right : DelayRouting.None } });
         this.selectComponent(checked);
     }
 
     private onChangeDelayLeft(checked: boolean) {
-        this.props.changeEffects({ delay: { routing: checked ? DelayRouting.Left : DelayRouting.None }});
+        this.props.changeEffects({ delay: { routing: checked ? DelayRouting.Left : DelayRouting.None } });
         this.selectComponent(checked);
     }
 

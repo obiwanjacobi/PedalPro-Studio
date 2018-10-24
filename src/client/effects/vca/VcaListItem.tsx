@@ -5,10 +5,11 @@ import { EffectsItemCard } from "../EffectsItemCard";
 import { ChangeEffects } from "../ChangeEffectsAction";
 import { EffectNames } from "../Effects";
 import { SelectEffect } from "../SelectEffectAction";
-import { effectHasChanged } from "../EffectsOperations";
+import { effectEqual } from "../EffectsOperations";
 
 type VcaListItemProps = {
     vca: VoltageControlledAmp;
+    origin: VoltageControlledAmp;
 };
 type VcaListItemActions = ChangeEffects & SelectEffect;
 type VcaListItemAllProps = VcaListItemProps & VcaListItemActions;
@@ -18,13 +19,13 @@ export class VcaListItem extends React.Component<VcaListItemAllProps> {
         super(props);
         this.onEnabled = this.onEnabled.bind(this);
     }
-    
+
     public render() {
         return (
             <EffectsItemCard
                 enabled={this.props.vca.enabled}
                 selected={this.props.vca.ui.selected}
-                changed={effectHasChanged(this.props.vca)}
+                changed={!effectEqual(this.props.vca, this.props.origin)}
                 title="Voltage Controlled Amp"
                 avatar="Vca"
                 onEnabled={this.onEnabled}
