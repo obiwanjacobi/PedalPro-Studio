@@ -15,5 +15,6 @@
     "typescript.implementationsCodeLens.enabled": true,
     "typescript.surveys.enabled": false,
     "javascript.preferences.quoteStyle": "double",
-    "typescript.preferences.quoteStyle": "double"
+    "typescript.preferences.quoteStyle": "double",
+    "typescript.format.insertSpaceAfterTypeAssertion": true
 }

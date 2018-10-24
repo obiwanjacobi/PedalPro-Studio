@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import {
     FormControl, FormControlLabel, RadioGroup, Radio, Select,
     Grid, IconButton, Dialog, Typography, Button, MenuItem, InputLabel, Input
@@ -76,7 +76,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                         Move
                     </Button>
                 </ApplicationToolbar>
-                <Grid container={true} style={{width: "100%", flexGrow: 1, overflow: "hidden"}}>
+                <Grid container={true} style={{ width: "100%", flexGrow: 1, overflow: "hidden" }}>
                     <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
                         <Typography variant="body2">Selected</Typography>
                         <SourcePresetList items={this.selection.selected} />
@@ -101,7 +101,7 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    
+
                     <Grid item={true} xs={4} container={true} direction="column" style={Styles.MainColumn}>
                         <Typography variant="body2">Moved preview</Typography>
                         <PreviewList items={this.movedPresets()} />
@@ -186,28 +186,25 @@ export class DeviceMovePage extends React.Component<DeviceMovePageAllProps, Devi
     }
 }
 
-type ExtractStatePropFunc = MapStateToProps<DeviceMovePageStateProps, DeviceMovePageProps, ApplicationDocument>;
-const extractComponentPropsFromState: ExtractStatePropFunc =
-    (state: ApplicationDocument, _: DeviceMovePageProps): DeviceMovePageStateProps => {
-        return { presets: state.device, open: state.screen.moveOpen };
-    };
+const extractComponentPropsFromState = (state: ApplicationDocument): DeviceMovePageStateProps => {
+    return { presets: state.device, open: state.screen.moveOpen };
+};
 
-const createActionObject: MapDispatchToPropsFunction<DeviceMovePageActions, DeviceMovePageProps> =
-    (dispatch: Dispatch, _: DeviceMovePageProps): DeviceMovePageActions => {
-        return {
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
-                dispatch(createChangePresetsAction(presets, source, ui));
-            },
-            pastePresets: (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void => {
-                dispatch(createPastePresetsAction(presets, target, deleteAfterPaste));
-            },
-            updateScreen: (state: Partial<ScreenState>): void => {
-                dispatch(createUpdateScreenAction(state));
-            },
-            movePresets: (presets: Preset[], targetIndex: number, swap?: boolean): void => {
-                dispatch(createMovePresetsAction(presets, targetIndex, swap));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): DeviceMovePageActions => {
+    return {
+        changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
+            dispatch(createChangePresetsAction(presets, source, ui));
+        },
+        pastePresets: (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void => {
+            dispatch(createPastePresetsAction(presets, target, deleteAfterPaste));
+        },
+        updateScreen: (state: Partial<ScreenState>): void => {
+            dispatch(createUpdateScreenAction(state));
+        },
+        movePresets: (presets: Preset[], targetIndex: number, swap?: boolean): void => {
+            dispatch(createMovePresetsAction(presets, targetIndex, swap));
+        }
     };
+};
 
 export default connect(extractComponentPropsFromState, createActionObject)(DeviceMovePage);

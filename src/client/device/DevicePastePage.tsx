@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import {
     FormControl, FormControlLabel, RadioGroup, Radio,
     Grid, IconButton, Checkbox, Dialog, Typography, Button
@@ -201,29 +201,26 @@ export class DevicePastePage extends React.Component<DevicePastePageAllProps, De
     }
 }
 
-const extractComponentPropsFromState: MapStateToProps<
-    DevicePastePageStateProps, DevicePastePageProps, ApplicationDocument
-    > = (state: ApplicationDocument, _: DevicePastePageProps): DevicePastePageStateProps => {
-        return {
-            presets: state.device,
-            clipboard: state.clipboard,
-            open: state.screen.pasteOpen
-        };
+const extractComponentPropsFromState = (state: ApplicationDocument): DevicePastePageStateProps => {
+    return {
+        presets: state.device,
+        clipboard: state.clipboard,
+        open: state.screen.pasteOpen
     };
+};
 
-const createActionObject: MapDispatchToPropsFunction<DevicePastePageActions, DevicePastePageProps> =
-    (dispatch: Dispatch, _: DevicePastePageProps): DevicePastePageActions => {
-        return {
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
-                dispatch(createChangePresetsAction(presets, source, ui));
-            },
-            pastePresets: (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void => {
-                dispatch(createPastePresetsAction(presets, target, deleteAfterPaste));
-            },
-            updateScreen: (state: Partial<ScreenState>): void => {
-                dispatch(createUpdateScreenAction(state));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): DevicePastePageActions => {
+    return {
+        changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
+            dispatch(createChangePresetsAction(presets, source, ui));
+        },
+        pastePresets: (presets: Preset[], target: PresetCollectionType, deleteAfterPaste: boolean): void => {
+            dispatch(createPastePresetsAction(presets, target, deleteAfterPaste));
+        },
+        updateScreen: (state: Partial<ScreenState>): void => {
+            dispatch(createUpdateScreenAction(state));
+        }
     };
+};
 
 export default connect(extractComponentPropsFromState, createActionObject)(DevicePastePage);

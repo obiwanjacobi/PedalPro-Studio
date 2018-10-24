@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import { Typography } from "@material-ui/core";
 import { Download } from "mdi-material-ui";
 
@@ -266,9 +266,7 @@ export class StoragePresetTab extends React.Component<StoragePresetTabAllProps, 
     }
 }
 
-type ExtractStatePropFunc = MapStateToProps<StoragePresetTabStoreProps, StoragePresetTabProps, ApplicationDocument>;
-const extractComponentPropsFromState: ExtractStatePropFunc = (
-    state: ApplicationDocument, _: StoragePresetTabProps): StoragePresetTabStoreProps => {
+const extractComponentPropsFromState = (state: ApplicationDocument): StoragePresetTabStoreProps => {
 
     const interactive = state.notification.interactive ? state.notification.interactive.action : undefined;
     return {
@@ -280,53 +278,51 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
     };
 };
 
-type ActionDispatchFunc = MapDispatchToPropsFunction<StoragePresetTabActions, StoragePresetTabProps>;
-const createActionObject: ActionDispatchFunc =
-    (dispatch: Dispatch, _: StoragePresetTabProps): StoragePresetTabActions => {
-        return {
-            loadStorageBanks: (): void => {
-                fulfillPromise(dispatchLoadStorageBanksAction(dispatch));
-            },
-            loadStorageBankPresets: (bank: string): void => {
-                fulfillPromise(dispatchLoadStorageBankPresetsAction(dispatch, bank));
-            },
-            addStorageBank: (): void => {
-                dispatch(createAddStorageBankAction());
-            },
-            renameStorageBank: (bank: StorageBank, newName: string) => {
-                dispatch(createRenameStorageBankAction(bank, newName));
-            },
-            saveStoragePresets: (banks: StorageBank[], presets: Preset[]): void => {
-                fulfillPromise(dispatchSaveStoragePresetsAction(dispatch, banks, presets));
-            },
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
-                dispatch(createChangePresetsAction(presets, source, ui));
-            },
-            changeStorageBanks: (banks: StorageBank[], ui: Partial<ItemUI>): void => {
-                dispatch(createChangeStorageBanksAction(banks, ui));
-            },
-            copyPresets: (presets: Preset[]): void => {
-                dispatch(createCopyPresetsAction(presets));
-            },
-            editPreset: (preset: Preset, update: Partial<Preset>): void => {
-                dispatch(createEditPresetAction(preset, update));
-            },
-            movePresets: (presets: Preset[], targetIndex: number): void => {
-                dispatch(createMovePresetsAction(presets, targetIndex));
-            },
-            deleteStoragePresets: (presets: Preset[]): void => {
-                dispatch(createDeleteStoragePresetsAction(presets));
-            },
-            updateScreen: (state: Partial<ScreenState>): void => {
-                dispatch(createUpdateScreenAction(state));
-            },
-            editEffects: (preset: Preset): void => {
-                dispatch(createEditEffectsAction(preset));
-            },
-            setInteractive: (interactive?: Interactive): void => {
-                dispatch(createSetInteractiveAction(interactive));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): StoragePresetTabActions => {
+    return {
+        loadStorageBanks: (): void => {
+            fulfillPromise(dispatchLoadStorageBanksAction(dispatch));
+        },
+        loadStorageBankPresets: (bank: string): void => {
+            fulfillPromise(dispatchLoadStorageBankPresetsAction(dispatch, bank));
+        },
+        addStorageBank: (): void => {
+            dispatch(createAddStorageBankAction());
+        },
+        renameStorageBank: (bank: StorageBank, newName: string) => {
+            dispatch(createRenameStorageBankAction(bank, newName));
+        },
+        saveStoragePresets: (banks: StorageBank[], presets: Preset[]): void => {
+            fulfillPromise(dispatchSaveStoragePresetsAction(dispatch, banks, presets));
+        },
+        changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
+            dispatch(createChangePresetsAction(presets, source, ui));
+        },
+        changeStorageBanks: (banks: StorageBank[], ui: Partial<ItemUI>): void => {
+            dispatch(createChangeStorageBanksAction(banks, ui));
+        },
+        copyPresets: (presets: Preset[]): void => {
+            dispatch(createCopyPresetsAction(presets));
+        },
+        editPreset: (preset: Preset, update: Partial<Preset>): void => {
+            dispatch(createEditPresetAction(preset, update));
+        },
+        movePresets: (presets: Preset[], targetIndex: number): void => {
+            dispatch(createMovePresetsAction(presets, targetIndex));
+        },
+        deleteStoragePresets: (presets: Preset[]): void => {
+            dispatch(createDeleteStoragePresetsAction(presets));
+        },
+        updateScreen: (state: Partial<ScreenState>): void => {
+            dispatch(createUpdateScreenAction(state));
+        },
+        editEffects: (preset: Preset): void => {
+            dispatch(createEditEffectsAction(preset));
+        },
+        setInteractive: (interactive?: Interactive): void => {
+            dispatch(createSetInteractiveAction(interactive));
+        }
     };
+};
 
 export default connect(extractComponentPropsFromState, createActionObject)(StoragePresetTab);

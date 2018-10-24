@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 
 import { RecursivePartial } from "../../TypeExtensions";
 import { ApplicationDocument } from "../ApplicationDocument";
 import { isEffects, isEffectsEx } from "./EffectsOperations";
 import { EffectNames, Effects, EffectsEx, EffectsOrEx } from "./Effects";
-import { 
-    ChangeEffects, createChangeEffectsAction, 
-    ChangeEffectsEx, createChangeEffectsExAction 
+import {
+    ChangeEffects, createChangeEffectsAction,
+    ChangeEffectsEx, createChangeEffectsExAction
 } from "./ChangeEffectsAction";
 import { BoostSettings } from "./boost/BoostSettings";
 import { EmphasisSettings } from "./preamp/EmphasisSettings";
@@ -36,26 +36,26 @@ import { PhaserSettings } from "./phaser/PhaserSettings";
 import { DspSettings } from "./dsp/DspSettings";
 import { DistortionSettings } from "./distortion/DistortionSettings";
 
-type EffectsExSettingsProps = {};
-type EffectsExSettingsStoreProps = {
+type EffectsSettingsProps = {};
+type EffectsSettingsStoreProps = {
     effects: EffectsOrEx;
     effectName: EffectNames;
     componentName?: string;
 };
-type EffectsExSettingsActions = ChangeEffectsEx & ChangeEffects;
-type EffectsExSettingsAllProps = EffectsExSettingsProps & EffectsExSettingsStoreProps & EffectsExSettingsActions;
+type EffectsSettingsActions = ChangeEffectsEx & ChangeEffects;
+type EffectsSettingsAllProps = EffectsSettingsProps & EffectsSettingsStoreProps & EffectsSettingsActions;
 
-class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
+class EffectsSettings extends React.Component<EffectsSettingsAllProps> {
     public render() {
         switch (this.props.effectName) {
             case EffectNames.Compressor:
                 return (
-                    <CompressorSettings 
-                        compressor={this.props.effects.compressor} 
+                    <CompressorSettings
+                        compressor={this.props.effects.compressor}
                         changeEffects={this.props.changeEffects}
                     />
                 );
-                
+
             case EffectNames.Filters:
                 return this.renderFilterSettings();
 
@@ -63,11 +63,11 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
                 return (
                     <BoostSettings boost={this.props.effects.boost} changeEffects={this.props.changeEffects} />
                 );
-        
+
             case EffectNames.Distortion:
                 return (
-                    <DistortionSettings 
-                        distortion={this.effects.distortion} 
+                    <DistortionSettings
+                        distortion={this.effects.distortion}
                         changeEffects={this.props.changeEffects}
                     />
                 );
@@ -85,7 +85,7 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
                     <PhaserSettings phaser={this.props.effects.phaser} changeEffects={this.props.changeEffects} />
                 );
 
-            case EffectNames.Modulation:    
+            case EffectNames.Modulation:
                 return this.renderModulationSettings();
 
             case EffectNames.Delay:
@@ -108,15 +108,15 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
 
             case EffectNames.NoiseGate:
                 return (
-                    <NoiseGateSettings 
-                        noiseGate={this.props.effects.noiseGate} 
+                    <NoiseGateSettings
+                        noiseGate={this.props.effects.noiseGate}
                         changeEffects={this.props.changeEffects}
                     />
                 );
 
             default:
                 return null;
-        }        
+        }
     }
 
     private renderFilterSettings(): React.ReactNode {
@@ -145,36 +145,36 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
             case PreAmpComponentNames.Emphasis:
             default:
                 return (
-                    <EmphasisSettings 
-                        emphasis={this.effectsEx.pre.emphasis} 
+                    <EmphasisSettings
+                        emphasis={this.effectsEx.pre.emphasis}
                         changeEffectsEx={this.props.changeEffectsEx}
                     />
                 );
             case PreAmpComponentNames.DistortionDiode:
                 return (
                     <DistortionDiodeSettings
-                        distortion={this.effectsEx.pre.distortionDiode} 
+                        distortion={this.effectsEx.pre.distortionDiode}
                         changeEffectsEx={this.props.changeEffectsEx}
                     />
                 );
             case PreAmpComponentNames.DistortionFet:
                 return (
                     <DistortionFetSettings
-                        distortion={this.effectsEx.pre.distortionFet} 
+                        distortion={this.effectsEx.pre.distortionFet}
                         changeEffectsEx={this.props.changeEffectsEx}
                     />
                 );
             case PreAmpComponentNames.Fuzz:
                 return (
                     <FuzzSettings
-                        fuzz={this.effectsEx.pre.fuzz} 
+                        fuzz={this.effectsEx.pre.fuzz}
                         changeEffectsEx={this.props.changeEffectsEx}
                     />
                 );
             case PreAmpComponentNames.Equalizer:
                 return (
                     <EqualizerSettings
-                        equalizer={this.effectsEx.pre.equalizer} 
+                        equalizer={this.effectsEx.pre.equalizer}
                         changeEffectsEx={this.props.changeEffectsEx}
                     />
                 );
@@ -187,21 +187,21 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
             case ModulationComponentNames.Chorus:
                 return (
                     <ChorusSettings
-                        chorus={this.props.effects.modulation.chorus} 
-                        changeEffects={this.props.changeEffects} 
+                        chorus={this.props.effects.modulation.chorus}
+                        changeEffects={this.props.changeEffects}
                     />
                 );
             case ModulationComponentNames.Flanger:
                 return (
-                    <FlangerSettings 
-                        flanger={this.props.effects.modulation.flanger} 
+                    <FlangerSettings
+                        flanger={this.props.effects.modulation.flanger}
                         changeEffects={this.props.changeEffects}
                     />
                 );
             case ModulationComponentNames.Vibe:
                 return (
-                    <VibeSettings 
-                        vibe={this.props.effects.modulation.vibe} 
+                    <VibeSettings
+                        vibe={this.props.effects.modulation.vibe}
                         changeEffects={this.props.changeEffects}
                     />
                 );
@@ -233,32 +233,28 @@ class EffectsExSettings extends React.Component<EffectsExSettingsAllProps> {
     }
 }
 
-type ExtractStatePropFunc = MapStateToProps<EffectsExSettingsStoreProps, EffectsExSettingsProps, ApplicationDocument>;
-const extractComponentPropsFromState: ExtractStatePropFunc = (
-    state: ApplicationDocument, _: EffectsExSettingsProps): EffectsExSettingsStoreProps => {
-        if (state.editEffects) {
-            return  {
-                effects: state.editEffects.effectsOrEx,
-                effectName: state.editEffects.selected.effectName,
-                componentName: state.editEffects.selected.componentName
-            };
-        }
+const extractComponentPropsFromState = (state: ApplicationDocument): EffectsSettingsStoreProps => {
+    if (state.editEffects) {
+        return {
+            effects: state.editEffects.effectsOrEx,
+            effectName: state.editEffects.selected.effectName,
+            componentName: state.editEffects.selected.componentName
+        };
+    }
 
-        throw new Error(
-            "Dev: EffectsExSettings component must not be rendered when there is no Effects selected.");
+    throw new Error(
+        "Dev: EffectsSettings component must not be rendered when there is no Effects selected.");
 };
 
-type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsExSettingsActions, EffectsExSettingsProps>;
-const createActionObject: ActionDispatchFunc =
-    (dispatch: Dispatch, _: EffectsExSettingsProps): EffectsExSettingsActions => {
-        return {
-            changeEffects: (effects: RecursivePartial<Effects>) => {
-                dispatch(createChangeEffectsAction(effects));
-            },
-            changeEffectsEx: (effectsEx: RecursivePartial<EffectsEx>) => {
-                dispatch(createChangeEffectsExAction(effectsEx));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): EffectsSettingsActions => {
+    return {
+        changeEffects: (effects: RecursivePartial<Effects>) => {
+            dispatch(createChangeEffectsAction(effects));
+        },
+        changeEffectsEx: (effectsEx: RecursivePartial<EffectsEx>) => {
+            dispatch(createChangeEffectsExAction(effectsEx));
+        }
     };
+};
 
-export default connect(extractComponentPropsFromState, createActionObject)(EffectsExSettings);
+export default connect(extractComponentPropsFromState, createActionObject)(EffectsSettings);

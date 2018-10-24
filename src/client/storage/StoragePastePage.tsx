@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import {
     FormControlLabel, Select, MenuItem,
     Grid, IconButton, Checkbox, Dialog, Typography, Button
@@ -156,33 +156,30 @@ export class StoragePastePage extends React.Component<StoragePastePageAllProps, 
     }
 }
 
-const extractComponentPropsFromState: MapStateToProps<
-    StoragePastePageStateProps, StoragePastePageProps, ApplicationDocument
-    > = (state: ApplicationDocument, _: StoragePastePageProps): StoragePastePageStateProps => {
-        return {
-            banks: state.banks || [],
-            presets: state.storage,
-            clipboard: state.clipboard,
-            open: state.screen.pasteOpen
-        };
+const extractComponentPropsFromState = (state: ApplicationDocument): StoragePastePageStateProps => {
+    return {
+        banks: state.banks || [],
+        presets: state.storage,
+        clipboard: state.clipboard,
+        open: state.screen.pasteOpen
     };
+};
 
-const createActionObject: MapDispatchToPropsFunction<StoragePastePageActions, StoragePastePageProps> =
-    (dispatch: Dispatch, _: StoragePastePageProps): StoragePastePageActions => {
-        return {
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
-                dispatch(createChangePresetsAction(presets, source, ui));
-            },
-            pasteStoragePresets: (presets: Preset[], deleteAfterPaste: boolean): void => {
-                dispatch(createPasteStoragePresetsAction(presets, deleteAfterPaste));
-            },
-            updateScreen: (state: Partial<ScreenState>): void => {
-                dispatch(createUpdateScreenAction(state));
-            },
-            loadStorageBankPresets: (bank: string): void => {
-                fulfillPromise(dispatchLoadStorageBankPresetsAction(dispatch, bank));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): StoragePastePageActions => {
+    return {
+        changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
+            dispatch(createChangePresetsAction(presets, source, ui));
+        },
+        pasteStoragePresets: (presets: Preset[], deleteAfterPaste: boolean): void => {
+            dispatch(createPasteStoragePresetsAction(presets, deleteAfterPaste));
+        },
+        updateScreen: (state: Partial<ScreenState>): void => {
+            dispatch(createUpdateScreenAction(state));
+        },
+        loadStorageBankPresets: (bank: string): void => {
+            fulfillPromise(dispatchLoadStorageBankPresetsAction(dispatch, bank));
+        }
     };
+};
 
 export default connect(extractComponentPropsFromState, createActionObject)(StoragePastePage);

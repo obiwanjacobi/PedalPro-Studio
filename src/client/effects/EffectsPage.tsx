@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import {
     IconButton, Dialog, Button, Drawer
 } from "@material-ui/core";
@@ -124,9 +124,7 @@ class EffectsPage extends React.Component<EffectsPageAllProps, EffectsPageState>
     }
 }
 
-type ExtractStatePropFunc = MapStateToProps<EffectsPageStoreProps, EffectsPageProps, ApplicationDocument>;
-const extractComponentPropsFromState: ExtractStatePropFunc = (
-    state: ApplicationDocument, _: EffectsPageProps): EffectsPageStoreProps => {
+const extractComponentPropsFromState = (state: ApplicationDocument): EffectsPageStoreProps => {
     if (state.editEffects) {
         return {
             readonly: state.editEffects.readonly,
@@ -138,23 +136,21 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
     return { readonly: true };
 };
 
-type ActionDispatchFunc = MapDispatchToPropsFunction<EffectsPageActions, EffectsPageProps>;
-const createActionObject: ActionDispatchFunc =
-    (dispatch: Dispatch, _: EffectsPageProps): EffectsPageActions => {
-        return {
-            editEffects: (preset?: Preset) => {
-                dispatch(createEditEffectsAction(preset));
-            },
-            changeEffects: (effects: RecursivePartial<Effects>) => {
-                dispatch(createChangeEffectsAction(effects));
-            },
-            saveEffects: (effects: Effects) => {
-                dispatch(createSaveEffectsAction(effects));
-            },
-            saveEffectsEx: (effectsEx: EffectsEx) => {
-                dispatch(createSaveEffectsExAction(effectsEx));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): EffectsPageActions => {
+    return {
+        editEffects: (preset?: Preset) => {
+            dispatch(createEditEffectsAction(preset));
+        },
+        changeEffects: (effects: RecursivePartial<Effects>) => {
+            dispatch(createChangeEffectsAction(effects));
+        },
+        saveEffects: (effects: Effects) => {
+            dispatch(createSaveEffectsAction(effects));
+        },
+        saveEffectsEx: (effectsEx: EffectsEx) => {
+            dispatch(createSaveEffectsExAction(effectsEx));
+        }
     };
+};
 
 export default connect(extractComponentPropsFromState, createActionObject)(EffectsPage);

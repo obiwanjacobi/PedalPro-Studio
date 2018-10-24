@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 
 import { Effects } from "./Effects";
 import EffectsList from "./EffectsList";
-import EffectsExSettings from "./EffectsExSettings";
+import EffectsSettings from "./EffectsSettings";
 
 type EffectsViewProps = {
     effects: Effects;
@@ -25,7 +25,7 @@ export class EffectsView extends React.Component<EffectsViewAllProps> {
                     direction="column"
                     style={{ overflowY: "scroll", overflowX: "hidden", padding: "16px" }}
                 >
-                    <EffectsExSettings />
+                    <EffectsSettings />
                 </Grid>
             </Grid>
         );

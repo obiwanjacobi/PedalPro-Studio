@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import { Typography } from "@material-ui/core";
 
 import { fulfillPromise } from "../../PromiseExtensions";
@@ -17,11 +17,11 @@ import { PresetToolbar } from "../preset/PresetToolbar";
 import { PresetView } from "../preset/PresetView";
 
 export interface FactoryPresetTabProps { }
-export interface FactoryPresetTabStateProps { 
+export interface FactoryPresetTabStateProps {
     presets: Preset[];
 }
 export type FactoryPresetTabActions = EditEffects & ChangePresets & LoadPresets & CopyPresets;
-export type FactoryPresetTabAllProps = 
+export type FactoryPresetTabAllProps =
     FactoryPresetTabProps & FactoryPresetTabStateProps & FactoryPresetTabActions;
 
 export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> {
@@ -38,14 +38,14 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
     public render() {
         return (
             <FlexContainer vertical={true}>
-                <PresetToolbar 
+                <PresetToolbar
                     enableCopy={this.selection.anySelected}
                     onCopy={this.onCopySelected}
                     enableSelectAll={!this.selection.isEmpty}
                     statusSelectAll={this.selection.status}
                     onSelectAllChanged={this.toggleSelectAll}
                 />
-                <PresetView 
+                <PresetView
                     presets={this.props.presets}
                     filterFlagged={false}
                     filterEmpty={false}
@@ -86,33 +86,30 @@ export class FactoryPresetTab extends React.Component<FactoryPresetTabAllProps> 
 
     private toggleSelectAll() {
         this.actions.changePresets(
-            this.props.presets, PresetCollectionType.factory, 
-            {selected: !this.selection.allSelected});
+            this.props.presets, PresetCollectionType.factory,
+            { selected: !this.selection.allSelected });
     }
 }
 
-const extractComponentPropsFromState: MapStateToProps<
-        FactoryPresetTabStateProps, FactoryPresetTabProps, ApplicationDocument
-    > = (state: ApplicationDocument, _: FactoryPresetTabProps): FactoryPresetTabStateProps => {
-        return  { presets: state.factory };
+const extractComponentPropsFromState = (state: ApplicationDocument): FactoryPresetTabStateProps => {
+    return { presets: state.factory };
 };
 
-const createActionObject: MapDispatchToPropsFunction<FactoryPresetTabActions, FactoryPresetTabProps> =
-    (dispatch: Dispatch, _: FactoryPresetTabProps): FactoryPresetTabActions => {
-        return {
-            loadPresets: (source: PresetCollectionType): void  => {
-                fulfillPromise(dispatchLoadPresetsAction(dispatch, source));
-            },
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
-                dispatch(createChangePresetsAction(presets, source, ui));
-            },
-            copyPresets: (presets: Preset[]): void => {
-                dispatch(createCopyPresetsAction(presets));
-            },
-            editEffects: (preset: Preset): void => {
-                dispatch(createEditEffectsAction(preset));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): FactoryPresetTabActions => {
+    return {
+        loadPresets: (source: PresetCollectionType): void => {
+            fulfillPromise(dispatchLoadPresetsAction(dispatch, source));
+        },
+        changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
+            dispatch(createChangePresetsAction(presets, source, ui));
+        },
+        copyPresets: (presets: Preset[]): void => {
+            dispatch(createCopyPresetsAction(presets));
+        },
+        editEffects: (preset: Preset): void => {
+            dispatch(createEditEffectsAction(preset));
+        }
+    };
 };
 
 export default connect(extractComponentPropsFromState, createActionObject)(FactoryPresetTab);

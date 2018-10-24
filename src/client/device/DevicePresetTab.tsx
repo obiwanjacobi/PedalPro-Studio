@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dispatch } from "redux";
-import { connect, MapDispatchToPropsFunction, MapStateToProps } from "react-redux";
+import { connect } from "react-redux";
 import { Typography } from "@material-ui/core";
 import { Download } from "mdi-material-ui";
 
@@ -203,9 +203,7 @@ export class DevicePresetTab extends React.Component<DevicePresetTabAllProps, De
     }
 }
 
-type ExtractStatePropFunc = MapStateToProps<DevicePresetTabStoreProps, DevicePresetTabProps, ApplicationDocument>;
-const extractComponentPropsFromState: ExtractStatePropFunc = (
-    state: ApplicationDocument, _: DevicePresetTabProps): DevicePresetTabStoreProps => {
+const extractComponentPropsFromState = (state: ApplicationDocument): DevicePresetTabStoreProps => {
     const interactive = state.notification.interactive ? state.notification.interactive.action : undefined;
 
     return {
@@ -218,41 +216,39 @@ const extractComponentPropsFromState: ExtractStatePropFunc = (
     };
 };
 
-type ActionDispatchFunc = MapDispatchToPropsFunction<DevicePresetTabActions, DevicePresetTabProps>;
-const createActionObject: ActionDispatchFunc =
-    (dispatch: Dispatch, _: DevicePresetTabProps): DevicePresetTabActions => {
-        return {
-            loadPresets: (source: PresetCollectionType): void => {
-                fulfillPromise(dispatchLoadPresetsAction(dispatch, source));
-            },
-            savePresets: (source: PresetCollectionType, presets: Preset[]): void => {
-                fulfillPromise(dispatchSavePresetsAction(dispatch, source, presets));
-            },
-            changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
-                dispatch(createChangePresetsAction(presets, source, ui));
-            },
-            copyPresets: (presets: Preset[]): void => {
-                dispatch(createCopyPresetsAction(presets));
-            },
-            editPreset: (preset: Preset, update: Partial<Preset>): void => {
-                dispatch(createEditPresetAction(preset, update));
-            },
-            movePresets: (presets: Preset[], targetIndex: number): void => {
-                dispatch(createMovePresetsAction(presets, targetIndex));
-            },
-            deletePresets: (source: PresetCollectionType, presets: Preset[]): void => {
-                dispatch(createDeletePresetsAction(source, presets));
-            },
-            updateScreen: (state: Partial<ScreenState>): void => {
-                dispatch(createUpdateScreenAction(state));
-            },
-            editEffects: (preset: Preset): void => {
-                dispatch(createEditEffectsAction(preset));
-            },
-            setInteractive: (interactive?: Interactive): void => {
-                dispatch(createSetInteractiveAction(interactive));
-            }
-        };
+const createActionObject = (dispatch: Dispatch): DevicePresetTabActions => {
+    return {
+        loadPresets: (source: PresetCollectionType): void => {
+            fulfillPromise(dispatchLoadPresetsAction(dispatch, source));
+        },
+        savePresets: (source: PresetCollectionType, presets: Preset[]): void => {
+            fulfillPromise(dispatchSavePresetsAction(dispatch, source, presets));
+        },
+        changePresets: (presets: Preset[], source: PresetCollectionType, ui: Partial<ItemUI>): void => {
+            dispatch(createChangePresetsAction(presets, source, ui));
+        },
+        copyPresets: (presets: Preset[]): void => {
+            dispatch(createCopyPresetsAction(presets));
+        },
+        editPreset: (preset: Preset, update: Partial<Preset>): void => {
+            dispatch(createEditPresetAction(preset, update));
+        },
+        movePresets: (presets: Preset[], targetIndex: number): void => {
+            dispatch(createMovePresetsAction(presets, targetIndex));
+        },
+        deletePresets: (source: PresetCollectionType, presets: Preset[]): void => {
+            dispatch(createDeletePresetsAction(source, presets));
+        },
+        updateScreen: (state: Partial<ScreenState>): void => {
+            dispatch(createUpdateScreenAction(state));
+        },
+        editEffects: (preset: Preset): void => {
+            dispatch(createEditEffectsAction(preset));
+        },
+        setInteractive: (interactive?: Interactive): void => {
+            dispatch(createSetInteractiveAction(interactive));
+        }
     };
+};
 
 export default connect(extractComponentPropsFromState, createActionObject)(DevicePresetTab);

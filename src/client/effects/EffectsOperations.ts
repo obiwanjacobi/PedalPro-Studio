@@ -22,11 +22,11 @@ export function isEffects(effects: Model.Effects | Model.EffectsEx): boolean {
 }
 
 export function asEffects(effectsOrEx: Model.Effects | Model.EffectsEx): Model.Effects | undefined {
-    return isEffects(effectsOrEx) ? <Model.Effects>effectsOrEx : undefined;
+    return isEffects(effectsOrEx) ? <Model.Effects> effectsOrEx : undefined;
 }
 
 export function asEffectsEx(effectsOrEx: Model.Effects | Model.EffectsEx): Model.EffectsEx | undefined {
-    return isEffectsEx(effectsOrEx) ? <Model.EffectsEx>effectsOrEx : undefined;
+    return isEffectsEx(effectsOrEx) ? <Model.EffectsEx> effectsOrEx : undefined;
 }
 
 // https://github.com/lodash/lodash/issues/72
