@@ -1,9 +1,13 @@
-import { 
-    DoubleDelay, DoubleDelay3, DoubleDelay4, 
-    DspDoubleDelay, DspSingleTap, DspFourTapsDelay, 
-    DspCaveDelay, DspTripleDelay, DspPlate, DspHall, DspFreeVerb, 
-    CaveDelay1, CaveDelay2, CaveDelay3, CaveDelay4, DspCustomSpring 
+import * as Lodash from "lodash";
+
+import {
+    DoubleDelay, DoubleDelay3, DoubleDelay4,
+    DspDoubleDelay, DspSingleTap, DspFourTapsDelay,
+    DspCaveDelay, DspTripleDelay, DspPlate, DspHall, DspFreeVerb,
+    CaveDelay1, CaveDelay2, CaveDelay3, CaveDelay4, DspCustomSpring, DspType
 } from "../../../model/Dsp";
+import { RecursivePartial } from "../../../TypeExtensions";
+import { EffectsEx } from "../../../model/Effects";
 
 const doubleDelayDefault: DoubleDelay = {
     feedback: 0,
@@ -47,7 +51,7 @@ const caveDelay4Default: CaveDelay4 = {
     delay: 60,
 };
 
-export const DspDoubleDelayDefault: DspDoubleDelay = {
+const DspDoubleDelayDefault: DspDoubleDelay = {
     delay1: doubleDelayDefault,
     delay2: doubleDelayDefault,
     delay3: doubleDelay3Default,
@@ -60,7 +64,7 @@ export const DspDoubleDelayDefault: DspDoubleDelay = {
     outR: 50
 };
 
-export const DspCaveDelayDefault: DspCaveDelay = {
+const DspCaveDelayDefault: DspCaveDelay = {
     delay1: caveDelay1Default,
     delay2: caveDelay2Default,
     delay3: caveDelay3Default,
@@ -73,13 +77,13 @@ export const DspCaveDelayDefault: DspCaveDelay = {
     outR: 50
 };
 
-export const DspSingleTapDefault: DspSingleTap = {
+const DspSingleTapDefault: DspSingleTap = {
     feedback: 0,
     frequency: 100,
     tempo: 120
 };
 
-export const DspFourTapsDefault: DspFourTapsDelay = {
+const DspFourTapsDefault: DspFourTapsDelay = {
     feedback: 0,
     frequency: 1000,
     tap1: 60,
@@ -89,7 +93,7 @@ export const DspFourTapsDefault: DspFourTapsDelay = {
     tempo: 120
 };
 
-export const DspTripleDelayDefault: DspTripleDelay = {
+const DspTripleDelayDefault: DspTripleDelay = {
     feedback: 0,
     frequency: 1000,
     tap1: 60,
@@ -98,26 +102,55 @@ export const DspTripleDelayDefault: DspTripleDelay = {
     tempo: 120
 };
 
-export const DspPlateDefault: DspPlate = {
+const DspPlateDefault: DspPlate = {
     hiPassFrequency: 8000,
     lowPassFrequency: 250,
     size: 42
 };
 
-export const DspCustomSpringDefault: DspCustomSpring = {
+const DspCustomSpringDefault: DspCustomSpring = {
     hiPassFrequency: 8000,
     lowPassFrequency: 250,
     time: 100
 };
 
-export const DspHallDefault: DspHall = {
+const DspHallDefault: DspHall = {
     hiPassFrequency: 8000,
     lowPassFrequency: 250,
     preDelayTime: 20,
     reverbTime: 42
 };
 
-export const DspFreeVerbDefault: DspFreeVerb = {
+const DspFreeVerbDefault: DspFreeVerb = {
     hiPassFrequency: 6000,
     size: 42
 };
+
+export function createForDspType(type: DspType | undefined): RecursivePartial<EffectsEx> {
+    if (type) {
+        switch (type) {
+            case DspType.DoubleDelay:
+                return { dsp: { type: type, doubleDelay: Lodash.cloneDeep(DspDoubleDelayDefault) } };
+            case DspType.CaveDelay:
+                return { dsp: { type: type, caveDelay: Lodash.cloneDeep(DspCaveDelayDefault) } };
+            case DspType.SingleTap:
+                return { dsp: { type: type, singleTap: Lodash.cloneDeep(DspSingleTapDefault) } };
+            case DspType.FourTapsDelay:
+                return { dsp: { type: type, fourTapsDelay: Lodash.cloneDeep(DspFourTapsDefault) } };
+            case DspType.TripleDelay:
+                return { dsp: { type: type, tripleDelay: Lodash.cloneDeep(DspTripleDelayDefault) } };
+            case DspType.Plate:
+                return { dsp: { type: type, plate: Lodash.cloneDeep(DspPlateDefault) } };
+            case DspType.CustomSpring:
+                return { dsp: { type: type, customSpring: Lodash.cloneDeep(DspCustomSpringDefault) } };
+            case DspType.Hall:
+                return { dsp: { type: type, hall: Lodash.cloneDeep(DspHallDefault) } };
+            case DspType.FreeVerb:
+                return { dsp: { type: type, freeVerb: Lodash.cloneDeep(DspFreeVerbDefault) } };
+            default:
+                break;
+        }
+    }
+
+    return {};
+}

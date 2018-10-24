@@ -3,8 +3,6 @@ import * as Lodash from "lodash";
 import * as Model from "../../model/Effects";
 import { Effects, EffectsEx, EffectNames, EffectsOrEx, AnyEffect } from "./Effects";
 import { EffectsBuilder } from "./EffectsBuilder";
-import { EffectsExBuilder } from "./EffectsExBuilder";
-import { createBuilder } from "./EffectsBuilderCommon";
 import { EffectComponentName } from "./EffectsState";
 import { RecursivePartial } from "../../TypeExtensions";
 import { ModulationMode } from "../../model/Modulation";
@@ -114,7 +112,7 @@ export function determineSelectedEffect(
 export function selectEffect(
     effectsOrEx: EffectsOrEx, select: EffectNames, deselect: EffectNames = EffectNames.None): EffectsOrEx {
 
-    const builder = createBuilder(effectsOrEx);
+    const builder = new EffectsBuilder(effectsOrEx);
     if (deselect !== EffectNames.None) {
         builder.changeUIByName(deselect, { selected: false });
     }
@@ -124,14 +122,8 @@ export function selectEffect(
     return builder.detach();
 }
 
-export function mergeEffects(source: Effects, ...merges: RecursivePartial<Effects>[]): Effects {
+export function mergeEffects(source: EffectsOrEx, ...merges: RecursivePartial<EffectsOrEx>[]): EffectsOrEx {
     const builder = new EffectsBuilder(source);
-    merges.forEach(m => builder.merge(m));
-    return builder.detach();
-}
-
-export function mergeEffectsEx(source: EffectsEx, ...merges: RecursivePartial<EffectsEx>[]): EffectsEx {
-    const builder = new EffectsExBuilder(source);
     merges.forEach(m => builder.merge(m));
     return builder.detach();
 }

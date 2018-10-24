@@ -4,34 +4,37 @@ import { Preset } from "../preset/Preset";
 import { PresetBuilder, PresetArrayBuilder } from "../preset/PresetBuilder";
 import { EditEffectsAction, EditEffectsActionKey } from "./EditEffectsAction";
 import { SaveEffectsAction, SaveEffectsActionKey } from "./SaveEffectsAction";
-import { Effects, EffectsEx } from "./Effects";
+import { EffectsEx } from "./Effects";
 import { ChangeEffectsActionKey, ChangeEffectsAction } from "./ChangeEffectsAction";
-import { 
-    compareEffects, mergeEffects, mergeEffectsEx, selectEffect, determineSelectedEffect, makeWorkingCopy 
+import {
+    compareEffects, mergeEffects, selectEffect, determineSelectedEffect, makeWorkingCopy
 } from "./EffectsOperations";
 import { SelectEffectActionKey, SelectEffectAction } from "./SelectEffectAction";
 import { isNullForType } from "./dsp/Dsp";
-import { EffectsExBuilder } from "./EffectsExBuilder";
+import { EffectsBuilder } from "./EffectsBuilder";
+import { createForDspType } from "./dsp/DspDefaults";
 
 function reduceEditEffects(state: ApplicationDocument, action: EditEffectsAction): ApplicationDocument {
     if (!!action.preset) {
         const selected = determineSelectedEffect(action.preset.effects);
         const effectsOrEx = selectEffect(makeWorkingCopy(action.preset.effects), selected.effectName);
 
-        return { ...state, editEffects: { 
-            readonly: 
-                !(action.preset.source === PresetCollectionType.device ||
-                  action.preset.source === PresetCollectionType.storage),
-            preset: action.preset, 
-            effectsOrEx: effectsOrEx, 
-            selected: selected
-        } };
+        return {
+            ...state, editEffects: {
+                readonly:
+                    !(action.preset.source === PresetCollectionType.device ||
+                        action.preset.source === PresetCollectionType.storage),
+                preset: action.preset,
+                effectsOrEx: effectsOrEx,
+                selected: selected
+            }
+        };
     }
     return { ...state, editEffects: undefined };
 }
 
 function reduceSaveEffects(state: ApplicationDocument, _: SaveEffectsAction): ApplicationDocument {
-    if (state.editEffects && 
+    if (state.editEffects &&
         state.editEffects.preset) {
 
         if (state.editEffects.readonly) {
@@ -42,7 +45,7 @@ function reduceSaveEffects(state: ApplicationDocument, _: SaveEffectsAction): Ap
         if (compareEffects(state.editEffects.preset.effects, state.editEffects.effectsOrEx)) {
             return state;
         }
-        
+
         const builder = new ApplicationDocumentBuilder(state);
         builder.transformPresets(state.editEffects.preset.source, (originalPresets: Preset[]): Preset[] => {
             if (state.editEffects &&
@@ -66,34 +69,40 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
     if (state.editEffects &&
         state.editEffects.effectsOrEx) {
         if (action.effects) {
-            return { ...state, editEffects: { 
-                readonly: state.editEffects.readonly,
-                preset: state.editEffects.preset, 
-                effectsOrEx: mergeEffects(<Effects> state.editEffects.effectsOrEx, action.effects),
-                selected: state.editEffects.selected
-            }};
+            return {
+                ...state, editEffects: {
+                    readonly: state.editEffects.readonly,
+                    preset: state.editEffects.preset,
+                    effectsOrEx: mergeEffects(state.editEffects.effectsOrEx, action.effects),
+                    selected: state.editEffects.selected
+                }
+            };
         }
 
         if (action.effectsEx) {
-            const effectsEx = <EffectsEx> state.editEffects.effectsOrEx;
+            const effectsEx = <EffectsEx>state.editEffects.effectsOrEx;
             // DSP special case
             // make sure the data structure exists for the selected dsp type/mode
             if (action.effectsEx.dsp && isNullForType(effectsEx.dsp, action.effectsEx.dsp.type)) {
-                return { ...state, editEffects: { 
-                    readonly: state.editEffects.readonly,
-                    preset: state.editEffects.preset, 
-                    effectsOrEx: mergeEffectsEx(effectsEx, action.effectsEx, 
-                                                EffectsExBuilder.createForDspType(action.effectsEx.dsp.type)),
-                    selected: state.editEffects.selected
-                }};
+                return {
+                    ...state, editEffects: {
+                        readonly: state.editEffects.readonly,
+                        preset: state.editEffects.preset,
+                        effectsOrEx: mergeEffects(
+                            effectsEx, action.effectsEx, createForDspType(action.effectsEx.dsp.type)),
+                        selected: state.editEffects.selected
+                    }
+                };
             }
 
-            return { ...state, editEffects: { 
-                readonly: state.editEffects.readonly,
-                preset: state.editEffects.preset, 
-                effectsOrEx: mergeEffectsEx(effectsEx, action.effectsEx),
-                selected: state.editEffects.selected
-            }};
+            return {
+                ...state, editEffects: {
+                    readonly: state.editEffects.readonly,
+                    preset: state.editEffects.preset,
+                    effectsOrEx: mergeEffects(effectsEx, action.effectsEx),
+                    selected: state.editEffects.selected
+                }
+            };
         }
     }
     return state;
@@ -101,13 +110,14 @@ function reduceChangeEffects(state: ApplicationDocument, action: ChangeEffectsAc
 
 function reduceSelectEffect(state: ApplicationDocument, action: SelectEffectAction): ApplicationDocument {
     if (state.editEffects) {
-        const selected = 
+        const selected =
             determineSelectedEffect(state.editEffects.effectsOrEx, action.effectName, action.component);
-        const effectsOrEx = 
+        const effectsOrEx =
             selectEffect(state.editEffects.effectsOrEx, selected.effectName, state.editEffects.selected.effectName);
 
-        return { ...state, 
-            editEffects: { 
+        return {
+            ...state,
+            editEffects: {
                 readonly: state.editEffects.readonly,
                 preset: state.editEffects.preset,
                 effectsOrEx: effectsOrEx,
