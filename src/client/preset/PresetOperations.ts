@@ -29,8 +29,8 @@ function presetGroupHasChanged(preset: Preset): boolean {
     return false;
 }
 
-export function formatPresetIndex(preset: ModelPreset): string {
-    const value = preset.index;
+export function formatPresetIndex(preset: Preset): string {
+    const value = preset.ui.markedDeleted ? -1 : preset.index;
     if (value < 0) { return "---"; }
     // formats 3 digits with leading zeros
     return numberToString(value, 3);
@@ -45,23 +45,23 @@ export function formatPresetFullName(preset: ModelPreset): string {
 
 export function presetsExceptIndexAreEqual(preset1: ModelPreset, preset2: ModelPreset): boolean {
     return lodash.isEqual(preset1.name, preset2.name) &&
-           metaEqual(preset1.meta, preset2.meta) &&
-           traitsEqual(preset1.traits, preset2.traits) &&
-           effectsEqual(preset1.effects, preset2.effects);
+        metaEqual(preset1.meta, preset2.meta) &&
+        traitsEqual(preset1.traits, preset2.traits) &&
+        effectsEqual(preset1.effects, preset2.effects);
 }
 
 export function onlyIndexHasChanged(preset: Preset): boolean {
     if (!preset.origin) { return false; }
     return (preset.origin.index !== preset.index ||
-           presetGroupHasChanged(preset)) &&
-           presetsExceptIndexAreEqual(preset, preset.origin);
+        presetGroupHasChanged(preset)) &&
+        presetsExceptIndexAreEqual(preset, preset.origin);
 }
 
 export function presetHasChanged(preset: Preset): boolean {
     if (!preset.origin) { return false; }
     return preset.origin.index !== preset.index ||
-           presetGroupHasChanged(preset) ||
-           !presetsExceptIndexAreEqual(preset, preset.origin);
+        presetGroupHasChanged(preset) ||
+        !presetsExceptIndexAreEqual(preset, preset.origin);
 }
 
 export function presetsHaveChanged(presets: Preset[]): boolean {

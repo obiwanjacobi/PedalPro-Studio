@@ -5,7 +5,7 @@
   "author": {
     "email": "obiwanjacobi@hotmail.com",
     "name": "Jacobi Software",
-    "url": "https://github.com/obiwanjacobi/PedalPro-Studio/wiki"
+    "url": "https://obiwanjacobi.github.io/PedalPro-Studio/"
   },
   "main": "./app/Startup.js",
   "private": true,

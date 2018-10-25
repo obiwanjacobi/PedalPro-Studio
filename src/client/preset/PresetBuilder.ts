@@ -8,8 +8,6 @@ import { presetsAreEqual, presetHasChanged, minPresetIndex } from "./PresetOpera
 import { PresetCollectionType } from "../ApplicationDocument";
 
 const ToBeDeletedPreset: Partial<Preset> = {
-    // name: "{to_be_deleted}",
-    index: -1,
     meta: { device: PresetCollectionType.storage.toUpperCase() },
     traits: {
         empty: true,
@@ -144,7 +142,7 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
         let index = 0;
         for (let i = 0; i < this.mutable.length; i++) {
             const p = this.mutable[i];
-            if (p.index >= 0) {
+            if (!this.isDeleted(p)) {
                 this.mutable[i] = PresetBuilder.modify(p, { index: index });
                 index++;
             }
@@ -167,5 +165,9 @@ export class PresetArrayBuilder extends ArrayBuilder<Preset> {
 
     private findArrayIndex(presetIndex: ModelPreset.PresetIndex): number {
         return this.mutable.findIndex(p => p.index === presetIndex);
+    }
+
+    private isDeleted(preset: Preset): boolean {
+        return preset.ui.markedDeleted || preset.index < 0;
     }
 }
