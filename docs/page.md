@@ -1,0 +1,1 @@
+This page is linked from the main page.
