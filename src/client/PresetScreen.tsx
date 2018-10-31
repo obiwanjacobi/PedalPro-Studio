@@ -1,12 +1,12 @@
 import * as React from "react";
 import { AppBar, Grid, Tabs, Tab } from "@material-ui/core";
 
-import UserNotification from "../notification/UserNotification";
-import ProgressBar from "../screen/ProgressBar";
-import StoragePresetTab from "../storage/StoragePresetTab";
-import DevicePresetTab from "../device/DevicePresetTab";
-import FactoryPresetTab from "../factory/FactoryPresetTab";
-import EffectsPage from "../effects/EffectsPage";
+import UserNotification from "./notification/UserNotification";
+import ProgressBar from "./screen/ProgressBar";
+import StoragePresetTab from "./storage/StoragePresetTab";
+import DevicePresetTab from "./device/DevicePresetTab";
+import FactoryPresetTab from "./factory/FactoryPresetTab";
+import EffectsPage from "./effects/EffectsPage";
 
 export interface PresetScreenProps { }
 export interface PresetScreenState {
@@ -23,14 +23,14 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
     public constructor(props: PresetScreenProps) {
         super(props);
         this.state = { selectedTab: 0 };
-        
+
         this.changePageHandler = this.changePageHandler.bind(this);
     }
 
     public render(): React.ReactNode {
         return (
             <div id="PresetScreen" style={containerStyles}>
-                <div style={{flex: "1 1 auto", display: "flex"}}>
+                <div style={{ flex: "1 1 auto", display: "flex" }}>
                     {this.selectedTab === 0 && <DevicePresetTab />}
                     {this.selectedTab === 1 && <StoragePresetTab />}
                     {this.selectedTab === 2 && <FactoryPresetTab />}
@@ -44,7 +44,7 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
                                 <Tab label="Factory" />
                             </Tabs>
                         </Grid>
-                    
+
                         {/* <Grid item={true} xs={1}>
                             <IconButton>
                                 <NotificationsNone />
@@ -62,11 +62,11 @@ export class PresetScreen extends React.PureComponent<PresetScreenProps, PresetS
     private changePageHandler(_: React.ChangeEvent<{}>, value: number) {
         this.activatePage(value);
     }
-    
+
     private get selectedTab(): number {
         return this.state.selectedTab;
     }
-    
+
     private activatePage(index: number) {
         this.setState({ selectedTab: index });
     }
