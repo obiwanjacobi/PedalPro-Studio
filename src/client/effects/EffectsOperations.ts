@@ -31,8 +31,11 @@ export function asEffectsEx(effectsOrEx: Model.Effects | Model.EffectsEx): Model
 
 // https://github.com/lodash/lodash/issues/72
 // tslint:disable-next-line:no-any
-function commonIsEqual(obj1: any, obj2: any): boolean {
+function commonIsEqual(obj1: any, obj2: any, exclude?: string[]): boolean {
     const keys = Lodash.intersection(Object.keys(obj1), Object.keys(obj2));
+    if (exclude) {
+        Lodash.remove(keys, v => exclude.indexOf(v) >= 0);
+    }
     let equal = false;
 
     for (let i = 0; i < keys.length; i++) {
@@ -66,7 +69,7 @@ export function effectsEqual(
 
 export function effectEqual(effect1: AnyEffect, effect2: AnyEffect): boolean {
     if (effect1 === effect2) { return true; }
-    return commonIsEqual(effect1, effect2);
+    return commonIsEqual(effect1, effect2, ["ui"]);
 }
 
 function getFirstSelected(effectsOrEx: EffectsOrEx): EffectNames {
