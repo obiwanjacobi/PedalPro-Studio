@@ -4,13 +4,15 @@
 @import "{{ site.theme }}";
 
 #header {
-    h1 {
-        font-family: 'OpenSansLight', "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-weight: normal;
-        font-size: 40px;
-        text-align: center;
-        line-height: 36px;
-        float: left;
-        margin-left: 10px;
+    nav {
+        h1 {
+            font-family: 'OpenSansLight', "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: normal;
+            font-size: 40px;
+            text-align: center;
+            line-height: 36px;
+            float: left;
+            margin-left: 10px;
+        }
     }
 }
