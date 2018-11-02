@@ -19,8 +19,6 @@ The PedalPro Studio program is a Preset editor for the [Vintage Revolution Pedal
 
 Apple Mac and Linux support is in the pipeline.
 
-[Does this work?](./page.md)
-
 ---
 
 'Vintage Revolution', 'PedalPro' and 'PedalPro Ex' are trademarks owned by [Vintage Revolution](https://www.vintage-revolution.com/).
