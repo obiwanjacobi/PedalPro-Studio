@@ -1,7 +1,7 @@
 ---
 ---
 
-@import "{{ site.theme }}"
+@import "{{ site.theme }}";
 
 #header {
     h1 {
@@ -12,5 +12,5 @@
         line-height: 36px;
         float: right;
         margin-right: 10px;
-      }
+    }
 }
