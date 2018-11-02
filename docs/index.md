@@ -1,3 +1,6 @@
+---
+layout: home
+---
 The PedalPro Studio program is a Preset editor for the [Vintage Revolution PedalPro multi-effects rack unit](https://www.vintage-revolution.com/pedalproex). The program support both the standard PedalPro as well as the PedalPro Ex version.
 
 ## Features of the PedalPro Studio program
