@@ -18,7 +18,7 @@
     "test-electron": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest",
     "test-w": "SET ELECTRON_RUN_AS_NODE=true ./node_modules/.bin/electron ./node_modules/.bin/jest --watchAll",
     "start": "./node_modules/.bin/electron .",
-    "postinstall": "./node_modules/.bin/electron-builder install-app-deps && ./node_modules/.bin/tsc && ./node_modules/.bin/electron-rebuild.cmd --force",
+    "postinstall": "\"./node_modules/.bin/electron-builder\" install-app-deps && \"./node_modules/.bin/electron-rebuild\" --force",
     "build:native": "./node_modules/.bin/electron-rebuild.cmd --force",
     "release": "./node_modules/.bin/electron-builder"
   },
