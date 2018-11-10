@@ -38,3 +38,7 @@ to
   - `npm run build:prod:app`
 - `npm run build:native` (optional)
 - `npm run release`
+
+## Mac
+
+`sudo chown -R $USER:$(id -gn $USER) /Users/marc/.config`
