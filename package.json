@@ -7,19 +7,18 @@
     "name": "Jacobi Software",
     "url": "https://obiwanjacobi.github.io/PedalPro-Studio/"
   },
-  "main": "./app/Startup.js",
+  "main": "./app/prog.js",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.dev.config.js",
-    "build:prod": "webpack --config webpack.prod.config.js",
+    "build:dev:prog": "webpack --config webpack.dev.prog.config.js",
+    "build:dev:app": "webpack --config webpack.dev.app.config.js",
     "build:prod:prog": "webpack --config webpack.prod.prog.config.js",
     "build:prod:app": "webpack --config webpack.prod.app.config.js",
     "test": "jest",
     "test-electron": "SET ELECTRON_RUN_AS_NODE=true electron jest",
     "test-w": "SET ELECTRON_RUN_AS_NODE=true electron jest --watchAll",
     "start": "electron .",
-    "_postinstall": "electron-builder install-app-deps && electron-rebuild --force",
-    "build:native": "electron-rebuild --force",
+    "postinstall": "electron-builder install-app-deps && electron-rebuild --force",
     "release": "electron-builder"
   },
   "dependencies": {
@@ -83,7 +82,10 @@
   "build": {
     "appId": "jacobi.pedalpro.studio",
     "mac": {
-      "category": "public.app.category.productivity"
+      "category": "public.app-category.productivity"
+    },
+    "win": {
+      "icon": "assets/vintage.ico"
     },
     "copyright": "Copyright © 2018 Jacobi Software",
     "productName": "PedalPro Studio",

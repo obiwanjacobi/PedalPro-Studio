@@ -28,7 +28,7 @@ const commonConfig = {
       },
       {
         test: /\.node$/,
-        loader: "node-loader" 
+        loader: "node-loader"
       }
     ]
   },
@@ -40,15 +40,4 @@ const commonConfig = {
   }
 };
 
-module.exports = [
-    Object.assign({
-        mode: "production",
-        target: "electron-main",
-        entry: { program: path.join(__dirname, "src", "Startup.ts") }
-    }, commonConfig),
-    Object.assign({
-        mode: "production",
-        target: "electron-renderer",
-        entry: { app: path.join(__dirname, "src", "Autostart.ts") }
-    }, commonConfig)
-];
+module.exports = commonConfig;

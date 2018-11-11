@@ -1,4 +1,4 @@
-import { HID } from "node-hid";
+import { HID, devices } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
 import { Environment } from "../../Environment";
 
@@ -16,14 +16,14 @@ export class PedalProDevice {
         }
     }
 
-    public  connect() {
+    public connect() {
         if (this.isConnected) { return; }
 
         try {
-            // VENDOR_ID  0x04d8 - Vintage Revolution
+            // VENDOR_ID  0x04d8 - Vintage Revolution (Microchip Firmware)
             // DEVICE_ID  0x0005 - PedalProEx
             // DEVICE_ID  0x0005 - PedalPro
-            this.hidDevice = new HID(0x04d8, 0x0005);
+            this.hidDevice = this.createHID(0x04d8, 0x0005);
         } catch (error) {
             if (Environment.isProduction) {
                 throw new Error("Device is not connected");
@@ -34,7 +34,7 @@ export class PedalProDevice {
     }
 
     public write(buffer: ProtocolBuffer): void {
-        this.safeCall( () =>
+        this.safeCall(() =>
             // @ts-ignore: safeCall
             this.hidDevice.write(buffer.data));
     }
@@ -42,7 +42,7 @@ export class PedalProDevice {
     public read(): number[] {
         let buffer: number[];
 
-        this.safeCall( () =>
+        this.safeCall(() =>
             // @ts-ignore: safeCall
             buffer = this.hidDevice.readSync());
 
@@ -62,5 +62,20 @@ export class PedalProDevice {
                 if (error === "") { return; }
             }
         }
+    }
+
+    private createHID(vendorId: number, productId: number): HID {
+        // had to implement this workaround to get it working for Mac.
+        const hidDevices = devices();
+        for (let i = 0; i < hidDevices.length; i++) {
+            const d = hidDevices[i];
+            if (d.path &&
+                d.productId === productId &&
+                d.vendorId === vendorId) {
+                return new HID(d.path);
+            }
+        }
+
+        return new HID(vendorId, productId);
     }
 }

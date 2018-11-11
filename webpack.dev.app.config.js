@@ -3,8 +3,9 @@ const commonConfig = require("./webpack.config");
 
 module.exports = [
   Object.assign({
-    mode: "production",
+    mode: "development",
     target: "electron-renderer",
+    devtool: "inline-source-map",
     entry: { app: path.join(__dirname, "src", "Autostart.ts") }
   }, commonConfig)
 ];

@@ -37,10 +37,12 @@ export class Directory {
 
         FileSystem.readdirSync(dirPath)
             .forEach(name => {
-                const path = Path.join(dirPath, name);
-                const stat = FileSystem.lstatSync(path);
-                if (stat.isDirectory) {
-                    directories.push(new Directory(path));
+                if (this.isValidName(name)) {
+                    const path = Path.join(dirPath, name);
+                    const stat = FileSystem.lstatSync(path);
+                    if (stat.isDirectory) {
+                        directories.push(new Directory(path));
+                    }
                 }
             });
 
@@ -53,7 +55,8 @@ export class Directory {
 
         FileSystem.readdirSync(dirPath)
             .forEach(name => {
-                if (Path.extname(name) === PresetFileName.FileExtension) {
+                if (this.isValidName(name) &&
+                    Path.extname(name) === PresetFileName.FileExtension) {
                     const path = Path.join(dirPath, name);
                     const stat = FileSystem.lstatSync(path);
                     if (stat.isFile) {
@@ -67,5 +70,9 @@ export class Directory {
 
     public delete(): void {
         FileSystem.rmdirSync(this.path);
+    }
+
+    private isValidName(name: string): boolean {
+        return !!name && name.length > 0 && name.charAt(0) !== "." && name.charAt(0) !== "_";
     }
 }

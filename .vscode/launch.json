@@ -19,7 +19,7 @@
             "runtimeArgs": [
                 "--enable-logging"
             ]
-        }, 
+        },
         {
             // Install the 'Debugger for Chrome' extension in VS-code.
             "type": "chrome",
@@ -43,7 +43,7 @@
             "type": "node",
             "request": "launch",
             "name": "Program-Bundled",
-            "program": "${workspaceFolder}/app/program.js",
+            "program": "${workspaceFolder}/app/prog.js",
             "cwd": "${workspaceFolder}",
             "stopOnEntry": false,
             "sourceMaps": true,
@@ -72,7 +72,9 @@
             "stopOnEntry": false,
             "sourceMaps": true,
             //"console": "externalTerminal",
-            "outFiles": [ "${workspaceFolder}/app/*.js" ],
+            "outFiles": [
+                "${workspaceFolder}/app/*.js"
+            ],
             "preLaunchTask": null,
             //"program": "${workspaceFolder}/node_modules/.bin/jest",
             //"args": [ "--runInBand", "--no-cache" ],
@@ -81,7 +83,7 @@
                 "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest.cmd"
             },
             "runtimeArgs": [
-                "--runInBand", 
+                "--runInBand",
                 "--no-cache"
                 //"--debug-brk=127.0.0.1:5858"
             ],
