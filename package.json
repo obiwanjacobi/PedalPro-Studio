@@ -82,7 +82,8 @@
   "build": {
     "appId": "jacobi.pedalpro.studio",
     "mac": {
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "icon": "assets/vintage.icns"
     },
     "win": {
       "icon": "assets/vintage.ico"
