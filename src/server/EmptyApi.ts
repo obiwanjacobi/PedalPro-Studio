@@ -3,6 +3,7 @@ import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetResponse } from "../model/Messages";
 import { PedalProProviderFactory } from "./pedalpro/PedalProProviderFactory";
 import { Environment } from "../Environment";
+import { PedalProDevice } from "./pedalpro/PedalProDevice";
 
 export class EmptyApi implements ApiHandler {
     public readonly uri: string = "/empty";
@@ -13,7 +14,7 @@ export class EmptyApi implements ApiHandler {
     }
 
     private getEmptyPreset(_: express.Request, response: express.Response) {
-        const msg = <PresetResponse> { };
+        const msg = <PresetResponse> {};
 
         try {
             const provider = PedalProProviderFactory.create(Environment.isProduction);
@@ -24,5 +25,7 @@ export class EmptyApi implements ApiHandler {
         }
 
         response.json(msg);
+
+        PedalProDevice.release();
     }
 }

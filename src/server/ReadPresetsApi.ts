@@ -3,7 +3,7 @@ import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetProvider } from "./PresetProvider";
 import { PresetResponse } from "../model/Messages";
 import { EmptyApi } from "./EmptyApi";
-// import { PedalProProviderFactory } from "./pedalpro/PedalProProviderFactory";
+import { PedalProDevice } from "./pedalpro/PedalProDevice";
 
 // tslint:disable-next-line:no-any
 export type PresetProviderFactory = (params: any) => PresetProvider;
@@ -14,7 +14,7 @@ export class ReadPresetsApi implements ApiHandler {
 
     private readonly providerFactory: PresetProviderFactory;
     private readonly emptyApi = new EmptyApi();
-    
+
     public constructor(providerFactory: PresetProviderFactory) {
         this.providerFactory = providerFactory;
 
@@ -41,7 +41,7 @@ export class ReadPresetsApi implements ApiHandler {
     private getPresets(request: Express.Request, response: Express.Response) {
         const page = request.query.page;
         const size = request.query.size;
-        const msg = <PresetResponse> { };
+        const msg = <PresetResponse> {};
 
         try {
             let paramsValid = false;
@@ -62,10 +62,12 @@ export class ReadPresetsApi implements ApiHandler {
         }
 
         response.json(msg);
+
+        PedalProDevice.release();
     }
 
     private getPreset(request: Express.Request, response: Express.Response) {
-        const msg = <PresetResponse> { };
+        const msg = <PresetResponse> {};
         const presetIndex: number = Number(request.params.presetIndex);
 
         try {
@@ -75,6 +77,9 @@ export class ReadPresetsApi implements ApiHandler {
         } catch (error) {
             msg.fault = createFault(error.message);
         }
+
         response.json(msg);
+
+        PedalProDevice.release();
     }
 }

@@ -10,6 +10,7 @@ import { PedalProDeviceModel } from "./pedalpro/PedalProDeviceIdentity";
 import { Configuration } from "../Configuration";
 import { getDeviceInfo } from "./DeviceApi";
 import { Program } from "../Program";
+import { PedalProDevice } from "./pedalpro/PedalProDevice";
 
 export class FactoryApi implements ApiHandler {
     public readonly uri: string = "/factory";
@@ -23,12 +24,13 @@ export class FactoryApi implements ApiHandler {
 
     private createProvider(): PresetProvider {
         const deviceInfo = getDeviceInfo();
+        PedalProDevice.release();
 
         switch (deviceInfo.model) {
-            case  PedalProDeviceModel.PedalPro:
+            case PedalProDeviceModel.PedalPro:
                 const filePath = Path.join(Program.locations.application, Configuration.pedalpro.factoryFile);
                 return new FactoryProvider(filePath);
-            case  PedalProDeviceModel.PedalProEx:
+            case PedalProDeviceModel.PedalProEx:
                 const filePathEx = Path.join(Program.locations.application, Configuration.pedalpro.factoryFileEx);
                 return new FactoryProviderEx(filePathEx);
             default:

@@ -2,28 +2,30 @@ import { HID, devices } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
 import { Environment } from "../../Environment";
 
+let hidDevice: HID | null = null;
+
 export class PedalProDevice {
-    private hidDevice: HID | null = null;
+
+    public static release(): void {
+        if (hidDevice !== null) {
+            hidDevice.close();
+            hidDevice = null;
+        }
+    }
 
     public get isConnected(): boolean {
-        return this.hidDevice !== null;
+        return hidDevice !== null;
     }
 
     public disconnect() {
-        if (this.hidDevice !== null) {
-            this.hidDevice.close();
-            this.hidDevice = null;
-        }
+        PedalProDevice.release();
     }
 
     public connect() {
         if (this.isConnected) { return; }
 
         try {
-            // VENDOR_ID  0x04d8 - Vintage Revolution (Microchip Firmware)
-            // DEVICE_ID  0x0005 - PedalProEx
-            // DEVICE_ID  0x0005 - PedalPro
-            this.hidDevice = this.createHID(0x04d8, 0x0005);
+            hidDevice = this.createHID();
         } catch (error) {
             if (Environment.isProduction) {
                 throw new Error("Device is not connected");
@@ -36,7 +38,7 @@ export class PedalProDevice {
     public write(buffer: ProtocolBuffer): void {
         this.safeCall(() =>
             // @ts-ignore: safeCall
-            this.hidDevice.write(buffer.data));
+            hidDevice.write(buffer.data));
     }
 
     public read(): number[] {
@@ -44,7 +46,7 @@ export class PedalProDevice {
 
         this.safeCall(() =>
             // @ts-ignore: safeCall
-            buffer = this.hidDevice.readSync());
+            buffer = hidDevice.readSync());
 
         // @ts-ignore: works fine
         return buffer;
@@ -52,7 +54,7 @@ export class PedalProDevice {
 
     private safeCall(operation: () => void) {
         for (let n = 0; n < 3; n++) {
-            if (!this.hidDevice) { this.connect(); }
+            if (!hidDevice) { this.connect(); }
 
             try {
                 operation();
@@ -64,7 +66,13 @@ export class PedalProDevice {
         }
     }
 
-    private createHID(vendorId: number, productId: number): HID {
+    private createHID(): HID {
+        // VENDOR_ID  0x04d8 - Vintage Revolution (Microchip Firmware)
+        // DEVICE_ID  0x0005 - PedalProEx
+        // DEVICE_ID  0x0005 - PedalPro
+        const vendorId = 0x04d8;
+        const productId = 0x0005;
+
         // had to implement this workaround to get it working for Mac.
         const hidDevices = devices();
         for (let i = 0; i < hidDevices.length; i++) {

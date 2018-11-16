@@ -13,7 +13,7 @@ export const getDeviceInfo = (): PedalProDeviceIdentity => {
     const device = new PedalProDevice();
     const isProd = Environment.isProduction;
     const deviceInfo = PedalProProviderFactory.getDeviceIdentity(device, isProd);
-    
+
     if (!deviceInfo) {
         return {
             vendor: "<unknown>",
@@ -33,16 +33,16 @@ export class DeviceApi implements ApiHandler {
 
     private readonly factoryApi = new FactoryApi();
     private readonly presetsApi = new WritePresetsApi(() => PedalProProviderFactory.create(Environment.isProduction));
-    
+
     public constructor() {
         this.router.use(this.factoryApi.uri, this.factoryApi.router);
         this.router.use(this.presetsApi.uri, this.presetsApi.router);
-        
+
         this.router.get("/", this.getDeviceIdentity);
     }
 
     private getDeviceIdentity(_: express.Request, response: express.Response) {
-        const msg = <DeviceResponse> { };
+        const msg = <DeviceResponse> {};
         try {
             msg.device = getDeviceInfo();
         } catch (error) {
@@ -50,5 +50,7 @@ export class DeviceApi implements ApiHandler {
         }
 
         response.json(msg);
+
+        PedalProDevice.release();
     }
 }
