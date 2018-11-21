@@ -23,6 +23,15 @@ It would be very much appreciated if you find any bugs or have feature suggestio
 
 Linux support is in the pipeline.
 
+
+## Downloads
+
+Latest version: **PedalPro Studio 0.4.0 _Beta_**
+
+[Download for Windows](https://1drv.ms/u/s!AhOnTNbY2NaPiYx9N5TOnWOCSt55bA)
+
+[Download for Mac](https://1drv.ms/u/s!AhOnTNbY2NaPiYx8oil6gMerYqOwRA)
+
 ---
 
 'Vintage Revolution', 'PedalPro' and 'PedalPro Ex' are trademarks owned by [Vintage Revolution](https://www.vintage-revolution.com/).
