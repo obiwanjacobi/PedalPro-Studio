@@ -11,10 +11,6 @@ The PedalPro Studio program is a Preset editor for the [Vintage Revolution Pedal
 * Edit all settings of the effects in a Preset
 * The Guitar-signal-flow effects-list makes navigating the effects easier
 
-## Contribute
-
-It would be very much appreciated if you find any bugs or have feature suggestions to record them [here](https://github.com/obiwanjacobi/PedalPro-Studio/issues/new/choose).
-
 ## Supported PC platforms
 
 * **Windows**
@@ -23,6 +19,7 @@ It would be very much appreciated if you find any bugs or have feature suggestio
 
 Linux support is in the pipeline.
 
+---
 
 ## Downloads
 
@@ -31,6 +28,12 @@ Latest version: **PedalPro Studio 0.4.0 _Beta_**
 [Download for Windows](https://1drv.ms/u/s!AhOnTNbY2NaPiYx9N5TOnWOCSt55bA)
 
 [Download for Mac](https://1drv.ms/u/s!AhOnTNbY2NaPiYx8oil6gMerYqOwRA)
+
+---
+
+## Contribute
+
+It would be very much appreciated if you find any bugs or have feature suggestions to record them [here](https://github.com/obiwanjacobi/PedalPro-Studio/issues/new/choose).
 
 ---
 
