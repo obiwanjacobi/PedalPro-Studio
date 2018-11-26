@@ -50,7 +50,5 @@ export class DeviceApi implements ApiHandler {
         }
 
         response.json(msg);
-
-        PedalProDevice.release();
     }
 }

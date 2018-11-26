@@ -1,38 +1,24 @@
 import { HID, devices } from "node-hid";
 import { ProtocolBuffer } from "./ProtocolBuffer";
-import { Environment } from "../../Environment";
 
 let hidDevice: HID | null = null;
 
 export class PedalProDevice {
-
-    public static release(): void {
-        if (hidDevice !== null) {
-            hidDevice.close();
-            hidDevice = null;
-        }
-    }
 
     public get isConnected(): boolean {
         return hidDevice !== null;
     }
 
     public disconnect() {
-        PedalProDevice.release();
+        if (hidDevice !== null) {
+            hidDevice.close();
+            hidDevice = null;
+        }
     }
 
     public connect() {
         if (this.isConnected) { return; }
-
-        try {
-            hidDevice = this.createHID();
-        } catch (error) {
-            if (Environment.isProduction) {
-                throw new Error("Device is not connected");
-            } else {
-                throw new Error("Device is not connected: " + error);
-            }
-        }
+        hidDevice = this.createHID();
     }
 
     public write(buffer: ProtocolBuffer): void {
@@ -80,10 +66,15 @@ export class PedalProDevice {
             if (d.path &&
                 d.productId === productId &&
                 d.vendorId === vendorId) {
-                return new HID(d.path);
+
+                try {
+                    return new HID(d.path);
+                } catch (error) {
+                    throw new Error("Device could not be opened: " + error);
+                }
             }
         }
 
-        return new HID(vendorId, productId);
+        throw new Error("Device is not connected.");
     }
 }

@@ -2,7 +2,6 @@ import * as express from "express";
 import { ReadPresetsApi, PresetProviderFactory } from "./ReadPresetsApi";
 import { createFault } from "./ApiHandler";
 import { PresetResponse, PresetRequest } from "../model/Messages";
-import { PedalProDevice } from "./pedalpro/PedalProDevice";
 
 export class WritePresetsApi extends ReadPresetsApi {
     public constructor(providerFactory: PresetProviderFactory) {
@@ -38,8 +37,6 @@ export class WritePresetsApi extends ReadPresetsApi {
         }
 
         response.json(msg);
-
-        PedalProDevice.release();
     }
 
     private writePresets(request: express.Request, response: express.Response) {
@@ -61,8 +58,6 @@ export class WritePresetsApi extends ReadPresetsApi {
         }
 
         response.json(msg);
-
-        PedalProDevice.release();
     }
 
     private deletePreset(request: express.Request, response: express.Response) {
@@ -78,7 +73,5 @@ export class WritePresetsApi extends ReadPresetsApi {
         }
 
         response.json(msg);
-
-        PedalProDevice.release();
     }
 }

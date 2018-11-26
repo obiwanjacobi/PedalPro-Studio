@@ -10,7 +10,6 @@ import { PedalProDeviceModel } from "./pedalpro/PedalProDeviceIdentity";
 import { Configuration } from "../Configuration";
 import { getDeviceInfo } from "./DeviceApi";
 import { Program } from "../Program";
-import { PedalProDevice } from "./pedalpro/PedalProDevice";
 
 export class FactoryApi implements ApiHandler {
     public readonly uri: string = "/factory";
@@ -24,7 +23,6 @@ export class FactoryApi implements ApiHandler {
 
     private createProvider(): PresetProvider {
         const deviceInfo = getDeviceInfo();
-        PedalProDevice.release();
 
         switch (deviceInfo.model) {
             case PedalProDeviceModel.PedalPro:

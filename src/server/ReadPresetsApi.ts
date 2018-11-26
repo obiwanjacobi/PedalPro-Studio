@@ -3,7 +3,6 @@ import { ApiHandler, createFault } from "./ApiHandler";
 import { PresetProvider } from "./PresetProvider";
 import { PresetResponse } from "../model/Messages";
 import { EmptyApi } from "./EmptyApi";
-import { PedalProDevice } from "./pedalpro/PedalProDevice";
 
 // tslint:disable-next-line:no-any
 export type PresetProviderFactory = (params: any) => PresetProvider;
@@ -62,8 +61,6 @@ export class ReadPresetsApi implements ApiHandler {
         }
 
         response.json(msg);
-
-        PedalProDevice.release();
     }
 
     private getPreset(request: Express.Request, response: Express.Response) {
@@ -79,7 +76,5 @@ export class ReadPresetsApi implements ApiHandler {
         }
 
         response.json(msg);
-
-        PedalProDevice.release();
     }
 }
