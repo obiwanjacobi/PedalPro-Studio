@@ -23,11 +23,11 @@ Linux support is in the pipeline.
 
 ## Downloads
 
-Latest version: **PedalPro Studio 0.4.0 _Beta_**
+Latest version: **PedalPro Studio 0.4.1 _Beta_**
 
-[Download for Windows](https://1drv.ms/u/s!AhOnTNbY2NaPiYx9N5TOnWOCSt55bA)
+[Download for Windows](https://1drv.ms/u/s!AhOnTNbY2NaPiYx_dT0paBn_mBCYtA)
 
-[Download for Mac](https://1drv.ms/u/s!AhOnTNbY2NaPiYx8oil6gMerYqOwRA)
+[Download for Mac](https://1drv.ms/u/s!AhOnTNbY2NaPiYx-CL2B8FrNcDgosA)
 
 ---
 
