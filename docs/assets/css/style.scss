@@ -1,6 +1,16 @@
 ---
 ---
 
+@media screen and (max-width: 480px) {
+    #header {
+        margin-top: -20px;
+    }
+
+    section {
+        margin-top: 40px;
+    }
+}
+
 @import "{{ site.theme }}";
 
 #header {
@@ -22,14 +32,3 @@ section {
         margin: auto;
     }
 }
-
-@media only screen and (max-width: 480px) {
-
-    #header {
-      margin-top: -20px;
-    }
-  
-    section {
-      margin-top: 40px;
-    }
-  }
