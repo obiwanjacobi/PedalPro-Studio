@@ -26,13 +26,13 @@ section {
 @media print, screen and (max-width: 480px) {
 
     #header {
-      margin-top: -20px;
+      margin-top: auto;
     }
   
     section {
-      margin-top: 40px;
+      margin-top: auto;
     }
     nav {
-      display: auto;
+      display: block;
     }
   }
