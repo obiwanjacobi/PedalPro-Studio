@@ -2,6 +2,8 @@
 
 The PedalPro Studio application allows the user to remotely control the PedalPro or PedalPro-Ex from a PC connected by USB.
 
+![](assets/img/Startup.png)
+
 ## Installing
 
 The PedalPro Studio application is delivered using a setup program. Simply execute the setup and the application will install.
@@ -155,8 +157,6 @@ Presets here can be selected and copied onto the clipboard to past them back int
 ## Effects
 
 After the edit button is pressed on a preset, the effects editor is shown. At the top the preset name is displayed. 
-
-![](assets/img/Device Preset Effects.png)
 
 On the left is the cancel `X` button - no changes will be saved to the preset and the effects editor is closed. On the right there is a `SAVE` button that will apply the changes to the preset. Note that the preset itself is still in memory and an upload must be performed to push it to the devices -or- save it to disk. The gear button `*` opens up a side pane with the preset control settings explained below.
 
