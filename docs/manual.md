@@ -23,19 +23,22 @@ The application will try to reconnect when it loses connection with the device. 
   * Device
   * Storage
   * Factory
-* Presets that were altered (compared to it's _source_) but not 'saved' are marked with either a flag (changed) or a garbage bin (marked as deleted).
-* All changes remain in memory until an `upload` is performed.
 * Changed presets are marked with a flag.
   * No Flag. The preset content has not changed -nor its position- compared to its source.
   * Open Flag (outline). The preset itself has not changed, but its position in the list has changed.
   * Flag (solid). The preset (content) has changed compared to its source. The position in the list may have also changed.
   * Garbage Can. The preset will be deleted - or overwritten with `{empty_ps}`.
+* All changes remain in memory until an `upload` is performed.
+
+![](assets/img/Device Preset Moved.png)
 
 ---
 
 ## Device
 
 Downloading here will contact the connected PedalPro device over USB and request all its presets. By default `{empty_ps}` presets are not displayed.
+
+![](assets/img/Device Presets Loading.png)
 
 The presets are arranged in columns to assist in having a clear overview. Each preset is identified by its position and its name.
 
@@ -66,6 +69,8 @@ Clicking on the position number of the preset item, selects the preset and addit
 * Only show changed presets.
 * Also show `{empty_ps}` presets. By default `{empty_ps}` presets are not show.
 
+![](assets/img/Device Preset Filter.png)
+
 ### Device Preset Paste
 
 The Paste form shows the presets on the clipboard on the left, the oprations that can be performed on them in the middle and a preview of the result on the right.
@@ -80,12 +85,13 @@ The paste operations are:
 
 The Preview shows the potential results of the selected paste operation. Each preset item is flagged if the original is changed.
 
+![](assets/img/Device Preset Paste.png)
+
 ### Device Preset Move
 
 The Move form allows you to reorder the presets in the PedalPro(Ex) device.
 
-Based on the selected presets it allows you to insert or swap them relative to a target preset. Again there is a preview to see the result 
-of the operation.
+Based on the selected presets it allows you to insert or swap them relative to a target preset. Again there is a preview to see the result of the operation.
 
 ---
 
@@ -100,6 +106,8 @@ A storage bank is a named collection of presets. On the PC it is represented as 
 To view the presets in a storage bank, the bank has to be selected. When multiple storage banks are selected all their presets are shown.
 
 As with the Device view, the presets here also expand and show the same controls - they behave the same too.
+
+![](assets/img/Storage Bank.png)
 
 ### Storage Toolbar
 
@@ -120,6 +128,8 @@ As with the Device view, the presets here also expand and show the same controls
 
 The Paste form for storage is basically the same as for device. Only the operations are replaced by a bank selection - the destination of the pasted presets. New presets will always be appended to the end of the list.
 
+![](assets/img/Storage Preset Paste.png)
+
 ---
 
 ## Factory
@@ -127,6 +137,8 @@ The Paste form for storage is basically the same as for device. Only the operati
 Opening the Factory tab brings up the factory presets for the connected device. The PedalPro has different factory presets from the PedalPro-Ex.
 
 Presets here can be selected and copied onto the clipboard to past them back into the device, thus restoring factory presets one at a time.
+
+![](assets/img/Device Factory.png)
 
 ### Factory Toolbar
 
@@ -142,7 +154,11 @@ Presets here can be selected and copied onto the clipboard to past them back int
 
 ## Effects
 
-After the edit button is pressed on a preset, the effects editor is shown. At the top the preset name is displayed. On the left is the cancel `X` button - no changes will be saved to the preset and the effects editor is closed. On the right there is a `SAVE` button that will apply the changes to the preset. Note that the preset itself is still in memory and an upload must be performed to push it to the devices -or- save it to disk. The gear button `*` opens up a side pane with the preset control settings explained below.
+After the edit button is pressed on a preset, the effects editor is shown. At the top the preset name is displayed. 
+
+![](assets/img/Device Preset Effects.png)
+
+On the left is the cancel `X` button - no changes will be saved to the preset and the effects editor is closed. On the right there is a `SAVE` button that will apply the changes to the preset. Note that the preset itself is still in memory and an upload must be performed to push it to the devices -or- save it to disk. The gear button `*` opens up a side pane with the preset control settings explained below.
 
 On the left of the main window is the guitar siganl path; top to bottom. Each effect is listed and a switch indicates if it is enable/active in this preset -or not.
 
@@ -158,6 +174,8 @@ Refer back to the original PedalPro(Ex) manual for detailed information on the e
 
 Click the toggle switch to turn on or off.
 
+![](assets/img/Effects Compressor.png)
+
 ### Filters (pre)
 
 * Filter 1. Click the toggle switch to turn on or off.
@@ -165,9 +183,13 @@ Click the toggle switch to turn on or off.
 
 When both filters are on they are in parallel.
 
+![](assets/img/Effects Filter Pre.png)
+
 ### Boost
 
 Click the toggle switch to turn on or off.
+
+![](assets/img/Effects Boost.png)
 
 ### Distortion (standard)
 
@@ -184,19 +206,27 @@ When on, the following options become available.
 * Fuzz. Click the toggle switch to turn on or off. When on, will switch off both Distortion options.
 * Equalizer. Always on when the PreAmp is on.
 
+![](assets/img/Effects PreAmp.png)
+
 ### Voltage Controlled Amplifier
 
 Click the toggle switch to turn on or off.
+
+![](assets/img/Effects VCA.png)
 
 ### Phaser
 
 Click the toggle switch to turn on or off.
 The phaser will be in the Left audio channel.
 
+![](assets/img/Effects Phaser.png)
+
 ### Filters (post)
 
 * Filter 1. Click the toggle switch to turn on or off. Filter 1 will be in the Left audio channel.
 * Filter 2. Click the toggle switch to turn on or off. Filter 2 can either be in the Left or Right audio channel. Use the left or right toggle switch for this.
+
+![](assets/img/Effects Filter Post.png)
 
 ### Modulation
 
@@ -206,14 +236,20 @@ The phaser will be in the Left audio channel.
 
 Only one of these options can be active at the same time.
 
+![](assets/img/Effects Modulation.png)
+
 ### Delay
 
 Click the toggle switch to turn on or off. The Delay can either be in the Left or Right audio channel. Use the left or right toggle switch for this.
+
+![](assets/img/Effects Delay.png)
 
 ### Digital Delay and Reverb (ex)
 
 Click the toggle switch to turn on or off.
 Note that some Delay/Reverb Modes have additional settings.
+
+![](assets/img/Effects DSP.png)
 
 ### Aux
 
@@ -222,15 +258,23 @@ Note that some Delay/Reverb Modes have additional settings.
 
 Only one of these options can be active at the same time.
 
+![](assets/img/Effects Aux.png)
+
 ### Volume
 
 Click the toggle switch to turn on or off.
+
+![](assets/img/Effects Volume.png)
 
 ### Noise Gate
 
 Click the toggle switch to turn on or off.
 
+![](assets/img/Effects Noise Gate.png)
+
 ### Preset Control
 
 Click the 'gear' button in the toolbar to bring up the Preset Control options:
 Tap Tempo, Midi Routing and Amp Switches.
+
+![](assets/img/Device Preset Control.png)
