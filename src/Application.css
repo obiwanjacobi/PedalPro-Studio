@@ -1,0 +1,25 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  min-height: 240;
+  min-width: 400;
+}
+
+div[tabindex]:focus {
+  outline: none
+}
+
+.Application {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.loading {
+  height: 100%;
+  width: 100%;
+  margin-top: 100px;
+  text-align: center
+}

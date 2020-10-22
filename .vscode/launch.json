@@ -1,0 +1,93 @@
+{
+    // For more information: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Program",
+            "program": "${workspaceFolder}/app/Startup.js",
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "sourceMaps": true,
+            "preLaunchTask": null,
+            "outputCapture": "std",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "windows": {
+                "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+            },
+            "runtimeArgs": [
+                "--enable-logging"
+            ]
+        },
+        {
+            // Install the 'Debugger for Chrome' extension in VS-code.
+            "type": "chrome",
+            "request": "launch",
+            "name": "Application",
+            "cwd": "${workspaceFolder}",
+            "webRoot": "${workspaceFolder}/app",
+            "sourceMaps": true,
+            "preLaunchTask": null,
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "windows": {
+                "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+            },
+            "runtimeArgs": [
+                "${workspaceFolder}",
+                "--enable-logging",
+                "--remote-debugging-port=9222"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Program-Bundled",
+            "program": "${workspaceFolder}/app/prog.js",
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "sourceMaps": true,
+            "preLaunchTask": null,
+            "outputCapture": "std",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "windows": {
+                "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+            },
+            "runtimeArgs": [
+                "--enable-logging"
+            ]
+        },
+        {
+            // run in terminal: ./node_modules/.bin/electron.cmd . --enable-logging --remote-debugging-port=9222
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach",
+            "port": 9222
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run Tests",
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "sourceMaps": true,
+            //"console": "externalTerminal",
+            "outFiles": [
+                "${workspaceFolder}/app/*.js"
+            ],
+            "preLaunchTask": null,
+            //"program": "${workspaceFolder}/node_modules/.bin/jest",
+            //"args": [ "--runInBand", "--no-cache" ],
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest",
+            "windows": {
+                "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest.cmd"
+            },
+            "runtimeArgs": [
+                "--runInBand",
+                "--no-cache"
+                //"--debug-brk=127.0.0.1:5858"
+            ],
+            "port": 5858
+        }
+    ]
+}
