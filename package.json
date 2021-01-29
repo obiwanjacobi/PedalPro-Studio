@@ -62,7 +62,7 @@
     "@types/redux-thunk": "^2.1.0",
     "ajv": "^6.5.4",
     "ajv-keywords": "^3.2.0",
-    "electron": "^7.2.4",
+    "electron": "^9.4.0",
     "electron-builder": "^20.28.4",
     "electron-rebuild": "^1.8.2",
     "jest": "^23.6.0",
