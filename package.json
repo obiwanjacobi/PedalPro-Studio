@@ -28,7 +28,7 @@
     "body-parser": "^1.20.3",
     "express": "^4.21.1",
     "fs": "0.0.1-security",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "mdi-material-ui": "^5.5.0",
     "mdi-react": "^4.4.0",
     "mkdirp": "^0.5.6",
